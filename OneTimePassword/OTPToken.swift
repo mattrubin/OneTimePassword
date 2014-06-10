@@ -8,16 +8,18 @@
 
 
 class OTPToken: NSObject {
-    var name: String?
-    var issuer: String?
+    var name: String
+    var issuer: String
     let type: TokenType
     let secret: NSData
     let algorithm: Algorithm
     let digits: Int
 
-    init(type: TokenType, secret: NSData, algorithm: Algorithm = .SHA1, digits: Int = 6) {
+    init(type: TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Algorithm = .SHA1, digits: Int = 6) {
         self.type = type
         self.secret = secret
+        self.name = name
+        self.issuer = issuer
         self.algorithm = algorithm
         self.digits = digits
     }
