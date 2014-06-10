@@ -13,7 +13,7 @@ class OTPToken: NSObject {
     var type: TokenType?
     var secret: NSData?
     var algorithm: Algorithm?
-    var digits: Integer?
+    var digits: Int?
 
     enum TokenType {
         case Counter, Timer
