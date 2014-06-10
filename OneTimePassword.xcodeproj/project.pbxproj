@@ -10,6 +10,7 @@
 		C97C823E1946E51D00FD9F4C /* OneTimePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = C97C823D1946E51D00FD9F4C /* OneTimePassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
 		C97C824B1946E51D00FD9F4C /* OneTimePasswordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97C824A1946E51D00FD9F4C /* OneTimePasswordTests.swift */; };
+		C97C82551946E7B400FD9F4C /* OTPToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97C82541946E7B400FD9F4C /* OTPToken.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C82491946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97C824A1946E51D00FD9F4C /* OneTimePasswordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimePasswordTests.swift; sourceTree = "<group>"; };
+		C97C82541946E7B400FD9F4C /* OTPToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPToken.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				C97C823D1946E51D00FD9F4C /* OneTimePassword.h */,
+				C97C82541946E7B400FD9F4C /* OTPToken.swift */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
 			);
 			path = OneTimePassword;
@@ -210,6 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C97C82551946E7B400FD9F4C /* OTPToken.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +402,7 @@
 				C97C82501946E51D00FD9F4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C97C82511946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePasswordTests" */ = {
 			isa = XCConfigurationList;
@@ -406,6 +411,7 @@
 				C97C82531946E51D00FD9F4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
