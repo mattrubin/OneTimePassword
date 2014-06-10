@@ -10,10 +10,18 @@
 class OTPToken: NSObject {
     var name: String?
     var issuer: String?
-    var type: TokenType?
-    var secret: NSData?
-    var algorithm: Algorithm?
-    var digits: Int?
+    let type: TokenType
+    let secret: NSData
+    let algorithm: Algorithm
+    let digits: Int
+
+    init(type: TokenType, secret: NSData, algorithm: Algorithm, digits: Int) {
+        self.type = type
+        self.secret = secret
+        self.algorithm = algorithm
+        self.digits = digits
+    }
+
 
     enum TokenType {
         case Counter, Timer
