@@ -10,20 +10,16 @@
 class OTPToken: NSObject {
     var name: String?
     var issuer: String?
-    var type: OTPTokenType?
+    var type: TokenType?
     var secret: NSData?
-    var algorithm: OTPAlgorithm?
+    var algorithm: Algorithm?
     var digits: Integer?
-}
 
-enum OTPTokenType {
-    case OTPTokenTypeUndefined
-    case OTPTokenTypeCounter
-    case OTPTokenTypeTimer
-};
+    enum TokenType {
+        case Counter, Timer
+    }
 
-enum OTPAlgorithm {
-    case OTPAlgorithmSHA1
-    case OTPAlgorithmSHA256
-    case OTPAlgorithmSHA512
+    enum Algorithm {
+        case SHA1, SHA256, SHA512
+    }
 }
