@@ -15,7 +15,7 @@ class OTPToken: NSObject {
     let algorithm: Algorithm
     let digits: Int
 
-    init(type: TokenType, secret: NSData, algorithm: Algorithm, digits: Int) {
+    init(type: TokenType, secret: NSData, algorithm: Algorithm = .SHA1, digits: Int = 6) {
         self.type = type
         self.secret = secret
         self.algorithm = algorithm
