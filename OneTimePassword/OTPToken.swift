@@ -39,12 +39,16 @@ class OTPToken: NSObject {
         return validType && validSecret && validAlgorithm && validDigits && validCounter && validPeriod
     }
 
-
-    enum TokenType {
-        case Counter, Timer
+    func description() -> String {
+        return "<OTPToken type:\(type.toRaw()), name:\(name), issuer:\(issuer), algorithm:\(algorithm.toRaw()), digits:\(digits)>"
     }
 
-    enum Algorithm {
-        case SHA1, SHA256, SHA512
+
+    enum TokenType : String {
+        case Counter = "hotp", Timer = "totp"
+    }
+
+    enum Algorithm : String {
+        case SHA1 = "SHA1", SHA256 = "SHA256", SHA512 = "SHA512"
     }
 }
