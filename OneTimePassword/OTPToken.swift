@@ -27,14 +27,14 @@ class OTPToken: NSObject {
     }
 
     func validate() -> Bool {
-        var validType = (self.type == .Counter) || (self.type == .Timer)
-        var validSecret = (self.secret.length > 0)
-        var validAlgorithm = (self.algorithm == .SHA1 ||
-                              self.algorithm == .SHA256 ||
-                              self.algorithm == .SHA512)
-        var validDigits = (self.digits >= 6) && (self.digits <= 8)
-        var validCounter = (self.counter > 0)
-        var validPeriod = (self.period > 0) && (self.period <= 300)
+        var validType = (type == .Counter) || (type == .Timer)
+        var validSecret = (secret.length > 0)
+        var validAlgorithm = (algorithm == .SHA1 ||
+                              algorithm == .SHA256 ||
+                              algorithm == .SHA512)
+        var validDigits = (digits >= 6) && (digits <= 8)
+        var validCounter = (counter > 0)
+        var validPeriod = (period > 0) && (period <= 300)
 
         return validType && validSecret && validAlgorithm && validDigits && validCounter && validPeriod
     }
