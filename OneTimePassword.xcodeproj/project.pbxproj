@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C9290C2E1947C7F4008AE4DE /* OTPToken+Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2D1947C7F4008AE4DE /* OTPToken+Serialization.swift */; };
+		C9290C301947D104008AE4DE /* OTPTokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2F1947D104008AE4DE /* OTPTokenSerializationTests.swift */; };
 		C97C823E1946E51D00FD9F4C /* OneTimePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = C97C823D1946E51D00FD9F4C /* OneTimePassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
 		C97C824B1946E51D00FD9F4C /* OneTimePasswordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97C824A1946E51D00FD9F4C /* OneTimePasswordTests.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		C9290C2D1947C7F4008AE4DE /* OTPToken+Serialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OTPToken+Serialization.swift"; sourceTree = "<group>"; };
+		C9290C2F1947D104008AE4DE /* OTPTokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTokenSerializationTests.swift; sourceTree = "<group>"; };
 		C97C82381946E51D00FD9F4C /* OneTimePassword.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C823C1946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97C823D1946E51D00FD9F4C /* OneTimePassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneTimePassword.h; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				C97C824A1946E51D00FD9F4C /* OneTimePasswordTests.swift */,
+				C9290C2F1947D104008AE4DE /* OTPTokenSerializationTests.swift */,
 				C97C82481946E51D00FD9F4C /* Supporting Files */,
 			);
 			path = OneTimePasswordTests;
@@ -225,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9290C301947D104008AE4DE /* OTPTokenSerializationTests.swift in Sources */,
 				C97C824B1946E51D00FD9F4C /* OneTimePasswordTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
