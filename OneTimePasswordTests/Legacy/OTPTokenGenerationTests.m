@@ -42,8 +42,7 @@
 - (void)testHOTPRFCValues
 {
     NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];
-    OTPToken *token = [[OTPToken alloc] init];
-    token.type = OTPTokenTypeCounter;
+    OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeCounter];
     token.secret = secret;
     token.algorithm = OTPAlgorithmSHA1;
     token.digits = 6;
@@ -89,8 +88,7 @@
 
     for (NSString *algorithmKey in secretKeys) {
         NSData *secret = [secretKeys[algorithmKey] dataUsingEncoding:NSASCIIStringEncoding];
-        OTPToken *token = [[OTPToken alloc] init];
-        token.type = OTPTokenTypeTimer;
+        OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeTimer];
         token.secret = secret;
         token.algorithm = [algorithmKey algorithmValue];
         token.digits = 8;
@@ -124,8 +122,7 @@
 
     for (unsigned int i = 0, j = 0; i < sizeof(intervals)/sizeof(*intervals); i++) {
         for (NSString *algorithmKey in algorithms) {
-            OTPToken *token = [[OTPToken alloc] init];
-            token.type = OTPTokenTypeTimer;
+            OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeTimer];
             token.secret = secret;
             token.algorithm = [algorithmKey algorithmValue];
             token.digits = 6;

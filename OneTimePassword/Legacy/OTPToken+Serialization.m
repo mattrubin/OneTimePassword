@@ -58,9 +58,8 @@ static NSString *const kQueryIssuerKey = @"issuer";
 
 + (instancetype)tokenWithOTPAuthURL:(NSURL *)url
 {
-    OTPToken *token = [[OTPToken alloc] init];
+    OTPToken *token = [[OTPToken alloc] initWithType:[url.host tokenTypeValue]];
 
-    token.type = [url.host tokenTypeValue];
     token.name = (url.path.length > 1) ? [url.path substringFromIndex:1] : nil; // Skip the leading "/"
 
     NSDictionary *query = [url queryDictionary];
