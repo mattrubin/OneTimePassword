@@ -113,8 +113,8 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
                                     OTPToken *invalidToken = [OTPToken new];
                                     invalidToken.type = [typeNumber unsignedCharValue];
-                                    invalidToken.name = name;
-                                    invalidToken.issuer = issuer;
+                                    invalidToken.name = ([name isEqual:[NSNull null]] ? nil : name);
+                                    invalidToken.issuer = ([issuer isEqual:[NSNull null]] ? nil : issuer);
                                     invalidToken.secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
                                     invalidToken.algorithm = [algorithmNumber unsignedIntValue];
                                     invalidToken.digits = [digitNumber unsignedIntegerValue];
@@ -178,8 +178,8 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
                                         OTPToken *invalidToken = [OTPToken new];
                                         invalidToken.type = [typeNumber unsignedCharValue];
-                                        invalidToken.name = name;
-                                        invalidToken.issuer = issuer;
+                                        invalidToken.name = ([name isEqual:[NSNull null]] ? nil : name);
+                                        invalidToken.issuer = ([issuer isEqual:[NSNull null]] ? nil : issuer);
                                         invalidToken.secret = secret;
                                         invalidToken.algorithm = [algorithmNumber unsignedIntValue];
                                         invalidToken.digits = [digitNumber unsignedIntegerValue];

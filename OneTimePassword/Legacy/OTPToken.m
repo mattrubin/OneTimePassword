@@ -23,9 +23,15 @@
 //
 
 #import "OTPToken.h"
+#import <OneTimePassword/OneTimePassword-Swift.h>
 
 
 static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTimerNotification";
+
+
+@interface OTPToken ()
+@property (nonatomic, strong) Token *core;
+@end
 
 
 @implementation OTPToken
@@ -34,6 +40,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 {
     self = [super init];
     if (self) {
+        self.core = [[Token alloc] init];
         self.algorithm = [self.class defaultAlgorithm];
         self.digits = [self.class defaultDigits];
         self.counter = [self.class defaultInitialCounter];
@@ -143,5 +150,26 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
         self.counter = newCount;
     }
 }
+
+
+#pragma mark - Core
+
+- (NSString *)name { return self.core.name; }
+- (void)setName:(NSString *)name { self.core.name = name; }
+
+- (NSString *)issuer { return self.core.issuer; }
+- (void)setIssuer:(NSString *)issuer { self.core.issuer = issuer; }
+
+- (OTPTokenType)type { return self.core.type; }
+- (void)setType:(OTPTokenType)type { self.core.type = type; }
+
+- (NSData *)secret { return self.core.secret; }
+- (void)setSecret:(NSData *)secret { self.core.secret = secret; }
+
+- (OTPAlgorithm)algorithm { return self.core.algorithm; }
+- (void)setAlgorithm:(OTPAlgorithm)algorithm { self.core.algorithm = algorithm; }
+
+- (NSUInteger)digits { return self.core.digits; }
+- (void)setDigits:(NSUInteger)digits { self.core.digits = digits; }
 
 @end
