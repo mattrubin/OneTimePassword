@@ -44,8 +44,8 @@
     NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];
     OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeCounter
                                               secret:secret
-                                           algorithm:OTPAlgorithmSHA1];
-    token.digits = 6;
+                                           algorithm:OTPAlgorithmSHA1
+                                              digits:6];
     token.counter = 0;
 
     XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The 0th OTP should be the expected string.");
@@ -90,8 +90,8 @@
         NSData *secret = [secretKeys[algorithmKey] dataUsingEncoding:NSASCIIStringEncoding];
         OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeTimer
                                                   secret:secret
-                                               algorithm:[algorithmKey algorithmValue]];
-        token.digits = 8;
+                                               algorithm:[algorithmKey algorithmValue]
+                                                  digits:8];
         token.period = 30;
 
         for (NSUInteger i = 0; i < times.count; i++) {
@@ -124,8 +124,8 @@
         for (NSString *algorithmKey in algorithms) {
             OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeTimer
                                                       secret:secret
-                                                   algorithm:[algorithmKey algorithmValue]];
-            token.digits = 6;
+                                                   algorithm:[algorithmKey algorithmValue]
+                                                      digits:6];
             token.period = 30;
             token.counter = (uint64_t)(intervals[i] / token.period);
 

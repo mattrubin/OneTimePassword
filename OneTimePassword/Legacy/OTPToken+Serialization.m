@@ -68,15 +68,17 @@ static NSString *const kQueryIssuerKey = @"issuer";
     NSString *algorithmString = query[kQueryAlgorithmKey];
     OTPAlgorithm algorithm = algorithmString ? [algorithmString algorithmValue] : [OTPToken defaultAlgorithm];
 
+    NSString *digitString = query[kQueryDigitsKey];
+    NSUInteger digits = digitString ? (NSUInteger)[digitString integerValue] : [OTPToken defaultDigits];
+
     OTPToken *token = [[OTPToken alloc] initWithType:type
                                               secret:secret
-                                           algorithm:algorithm];
+                                           algorithm:algorithm
+                                              digits:digits];
 
     token.name = (url.path.length > 1) ? [url.path substringFromIndex:1] : nil; // Skip the leading "/"
 
 
-    NSString *digitString = query[kQueryDigitsKey];
-    token.digits = digitString ? (NSUInteger)[digitString integerValue] : [OTPToken defaultDigits];
 
     NSString *counterString = query[kQueryCounterKey];
     token.counter = counterString ? strtoull([counterString UTF8String], NULL, 10) : [OTPToken defaultInitialCounter];
