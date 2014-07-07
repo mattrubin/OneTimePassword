@@ -36,13 +36,14 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 @implementation OTPToken
 
-- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits
+- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits
 {
     self = [super init];
     if (self) {
         NSAssert(secret != nil, @"Token secret must be non-nil");
         NSAssert(name != nil, @"Token name must be non-nil");
-        self.core = [[Token alloc] initWithType:type secret:secret name:name algorithm:algorithm digits:digits];
+        NSAssert(issuer != nil, @"Token issuer must be non-nil");
+        self.core = [[Token alloc] initWithType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits];
         self.counter = [self.class defaultInitialCounter];
         self.period = [self.class defaultPeriod];
 
@@ -56,7 +57,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 - (id)init
 {
-    NSAssert(NO, @"Use -initWithType:secret:name:algorithm:digits:");
+    NSAssert(NO, @"Use -initWithType:secret:name:issuer:algorithm:digits:");
     return nil;
 }
 
@@ -78,9 +79,9 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
     OTPToken *token = [[OTPToken alloc] initWithType:type
                                               secret:secret
                                                 name:name
+                                              issuer:issuer
                                            algorithm:[OTPToken defaultAlgorithm]
                                               digits:[OTPToken defaultDigits]];
-    token.issuer = issuer;
     return token;
 }
 
@@ -162,10 +163,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 #pragma mark - Core
 
 - (NSString *)name { return self.core.name; }
-
 - (NSString *)issuer { return self.core.issuer; }
-- (void)setIssuer:(NSString *)issuer { self.core.issuer = issuer; }
-
 - (OTPTokenType)type { return self.core.type; }
 - (NSData *)secret { return self.core.secret; }
 - (OTPAlgorithm)algorithm { return self.core.algorithm; }

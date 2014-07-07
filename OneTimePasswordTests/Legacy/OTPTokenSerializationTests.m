@@ -58,7 +58,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
     typeNumbers = @[@(OTPTokenTypeCounter), @(OTPTokenTypeTimer)];
     names = @[@"", @"Login", @"user123@website.com", @"Léon", @":/?#[]@!$&'()*+,;=%\""];
-    issuers = @[@"", @"Big Cörpøráçìôn", @":/?#[]@!$&'()*+,;=%\"", [NSNull null]];
+    issuers = @[@"", @"Big Cörpøráçìôn", @":/?#[]@!$&'()*+,;=%\""];
     secretStrings = @[@"12345678901234567890", @"12345678901234567890123456789012",
                       @"1234567890123456789012345678901234567890123456789012345678901234", @""];
     algorithmNumbers = @[@(OTPAlgorithmSHA1), @(OTPAlgorithmSHA256), @(OTPAlgorithmSHA512)];
@@ -114,9 +114,9 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     OTPToken *invalidToken = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]
                                                                                      secret:[secretString dataUsingEncoding:NSASCIIStringEncoding]
                                                                                        name:name
+                                                                                     issuer:issuer
                                                                                   algorithm:[algorithmNumber unsignedIntValue]
                                                                                      digits:[digitNumber unsignedIntegerValue]];
-                                    invalidToken.issuer = ([issuer isEqual:[NSNull null]] ? nil : issuer);
                                     invalidToken.period = [query[@"period"] doubleValue];
                                     invalidToken.counter = [query[@"counter"] unsignedLongLongValue];
 
@@ -178,9 +178,9 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         OTPToken *invalidToken = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]
                                                                                          secret:secret
                                                                                            name:name
+                                                                                         issuer:issuer
                                                                                       algorithm:[algorithmNumber unsignedIntValue]
                                                                                          digits:[digitNumber unsignedIntegerValue]];
-                                        invalidToken.issuer = ([issuer isEqual:[NSNull null]] ? nil : issuer);
                                         invalidToken.period = [query[@"period"] doubleValue];
                                         invalidToken.counter = [query[@"counter"] unsignedLongLongValue];
 
@@ -239,11 +239,11 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                 OTPToken *token = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]
                                                                           secret:[secretString dataUsingEncoding:NSASCIIStringEncoding]
                                                                             name:name
+                                                                          issuer:issuer
                                                                        algorithm:[algorithmNumber unsignedIntValue]
                                                                           digits:[digitNumber unsignedIntegerValue]];
                                 token.period = period;
                                 token.counter = counter;
-                                token.issuer = issuer;
 
                                 // Serialize
                                 NSURL *url = token.url;
@@ -417,6 +417,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
     NSDictionary *expectedQueryString = @{@"algorithm": @"SHA256",
                                           @"digits": @"8",
+                                          @"issuer": @"",
                                           @"period": @"45"};
     XCTAssertEqualObjects([url queryDictionary], expectedQueryString);
 }
@@ -432,6 +433,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
     NSDictionary *expectedQueryString = @{@"algorithm": @"SHA256",
                                           @"digits": @"8",
+                                          @"issuer": @"",
                                           @"counter": @"18446744073709551615"};
     XCTAssertEqualObjects([url queryDictionary], expectedQueryString);
 }

@@ -94,17 +94,17 @@ static NSString *const kQueryIssuerKey = @"issuer";
             name = [[name substringFromIndex:colonRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
         }
     }
-    NSString *issuer = issuerString;
+    NSString *issuer = issuerString ?: @"";
 
     OTPToken *token = [[OTPToken alloc] initWithType:type
                                               secret:secret
                                                 name:name
+                                              issuer:issuer
                                            algorithm:algorithm
                                               digits:digits];
 
     token.counter = counter;
     token.period = period;
-    token.issuer = issuer;
 
     return token;
 }

@@ -28,12 +28,12 @@
 
 @interface OTPToken : NSObject
 
-- (instancetype)init DEPRECATED_MSG_ATTRIBUTE("Use -initWithType:secret:name:algorithm:digits:");
-- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits;
+- (instancetype)init DEPRECATED_MSG_ATTRIBUTE("Use -initWithType:secret:name:issuer:algorithm:digits:");
+- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits;
 + (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer;
 
 @property (nonatomic, readonly) NSString *name;
-@property (nonatomic, copy) NSString *issuer;
+@property (nonatomic, readonly) NSString *issuer;
 @property (nonatomic, readonly) OTPTokenType type;
 @property (nonatomic, readonly) NSData *secret;
 @property (nonatomic, readonly) OTPAlgorithm algorithm;

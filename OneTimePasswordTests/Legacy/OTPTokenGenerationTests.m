@@ -45,6 +45,7 @@
     OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeCounter
                                               secret:secret
                                                 name:@""
+                                              issuer:@""
                                            algorithm:OTPAlgorithmSHA1
                                               digits:6];
     token.counter = 0;
@@ -92,6 +93,7 @@
         OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeTimer
                                                   secret:secret
                                                     name:@""
+                                                  issuer:@""
                                                algorithm:[algorithmKey algorithmValue]
                                                   digits:8];
         token.period = 30;
@@ -127,6 +129,7 @@
             OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeTimer
                                                       secret:secret
                                                         name:@""
+                                                      issuer:@""
                                                    algorithm:[algorithmKey algorithmValue]
                                                       digits:6];
             token.period = 30;
