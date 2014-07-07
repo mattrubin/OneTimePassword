@@ -9,12 +9,12 @@
 @objc class Token: NSObject {
     let name: String
     let issuer: String
-    let type: UInt8
+    let type: OTPTokenType
     let secret: NSData
-    let algorithm: UInt32
+    let algorithm: OTPAlgorithm
     let digits: Int
 
-    init(type: UInt8, secret: NSData, name: String, issuer: String, algorithm: UInt32, digits: Int) {
+    init(type: OTPTokenType, secret: NSData, name: String, issuer: String, algorithm: OTPAlgorithm, digits: Int) {
         self.type = type
         self.secret = secret
         self.name = name
