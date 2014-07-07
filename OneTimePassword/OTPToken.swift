@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-
+/*
 class OTPToken: NSObject {
     var name: String
     var issuer: String
@@ -52,3 +52,4 @@ class OTPToken: NSObject {
         case SHA1 = "SHA1", SHA256 = "SHA256", SHA512 = "SHA512"
     }
 }
+*/

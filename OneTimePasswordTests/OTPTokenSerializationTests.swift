@@ -9,7 +9,7 @@
 import XCTest
 import OneTimePassword
 
-
+/*
 let kOTPScheme = "otpauth";
 let kOTPTokenTypeCounterHost = "hotp";
 let kOTPTokenTypeTimerHost   = "totp";
@@ -98,3 +98,4 @@ class OTPTokenSerializationTests: XCTestCase {
     }
 
 }
+*/

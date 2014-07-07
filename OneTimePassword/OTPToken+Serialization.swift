@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
+/*
 let kOTPAuthScheme = "otpauth"
 let kQueryAlgorithmKey = "algorithm"
 let kQuerySecretKey = "secret"
@@ -40,3 +41,4 @@ extension OTPToken {
         return urlComponents.URL
     }
 }
+*/
