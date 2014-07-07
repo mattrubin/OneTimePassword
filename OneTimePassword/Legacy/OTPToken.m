@@ -40,6 +40,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 {
     self = [super init];
     if (self) {
+        NSAssert(secret != nil, @"Token secret must be non-nil");
         self.core = [[Token alloc] initWithType:type secret:secret algorithm:algorithm digits:digits];
         self.counter = [self.class defaultInitialCounter];
         self.period = [self.class defaultPeriod];
