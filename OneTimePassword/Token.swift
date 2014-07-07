@@ -13,13 +13,15 @@
     let secret: NSData
     let algorithm: OTPAlgorithm
     let digits: Int
+    let period: NSTimeInterval
 
-    init(type: OTPTokenType, secret: NSData, name: String, issuer: String, algorithm: OTPAlgorithm, digits: Int) {
+    init(type: OTPTokenType, secret: NSData, name: String, issuer: String, algorithm: OTPAlgorithm, digits: Int, period: NSTimeInterval) {
         self.type = type
         self.secret = secret
         self.name = name
         self.issuer = issuer
         self.algorithm = algorithm
         self.digits = digits
+        self.period = period
     }
 }

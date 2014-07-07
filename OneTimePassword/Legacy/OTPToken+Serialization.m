@@ -101,10 +101,10 @@ static NSString *const kQueryIssuerKey = @"issuer";
                                                 name:name
                                               issuer:issuer
                                            algorithm:algorithm
-                                              digits:digits];
+                                              digits:digits
+                                              period:period];
 
     token.counter = counter;
-    token.period = period;
 
     return token;
 }

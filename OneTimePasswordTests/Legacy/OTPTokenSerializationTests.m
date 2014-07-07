@@ -114,8 +114,8 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                                                                        name:name
                                                                                      issuer:issuer
                                                                                   algorithm:[algorithmNumber unsignedIntValue]
-                                                                                     digits:[digitNumber unsignedIntegerValue]];
-                                    invalidToken.period = [query[@"period"] doubleValue];
+                                                                                     digits:[digitNumber unsignedIntegerValue]
+                                                                                     period:[query[@"period"] doubleValue]];
                                     invalidToken.counter = [query[@"counter"] unsignedLongLongValue];
 
                                     XCTAssertFalse([invalidToken validate], @"The token should be invalid");
@@ -176,8 +176,8 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                                                                            name:name
                                                                                          issuer:issuer
                                                                                       algorithm:[algorithmNumber unsignedIntValue]
-                                                                                         digits:[digitNumber unsignedIntegerValue]];
-                                        invalidToken.period = [query[@"period"] doubleValue];
+                                                                                         digits:[digitNumber unsignedIntegerValue]
+                                                                                         period:[query[@"period"] doubleValue]];
                                         invalidToken.counter = [query[@"counter"] unsignedLongLongValue];
 
                                         XCTAssertFalse([invalidToken validate], @"The token should be invalid");
@@ -223,8 +223,8 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                                                             name:name
                                                                           issuer:issuer
                                                                        algorithm:[algorithmNumber unsignedIntValue]
-                                                                          digits:[digitNumber unsignedIntegerValue]];
-                                token.period = period;
+                                                                          digits:[digitNumber unsignedIntegerValue]
+                                                                          period:period];
                                 token.counter = counter;
 
                                 // Serialize

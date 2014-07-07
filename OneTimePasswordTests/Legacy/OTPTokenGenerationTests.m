@@ -47,7 +47,8 @@
                                                 name:@""
                                               issuer:@""
                                            algorithm:OTPAlgorithmSHA1
-                                              digits:6];
+                                              digits:6
+                                              period:[OTPToken defaultPeriod]];
     token.counter = 0;
 
     XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The 0th OTP should be the expected string.");
@@ -95,8 +96,8 @@
                                                     name:@""
                                                   issuer:@""
                                                algorithm:[algorithmKey algorithmValue]
-                                                  digits:8];
-        token.period = 30;
+                                                  digits:8
+                                                  period:30];
 
         for (NSUInteger i = 0; i < times.count; i++) {
             NSString *password = expectedValues[algorithmKey][i];
@@ -131,8 +132,8 @@
                                                         name:@""
                                                       issuer:@""
                                                    algorithm:[algorithmKey algorithmValue]
-                                                      digits:6];
-            token.period = 30;
+                                                      digits:6
+                                                      period:30];
             token.counter = (uint64_t)(intervals[i] / token.period);
 
             XCTAssertEqualObjects([results objectAtIndex:j],

@@ -28,8 +28,8 @@
 
 @interface OTPToken : NSObject
 
-- (instancetype)init DEPRECATED_MSG_ATTRIBUTE("Use -initWithType:secret:name:issuer:algorithm:digits:");
-- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits;
+- (instancetype)init DEPRECATED_MSG_ATTRIBUTE("Use -initWithType:secret:name:issuer:algorithm:digits:period:");
+- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits period:(NSTimeInterval)period;
 + (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer;
 
 @property (nonatomic, readonly) NSString *name;
@@ -47,7 +47,7 @@
 + (uint64_t)defaultInitialCounter;
 
 // TOTP
-@property (nonatomic) NSTimeInterval period;
+@property (nonatomic, readonly) NSTimeInterval period;
 + (NSTimeInterval)defaultPeriod;
 
 // Validation

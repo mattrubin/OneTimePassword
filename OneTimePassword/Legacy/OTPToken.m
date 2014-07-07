@@ -36,16 +36,15 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 @implementation OTPToken
 
-- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits
+- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits period:(NSTimeInterval)period
 {
     self = [super init];
     if (self) {
         NSAssert(secret != nil, @"Token secret must be non-nil");
         NSAssert(name != nil, @"Token name must be non-nil");
         NSAssert(issuer != nil, @"Token issuer must be non-nil");
-        self.core = [[Token alloc] initWithType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits];
+        self.core = [[Token alloc] initWithType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits period:period];
         self.counter = [self.class defaultInitialCounter];
-        self.period = [self.class defaultPeriod];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(updatePasswordIfNeeded)
@@ -57,7 +56,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 - (id)init
 {
-    NSAssert(NO, @"Use -initWithType:secret:name:issuer:algorithm:digits:");
+    NSAssert(NO, @"Use -initWithType:secret:name:issuer:algorithm:digits:period:");
     return nil;
 }
 
@@ -81,7 +80,8 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
                                                 name:name
                                               issuer:issuer
                                            algorithm:[OTPToken defaultAlgorithm]
-                                              digits:[OTPToken defaultDigits]];
+                                              digits:[OTPToken defaultDigits]
+                                              period:[OTPToken defaultPeriod]];
     return token;
 }
 
@@ -168,5 +168,6 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 - (NSData *)secret { return self.core.secret; }
 - (OTPAlgorithm)algorithm { return self.core.algorithm; }
 - (NSUInteger)digits { return self.core.digits; }
+- (NSTimeInterval)period { return self.core.period; }
 
 @end
