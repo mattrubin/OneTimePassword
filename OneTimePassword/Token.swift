@@ -9,8 +9,15 @@
 @objc class Token: NSObject {
     var name: String?
     var issuer: String?
-    var type: UInt8 = 0
-    var secret: NSData?
-    var algorithm: UInt32 = 0
-    var digits: Int = 6
+    let type: UInt8
+    let secret: NSData
+    let algorithm: UInt32
+    let digits: Int
+
+    init(type: UInt8, secret: NSData, algorithm: UInt32, digits: Int) {
+        self.type = type
+        self.secret = secret
+        self.algorithm = algorithm
+        self.digits = digits
+    }
 }

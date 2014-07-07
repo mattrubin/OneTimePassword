@@ -38,23 +38,9 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 - (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits
 {
-    self = [self init];
-    if (self) {
-        self.core.type = type;
-        self.core.secret = secret;
-        self.core.algorithm = algorithm;
-        self.core.digits = digits;
-    }
-    return self;
-}
-
-- (id)init
-{
     self = [super init];
     if (self) {
-        self.core = [[Token alloc] init];
-        self.core.algorithm = [self.class defaultAlgorithm];
-        self.core.digits = [self.class defaultDigits];
+        self.core = [[Token alloc] initWithType:type secret:secret algorithm:algorithm digits:digits];
         self.counter = [self.class defaultInitialCounter];
         self.period = [self.class defaultPeriod];
 
@@ -64,6 +50,12 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
                                                    object:nil];
     }
     return self;
+}
+
+- (id)init
+{
+    NSAssert(NO, @"Use -initWithType:secret:algorithm:digits:");
+    return nil;
 }
 
 - (void)dealloc
