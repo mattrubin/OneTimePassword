@@ -111,10 +111,10 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     XCTAssertEqual(token.counter, [query[@"counter"] unsignedLongLongValue], @"Incorrect token counter");
                                 } else {
                                     // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
-                                    OTPToken *invalidToken = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]];
+                                    OTPToken *invalidToken = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]
+                                                                                     secret:[secretString dataUsingEncoding:NSASCIIStringEncoding]];
                                     invalidToken.name = ([name isEqual:[NSNull null]] ? nil : name);
                                     invalidToken.issuer = ([issuer isEqual:[NSNull null]] ? nil : issuer);
-                                    invalidToken.secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
                                     invalidToken.algorithm = [algorithmNumber unsignedIntValue];
                                     invalidToken.digits = [digitNumber unsignedIntegerValue];
                                     invalidToken.period = [query[@"period"] doubleValue];
@@ -175,10 +175,10 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         XCTAssertEqual(token.counter, [query[@"counter"] unsignedLongLongValue], @"Incorrect token counter");
                                     } else {
                                         // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
-                                        OTPToken *invalidToken = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]];
+                                        OTPToken *invalidToken = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]
+                                                                                         secret:secret];
                                         invalidToken.name = ([name isEqual:[NSNull null]] ? nil : name);
                                         invalidToken.issuer = ([issuer isEqual:[NSNull null]] ? nil : issuer);
-                                        invalidToken.secret = secret;
                                         invalidToken.algorithm = [algorithmNumber unsignedIntValue];
                                         invalidToken.digits = [digitNumber unsignedIntegerValue];
                                         invalidToken.period = [query[@"period"] doubleValue];
@@ -236,9 +236,9 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                 }
 
                                 // Create the token
-                                OTPToken *token = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]];
+                                OTPToken *token = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]
+                                                                          secret:[secretString dataUsingEncoding:NSASCIIStringEncoding]];
                                 token.name = name;
-                                token.secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
                                 token.algorithm = [algorithmNumber unsignedIntValue];
                                 token.digits = [digitNumber unsignedIntegerValue];
                                 token.period = period;
