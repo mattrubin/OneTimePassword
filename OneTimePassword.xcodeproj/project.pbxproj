@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B6C6D5560BC6437A8E4F8580 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 560131D4F5D140EA8458D149 /* libPods.a */; };
 		C9290C2E1947C7F4008AE4DE /* OTPToken+Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2D1947C7F4008AE4DE /* OTPToken+Serialization.swift */; };
 		C9290C301947D104008AE4DE /* OTPTokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2F1947D104008AE4DE /* OTPTokenSerializationTests.swift */; };
 		C93A24FE196AF8E900F86892 /* OTPAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		560131D4F5D140EA8458D149 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9290C2D1947C7F4008AE4DE /* OTPToken+Serialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OTPToken+Serialization.swift"; sourceTree = "<group>"; };
 		C9290C2F1947D104008AE4DE /* OTPTokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTokenSerializationTests.swift; sourceTree = "<group>"; };
 		C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAlgorithm.h; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 		C97C82491946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97C824A1946E51D00FD9F4C /* OneTimePasswordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimePasswordTests.swift; sourceTree = "<group>"; };
 		C97C82541946E7B400FD9F4C /* OTPToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPToken.swift; sourceTree = "<group>"; };
+		CA0307BA64104BFF93EB7509 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6C6D5560BC6437A8E4F8580 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +92,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		746E7166AD60449882DD84C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CA0307BA64104BFF93EB7509 /* Pods.xcconfig */,
+				560131D4F5D140EA8458D149 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C93A24F1196AF8E900F86892 /* Legacy */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +129,7 @@
 			children = (
 				C97C823A1946E51D00FD9F4C /* OneTimePassword */,
 				C97C82471946E51D00FD9F4C /* OneTimePasswordTests */,
+				746E7166AD60449882DD84C7 /* Frameworks */,
 				C97C82391946E51D00FD9F4C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -193,10 +207,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword" */;
 			buildPhases = (
+				D546BD042EBE4EDF9F8F7C62 /* Check Pods Manifest.lock */,
 				C97C82331946E51D00FD9F4C /* Sources */,
 				C97C82341946E51D00FD9F4C /* Frameworks */,
 				C97C82351946E51D00FD9F4C /* Headers */,
 				C97C82361946E51D00FD9F4C /* Resources */,
+				4601C67B1F6043A68DEEBDF9 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -277,6 +293,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4601C67B1F6043A68DEEBDF9 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D546BD042EBE4EDF9F8F7C62 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C97C82331946E51D00FD9F4C /* Sources */ = {
@@ -403,6 +452,7 @@
 		};
 		C97C824F1946E51D00FD9F4C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -418,6 +468,7 @@
 		};
 		C97C82501946E51D00FD9F4C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
