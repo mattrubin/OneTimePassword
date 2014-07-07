@@ -23,6 +23,7 @@
 //
 
 #import "OTPAlgorithm.h"
+#import <CommonCrypto/CommonHMAC.h>
 
 
 OTPAlgorithm OTPAlgorithmUnknown = UINT32_MAX;

@@ -24,6 +24,7 @@
 
 #import "OTPToken+Generation.h"
 #import "OTPToken+Persistence.h"
+#import <CommonCrypto/CommonHMAC.h>
 
 
 static NSUInteger kPinModTable[] = {
