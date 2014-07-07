@@ -63,11 +63,7 @@ static NSString *const kQueryIssuerKey = @"issuer";
     token.type = [url.host tokenTypeValue];
     token.name = (url.path.length > 1) ? [url.path substringFromIndex:1] : nil; // Skip the leading "/"
 
-    NSArray *queryItems = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO].queryItems;
-    NSMutableDictionary *query = [NSMutableDictionary dictionaryWithCapacity:queryItems.count];
-    for (NSURLQueryItem *item in queryItems) {
-        query[item.name] = item.value;
-    }
+    NSDictionary *query = [url queryDictionary];
 
     NSString *algorithmString = query[kQueryAlgorithmKey];
     token.algorithm = algorithmString ? [algorithmString algorithmValue] : [OTPToken defaultAlgorithm];
@@ -128,6 +124,21 @@ static NSString *const kQueryIssuerKey = @"issuer";
     urlComponents.queryItems = query;
 
     return urlComponents.URL;
+}
+
+@end
+
+
+@implementation NSURL (QueryDictionary)
+
+- (NSDictionary *)queryDictionary
+{
+    NSArray *queryItems = [NSURLComponents componentsWithURL:self resolvingAgainstBaseURL:NO].queryItems;
+    NSMutableDictionary *queryDictionary = [NSMutableDictionary dictionaryWithCapacity:queryItems.count];
+    for (NSURLQueryItem *item in queryItems) {
+        queryDictionary[item.name] = item.value;
+    }
+    return queryDictionary;
 }
 
 @end

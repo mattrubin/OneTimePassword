@@ -33,3 +33,10 @@
 - (NSURL *)url;
 
 @end
+
+
+@interface NSURL (QueryDictionary)
+
+- (NSDictionary *)queryDictionary;
+
+@end
