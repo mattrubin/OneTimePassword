@@ -23,7 +23,6 @@
 //
 
 #import "OTPToken+Serialization.h"
-#import "NSDictionary+QueryString.h"
 #import <Base32/MF_Base32Additions.h>
 
 
@@ -64,7 +63,11 @@ static NSString *const kQueryIssuerKey = @"issuer";
     token.type = [url.host tokenTypeValue];
     token.name = (url.path.length > 1) ? [url.path substringFromIndex:1] : nil; // Skip the leading "/"
 
-    NSDictionary *query = [NSDictionary dictionaryWithQueryString:url.query];
+    NSArray *queryItems = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO].queryItems;
+    NSMutableDictionary *query = [NSMutableDictionary dictionaryWithCapacity:queryItems.count];
+    for (NSURLQueryItem *item in queryItems) {
+        query[item.name] = item.value;
+    }
 
     NSString *algorithmString = query[kQueryAlgorithmKey];
     token.algorithm = algorithmString ? [algorithmString algorithmValue] : [OTPToken defaultAlgorithm];
