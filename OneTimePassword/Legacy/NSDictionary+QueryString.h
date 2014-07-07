@@ -1,5 +1,5 @@
 //
-//  OTPAlgorithm.h
+//  NSDictionary+QueryString.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -23,30 +23,12 @@
 //
 
 @import Foundation;
-#import <CommonCrypto/CommonHMAC.h>
 
 
-typedef NS_ENUM(CCHmacAlgorithm, OTPAlgorithm) {
-    OTPAlgorithmSHA1   = kCCHmacAlgSHA1,
-    OTPAlgorithmSHA256 = kCCHmacAlgSHA256,
-    OTPAlgorithmSHA512 = kCCHmacAlgSHA512,
-};
+@interface NSDictionary (QueryString)
 
-extern OTPAlgorithm OTPAlgorithmUnknown;
++ (instancetype)dictionaryWithQueryString:(NSString *)queryString;
 
-NSUInteger digestLengthForAlgorithm(OTPAlgorithm algorithm);
-
-
-#pragma mark - String Representations
-
-extern NSString *const kOTPAlgorithmSHA1;
-extern NSString *const kOTPAlgorithmSHA256;
-extern NSString *const kOTPAlgorithmSHA512;
-
-@interface NSString (OTPAlgorithm)
-
-+ (instancetype)stringForAlgorithm:(OTPAlgorithm)algorithm;
-
-- (OTPAlgorithm)algorithmValue;
+- (NSString *)queryString;
 
 @end
