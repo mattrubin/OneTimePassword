@@ -24,7 +24,6 @@
 
 @import XCTest;
 #import "OTPToken+Serialization.h"
-#import "NSDictionary+QueryString.h"
 #import <Base32/MF_Base32Additions.h>
 
 
@@ -95,7 +94,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                 urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                 if (![name isEqual:[NSNull null]])
                                     urlComponents.path = [@"/" stringByAppendingString:name];
-                                urlComponents.percentEncodedQuery = [query queryString];
+                                urlComponents.queryItems = [query queryItemsArray];
 
                                 // Create the token
                                 OTPToken *token = [OTPToken tokenWithURL:[urlComponents URL]];
@@ -159,7 +158,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                     if (![name isEqual:[NSNull null]])
                                         urlComponents.path = [@"/" stringByAppendingString:name];
-                                    urlComponents.percentEncodedQuery = [query queryString];
+                                    urlComponents.queryItems = [query queryItemsArray];
 
                                     // Create the token
                                     NSData *secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
