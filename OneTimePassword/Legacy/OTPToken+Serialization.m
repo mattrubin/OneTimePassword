@@ -57,13 +57,23 @@ static NSString *const kQueryIssuerKey = @"issuer";
 + (instancetype)tokenWithOTPAuthURL:(NSURL *)url secret:(NSData *)secret
 {
     NSDictionary *query = [url queryDictionary];
-    OTPToken *token = [[OTPToken alloc] initWithType:[url.host tokenTypeValue]
-                                              secret:secret ?: [NSData dataWithBase32String:query[kQuerySecretKey]]];
+
+    OTPTokenType type = [url.host tokenTypeValue];
+
+    if (!secret) {
+        NSString *secretString = query[kQuerySecretKey];
+        secret = [NSData dataWithBase32String:secretString];
+    }
+
+    NSString *algorithmString = query[kQueryAlgorithmKey];
+    OTPAlgorithm algorithm = algorithmString ? [algorithmString algorithmValue] : [OTPToken defaultAlgorithm];
+
+    OTPToken *token = [[OTPToken alloc] initWithType:type
+                                              secret:secret
+                                           algorithm:algorithm];
 
     token.name = (url.path.length > 1) ? [url.path substringFromIndex:1] : nil; // Skip the leading "/"
 
-    NSString *algorithmString = query[kQueryAlgorithmKey];
-    token.algorithm = algorithmString ? [algorithmString algorithmValue] : [OTPToken defaultAlgorithm];
 
     NSString *digitString = query[kQueryDigitsKey];
     token.digits = digitString ? (NSUInteger)[digitString integerValue] : [OTPToken defaultDigits];

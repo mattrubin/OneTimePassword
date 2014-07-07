@@ -43,8 +43,8 @@
 {
     NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];
     OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeCounter
-                                              secret:secret];
-    token.algorithm = OTPAlgorithmSHA1;
+                                              secret:secret
+                                           algorithm:OTPAlgorithmSHA1];
     token.digits = 6;
     token.counter = 0;
 
@@ -89,8 +89,8 @@
     for (NSString *algorithmKey in secretKeys) {
         NSData *secret = [secretKeys[algorithmKey] dataUsingEncoding:NSASCIIStringEncoding];
         OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeTimer
-                                                  secret:secret];
-        token.algorithm = [algorithmKey algorithmValue];
+                                                  secret:secret
+                                               algorithm:[algorithmKey algorithmValue]];
         token.digits = 8;
         token.period = 30;
 
@@ -123,8 +123,8 @@
     for (unsigned int i = 0, j = 0; i < sizeof(intervals)/sizeof(*intervals); i++) {
         for (NSString *algorithmKey in algorithms) {
             OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeTimer
-                                                      secret:secret];
-            token.algorithm = [algorithmKey algorithmValue];
+                                                      secret:secret
+                                                   algorithm:[algorithmKey algorithmValue]];
             token.digits = 6;
             token.period = 30;
             token.counter = (uint64_t)(intervals[i] / token.period);

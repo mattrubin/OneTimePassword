@@ -36,12 +36,13 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 @implementation OTPToken
 
-- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret
+- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret algorithm:(OTPAlgorithm)algorithm
 {
     self = [self init];
     if (self) {
         self.core.type = type;
         self.core.secret = secret;
+        self.core.algorithm = algorithm;
     }
     return self;
 }
@@ -51,7 +52,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
     self = [super init];
     if (self) {
         self.core = [[Token alloc] init];
-        self.algorithm = [self.class defaultAlgorithm];
+        self.core.algorithm = [self.class defaultAlgorithm];
         self.digits = [self.class defaultDigits];
         self.counter = [self.class defaultInitialCounter];
         self.period = [self.class defaultPeriod];
@@ -80,7 +81,8 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 + (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer
 {
     OTPToken *token = [[OTPToken alloc] initWithType:type
-                                              secret:secret];
+                                              secret:secret
+                                           algorithm:[OTPToken defaultAlgorithm]];
     token.name = name;
     token.issuer = issuer;
     return token;
@@ -171,9 +173,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 - (OTPTokenType)type { return self.core.type; }
 - (NSData *)secret { return self.core.secret; }
-
 - (OTPAlgorithm)algorithm { return self.core.algorithm; }
-- (void)setAlgorithm:(OTPAlgorithm)algorithm { self.core.algorithm = algorithm; }
 
 - (NSUInteger)digits { return self.core.digits; }
 - (void)setDigits:(NSUInteger)digits { self.core.digits = digits; }

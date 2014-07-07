@@ -28,14 +28,14 @@
 
 @interface OTPToken : NSObject
 
-- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret;
+- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret algorithm:(OTPAlgorithm)algorithm;
 + (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer;
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *issuer;
 @property (nonatomic, readonly) OTPTokenType type;
 @property (nonatomic, readonly) NSData *secret;
-@property (nonatomic) OTPAlgorithm algorithm;
+@property (nonatomic, readonly) OTPAlgorithm algorithm;
 @property (nonatomic) NSUInteger digits;
 
 + (OTPAlgorithm)defaultAlgorithm;
