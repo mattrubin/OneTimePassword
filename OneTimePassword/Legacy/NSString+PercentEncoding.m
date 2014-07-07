@@ -51,11 +51,9 @@
 
 - (NSString *)percentDecodedString
 {
-    // If a "+" exists in this string, it represents a space, since a literal "+" should have been converted to "%2B"
-    NSString *stringWithSpaces = [self stringByReplacingOccurrencesOfString:@"+" withString:@" " options:NSLiteralSearch range:NSMakeRange(0, self.length)];
     // Convert all percent-encoded characters back to their readable equivalents
     CFStringRef decodedString = CFURLCreateStringByReplacingPercentEscapesUsingEncoding(NULL,
-                                                                                        (__bridge CFStringRef)(stringWithSpaces),
+                                                                                        (__bridge CFStringRef)(self),
                                                                                         CFSTR(""),
                                                                                         kCFStringEncodingUTF8);
     return CFBridgingRelease(decodedString);

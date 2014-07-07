@@ -23,7 +23,6 @@
 //
 
 #import "OTPToken+Serialization.h"
-#import "NSString+PercentEncoding.h"
 #import "NSDictionary+QueryString.h"
 #import <Base32/MF_Base32Additions.h>
 
@@ -104,26 +103,26 @@ static NSString *const kQueryIssuerKey = @"issuer";
 
 - (NSURL *)url
 {
-    NSMutableDictionary *query = [NSMutableDictionary dictionary];
+    NSMutableArray *query = [NSMutableArray array];
 
-    query[kQueryAlgorithmKey] = [NSString stringForAlgorithm:self.algorithm];
-    query[kQueryDigitsKey] = @(self.digits);
+    [query addObject:[NSURLQueryItem queryItemWithName:kQueryAlgorithmKey value:[NSString stringForAlgorithm:self.algorithm]]];
+    [query addObject:[NSURLQueryItem queryItemWithName:kQueryDigitsKey value:@(self.digits).stringValue]];
 
     if (self.type == OTPTokenTypeTimer) {
-        query[kQueryPeriodKey] = @(self.period);
+        [query addObject:[NSURLQueryItem queryItemWithName:kQueryPeriodKey value:@(self.period).stringValue]];
     } else if (self.type == OTPTokenTypeCounter) {
-        query[kQueryCounterKey] = @(self.counter);
+        [query addObject:[NSURLQueryItem queryItemWithName:kQueryCounterKey value:@(self.counter).stringValue]];
     }
 
     if (self.issuer)
-        query[kQueryIssuerKey] = self.issuer;
+        [query addObject:[NSURLQueryItem queryItemWithName:kQueryIssuerKey value:self.issuer]];
 
     NSURLComponents *urlComponents = [NSURLComponents new];
     urlComponents.scheme = kOTPAuthScheme;
     urlComponents.host = [NSString stringForTokenType:self.type];
     if (self.name)
         urlComponents.path = [@"/" stringByAppendingString:self.name];
-    urlComponents.percentEncodedQuery = [query queryString];
+    urlComponents.queryItems = query;
 
     return urlComponents.URL;
 }

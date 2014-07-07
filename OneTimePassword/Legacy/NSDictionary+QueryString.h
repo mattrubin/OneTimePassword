@@ -27,8 +27,8 @@
 
 @interface NSDictionary (QueryString)
 
-+ (instancetype)dictionaryWithQueryString:(NSString *)queryString;
++ (instancetype)dictionaryWithQueryString:(NSString *)queryString __deprecated;
 
-- (NSString *)queryString;
+- (NSString *)queryString __deprecated;
 
 @end
