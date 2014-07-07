@@ -73,9 +73,6 @@ static NSString *const kQueryIssuerKey = @"issuer";
 
     NSString *name = (url.path.length > 1) ? [url.path substringFromIndex:1] : @""; // Skip the leading "/"
 
-    NSString *counterString = query[kQueryCounterKey];
-    uint64_t counter = counterString ? strtoull([counterString UTF8String], NULL, 10) : [OTPToken defaultInitialCounter];
-
     NSString *periodString = query[kQueryPeriodKey];
     NSTimeInterval period = periodString ? [periodString doubleValue] : [OTPToken defaultPeriod];
 
@@ -104,8 +101,11 @@ static NSString *const kQueryIssuerKey = @"issuer";
                                               digits:digits
                                               period:period];
 
-    token.counter = counter;
-
+    NSString *counterString = query[kQueryCounterKey];
+    if (counterString) {
+        token.counter = strtoull([counterString UTF8String], NULL, 10);
+    }
+    
     return token;
 }
 

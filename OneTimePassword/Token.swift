@@ -14,6 +14,7 @@
     let algorithm: OTPAlgorithm
     let digits: Int
     let period: NSTimeInterval
+    var counter: UInt64 = 1
 
     init(type: OTPTokenType, secret: NSData, name: String, issuer: String, algorithm: OTPAlgorithm, digits: Int, period: NSTimeInterval) {
         self.type = type

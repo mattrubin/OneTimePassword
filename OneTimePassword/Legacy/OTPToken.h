@@ -44,7 +44,6 @@
 
 // HOTP
 @property (nonatomic) uint64_t counter;
-+ (uint64_t)defaultInitialCounter;
 
 // TOTP
 @property (nonatomic, readonly) NSTimeInterval period;
