@@ -57,7 +57,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     [super setUp];
 
     typeNumbers = @[@(OTPTokenTypeCounter), @(OTPTokenTypeTimer)];
-    names = @[@"", @"Login", @"user123@website.com", @"Léon", @":/?#[]@!$&'()*+,;=%\"", [NSNull null]];
+    names = @[@"", @"Login", @"user123@website.com", @"Léon", @":/?#[]@!$&'()*+,;=%\""];
     issuers = @[@"", @"Big Cörpøráçìôn", @":/?#[]@!$&'()*+,;=%\"", [NSNull null]];
     secretStrings = @[@"12345678901234567890", @"12345678901234567890123456789012",
                       @"1234567890123456789012345678901234567890123456789012345678901234", @""];
@@ -102,7 +102,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                 // Note: [OTPToken tokenWithURL:] will return nil if the token described by the URL is invalid.
                                 if (token) {
                                     XCTAssertEqual(token.type, [typeNumber unsignedCharValue], @"Incorrect token type");
-                                    XCTAssertEqualObjects(token.name, ([name isEqual:[NSNull null]] || [name isEqualToString:@""]) ? nil : name, @"Incorrect token name");
+                                    XCTAssertEqualObjects(token.name, name, @"Incorrect token name");
                                     XCTAssertEqualObjects(token.issuer, ([issuer isEqual:[NSNull null]] ? nil : issuer), @"Incorrect token issuer");
                                     XCTAssertEqualObjects(token.secret, [secretString dataUsingEncoding:NSASCIIStringEncoding], @"Incorrect token secret");
                                     XCTAssertEqual(token.algorithm, [algorithmNumber unsignedIntValue], @"Incorrect token algorithm");
@@ -113,9 +113,9 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
                                     OTPToken *invalidToken = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]
                                                                                      secret:[secretString dataUsingEncoding:NSASCIIStringEncoding]
+                                                                                       name:name
                                                                                   algorithm:[algorithmNumber unsignedIntValue]
                                                                                      digits:[digitNumber unsignedIntegerValue]];
-                                    invalidToken.name = ([name isEqual:[NSNull null]] ? nil : name);
                                     invalidToken.issuer = ([issuer isEqual:[NSNull null]] ? nil : issuer);
                                     invalidToken.period = [query[@"period"] doubleValue];
                                     invalidToken.counter = [query[@"counter"] unsignedLongLongValue];
@@ -166,7 +166,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     // Note: [OTPToken tokenWithURL:] will return nil if the token described by the URL is invalid.
                                     if (token) {
                                         XCTAssertEqual(token.type, [typeNumber unsignedCharValue], @"Incorrect token type");
-                                        XCTAssertEqualObjects(token.name, ([name isEqual:[NSNull null]] || [name isEqualToString:@""]) ? nil : name, @"Incorrect token name");
+                                        XCTAssertEqualObjects(token.name, name, @"Incorrect token name");
                                         XCTAssertEqualObjects(token.issuer, ([issuer isEqual:[NSNull null]] ? nil : issuer), @"Incorrect token issuer");
                                         XCTAssertEqualObjects(token.secret, secret, @"Incorrect token secret");
                                         XCTAssertEqual(token.algorithm, [algorithmNumber unsignedIntValue], @"Incorrect token algorithm");
@@ -177,9 +177,9 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
                                         OTPToken *invalidToken = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]
                                                                                          secret:secret
+                                                                                           name:name
                                                                                       algorithm:[algorithmNumber unsignedIntValue]
                                                                                          digits:[digitNumber unsignedIntegerValue]];
-                                        invalidToken.name = ([name isEqual:[NSNull null]] ? nil : name);
                                         invalidToken.issuer = ([issuer isEqual:[NSNull null]] ? nil : issuer);
                                         invalidToken.period = [query[@"period"] doubleValue];
                                         invalidToken.counter = [query[@"counter"] unsignedLongLongValue];
@@ -238,9 +238,9 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                 // Create the token
                                 OTPToken *token = [[OTPToken alloc] initWithType:[typeNumber unsignedCharValue]
                                                                           secret:[secretString dataUsingEncoding:NSASCIIStringEncoding]
+                                                                            name:name
                                                                        algorithm:[algorithmNumber unsignedIntValue]
                                                                           digits:[digitNumber unsignedIntegerValue]];
-                                token.name = name;
                                 token.period = period;
                                 token.counter = counter;
                                 token.issuer = issuer;

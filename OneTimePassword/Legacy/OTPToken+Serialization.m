@@ -71,37 +71,40 @@ static NSString *const kQueryIssuerKey = @"issuer";
     NSString *digitString = query[kQueryDigitsKey];
     NSUInteger digits = digitString ? (NSUInteger)[digitString integerValue] : [OTPToken defaultDigits];
 
-    OTPToken *token = [[OTPToken alloc] initWithType:type
-                                              secret:secret
-                                           algorithm:algorithm
-                                              digits:digits];
-
-    token.name = (url.path.length > 1) ? [url.path substringFromIndex:1] : nil; // Skip the leading "/"
-
-
+    NSString *name = (url.path.length > 1) ? [url.path substringFromIndex:1] : @""; // Skip the leading "/"
 
     NSString *counterString = query[kQueryCounterKey];
-    token.counter = counterString ? strtoull([counterString UTF8String], NULL, 10) : [OTPToken defaultInitialCounter];
+    uint64_t counter = counterString ? strtoull([counterString UTF8String], NULL, 10) : [OTPToken defaultInitialCounter];
 
     NSString *periodString = query[kQueryPeriodKey];
-    token.period = periodString ? [periodString doubleValue] : [OTPToken defaultPeriod];
+    NSTimeInterval period = periodString ? [periodString doubleValue] : [OTPToken defaultPeriod];
 
     NSString *issuerString = query[kQueryIssuerKey];
     // If the name is prefixed by the issuer string, trim the name
     if (issuerString.length &&
-        token.name.length > issuerString.length &&
-        [token.name rangeOfString:issuerString].location == 0 &&
-        [token.name characterAtIndex:issuerString.length] == ':') {
-        token.name = [[token.name substringFromIndex:issuerString.length+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
-    } else if (!issuerString.length && token.name.length) {
+        name.length > issuerString.length &&
+        [name rangeOfString:issuerString].location == 0 &&
+        [name characterAtIndex:issuerString.length] == ':') {
+        name = [[name substringFromIndex:issuerString.length+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+    } else if (!issuerString.length && name.length) {
         // If there is no issuer string, try to extract one from the name
-        NSRange colonRange = [token.name rangeOfString:@":"];
+        NSRange colonRange = [name rangeOfString:@":"];
         if (colonRange.location != NSNotFound && colonRange.location > 0) {
-            issuerString = [token.name substringToIndex:colonRange.location];
-            token.name = [[token.name substringFromIndex:colonRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+            issuerString = [name substringToIndex:colonRange.location];
+            name = [[name substringFromIndex:colonRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
         }
     }
-    token.issuer = issuerString;
+    NSString *issuer = issuerString;
+
+    OTPToken *token = [[OTPToken alloc] initWithType:type
+                                              secret:secret
+                                                name:name
+                                           algorithm:algorithm
+                                              digits:digits];
+
+    token.counter = counter;
+    token.period = period;
+    token.issuer = issuer;
 
     return token;
 }
