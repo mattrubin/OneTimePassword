@@ -38,9 +38,8 @@ typedef NS_ENUM(uint32_t, OTPAlgorithm) {
     OTPAlgorithmSHA1   = 0,
     OTPAlgorithmSHA256 = 2,
     OTPAlgorithmSHA512 = 4,
+    OTPAlgorithmUnknown = UINT32_MAX,
 };
-
-extern OTPAlgorithm OTPAlgorithmUnknown;
 
 NSUInteger digestLengthForAlgorithm(OTPAlgorithm algorithm);
 

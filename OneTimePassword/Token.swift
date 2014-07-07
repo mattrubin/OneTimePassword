@@ -24,4 +24,14 @@
         self.digits = digits
         self.period = period
     }
+
+    func isValid() -> Bool {
+        let validType = (self.type == .Counter) || (self.type == .Timer);
+        let validSecret = self.secret.length > 0;
+        let validAlgorithm = (self.algorithm == .SHA1) || (self.algorithm == .SHA256) || (self.algorithm == .SHA512);
+        let validDigits = (self.digits <= 8) && (self.digits >= 6);
+        let validPeriod = (self.period > 0) && (self.period <= 300);
+
+        return validType && validSecret && validAlgorithm && validDigits && validPeriod;
+    }
 }

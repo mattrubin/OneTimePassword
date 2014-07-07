@@ -26,8 +26,6 @@
 #import <CommonCrypto/CommonHMAC.h>
 
 
-OTPAlgorithm OTPAlgorithmUnknown = UINT32_MAX;
-
 NSUInteger digestLengthForAlgorithm(OTPAlgorithm algorithm)
 {
     switch (algorithm) {
@@ -37,6 +35,8 @@ NSUInteger digestLengthForAlgorithm(OTPAlgorithm algorithm)
             return CC_SHA256_DIGEST_LENGTH;
         case OTPAlgorithmSHA512:
             return CC_SHA512_DIGEST_LENGTH;
+        default:
+            return 0;
     }
 }
 
@@ -59,6 +59,8 @@ NSString *const kOTPAlgorithmSHA512 = @"SHA512";
             return kOTPAlgorithmSHA256;
         case OTPAlgorithmSHA512:
             return kOTPAlgorithmSHA512;
+        default:
+            return @"???";
     }
 }
 
