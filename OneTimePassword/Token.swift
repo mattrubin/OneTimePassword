@@ -27,13 +27,13 @@
     }
 
     func isValid() -> Bool {
-        let validType = (self.type == .Counter) || (self.type == .Timer);
-        let validSecret = self.secret.length > 0;
-        let validAlgorithm = (self.algorithm == .SHA1) || (self.algorithm == .SHA256) || (self.algorithm == .SHA512);
-        let validDigits = (self.digits <= 8) && (self.digits >= 6);
-        let validPeriod = (self.period > 0) && (self.period <= 300);
+        let validType = (type == .Counter) || (type == .Timer)
+        let validSecret = (secret.length > 0)
+        let validAlgorithm = (algorithm == .SHA1) || (algorithm == .SHA256) || (algorithm == .SHA512)
+        let validDigits = (digits >= 6) && (digits <= 8)
+        let validPeriod = (period > 0) && (period <= 300)
 
-        return validType && validSecret && validAlgorithm && validDigits && validPeriod;
+        return validType && validSecret && validAlgorithm && validDigits && validPeriod
     }
 
     enum TokenType : String {
