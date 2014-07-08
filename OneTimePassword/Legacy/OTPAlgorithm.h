@@ -54,6 +54,4 @@ extern NSString *const kOTPAlgorithmSHA512;
 
 + (instancetype)stringForAlgorithm:(OTPAlgorithm)algorithm;
 
-- (OTPAlgorithm)algorithmValue;
-
 @end

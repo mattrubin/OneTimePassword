@@ -43,15 +43,4 @@ NSString *const kOTPTokenTypeTimer = @"totp";
     }
 }
 
-- (OTPTokenType)tokenTypeValue
-{
-    if ([self isEqualToString:kOTPTokenTypeCounter]) {
-        return OTPTokenTypeCounter;
-    } else if ([self isEqualToString:kOTPTokenTypeTimer]) {
-        return OTPTokenTypeTimer;
-    }
-
-    return OTPTokenTypeUndefined;
-}
-
 @end

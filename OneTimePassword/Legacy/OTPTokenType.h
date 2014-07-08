@@ -40,6 +40,4 @@ extern NSString *const kOTPTokenTypeTimer;
 
 + (instancetype)stringForTokenType:(OTPTokenType)tokenType;
 
-- (OTPTokenType)tokenTypeValue;
-
 @end
