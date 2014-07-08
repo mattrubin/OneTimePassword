@@ -9,14 +9,14 @@
 @objc class Token: NSObject {
     let name: String
     let issuer: String
-    let type: OTPTokenType
+    let type: TokenType
     let secret: NSData
     let algorithm: OTPAlgorithm
     let digits: Int
     let period: NSTimeInterval
     var counter: UInt64 = 1
 
-    init(type: OTPTokenType, secret: NSData, name: String, issuer: String, algorithm: OTPAlgorithm, digits: Int, period: NSTimeInterval) {
+    init(type: TokenType, secret: NSData, name: String, issuer: String, algorithm: OTPAlgorithm, digits: Int, period: NSTimeInterval) {
         self.type = type
         self.secret = secret
         self.name = name
@@ -35,8 +35,11 @@
 
         return validType && validSecret && validAlgorithm && validDigits && validPeriod;
     }
-}
 
+    enum TokenType : String {
+        case Counter = "hotp", Timer = "totp"
+    }
+}
 
 let kOTPAuthScheme = "otpauth"
 let kQueryAlgorithmKey = "algorithm"
@@ -57,7 +60,10 @@ extension Token {
             }
         }
 
-        let type = (url.host as NSString).tokenTypeValue()
+        var type = TokenType.Timer
+        if let typeFromURL = TokenType.fromRaw(url.host) {
+            type = typeFromURL
+        }
 
         var secretForToken = NSData()
         if let secret = secret {
@@ -122,7 +128,7 @@ extension Token {
     func url() -> NSURL {
         let urlComponents = NSURLComponents()
         urlComponents.scheme = kOTPAuthScheme
-        urlComponents.host = NSString(forTokenType:self.type)
+        urlComponents.host = self.type.toRaw()
         urlComponents.path = "/" + self.name
 
         var queryItems = [

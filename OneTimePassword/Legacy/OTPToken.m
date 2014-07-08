@@ -41,7 +41,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
     NSAssert(secret != nil, @"Token secret must be non-nil");
     NSAssert(name != nil, @"Token name must be non-nil");
     NSAssert(issuer != nil, @"Token issuer must be non-nil");
-    return [self initWithCore:[[Token alloc] initWithType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits period:period]];
+    return [self initWithCore:[[Token alloc] initWithClassicType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits period:period]];
 }
 
 - (instancetype)initWithCore:(Token *)core
@@ -151,7 +151,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 - (NSString *)name { return self.core.name; }
 - (NSString *)issuer { return self.core.issuer; }
-- (OTPTokenType)type { return self.core.type; }
+- (OTPTokenType)type { return self.core.classicType; }
 - (NSData *)secret { return self.core.secret; }
 - (OTPAlgorithm)algorithm { return self.core.algorithm; }
 - (NSUInteger)digits { return self.core.digits; }
