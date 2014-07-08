@@ -153,7 +153,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 - (NSString *)issuer { return self.core.issuer; }
 - (OTPTokenType)type { return self.core.classicType; }
 - (NSData *)secret { return self.core.secret; }
-- (OTPAlgorithm)algorithm { return self.core.algorithm; }
+- (OTPAlgorithm)algorithm { return self.core.classicAlgorithm; }
 - (NSUInteger)digits { return self.core.digits; }
 - (NSTimeInterval)period { return self.core.period; }
 

@@ -11,12 +11,12 @@
     let issuer: String
     let type: TokenType
     let secret: NSData
-    let algorithm: OTPAlgorithm
+    let algorithm: Algorithm
     let digits: Int
     let period: NSTimeInterval
     var counter: UInt64 = 1
 
-    init(type: TokenType, secret: NSData, name: String, issuer: String, algorithm: OTPAlgorithm, digits: Int, period: NSTimeInterval) {
+    init(type: TokenType, secret: NSData, name: String, issuer: String, algorithm: Algorithm, digits: Int, period: NSTimeInterval) {
         self.type = type
         self.secret = secret
         self.name = name
@@ -38,6 +38,10 @@
 
     enum TokenType : String {
         case Counter = "hotp", Timer = "totp"
+    }
+
+    enum Algorithm : String {
+        case SHA1 = "SHA1", SHA256 = "SHA256", SHA512 = "SHA512"
     }
 }
 
@@ -99,9 +103,11 @@ extension Token {
             }
         }
 
-        var algorithm = OTPAlgorithm.SHA1
+        var algorithm = Algorithm.SHA1
         if let algorithmString = queryDictionary[kQueryAlgorithmKey] {
-            algorithm = (algorithmString as NSString).algorithmValue()
+            if let algorithmFromURL = Algorithm.fromRaw(algorithmString) {
+                algorithm = algorithmFromURL
+            }
         }
 
         var digits = 6
@@ -132,7 +138,7 @@ extension Token {
         urlComponents.path = "/" + self.name
 
         var queryItems = [
-            NSURLQueryItem(name:kQueryAlgorithmKey, value:NSString(forAlgorithm:self.algorithm)),
+            NSURLQueryItem(name:kQueryAlgorithmKey, value:self.algorithm.toRaw()),
             NSURLQueryItem(name:kQueryDigitsKey, value:String(self.digits)),
             NSURLQueryItem(name:kQueryIssuerKey, value:self.issuer),
         ]
