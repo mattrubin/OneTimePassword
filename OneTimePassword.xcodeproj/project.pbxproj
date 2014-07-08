@@ -28,6 +28,7 @@
 		C97C823E1946E51D00FD9F4C /* OneTimePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = C97C823D1946E51D00FD9F4C /* OneTimePassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
 		C97C824B1946E51D00FD9F4C /* OneTimePasswordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97C824A1946E51D00FD9F4C /* OneTimePasswordTests.swift */; };
+		C9DC7EC4196BD5DF00B50C82 /* Token+Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C82491946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97C824A1946E51D00FD9F4C /* OneTimePasswordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimePasswordTests.swift; sourceTree = "<group>"; };
+		C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+Serialization.swift"; sourceTree = "<group>"; };
 		CA0307BA64104BFF93EB7509 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,6 +153,7 @@
 			children = (
 				C97C823D1946E51D00FD9F4C /* OneTimePassword.h */,
 				C93A2519196B1BA400F86892 /* Token.swift */,
+				C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */,
 				C9377D45196BA34600D6C67E /* Token+Legacy.swift */,
 				C93A24F1196AF8E900F86892 /* Legacy */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
@@ -340,6 +343,7 @@
 				C93A2507196AF8E900F86892 /* OTPToken.m in Sources */,
 				C93A2501196AF8E900F86892 /* OTPToken+Generation.m in Sources */,
 				C93A2503196AF8E900F86892 /* OTPToken+Persistence.m in Sources */,
+				C9DC7EC4196BD5DF00B50C82 /* Token+Serialization.swift in Sources */,
 				C9377D46196BA34600D6C67E /* Token+Legacy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
