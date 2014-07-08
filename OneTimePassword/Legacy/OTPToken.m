@@ -30,7 +30,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 
 @interface OTPToken ()
-@property (nonatomic, strong) Token *core;
+@property (nonatomic, strong) OTPTokenBridge *core;
 @end
 
 
@@ -41,10 +41,10 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
     NSAssert(secret != nil, @"Token secret must be non-nil");
     NSAssert(name != nil, @"Token name must be non-nil");
     NSAssert(issuer != nil, @"Token issuer must be non-nil");
-    return [self initWithCore:[[Token alloc] initWithClassicType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits period:period]];
+    return [self initWithCore:[[OTPTokenBridge alloc] initWithType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits period:period]];
 }
 
-- (instancetype)initWithCore:(Token *)core
+- (instancetype)initWithCore:(OTPTokenBridge *)core
 {
     self = [super init];
     if (self) {
@@ -151,9 +151,9 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 - (NSString *)name { return self.core.name; }
 - (NSString *)issuer { return self.core.issuer; }
-- (OTPTokenType)type { return self.core.classicType; }
+- (OTPTokenType)type { return self.core.type; }
 - (NSData *)secret { return self.core.secret; }
-- (OTPAlgorithm)algorithm { return self.core.classicAlgorithm; }
+- (OTPAlgorithm)algorithm { return self.core.algorithm; }
 - (NSUInteger)digits { return self.core.digits; }
 - (NSTimeInterval)period { return self.core.period; }
 

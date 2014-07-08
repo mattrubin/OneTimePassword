@@ -23,18 +23,18 @@
 //
 
 @import Foundation;
-@class Token;
+@class OTPTokenBridge;
 #import "OTPTokenType.h"
 #import "OTPAlgorithm.h"
 
 @interface OTPToken : NSObject
 
 - (instancetype)init DEPRECATED_MSG_ATTRIBUTE("Use -initWithType:secret:name:issuer:algorithm:digits:period:");
-- (instancetype)initWithCore:(Token *)core;
+- (instancetype)initWithCore:(OTPTokenBridge *)core;
 - (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits period:(NSTimeInterval)period;
 + (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer;
 
-@property (nonatomic, readonly) Token *core;
+@property (nonatomic, readonly) OTPTokenBridge *core;
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *issuer;
