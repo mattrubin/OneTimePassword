@@ -16,7 +16,7 @@
     let period: NSTimeInterval
     var counter: UInt64 = 1
 
-    init(type: TokenType, secret: NSData, name: String, issuer: String, algorithm: Algorithm, digits: Int, period: NSTimeInterval) {
+    init(type: TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Algorithm = .SHA1, digits: Int = 6, period: NSTimeInterval = 30) {
         self.type = type
         self.secret = secret
         self.name = name
