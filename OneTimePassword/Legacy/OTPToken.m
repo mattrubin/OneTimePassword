@@ -46,6 +46,8 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 - (instancetype)initWithCore:(OTPTokenBridge *)core
 {
+    if (!core) return nil;
+
     self = [super init];
     if (self) {
         self.core = core;

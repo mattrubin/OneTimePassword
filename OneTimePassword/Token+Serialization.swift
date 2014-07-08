@@ -97,7 +97,11 @@ extension Token {
             }
         }
 
-        return token
+        if token.isValid() {
+            return token
+        } else {
+            return nil
+        }
     }
 
     func url() -> NSURL {

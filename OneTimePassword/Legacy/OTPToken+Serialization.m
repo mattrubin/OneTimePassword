@@ -35,8 +35,7 @@
 
 + (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret
 {
-    OTPToken *token = [[OTPToken alloc] initWithCore:[OTPTokenBridge tokenWithURL:url secret:secret]];
-    return [token validate] ? token : nil;
+    return [[OTPToken alloc] initWithCore:[OTPTokenBridge tokenWithURL:url secret:secret]];
 }
 
 - (NSURL *)url { return self.core.url; }
