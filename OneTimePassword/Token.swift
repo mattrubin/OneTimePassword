@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-@objc class Token: NSObject {
+class Token {
     let name: String
     let issuer: String
     let type: TokenType
