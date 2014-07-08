@@ -64,7 +64,7 @@
             return @"hotp";
         case OTPTokenTypeTimer:
             return @"totp";
-        case OTPTokenTypeUndefined:
+        default:
             return nil;
     }
 }

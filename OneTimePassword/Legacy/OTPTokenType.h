@@ -26,7 +26,6 @@
 
 
 typedef NS_ENUM(unsigned char, OTPTokenType) {
-    OTPTokenTypeUndefined = 0,
     OTPTokenTypeCounter,
     OTPTokenTypeTimer,
 };
