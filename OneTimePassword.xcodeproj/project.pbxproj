@@ -46,6 +46,7 @@
 		560131D4F5D140EA8458D149 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9290C2D1947C7F4008AE4DE /* OTPToken+Serialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OTPToken+Serialization.swift"; sourceTree = "<group>"; };
 		C9290C2F1947D104008AE4DE /* OTPTokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTokenSerializationTests.swift; sourceTree = "<group>"; };
+		C9377D40196B93F900D6C67E /* OneTimePassword-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OneTimePassword-Bridging-Header.h"; sourceTree = "<group>"; };
 		C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAlgorithm.h; sourceTree = "<group>"; };
 		C93A24F3196AF8E900F86892 /* OTPAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAlgorithm.m; sourceTree = "<group>"; };
 		C93A24F4196AF8E900F86892 /* OTPToken+Generation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OTPToken+Generation.h"; sourceTree = "<group>"; };
@@ -116,6 +117,7 @@
 				C93A24FD196AF8E900F86892 /* OTPTokenType.m */,
 				C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */,
 				C93A24F3196AF8E900F86892 /* OTPAlgorithm.m */,
+				C9377D40196B93F900D6C67E /* OneTimePassword-Bridging-Header.h */,
 			);
 			path = Legacy;
 			sourceTree = "<group>";
@@ -471,6 +473,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "OneTimePassword/Legacy/OneTimePassword-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -487,6 +490,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "OneTimePassword/Legacy/OneTimePassword-Bridging-Header.h";
 			};
 			name = Release;
 		};

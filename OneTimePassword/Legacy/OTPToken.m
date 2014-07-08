@@ -38,12 +38,17 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 - (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits period:(NSTimeInterval)period
 {
+    NSAssert(secret != nil, @"Token secret must be non-nil");
+    NSAssert(name != nil, @"Token name must be non-nil");
+    NSAssert(issuer != nil, @"Token issuer must be non-nil");
+    return [self initWithCore:[[Token alloc] initWithType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits period:period]];
+}
+
+- (instancetype)initWithCore:(Token *)core
+{
     self = [super init];
     if (self) {
-        NSAssert(secret != nil, @"Token secret must be non-nil");
-        NSAssert(name != nil, @"Token name must be non-nil");
-        NSAssert(issuer != nil, @"Token issuer must be non-nil");
-        self.core = [[Token alloc] initWithType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits period:period];
+        self.core = core;
 
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(updatePasswordIfNeeded)

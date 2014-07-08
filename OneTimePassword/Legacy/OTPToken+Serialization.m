@@ -23,7 +23,6 @@
 //
 
 #import "OTPToken+Serialization.h"
-#import <Base32/MF_Base32Additions.h>
 #import <OneTimePassword/OneTimePassword-Swift.h>
 
 
@@ -33,12 +32,6 @@
 
 
 static NSString *const kOTPAuthScheme = @"otpauth";
-static NSString *const kQueryAlgorithmKey = @"algorithm";
-static NSString *const kQuerySecretKey = @"secret";
-static NSString *const kQueryCounterKey = @"counter";
-static NSString *const kQueryDigitsKey = @"digits";
-static NSString *const kQueryPeriodKey = @"period";
-static NSString *const kQueryIssuerKey = @"issuer";
 
 
 @implementation OTPToken (Serialization)
@@ -62,57 +55,7 @@ static NSString *const kQueryIssuerKey = @"issuer";
 
 + (instancetype)tokenWithOTPAuthURL:(NSURL *)url secret:(NSData *)secret
 {
-    NSDictionary *query = [url queryDictionary];
-
-    OTPTokenType type = [url.host tokenTypeValue];
-
-    if (!secret) {
-        NSString *secretString = query[kQuerySecretKey];
-        secret = [NSData dataWithBase32String:secretString];
-    }
-
-    NSString *algorithmString = query[kQueryAlgorithmKey];
-    OTPAlgorithm algorithm = algorithmString ? [algorithmString algorithmValue] : [OTPToken defaultAlgorithm];
-
-    NSString *digitString = query[kQueryDigitsKey];
-    NSUInteger digits = digitString ? (NSUInteger)[digitString integerValue] : [OTPToken defaultDigits];
-
-    NSString *name = (url.path.length > 1) ? [url.path substringFromIndex:1] : @""; // Skip the leading "/"
-
-    NSString *periodString = query[kQueryPeriodKey];
-    NSTimeInterval period = periodString ? [periodString doubleValue] : [OTPToken defaultPeriod];
-
-    NSString *issuerString = query[kQueryIssuerKey];
-    // If the name is prefixed by the issuer string, trim the name
-    if (issuerString.length &&
-        name.length > issuerString.length &&
-        [name rangeOfString:issuerString].location == 0 &&
-        [name characterAtIndex:issuerString.length] == ':') {
-        name = [[name substringFromIndex:issuerString.length+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
-    } else if (!issuerString.length && name.length) {
-        // If there is no issuer string, try to extract one from the name
-        NSRange colonRange = [name rangeOfString:@":"];
-        if (colonRange.location != NSNotFound && colonRange.location > 0) {
-            issuerString = [name substringToIndex:colonRange.location];
-            name = [[name substringFromIndex:colonRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
-        }
-    }
-    NSString *issuer = issuerString ?: @"";
-
-    OTPToken *token = [[OTPToken alloc] initWithType:type
-                                              secret:secret
-                                                name:name
-                                              issuer:issuer
-                                           algorithm:algorithm
-                                              digits:digits
-                                              period:period];
-
-    NSString *counterString = query[kQueryCounterKey];
-    if (counterString) {
-        token.counter = strtoull([counterString UTF8String], NULL, 10);
-    }
-    
-    return token;
+    return [[OTPToken alloc] initWithCore:[[Token alloc] initWithURL:url secret:secret]];
 }
 
 - (NSURL *)url { return self.core.url; }
