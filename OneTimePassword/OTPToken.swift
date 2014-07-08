@@ -16,7 +16,22 @@ class OTPTokenBridge: NSObject {
     }
 
     convenience init(type: OTPTokenType, secret: NSData, name: String, issuer: String, algorithm: OTPAlgorithm, digits: Int, period: NSTimeInterval) {
-        self.init(token: Token(classicType:type, secret:secret, name:name, issuer:issuer, algorithm:algorithm, digits:digits, period:period))
+        var tokenType: Token.TokenType
+        switch type {
+        case .Counter: tokenType = .Counter
+        case .Timer:   tokenType = .Timer
+        default:       tokenType = .Timer
+        }
+
+        var tokenAlgorithm: Token.Algorithm
+        switch algorithm {
+        case .SHA1:   tokenAlgorithm = .SHA1
+        case .SHA256: tokenAlgorithm = .SHA256
+        case .SHA512: tokenAlgorithm = .SHA512
+        default:      tokenAlgorithm = .SHA1
+        }
+
+        self.init(token: Token(type:tokenType, secret:secret, name:name, issuer:issuer, algorithm:tokenAlgorithm, digits:digits, period:period))
     }
 
     var name: String { return token.name }
