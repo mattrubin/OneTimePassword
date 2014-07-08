@@ -54,7 +54,9 @@ let kQueryPeriodKey = "period"
 let kQueryIssuerKey = "issuer"
 
 extension Token {
-    convenience init(URL url: NSURL, secret: NSData?) {
+    class func token(URL url: NSURL, secret: NSData?) -> Token? {
+        if (url.scheme != kOTPAuthScheme) { return nil }
+
         var queryDictionary = Dictionary<String, String>()
         if let queryItems = NSURLComponents(URL:url, resolvingAgainstBaseURL:false).queryItems {
             for object : AnyObject in queryItems {
@@ -67,6 +69,8 @@ extension Token {
         var type = TokenType.Timer
         if let typeFromURL = TokenType.fromRaw(url.host) {
             type = typeFromURL
+        } else {
+            return nil
         }
 
         var secretForToken = NSData()
@@ -107,6 +111,8 @@ extension Token {
         if let algorithmString = queryDictionary[kQueryAlgorithmKey] {
             if let algorithmFromURL = Algorithm.fromRaw(algorithmString) {
                 algorithm = algorithmFromURL
+            } else {
+                return nil
             }
         }
 
@@ -120,15 +126,17 @@ extension Token {
             period = NSTimeInterval(periodInt)
         }
 
-        self.init(type:type, secret:secretForToken, name:name, issuer:issuer, algorithm:algorithm, digits:digits, period:period)
+        let token = Token(type:type, secret:secretForToken, name:name, issuer:issuer, algorithm:algorithm, digits:digits, period:period)
 
         if let counterString = queryDictionary[kQueryCounterKey] {
             errno = 0
             let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
             if errno == 0 {
-                self.counter = counterValue
+                token.counter = counterValue
             }
         }
+
+        return token
     }
 
     func url() -> NSURL {

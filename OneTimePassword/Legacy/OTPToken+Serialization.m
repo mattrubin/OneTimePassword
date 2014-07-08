@@ -31,9 +31,6 @@
 @end
 
 
-static NSString *const kOTPAuthScheme = @"otpauth";
-
-
 @implementation OTPToken (Serialization)
 
 + (instancetype)tokenWithURL:(NSURL *)url
@@ -43,8 +40,7 @@ static NSString *const kOTPAuthScheme = @"otpauth";
 
 + (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret
 {
-    if (![url.scheme isEqualToString:kOTPAuthScheme]) return nil;
-    OTPToken *token = [[OTPToken alloc] initWithCore:[[Token alloc] initWithURL:url secret:secret]];
+    OTPToken *token = [[OTPToken alloc] initWithCore:[Token tokenWithURL:url secret:secret]];
     return [token validate] ? token : nil;
 }
 
