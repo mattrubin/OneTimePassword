@@ -49,7 +49,6 @@
                                            algorithm:OTPAlgorithmSHA1
                                               digits:6
                                               period:[OTPToken defaultPeriod]];
-    token.counter = 0;
 
     XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The 0th OTP should be the expected string.");
     XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The generatePasswordForCounter: method should be idempotent.");
@@ -64,6 +63,7 @@
                                 @"399871",
                                 @"520489"];
 
+    token.counter = 0;
     for (NSString *expectedPassword in expectedValues) {
         [token updatePassword];
         XCTAssertEqualObjects(token.password, expectedPassword, @"The generator did not produce the expected OTP.");
@@ -101,8 +101,7 @@
 
         for (NSUInteger i = 0; i < times.count; i++) {
             NSString *password = expectedValues[algorithmKey][i];
-            token.counter = (uint64_t)([times[i] doubleValue] / token.period);
-            XCTAssertEqualObjects([token generatePasswordForCounter:token.counter], password, @"The generator did not produce the expected OTP.");
+            XCTAssertEqualObjects([token generatePasswordForCounter:([times[i] doubleValue] / token.period)], password, @"The generator did not produce the expected OTP.");
         }
     }
 }
@@ -134,10 +133,9 @@
                                                    algorithm:[algorithmKey integerValue]
                                                       digits:6
                                                       period:30];
-            token.counter = (uint64_t)(intervals[i] / token.period);
 
             XCTAssertEqualObjects([results objectAtIndex:j],
-                                  [token generatePasswordForCounter:token.counter],
+                                  [token generatePasswordForCounter:(intervals[i] / token.period)],
                                   @"Invalid result %d, %@, %f", i, algorithmKey, intervals[i]);
             j++;
         }

@@ -79,13 +79,17 @@ static NSUInteger kPinModTable[] = {
 - (NSString *)generatePasswordForCounter:(uint64_t)counter
 {
     if (![self validate]) return nil;
+    return [self.class passwordForSecret:self.secret algorithm:self.algorithm digits:self.digits counter:counter];
+}
 
++ (NSString *)passwordForSecret:(NSData *)secret algorithm:(CCHmacAlgorithm)algorithm  digits:(NSUInteger)digits counter:(uint64_t)counter
+{
     // Ensure the counter value is big-endian
     counter = NSSwapHostLongLongToBig(counter);
 
     // Generate an HMAC value from the key and counter
-    NSMutableData *hash = [NSMutableData dataWithLength:digestLengthForAlgorithm(self.algorithm)];
-    CCHmac(self.algorithm, self.secret.bytes, self.secret.length, &counter, sizeof(counter), hash.mutableBytes);
+    NSMutableData *hash = [NSMutableData dataWithLength:digestLengthForAlgorithm(algorithm)];
+    CCHmac(algorithm, secret.bytes, secret.length, &counter, sizeof(counter), hash.mutableBytes);
 
     // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
     const char *ptr = hash.bytes;
@@ -100,9 +104,9 @@ static NSUInteger kPinModTable[] = {
     // Discard the most significant bit
     truncatedHash &= 0x7fffffff;
 
-    unsigned long pinValue = truncatedHash % kPinModTable[self.digits];
+    unsigned long pinValue = truncatedHash % kPinModTable[digits];
 
-    return [NSString stringWithFormat:@"%0*ld", (int)self.digits, pinValue];
+    return [NSString stringWithFormat:@"%0*ld", (int)digits, pinValue];
 }
 
 @end
