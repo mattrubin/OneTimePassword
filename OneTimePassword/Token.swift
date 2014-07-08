@@ -36,12 +36,18 @@
         return validType && validSecret && validAlgorithm && validDigits && validPeriod
     }
 
-    enum TokenType : String {
-        case Counter = "hotp", Timer = "totp"
+    func description() -> String {
+        return "Token(type:\(type), name:\(name), issuer:\(issuer), algorithm:\(algorithm), digits:\(digits))"
     }
 
-    enum Algorithm : String {
+    enum TokenType : String, Printable {
+        case Counter = "hotp", Timer = "totp"
+        var description: String { return self.toRaw() }
+    }
+
+    enum Algorithm : String, Printable {
         case SHA1 = "SHA1", SHA256 = "SHA256", SHA512 = "SHA512"
+        var description: String { return self.toRaw() }
     }
 }
 
