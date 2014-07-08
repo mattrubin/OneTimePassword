@@ -16,44 +16,16 @@ class OTPTokenBridge: NSObject {
     }
 
     convenience init(type: OTPTokenType, secret: NSData, name: String, issuer: String, algorithm: OTPAlgorithm, digits: Int, period: NSTimeInterval) {
-        var tokenType: Token.TokenType
-        switch type {
-        case .Counter: tokenType = .Counter
-        case .Timer:   tokenType = .Timer
-        default:       tokenType = .Timer
-        }
-
-        var tokenAlgorithm: Token.Algorithm
-        switch algorithm {
-        case .SHA1:   tokenAlgorithm = .SHA1
-        case .SHA256: tokenAlgorithm = .SHA256
-        case .SHA512: tokenAlgorithm = .SHA512
-        default:      tokenAlgorithm = .SHA1
-        }
-
-        self.init(token: Token(type:tokenType, secret:secret, name:name, issuer:issuer, algorithm:tokenAlgorithm, digits:digits, period:period))
+        self.init(token: Token(type:type, secret:secret, name:name, issuer:issuer, algorithm:algorithm, digits:digits, period:period))
     }
 
     var name: String { return token.name }
     var issuer: String { return token.issuer }
+    var type: OTPTokenType { return token.type }
     var secret: NSData { return token.secret }
+    var algorithm: OTPAlgorithm { return token.algorithm }
     var digits: Int { return token.digits }
     var period: NSTimeInterval { return token.period }
-
-    var type: OTPTokenType {
-    switch token.type {
-    case .Counter: return .Counter
-    case .Timer:   return .Timer
-        }
-    }
-
-    var algorithm: OTPAlgorithm {
-    switch token.algorithm {
-    case .SHA1:   return .SHA1
-    case .SHA256: return .SHA256
-    case .SHA512: return .SHA512
-        }
-    }
 
     var counter: UInt64 {
     get { return token.counter }
@@ -73,4 +45,42 @@ class OTPTokenBridge: NSObject {
     }
 
     var url: NSURL { return token.url() }
+}
+
+extension Token.TokenType {
+    func __conversion() -> OTPTokenType {
+        switch self {
+        case .Counter: return .Counter
+        case .Timer:   return .Timer
+        }
+    }
+}
+
+extension OTPTokenType {
+    func __conversion() -> Token.TokenType {
+        switch self {
+        case .Counter: return .Counter
+        case .Timer:   return .Timer
+        }
+    }
+}
+
+extension Token.Algorithm {
+    func __conversion() -> OTPAlgorithm {
+        switch self {
+        case .SHA1:   return .SHA1
+        case .SHA256: return .SHA256
+        case .SHA512: return .SHA512
+        }
+    }
+}
+
+extension OTPAlgorithm {
+    func __conversion() -> Token.Algorithm {
+        switch self {
+        case .SHA1:   return .SHA1
+        case .SHA256: return .SHA256
+        case .SHA512: return .SHA512
+        }
+    }
 }
