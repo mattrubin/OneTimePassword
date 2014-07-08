@@ -42,16 +42,3 @@ typedef NS_ENUM(uint32_t, OTPAlgorithm) {
 };
 
 NSUInteger digestLengthForAlgorithm(OTPAlgorithm algorithm);
-
-
-#pragma mark - String Representations
-
-extern NSString *const kOTPAlgorithmSHA1;
-extern NSString *const kOTPAlgorithmSHA256;
-extern NSString *const kOTPAlgorithmSHA512;
-
-@interface NSString (OTPAlgorithm)
-
-+ (instancetype)stringForAlgorithm:(OTPAlgorithm)algorithm;
-
-@end

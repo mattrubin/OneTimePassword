@@ -30,14 +30,3 @@ typedef NS_ENUM(unsigned char, OTPTokenType) {
     OTPTokenTypeCounter,
     OTPTokenTypeTimer,
 };
-
-
-extern NSString *const kOTPTokenTypeCounter;
-extern NSString *const kOTPTokenTypeTimer;
-
-
-@interface NSString (OTPTokenType)
-
-+ (instancetype)stringForTokenType:(OTPTokenType)tokenType;
-
-@end

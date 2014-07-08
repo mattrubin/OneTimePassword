@@ -56,6 +56,36 @@
 }
 @end
 
+@implementation NSString (OTPTokenType)
++ (instancetype)stringForTokenType:(OTPTokenType)tokenType
+{
+    switch (tokenType) {
+        case OTPTokenTypeCounter:
+            return @"hotp";
+        case OTPTokenTypeTimer:
+            return @"totp";
+        case OTPTokenTypeUndefined:
+            return nil;
+    }
+}
+@end
+
+@implementation NSString (OTPAlgorithm)
++ (instancetype)stringForAlgorithm:(OTPAlgorithm)algorithm
+{
+    switch (algorithm) {
+        case OTPAlgorithmSHA1:
+            return @"SHA1";
+        case OTPAlgorithmSHA256:
+            return @"SHA256";
+        case OTPAlgorithmSHA512:
+            return @"SHA512";
+        default:
+            return nil;
+    }
+}
+@end
+
 
 static NSString * const kOTPScheme = @"otpauth";
 static NSString * const kOTPTokenTypeCounterHost = @"hotp";
