@@ -24,6 +24,12 @@
 
 #import "OTPToken+Serialization.h"
 #import <Base32/MF_Base32Additions.h>
+#import <OneTimePassword/OneTimePassword-Swift.h>
+
+
+@interface OTPToken ()
+@property (nonatomic, strong) Token *core;
+@end
 
 
 static NSString *const kOTPAuthScheme = @"otpauth";
@@ -109,31 +115,7 @@ static NSString *const kQueryIssuerKey = @"issuer";
     return token;
 }
 
-- (NSURL *)url
-{
-    NSMutableArray *query = [NSMutableArray array];
-
-    [query addObject:[NSURLQueryItem queryItemWithName:kQueryAlgorithmKey value:[NSString stringForAlgorithm:self.algorithm]]];
-    [query addObject:[NSURLQueryItem queryItemWithName:kQueryDigitsKey value:@(self.digits).stringValue]];
-
-    if (self.type == OTPTokenTypeTimer) {
-        [query addObject:[NSURLQueryItem queryItemWithName:kQueryPeriodKey value:@(self.period).stringValue]];
-    } else if (self.type == OTPTokenTypeCounter) {
-        [query addObject:[NSURLQueryItem queryItemWithName:kQueryCounterKey value:@(self.counter).stringValue]];
-    }
-
-    if (self.issuer)
-        [query addObject:[NSURLQueryItem queryItemWithName:kQueryIssuerKey value:self.issuer]];
-
-    NSURLComponents *urlComponents = [NSURLComponents new];
-    urlComponents.scheme = kOTPAuthScheme;
-    urlComponents.host = [NSString stringForTokenType:self.type];
-    if (self.name)
-        urlComponents.path = [@"/" stringByAppendingString:self.name];
-    urlComponents.queryItems = query;
-
-    return urlComponents.URL;
-}
+- (NSURL *)url { return self.core.url; }
 
 @end
 

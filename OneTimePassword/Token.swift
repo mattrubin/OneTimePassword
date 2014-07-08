@@ -36,3 +36,38 @@
         return validType && validSecret && validAlgorithm && validDigits && validPeriod;
     }
 }
+
+
+let kOTPAuthScheme = "otpauth"
+let kQueryAlgorithmKey = "algorithm"
+let kQuerySecretKey = "secret"
+let kQueryCounterKey = "counter"
+let kQueryDigitsKey = "digits"
+let kQueryPeriodKey = "period"
+let kQueryIssuerKey = "issuer"
+
+extension Token {
+
+    func url() -> NSURL {
+        let urlComponents = NSURLComponents()
+        urlComponents.scheme = kOTPAuthScheme
+        urlComponents.host = NSString(forTokenType:self.type)
+        urlComponents.path = "/" + self.name
+
+        var queryItems = [
+            NSURLQueryItem(name:kQueryAlgorithmKey, value:NSString(forAlgorithm:self.algorithm)),
+            NSURLQueryItem(name:kQueryDigitsKey, value:String(self.digits)),
+            NSURLQueryItem(name:kQueryIssuerKey, value:self.issuer),
+        ]
+
+        if (self.type == .Timer) {
+            queryItems += NSURLQueryItem(name:kQueryPeriodKey, value:String(format: "%.0f", self.period))
+        } else if (self.type == .Counter) {
+            queryItems += NSURLQueryItem(name:kQueryCounterKey, value:String(self.counter))
+        }
+
+        urlComponents.queryItems = queryItems
+
+        return urlComponents.URL
+    }
+}
