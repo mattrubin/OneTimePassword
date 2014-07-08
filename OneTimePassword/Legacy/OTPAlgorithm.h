@@ -24,20 +24,8 @@
 
 @import Foundation;
 
-
-// FIXME: Importing CommonCrypto in a header causes a compiler error:
-//        "include of non-modular header inside framework module 'OneTimePassword.OTPAlgorithm'"
-//        These enum values are currently hard-coded to represent:
-//typedef NS_ENUM(CCHmacAlgorithm, OTPAlgorithm) {
-//    OTPAlgorithmSHA1   = kCCHmacAlgSHA1,
-//    OTPAlgorithmSHA256 = kCCHmacAlgSHA256,
-//    OTPAlgorithmSHA512 = kCCHmacAlgSHA512,
-//}
-
-typedef NS_ENUM(uint32_t, OTPAlgorithm) {
-    OTPAlgorithmSHA1   = 0,
-    OTPAlgorithmSHA256 = 2,
-    OTPAlgorithmSHA512 = 4,
+typedef NS_ENUM(UInt8, OTPAlgorithm) {
+    OTPAlgorithmSHA1,
+    OTPAlgorithmSHA256,
+    OTPAlgorithmSHA512,
 };
-
-NSUInteger digestLengthForAlgorithm(OTPAlgorithm algorithm);
