@@ -148,19 +148,20 @@ extension Token {
     func url() -> NSURL {
         let urlComponents = NSURLComponents()
         urlComponents.scheme = kOTPAuthScheme
-        urlComponents.host = self.type.toRaw()
-        urlComponents.path = "/" + self.name
+        urlComponents.host = type.toRaw()
+        urlComponents.path = "/" + name
 
         var queryItems = [
-            NSURLQueryItem(name:kQueryAlgorithmKey, value:self.algorithm.toRaw()),
-            NSURLQueryItem(name:kQueryDigitsKey, value:String(self.digits)),
-            NSURLQueryItem(name:kQueryIssuerKey, value:self.issuer),
+            NSURLQueryItem(name:kQueryAlgorithmKey, value:algorithm.toRaw()),
+            NSURLQueryItem(name:kQueryDigitsKey, value:String(digits)),
+            NSURLQueryItem(name:kQueryIssuerKey, value:issuer),
         ]
 
-        if (self.type == .Timer) {
-            queryItems += NSURLQueryItem(name:kQueryPeriodKey, value:String(format: "%.0f", self.period))
-        } else if (self.type == .Counter) {
-            queryItems += NSURLQueryItem(name:kQueryCounterKey, value:String(self.counter))
+        switch type {
+        case .Timer:
+            queryItems += NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period)))
+        case .Counter:
+            queryItems += NSURLQueryItem(name:kQueryCounterKey, value:String(counter))
         }
 
         urlComponents.queryItems = queryItems
