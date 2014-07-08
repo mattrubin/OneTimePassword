@@ -34,6 +34,8 @@
 - (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits period:(NSTimeInterval)period;
 + (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer;
 
+@property (nonatomic, readonly) Token *core;
+
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *issuer;
 @property (nonatomic, readonly) OTPTokenType type;

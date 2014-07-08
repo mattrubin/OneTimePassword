@@ -26,11 +26,6 @@
 #import <OneTimePassword/OneTimePassword-Swift.h>
 
 
-@interface OTPToken ()
-@property (nonatomic, strong) Token *core;
-@end
-
-
 @implementation OTPToken (Serialization)
 
 + (instancetype)tokenWithURL:(NSURL *)url
