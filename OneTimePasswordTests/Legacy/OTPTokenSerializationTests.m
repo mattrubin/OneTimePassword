@@ -27,6 +27,36 @@
 #import <Base32/MF_Base32Additions.h>
 
 
+@implementation NSURL (QueryDictionary)
+- (NSDictionary *)queryDictionary
+{
+    NSArray *queryItems = [NSURLComponents componentsWithURL:self resolvingAgainstBaseURL:NO].queryItems;
+    NSMutableDictionary *queryDictionary = [NSMutableDictionary dictionaryWithCapacity:queryItems.count];
+    for (NSURLQueryItem *item in queryItems) {
+        queryDictionary[item.name] = item.value;
+    }
+    return queryDictionary;
+}
+@end
+
+@implementation NSDictionary (QueryItems)
+- (NSArray *)queryItemsArray
+{
+    NSMutableArray *queryItems = [NSMutableArray arrayWithCapacity:self.count];
+    for (NSString *key in self) {
+        id value = self[key];
+        if ([value isKindOfClass:[NSNumber class]]) {
+            value = ((NSNumber *)value).stringValue;
+        } else if (![value isKindOfClass:[NSString class]]) {
+            NSAssert(NO, @":(");
+        }
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:key value:value]];
+    }
+    return queryItems;
+}
+@end
+
+
 static NSString * const kOTPScheme = @"otpauth";
 static NSString * const kOTPTokenTypeCounterHost = @"hotp";
 static NSString * const kOTPTokenTypeTimerHost   = @"totp";
@@ -329,8 +359,8 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
 - (void)testTokenWithInvalidURLs
 {
-    NSArray *badURLs = @[@"http://foo", // invalid scheme
-                         @"otpauth://foo", // invalid type
+    NSArray *badURLs = @[@"http://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4", // invalid scheme
+                         @"otpauth://foo/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4", // invalid type
                          @"otpauth://totp/bar", // missing secret
                          @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&period=0", // invalid period
                          @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&algorithm=MD5", // invalid algorithm

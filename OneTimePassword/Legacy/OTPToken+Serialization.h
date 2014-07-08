@@ -33,17 +33,3 @@
 - (NSURL *)url;
 
 @end
-
-
-@interface NSURL (QueryDictionary)
-
-- (NSDictionary *)queryDictionary;
-
-@end
-
-
-@interface NSDictionary (QueryItems)
-
-- (NSArray *)queryItemsArray;
-
-@end

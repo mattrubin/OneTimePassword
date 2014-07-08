@@ -43,56 +43,11 @@ static NSString *const kOTPAuthScheme = @"otpauth";
 
 + (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret
 {
-    OTPToken *token = nil;
-
-    if ([url.scheme isEqualToString:kOTPAuthScheme]) {
-        // Modern otpauth:// URL
-        token = [self tokenWithOTPAuthURL:url secret:secret];
-    }
-
+    if (![url.scheme isEqualToString:kOTPAuthScheme]) return nil;
+    OTPToken *token = [[OTPToken alloc] initWithCore:[[Token alloc] initWithURL:url secret:secret]];
     return [token validate] ? token : nil;
 }
 
-+ (instancetype)tokenWithOTPAuthURL:(NSURL *)url secret:(NSData *)secret
-{
-    return [[OTPToken alloc] initWithCore:[[Token alloc] initWithURL:url secret:secret]];
-}
-
 - (NSURL *)url { return self.core.url; }
-
-@end
-
-
-@implementation NSURL (QueryDictionary)
-
-- (NSDictionary *)queryDictionary
-{
-    NSArray *queryItems = [NSURLComponents componentsWithURL:self resolvingAgainstBaseURL:NO].queryItems;
-    NSMutableDictionary *queryDictionary = [NSMutableDictionary dictionaryWithCapacity:queryItems.count];
-    for (NSURLQueryItem *item in queryItems) {
-        queryDictionary[item.name] = item.value;
-    }
-    return queryDictionary;
-}
-
-@end
-
-
-@implementation NSDictionary (QueryItems)
-
-- (NSArray *)queryItemsArray
-{
-    NSMutableArray *queryItems = [NSMutableArray arrayWithCapacity:self.count];
-    for (NSString *key in self) {
-        id value = self[key];
-        if ([value isKindOfClass:[NSNumber class]]) {
-            value = ((NSNumber *)value).stringValue;
-        } else if (![value isKindOfClass:[NSString class]]) {
-            NSAssert(NO, @":(");
-        }
-        [queryItems addObject:[NSURLQueryItem queryItemWithName:key value:value]];
-    }
-    return queryItems;
-}
 
 @end
