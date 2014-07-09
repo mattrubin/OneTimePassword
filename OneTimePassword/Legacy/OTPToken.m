@@ -60,8 +60,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@ %p> type: %u, name: %@, algorithm: %u, digits: %lu",
-            self.class, self, self.type, self.name, self.algorithm, (unsigned long)self.digits];
+    return self.core.description;
 }
 
 

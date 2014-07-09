@@ -36,7 +36,7 @@ class Token {
         return validType && validSecret && validAlgorithm && validDigits && validPeriod
     }
 
-    func description() -> String {
+    var description: String {
         return "Token(type:\(type), name:\(name), issuer:\(issuer), algorithm:\(algorithm), digits:\(digits))"
     }
 

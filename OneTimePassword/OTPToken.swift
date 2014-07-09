@@ -33,6 +33,7 @@ class OTPTokenBridge: NSObject {
     }
 
     var isValid: Bool { return token.isValid() }
+    override var description: String { return token.description }
 
     // Generation
 
