@@ -1,5 +1,5 @@
 //
-//  OTPToken+Generation.m
+//  OTPGenerator.m
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,10 +22,8 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPToken+Generation.h"
-#import "OTPToken+Persistence.h"
+#import "OTPGenerator.h"
 #import <CommonCrypto/CommonHMAC.h>
-#import <OneTimePassword/OneTimePassword-Swift.h>
 
 
 static NSUInteger kPinModTable[] = {
@@ -66,12 +64,13 @@ NSUInteger digestLengthForAlgorithm(CCHmacAlgorithm algorithm)
     }
 }
 
-NSString *passwordForToken(NSData *secret, CCHmacAlgorithm algorithm, NSUInteger digits, uint64_t counter)
+NSString *passwordForToken(NSData *secret, OTPAlgorithm otpAlgorithm, NSUInteger digits, uint64_t counter)
 {
     // Ensure the counter value is big-endian
     counter = NSSwapHostLongLongToBig(counter);
 
     // Generate an HMAC value from the key and counter
+    CCHmacAlgorithm algorithm = hashAlgorithmForAlgorithm(otpAlgorithm);
     NSMutableData *hash = [NSMutableData dataWithLength:digestLengthForAlgorithm(algorithm)];
     CCHmac(algorithm, secret.bytes, secret.length, &counter, sizeof(counter), hash.mutableBytes);
 

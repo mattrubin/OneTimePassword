@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		B6C6D5560BC6437A8E4F8580 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 560131D4F5D140EA8458D149 /* libPods.a */; };
 		C9290C301947D104008AE4DE /* OTPTokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2F1947D104008AE4DE /* OTPTokenSerializationTests.swift */; };
-		C93A2500196AF8E900F86892 /* OTPToken+Generation.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24F4196AF8E900F86892 /* OTPToken+Generation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C93A2501196AF8E900F86892 /* OTPToken+Generation.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A24F5196AF8E900F86892 /* OTPToken+Generation.m */; };
+		C93A2500196AF8E900F86892 /* OTPGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24F4196AF8E900F86892 /* OTPGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C93A2501196AF8E900F86892 /* OTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A24F5196AF8E900F86892 /* OTPGenerator.m */; };
 		C93A2502196AF8E900F86892 /* OTPToken+Persistence.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24F6196AF8E900F86892 /* OTPToken+Persistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C93A2503196AF8E900F86892 /* OTPToken+Persistence.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A24F7196AF8E900F86892 /* OTPToken+Persistence.m */; };
 		C93A2506196AF8E900F86892 /* OTPToken.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24FA196AF8E900F86892 /* OTPToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -42,8 +42,8 @@
 		560131D4F5D140EA8458D149 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9290C2F1947D104008AE4DE /* OTPTokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTokenSerializationTests.swift; sourceTree = "<group>"; };
 		C9377D40196B93F900D6C67E /* OneTimePassword-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OneTimePassword-Bridging-Header.h"; sourceTree = "<group>"; };
-		C93A24F4196AF8E900F86892 /* OTPToken+Generation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OTPToken+Generation.h"; sourceTree = "<group>"; };
-		C93A24F5196AF8E900F86892 /* OTPToken+Generation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OTPToken+Generation.m"; sourceTree = "<group>"; };
+		C93A24F4196AF8E900F86892 /* OTPGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPGenerator.h; sourceTree = "<group>"; };
+		C93A24F5196AF8E900F86892 /* OTPGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPGenerator.m; sourceTree = "<group>"; };
 		C93A24F6196AF8E900F86892 /* OTPToken+Persistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OTPToken+Persistence.h"; sourceTree = "<group>"; };
 		C93A24F7196AF8E900F86892 /* OTPToken+Persistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OTPToken+Persistence.m"; sourceTree = "<group>"; };
 		C93A24FA196AF8E900F86892 /* OTPToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPToken.h; sourceTree = "<group>"; };
@@ -101,8 +101,8 @@
 				C93A24FB196AF8E900F86892 /* OTPToken.m */,
 				C93A24F6196AF8E900F86892 /* OTPToken+Persistence.h */,
 				C93A24F7196AF8E900F86892 /* OTPToken+Persistence.m */,
-				C93A24F4196AF8E900F86892 /* OTPToken+Generation.h */,
-				C93A24F5196AF8E900F86892 /* OTPToken+Generation.m */,
+				C93A24F4196AF8E900F86892 /* OTPGenerator.h */,
+				C93A24F5196AF8E900F86892 /* OTPGenerator.m */,
 				C93A24FC196AF8E900F86892 /* OTPTypes.h */,
 				C9377D40196B93F900D6C67E /* OneTimePassword-Bridging-Header.h */,
 			);
@@ -189,7 +189,7 @@
 				C93A2502196AF8E900F86892 /* OTPToken+Persistence.h in Headers */,
 				C93A2506196AF8E900F86892 /* OTPToken.h in Headers */,
 				C97C823E1946E51D00FD9F4C /* OneTimePassword.h in Headers */,
-				C93A2500196AF8E900F86892 /* OTPToken+Generation.h in Headers */,
+				C93A2500196AF8E900F86892 /* OTPGenerator.h in Headers */,
 				C93A2508196AF8E900F86892 /* OTPTypes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,7 +330,7 @@
 				C9DC7EC8196BDF3B00B50C82 /* Token+Generation.swift in Sources */,
 				C9DC7ECD196C4D3D00B50C82 /* OTPToken.swift in Sources */,
 				C93A2507196AF8E900F86892 /* OTPToken.m in Sources */,
-				C93A2501196AF8E900F86892 /* OTPToken+Generation.m in Sources */,
+				C93A2501196AF8E900F86892 /* OTPGenerator.m in Sources */,
 				C93A2503196AF8E900F86892 /* OTPToken+Persistence.m in Sources */,
 				C9DC7EC4196BD5DF00B50C82 /* Token+Serialization.swift in Sources */,
 			);

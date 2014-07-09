@@ -32,7 +32,7 @@ extension Token {
 
     func passwordForCounter(counter: UInt64) -> String? {
         if !self.isValid() { return nil }
-        return passwordForToken(self.secret, hashAlgorithmForAlgorithm(self.algorithm), self.digits, counter)
+        return passwordForToken(self.secret, self.algorithm, self.digits, counter)
     }
 
 }

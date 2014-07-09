@@ -1,5 +1,5 @@
 //
-//  OTPToken+Generation.h
+//  OTPGenerator.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,7 +22,6 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPToken.h"
+#import "OTPTypes.h"
 
-uint32_t hashAlgorithmForAlgorithm(OTPAlgorithm algorithm);
-NSString *passwordForToken(NSData *secret, uint32_t algorithm, NSUInteger digits, uint64_t counter);
+NSString *passwordForToken(NSData *secret, OTPAlgorithm algorithm, NSUInteger digits, uint64_t counter);
