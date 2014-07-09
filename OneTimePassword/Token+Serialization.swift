@@ -84,7 +84,7 @@ extension Token {
             period = NSTimeInterval(periodInt)
         }
 
-        var counter: UInt64 = 1
+        var counter: UInt64 = 0
         if let counterString = queryDictionary[kQueryCounterKey] {
             errno = 0
             let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)

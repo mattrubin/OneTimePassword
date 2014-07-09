@@ -19,7 +19,7 @@ class TokenGenerationTests: XCTestCase {
         XCTAssertEqualObjects("755224", token.passwordForCounter(0), "The 0th OTP should be the expected string.")
         XCTAssertEqualObjects("755224", token.passwordForCounter(0), "The passwordForCounter(counter:) function should be idempotent.")
 
-        let expectedValues = ["287082", "359152", "969429", "338314", "254676", "287922", "162583", "399871", "520489"]
+        let expectedValues = ["755224", "287082", "359152", "969429", "338314", "254676", "287922", "162583", "399871", "520489"]
 
         for expectedPassword: String in expectedValues {
             XCTAssertEqualObjects(token.password(), expectedPassword, "The generator did not produce the expected OTP.")
