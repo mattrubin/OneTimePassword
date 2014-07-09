@@ -110,20 +110,14 @@ extension Token {
         urlComponents.host = type.toRaw()
         urlComponents.path = "/" + name
 
-        var queryItems = [
+        urlComponents.queryItems = [
             NSURLQueryItem(name:kQueryAlgorithmKey, value:algorithm.toRaw()),
             NSURLQueryItem(name:kQueryDigitsKey, value:String(digits)),
             NSURLQueryItem(name:kQueryIssuerKey, value:issuer),
+            (type == TokenType.Timer
+                ? NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period)))
+                : NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
         ]
-
-        switch type {
-        case .Timer:
-            queryItems += NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period)))
-        case .Counter:
-            queryItems += NSURLQueryItem(name:kQueryCounterKey, value:String(counter))
-        }
-        
-        urlComponents.queryItems = queryItems
         
         return urlComponents.URL
     }
