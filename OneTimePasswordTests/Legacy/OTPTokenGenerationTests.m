@@ -48,7 +48,7 @@
                                               issuer:@""
                                            algorithm:OTPAlgorithmSHA1
                                               digits:6
-                                              period:[OTPToken defaultPeriod]];
+                                              period:30];
 
     XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The 0th OTP should be the expected string.");
     XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The generatePasswordForCounter: method should be idempotent.");

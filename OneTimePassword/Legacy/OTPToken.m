@@ -64,24 +64,6 @@
 }
 
 
-#pragma mark - Defaults
-
-+ (OTPAlgorithm)defaultAlgorithm
-{
-    return OTPAlgorithmSHA1;
-}
-
-+ (NSUInteger)defaultDigits
-{
-    return 6;
-}
-
-+ (NSTimeInterval)defaultPeriod
-{
-    return 30;
-}
-
-
 #pragma mark - Validation
 
 - (BOOL)validate { return self.core.isValid; }

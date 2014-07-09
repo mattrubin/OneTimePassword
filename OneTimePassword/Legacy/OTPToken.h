@@ -41,15 +41,11 @@
 @property (nonatomic, readonly) OTPAlgorithm algorithm;
 @property (nonatomic, readonly) NSUInteger digits;
 
-+ (OTPAlgorithm)defaultAlgorithm;
-+ (NSUInteger)defaultDigits;
-
 // HOTP
 @property (nonatomic) uint64_t counter;
 
 // TOTP
 @property (nonatomic, readonly) NSTimeInterval period;
-+ (NSTimeInterval)defaultPeriod;
 
 // Validation
 - (BOOL)validate;
