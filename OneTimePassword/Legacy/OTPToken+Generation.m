@@ -39,6 +39,59 @@ static NSUInteger kPinModTable[] = {
     100000000,
 };
 
+CCHmacAlgorithm hashAlgorithmForAlgorithm(OTPAlgorithm algorithm)
+{
+    switch (algorithm) {
+        case OTPAlgorithmSHA1:
+            return kCCHmacAlgSHA1;
+        case OTPAlgorithmSHA256:
+            return kCCHmacAlgSHA256;
+        case OTPAlgorithmSHA512:
+            return kCCHmacAlgSHA512;
+    }
+}
+
+NSUInteger digestLengthForAlgorithm(CCHmacAlgorithm algorithm)
+{
+    switch (algorithm) {
+        case kCCHmacAlgSHA1:
+            return CC_SHA1_DIGEST_LENGTH;
+        case kCCHmacAlgSHA256:
+            return CC_SHA256_DIGEST_LENGTH;
+        case kCCHmacAlgSHA512:
+            return CC_SHA512_DIGEST_LENGTH;
+        default:
+            return 0;
+    }
+}
+
+NSString *passwordForToken(NSData *secret, CCHmacAlgorithm algorithm, NSUInteger digits, uint64_t counter)
+{
+    // Ensure the counter value is big-endian
+    counter = NSSwapHostLongLongToBig(counter);
+
+    // Generate an HMAC value from the key and counter
+    NSMutableData *hash = [NSMutableData dataWithLength:digestLengthForAlgorithm(algorithm)];
+    CCHmac(algorithm, secret.bytes, secret.length, &counter, sizeof(counter), hash.mutableBytes);
+
+    // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
+    const char *ptr = hash.bytes;
+    unsigned char offset = ptr[hash.length-1] & 0x0f;
+
+    // Take 4 bytes from the hash, starting at the given offset
+    const void *truncatedHashPtr = &ptr[offset];
+    unsigned int truncatedHash = *(unsigned int *)truncatedHashPtr;
+
+    // Ensure the four bytes taken from the hash match the current endian format
+    truncatedHash = NSSwapBigIntToHost(truncatedHash);
+    // Discard the most significant bit
+    truncatedHash &= 0x7fffffff;
+
+    unsigned long pinValue = truncatedHash % kPinModTable[digits];
+
+    return [NSString stringWithFormat:@"%0*ld", (int)digits, pinValue];
+}
+
 
 @implementation OTPToken (Generation)
 
@@ -79,62 +132,7 @@ static NSUInteger kPinModTable[] = {
 - (NSString *)generatePasswordForCounter:(uint64_t)counter
 {
     if (![self validate]) return nil;
-
-    CCHmacAlgorithm hashAlgorithm;
-    switch (self.algorithm) {
-        case OTPAlgorithmSHA1:
-            hashAlgorithm = kCCHmacAlgSHA1;
-            break;
-        case OTPAlgorithmSHA256:
-            hashAlgorithm = kCCHmacAlgSHA256;
-            break;
-        case OTPAlgorithmSHA512:
-            hashAlgorithm = kCCHmacAlgSHA512;
-            break;
-    }
-
-    return [self.class passwordForSecret:self.secret algorithm:hashAlgorithm digits:self.digits counter:counter];
-}
-
-+ (NSString *)passwordForSecret:(NSData *)secret algorithm:(CCHmacAlgorithm)algorithm  digits:(NSUInteger)digits counter:(uint64_t)counter
-{
-    // Ensure the counter value is big-endian
-    counter = NSSwapHostLongLongToBig(counter);
-
-    // Generate an HMAC value from the key and counter
-    NSMutableData *hash = [NSMutableData dataWithLength:[self digestLengthForAlgorithm:algorithm]];
-    CCHmac(algorithm, secret.bytes, secret.length, &counter, sizeof(counter), hash.mutableBytes);
-
-    // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
-    const char *ptr = hash.bytes;
-    unsigned char offset = ptr[hash.length-1] & 0x0f;
-
-    // Take 4 bytes from the hash, starting at the given offset
-    const void *truncatedHashPtr = &ptr[offset];
-    unsigned int truncatedHash = *(unsigned int *)truncatedHashPtr;
-
-    // Ensure the four bytes taken from the hash match the current endian format
-    truncatedHash = NSSwapBigIntToHost(truncatedHash);
-    // Discard the most significant bit
-    truncatedHash &= 0x7fffffff;
-
-    unsigned long pinValue = truncatedHash % kPinModTable[digits];
-
-    return [NSString stringWithFormat:@"%0*ld", (int)digits, pinValue];
-}
-
-+ (NSUInteger)digestLengthForAlgorithm:(CCHmacAlgorithm) algorithm
-{
-    switch (algorithm) {
-        case kCCHmacAlgSHA1:
-            return CC_SHA1_DIGEST_LENGTH;
-        case kCCHmacAlgSHA256:
-            return CC_SHA256_DIGEST_LENGTH;
-        case kCCHmacAlgSHA512:
-            return CC_SHA512_DIGEST_LENGTH;
-        default:
-            return 0;
-    }
+    return passwordForToken(self.secret, hashAlgorithmForAlgorithm(self.algorithm), self.digits, counter);
 }
 
 @end
