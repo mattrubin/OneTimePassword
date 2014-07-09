@@ -8,7 +8,7 @@
 
 import Foundation
 
-class OTPTokenBridge: NSObject {
+class OTPToken: NSObject {
     let token: Token
 
     init(token: Token) {
@@ -32,7 +32,7 @@ class OTPTokenBridge: NSObject {
     set { token.counter = newValue }
     }
 
-    var isValid: Bool { return token.isValid() }
+    func validate() -> Bool { return token.isValid() }
     override var description: String { return token.description }
 
     // Generation
@@ -46,16 +46,16 @@ class OTPTokenBridge: NSObject {
 
     // Serialization
 
-    class func tokenWithURL(url: NSURL) -> OTPTokenBridge? {
+    class func tokenWithURL(url: NSURL) -> OTPToken? {
         if let token = Token.tokenWithURL(url) {
-            return OTPTokenBridge(token: token)
+            return OTPToken(token: token)
         }
         return nil
     }
 
-    class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> OTPTokenBridge? {
+    class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> OTPToken? {
         if let token = Token.tokenWithURL(url, secret: secret) {
-            return OTPTokenBridge(token: token)
+            return OTPToken(token: token)
         }
         return nil
     }

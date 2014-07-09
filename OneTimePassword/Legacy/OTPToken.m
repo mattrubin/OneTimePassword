@@ -25,17 +25,17 @@
 #import "OTPToken.h"
 #import <OneTimePassword/OneTimePassword-Swift.h>
 
-@implementation OTPToken
+@implementation OTPLegacyToken
 
 - (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits period:(NSTimeInterval)period
 {
     NSAssert(secret != nil, @"Token secret must be non-nil");
     NSAssert(name != nil, @"Token name must be non-nil");
     NSAssert(issuer != nil, @"Token issuer must be non-nil");
-    return [self initWithCore:[[OTPTokenBridge alloc] initWithType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits period:period]];
+    return [self initWithCore:[[OTPToken alloc] initWithType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits period:period]];
 }
 
-- (instancetype)initWithCore:(OTPTokenBridge *)core
+- (instancetype)initWithCore:(OTPToken *)core
 {
     if (!core) return nil;
 
@@ -54,7 +54,7 @@
 
 
 - (NSString *)description { return self.core.description; }
-- (BOOL)validate { return self.core.isValid; }
+- (BOOL)validate { return [self.core validate]; }
 
 - (NSString *)name { return self.core.name; }
 - (NSString *)issuer { return self.core.issuer; }
@@ -90,12 +90,12 @@
 
 + (instancetype)tokenWithURL:(NSURL *)url
 {
-    return [[OTPToken alloc] initWithCore:[OTPTokenBridge tokenWithURL:url]];
+    return [[self alloc] initWithCore:[OTPToken tokenWithURL:url]];
 }
 
 + (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret
 {
-    return [[OTPToken alloc] initWithCore:[OTPTokenBridge tokenWithURL:url secret:secret]];
+    return [[self alloc] initWithCore:[OTPToken tokenWithURL:url secret:secret]];
 }
 
 - (NSURL *)url { return self.core.url; }

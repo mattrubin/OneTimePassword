@@ -33,7 +33,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 static NSURL *kValidTokenURL;
 
 
-@interface OTPToken ()
+@interface OTPLegacyToken ()
 + (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary;
 @end
 
@@ -56,7 +56,7 @@ static NSURL *kValidTokenURL;
     NSData *urlData = [@"otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45" dataUsingEncoding:NSUTF8StringEncoding];
     NSData *keychainItemRef = [[NSData alloc] initWithBase64EncodedString:@"Z2VucAAAAAAAAAAQ" options:NSDataBase64DecodingIgnoreUnknownCharacters];
 
-    OTPToken *token = [OTPToken tokenWithKeychainDictionary:@{(__bridge id)kSecAttrGeneric: urlData,
+    OTPLegacyToken *token = [OTPLegacyToken tokenWithKeychainDictionary:@{(__bridge id)kSecAttrGeneric: urlData,
                                                               (__bridge id)kSecValueData: secret,
                                                               (__bridge id)kSecValuePersistentRef: keychainItemRef,
                                                               }];
@@ -76,7 +76,7 @@ static NSURL *kValidTokenURL;
 - (void)testTokenWithKeychainItemRef
 {
     // Create a token
-    OTPToken *token = [OTPToken tokenWithURL:kValidTokenURL];
+    OTPLegacyToken *token = [OTPLegacyToken tokenWithURL:kValidTokenURL];
 
     XCTAssertEqual(token.type, OTPTokenTypeTimer);
     XCTAssertEqualObjects(token.name, @"Léon");
@@ -98,7 +98,7 @@ static NSURL *kValidTokenURL;
     // Restore the token
     NSData *keychainItemRef = token.keychainItemRef;
 
-    OTPToken *secondToken = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
+    OTPLegacyToken *secondToken = [OTPLegacyToken tokenWithKeychainItemRef:keychainItemRef];
 
     XCTAssertEqual(secondToken.type, OTPTokenTypeTimer);
     XCTAssertEqualObjects(secondToken.name, @"Léon");
@@ -121,15 +121,15 @@ static NSURL *kValidTokenURL;
     XCTAssertNil(token.keychainItemRef);
 
     // Attempt to restore the deleted token
-    OTPToken *thirdToken = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
+    OTPLegacyToken *thirdToken = [OTPLegacyToken tokenWithKeychainItemRef:keychainItemRef];
     XCTAssertNil(thirdToken);
 
 }
 
 - (void)testDuplicateURLs
 {
-    OTPToken *token1 = [OTPToken tokenWithURL:kValidTokenURL];
-    OTPToken *token2 = [OTPToken tokenWithURL:kValidTokenURL];
+    OTPLegacyToken *token1 = [OTPLegacyToken tokenWithURL:kValidTokenURL];
+    OTPLegacyToken *token2 = [OTPLegacyToken tokenWithURL:kValidTokenURL];
 
     XCTAssertFalse(token1.isInKeychain, @"Token should not be in keychain: %@", token1);
     XCTAssertFalse(token2.isInKeychain, @"Token should not be in keychain: %@", token2);

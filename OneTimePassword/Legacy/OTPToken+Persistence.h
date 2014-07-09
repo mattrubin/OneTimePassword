@@ -25,7 +25,7 @@
 #import "OTPToken.h"
 
 
-@interface OTPToken (Persistence)
+@interface OTPLegacyToken (Persistence)
 
 + (instancetype)tokenWithKeychainItemRef:(NSData *)keychainItemRef;
 + (NSArray *)allTokensInKeychain;

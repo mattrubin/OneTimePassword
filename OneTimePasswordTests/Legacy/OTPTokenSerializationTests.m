@@ -23,7 +23,7 @@
 //
 
 @import XCTest;
-#import <OneTimePassword/OTPToken.h>
+@import OneTimePassword;
 #import <Base32/MF_Base32Additions.h>
 
 
