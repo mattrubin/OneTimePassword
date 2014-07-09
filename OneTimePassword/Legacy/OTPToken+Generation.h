@@ -24,6 +24,8 @@
 
 #import "OTPToken.h"
 
+uint32_t hashAlgorithmForAlgorithm(OTPAlgorithm algorithm);
+NSString *passwordForToken(NSData *secret, uint32_t algorithm, NSUInteger digits, uint64_t counter);
 
 @interface OTPToken (Generation)
 

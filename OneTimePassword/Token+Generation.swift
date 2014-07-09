@@ -9,5 +9,10 @@
 import Foundation
 
 extension Token {
+    func passwordForCounter(counter: UInt64) -> String?
+    {
+        if !self.isValid() { return nil }
+        return passwordForToken(self.secret, hashAlgorithmForAlgorithm(self.algorithm), self.digits, counter)
+    }
 
 }

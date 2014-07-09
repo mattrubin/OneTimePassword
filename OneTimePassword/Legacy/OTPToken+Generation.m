@@ -25,6 +25,7 @@
 #import "OTPToken+Generation.h"
 #import "OTPToken+Persistence.h"
 #import <CommonCrypto/CommonHMAC.h>
+#import <OneTimePassword/OneTimePassword-Swift.h>
 
 
 static NSUInteger kPinModTable[] = {
@@ -131,8 +132,7 @@ NSString *passwordForToken(NSData *secret, CCHmacAlgorithm algorithm, NSUInteger
 
 - (NSString *)generatePasswordForCounter:(uint64_t)counter
 {
-    if (![self validate]) return nil;
-    return passwordForToken(self.secret, hashAlgorithmForAlgorithm(self.algorithm), self.digits, counter);
+    return [self.core generatePasswordForCounter:counter];
 }
 
 @end

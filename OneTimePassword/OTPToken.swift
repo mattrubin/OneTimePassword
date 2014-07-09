@@ -34,6 +34,12 @@ class OTPTokenBridge: NSObject {
 
     var isValid: Bool { return token.isValid() }
 
+    // Generation
+
+    func generatePasswordForCounter(counter: UInt64) -> String? {
+        return token.passwordForCounter(counter)
+    }
+
     // Serialization
 
     class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> OTPTokenBridge? {
