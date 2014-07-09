@@ -26,9 +26,6 @@
 #import <OneTimePassword/OneTimePassword-Swift.h>
 
 
-static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTimerNotification";
-
-
 @interface OTPToken ()
 @property (nonatomic, strong) OTPTokenBridge *core;
 @end
@@ -51,11 +48,6 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
     self = [super init];
     if (self) {
         self.core = core;
-
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(updatePasswordIfNeeded)
-                                                     name:OTPTokenInternalTimerNotification
-                                                   object:nil];
     }
     return self;
 }
@@ -64,13 +56,6 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 {
     NSAssert(NO, @"Use -initWithType:secret:name:issuer:algorithm:digits:period:");
     return nil;
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:OTPTokenInternalTimerNotification
-                                                  object:nil];
 }
 
 - (NSString *)description
@@ -113,40 +98,6 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 #pragma mark - Validation
 
 - (BOOL)validate { return self.core.isValid; }
-
-
-#pragma mark - Timed update
-
-+ (void)load
-{
-    static NSTimer *sharedTimer = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedTimer = [NSTimer scheduledTimerWithTimeInterval:1
-                                                       target:self
-                                                     selector:@selector(updateAllTokens)
-                                                     userInfo:nil
-                                                      repeats:YES];
-        // Ensure this timer fires right at the beginning of every second
-        sharedTimer.fireDate = [NSDate dateWithTimeIntervalSince1970:floor(sharedTimer.fireDate.timeIntervalSince1970)+.01];
-    });
-}
-
-+ (void)updateAllTokens
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:OTPTokenInternalTimerNotification object:self];
-}
-
-- (void)updatePasswordIfNeeded
-{
-    if (self.type != OTPTokenTypeTimer) return;
-
-    NSTimeInterval allTime = [NSDate date].timeIntervalSince1970;
-    uint64_t newCount = (uint64_t)allTime / (uint64_t)self.period;
-    if (newCount > self.counter) {
-        self.counter = newCount;
-    }
-}
 
 
 #pragma mark - Core
