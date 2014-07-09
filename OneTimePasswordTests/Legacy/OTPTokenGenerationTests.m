@@ -24,6 +24,7 @@
 
 @import XCTest;
 @import OneTimePassword;
+#import "OTPTypeStrings.h"
 
 
 @interface OTPTokenGenerationTests : XCTestCase
@@ -37,13 +38,12 @@
 - (void)testHOTPRFCValues
 {
     NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];
-    OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeCounter
-                                              secret:secret
-                                                name:@""
-                                              issuer:@""
-                                           algorithm:OTPAlgorithmSHA1
-                                              digits:6
-                                              period:30];
+    OTPToken *token = [[OTPToken alloc] init];
+    token.type = OTPTokenTypeCounter;
+    token.secret = secret;
+    token.algorithm = OTPAlgorithmSHA1;
+    token.digits = 6;
+    token.counter = 0;
 
     XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The 0th OTP should be the expected string.");
     XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The generatePasswordForCounter: method should be idempotent.");
@@ -58,7 +58,6 @@
                                 @"399871",
                                 @"520489"];
 
-    token.counter = 0;
     for (NSString *expectedPassword in expectedValues) {
         [token updatePassword];
         XCTAssertEqualObjects(token.password, expectedPassword, @"The generator did not produce the expected OTP.");
@@ -69,9 +68,9 @@
 // https://tools.ietf.org/html/rfc6238#appendix-B
 - (void)testTOTPRFCValues
 {
-    NSDictionary *secretKeys = @{@(OTPAlgorithmSHA1):   @"12345678901234567890",
-                                 @(OTPAlgorithmSHA256): @"12345678901234567890123456789012",
-                                 @(OTPAlgorithmSHA512): @"1234567890123456789012345678901234567890123456789012345678901234"};
+    NSDictionary *secretKeys = @{kOTPAlgorithmSHA1:   @"12345678901234567890",
+                                 kOTPAlgorithmSHA256: @"12345678901234567890123456789012",
+                                 kOTPAlgorithmSHA512: @"1234567890123456789012345678901234567890123456789012345678901234"};
 
     NSArray *times = @[@59,
                        @1111111109,
@@ -80,23 +79,23 @@
                        @2000000000,
                        @20000000000];
 
-    NSDictionary *expectedValues = @{@(OTPAlgorithmSHA1):   @[@"94287082", @"07081804", @"14050471", @"89005924", @"69279037", @"65353130"],
-                                     @(OTPAlgorithmSHA256): @[@"46119246", @"68084774", @"67062674", @"91819424", @"90698825", @"77737706"],
-                                     @(OTPAlgorithmSHA512): @[@"90693936", @"25091201", @"99943326", @"93441116", @"38618901", @"47863826"]};
+    NSDictionary *expectedValues = @{kOTPAlgorithmSHA1:   @[@"94287082", @"07081804", @"14050471", @"89005924", @"69279037", @"65353130"],
+                                     kOTPAlgorithmSHA256: @[@"46119246", @"68084774", @"67062674", @"91819424", @"90698825", @"77737706"],
+                                     kOTPAlgorithmSHA512: @[@"90693936", @"25091201", @"99943326", @"93441116", @"38618901", @"47863826"]};
 
-    for (NSNumber *algorithmKey in secretKeys) {
+    for (NSString *algorithmKey in secretKeys) {
         NSData *secret = [secretKeys[algorithmKey] dataUsingEncoding:NSASCIIStringEncoding];
-        OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeTimer
-                                                  secret:secret
-                                                    name:@""
-                                                  issuer:@""
-                                               algorithm:[algorithmKey integerValue]
-                                                  digits:8
-                                                  period:30];
+        OTPToken *token = [[OTPToken alloc] init];
+        token.type = OTPTokenTypeTimer;
+        token.secret = secret;
+        token.algorithm = [algorithmKey algorithmValue];
+        token.digits = 8;
+        token.period = 30;
 
         for (NSUInteger i = 0; i < times.count; i++) {
             NSString *password = expectedValues[algorithmKey][i];
-            XCTAssertEqualObjects([token generatePasswordForCounter:([times[i] doubleValue] / token.period)], password, @"The generator did not produce the expected OTP.");
+            token.counter = (uint64_t)([times[i] doubleValue] / token.period);
+            XCTAssertEqualObjects([token generatePasswordForCounter:token.counter], password, @"The generator did not produce the expected OTP.");
         }
     }
 }
@@ -109,9 +108,9 @@
 
     NSTimeInterval intervals[] = { 1111111111, 1234567890, 2000000000 };
 
-    NSArray *algorithms = @[@(OTPAlgorithmSHA1),
-                            @(OTPAlgorithmSHA256),
-                            @(OTPAlgorithmSHA512),
+    NSArray *algorithms = @[kOTPAlgorithmSHA1,
+                            kOTPAlgorithmSHA256,
+                            kOTPAlgorithmSHA512,
                             ];
     NSArray *results = @[// SHA1      SHA256     SHA512
                          @"050471", @"584430", @"380122", // date1
@@ -120,17 +119,17 @@
                          ];
 
     for (unsigned int i = 0, j = 0; i < sizeof(intervals)/sizeof(*intervals); i++) {
-        for (NSNumber *algorithmKey in algorithms) {
-            OTPToken *token = [[OTPToken alloc] initWithType:OTPTokenTypeTimer
-                                                      secret:secret
-                                                        name:@""
-                                                      issuer:@""
-                                                   algorithm:[algorithmKey integerValue]
-                                                      digits:6
-                                                      period:30];
+        for (NSString *algorithmKey in algorithms) {
+            OTPToken *token = [[OTPToken alloc] init];
+            token.type = OTPTokenTypeTimer;
+            token.secret = secret;
+            token.algorithm = [algorithmKey algorithmValue];
+            token.digits = 6;
+            token.period = 30;
+            token.counter = (uint64_t)(intervals[i] / token.period);
 
             XCTAssertEqualObjects([results objectAtIndex:j],
-                                  [token generatePasswordForCounter:(intervals[i] / token.period)],
+                                  [token generatePasswordForCounter:token.counter],
                                   @"Invalid result %d, %@, %f", i, algorithmKey, intervals[i]);
             j++;
         }
