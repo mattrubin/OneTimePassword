@@ -15,15 +15,10 @@ class TokenGenerationTests: XCTestCase {
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)
-        let token = OTPToken()
-        token.type = .Counter
-        token.secret = secret
-        token.algorithm = .SHA1
-        token.digits = 6
-        token.counter = 0
+        var token = Token(type: .Counter, secret: secret, algorithm: .SHA1, digits: 6, counter: 0)
 
-        XCTAssertEqualObjects("755224", token.generatePasswordForCounter(0), "The 0th OTP should be the expected string.")
-        XCTAssertEqualObjects("755224", token.generatePasswordForCounter(0), "The generatePasswordForCounter: method should be idempotent.")
+        XCTAssertEqualObjects("755224", token.passwordForCounter(0), "The 0th OTP should be the expected string.")
+        XCTAssertEqualObjects("755224", token.passwordForCounter(0), "The generatePasswordForCounter: method should be idempotent.")
 
         let expectedValues = [
             "287082",
@@ -38,7 +33,7 @@ class TokenGenerationTests: XCTestCase {
         ]
 
         for expectedPassword: String in expectedValues {
-            token.updatePassword()
+            token = token.updatedToken()
             XCTAssertEqualObjects(token.password(), expectedPassword, "The generator did not produce the expected OTP.")
         }
     }
@@ -69,17 +64,12 @@ class TokenGenerationTests: XCTestCase {
 
         for (algorithm, secretKey) in secretKeys {
             let secret = secretKey.dataUsingEncoding(NSASCIIStringEncoding)
-            let token = OTPToken()
-            token.type = .Timer
-            token.secret = secret
-            token.algorithm = algorithm
-            token.digits = 8
-            token.period = 30
+            let token = Token(type: .Timer, secret: secret, algorithm: algorithm, digits: 8, period: 30)
 
             for (var i = 0; i < times.count; i++) {
                 if let password = expectedValues[algorithm]?[i] {
-                    token.counter = UInt64(times[i] / token.period)
-                    XCTAssertEqualObjects(token.generatePasswordForCounter(token.counter), password, "The generator did not produce the expected OTP.")
+                    let counter = UInt64(times[i] / token.period)
+                    XCTAssertEqualObjects(token.passwordForCounter(counter), password, "The generator did not produce the expected OTP.")
                 }
             }
         }
@@ -101,16 +91,11 @@ class TokenGenerationTests: XCTestCase {
 
         for (var i = 0, j = 0; i < intervals.count; i++) {
             for algorithm in algorithms {
-                let token = OTPToken()
-                token.type = .Timer
-                token.secret = secret
-                token.algorithm = algorithm
-                token.digits = 6
-                token.period = 30
-                token.counter = UInt64(intervals[i] / token.period)
+                let token = Token(type: .Timer, secret: secret, algorithm: algorithm, digits: 6, period: 30)
+                let counter = UInt64(intervals[i] / token.period)
                 
                 XCTAssertEqualObjects(results[j],
-                                      token.generatePasswordForCounter(token.counter),
+                                      token.passwordForCounter(counter),
                                       "Invalid result \(i), \(algorithm), \(intervals[i])")
                 j++
             }
