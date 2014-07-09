@@ -15,7 +15,7 @@ let kQueryPeriodKey = "period"
 let kQueryIssuerKey = "issuer"
 
 extension Token {
-    class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> Token? {
+    class func tokenWithURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
         if (url.scheme != kOTPAuthScheme) { return nil }
 
         var queryDictionary = Dictionary<String, String>()
@@ -27,21 +27,19 @@ extension Token {
             }
         }
 
-        var type = TokenType.Timer
-        if let typeFromURL = TokenType.fromRaw(url.host) {
-            type = typeFromURL
-        } else {
-            return nil
+        var type: TokenType?
+        if let host = url.host {
+            type = TokenType.fromRaw(host)
         }
+        if !type { return nil } // A token type is required
 
-        var secretForToken = NSData()
-        if let secret = secret {
-            secretForToken = secret
-        } else {
+        var secret = externalSecret
+        if !secret {
             if let secretString = queryDictionary[kQuerySecretKey] {
-                secretForToken = NSData(base32String:secretString)
+                secret = NSData(base32String:secretString)
             }
         }
+        if !secret { return nil } // A secret is required
 
         var name = ""
         if let path = url.path {
@@ -54,9 +52,9 @@ extension Token {
         if let issuerString = queryDictionary[kQueryIssuerKey] {
             issuer = issuerString
             // If the name is prefixed by the issuer string, trim the name
-            let prefixRange = name.rangeOfString(issuerString)
+            let prefixRange = name.rangeOfString(issuer)
             if (prefixRange.startIndex == issuer.startIndex) && (name[prefixRange.endIndex] == ":") {
-                name = name.substringFromIndex(issuerString.utf16count + 1).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                name = name.substringFromIndex(issuer.utf16count + 1).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             }
         } else {
             // If there is no issuer string, try to extract one from the name
@@ -64,7 +62,6 @@ extension Token {
             if components.count > 1 {
                 issuer = components[0]
                 name = name.substringFromIndex(issuer.utf16count + 1).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-
             }
         }
 
@@ -73,7 +70,7 @@ extension Token {
             if let algorithmFromURL = Algorithm.fromRaw(algorithmString) {
                 algorithm = algorithmFromURL
             } else {
-                return nil
+                return nil // Parsed an unknown algorithm string
             }
         }
 
@@ -87,7 +84,7 @@ extension Token {
             period = NSTimeInterval(periodInt)
         }
 
-        let token = Token(type:type, secret:secretForToken, name:name, issuer:issuer, algorithm:algorithm, digits:digits, period:period)
+        let token = Token(type:type!, secret:secret!, name:name, issuer:issuer, algorithm:algorithm, digits:digits, period:period)
 
         if let counterString = queryDictionary[kQueryCounterKey] {
             errno = 0
