@@ -68,6 +68,24 @@
 - (void)setCounter:(uint64_t)counter { self.core.counter = counter; }
 
 
+#pragma mark - Generation
+
+- (NSString *)password
+{
+    return self.core.password;
+}
+
+- (void)updatePassword
+{
+    [self.core updatePassword];
+}
+
+- (NSString *)generatePasswordForCounter:(uint64_t)counter
+{
+    return [self.core generatePasswordForCounter:counter];
+}
+
+
 #pragma mark - Serialization
 
 + (instancetype)tokenWithURL:(NSURL *)url

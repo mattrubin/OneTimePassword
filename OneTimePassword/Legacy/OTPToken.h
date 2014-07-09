@@ -45,6 +45,10 @@
 
 - (BOOL)validate;
 
+// Generation
+@property (nonatomic, readonly) NSString *password;
+- (void)updatePassword;
+
 // Serialization
 + (instancetype)tokenWithURL:(NSURL *)url;
 + (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret;

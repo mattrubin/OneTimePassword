@@ -92,26 +92,3 @@ NSString *passwordForToken(NSData *secret, CCHmacAlgorithm algorithm, NSUInteger
 
     return [NSString stringWithFormat:@"%0*ld", (int)digits, pinValue];
 }
-
-
-@implementation OTPToken (Generation)
-
-- (NSString *)password
-{
-    return self.core.password;
-}
-
-- (void)updatePassword
-{
-    [self.core updatePassword];
-}
-
-
-#pragma mark - Generator
-
-- (NSString *)generatePasswordForCounter:(uint64_t)counter
-{
-    return [self.core generatePasswordForCounter:counter];
-}
-
-@end

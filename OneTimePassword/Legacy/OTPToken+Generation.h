@@ -26,11 +26,3 @@
 
 uint32_t hashAlgorithmForAlgorithm(OTPAlgorithm algorithm);
 NSString *passwordForToken(NSData *secret, uint32_t algorithm, NSUInteger digits, uint64_t counter);
-
-@interface OTPToken (Generation)
-
-@property (nonatomic, readonly) NSString *password;
-
-- (void)updatePassword;
-
-@end
