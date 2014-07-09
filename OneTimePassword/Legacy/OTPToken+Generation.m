@@ -103,13 +103,7 @@ NSString *passwordForToken(NSData *secret, CCHmacAlgorithm algorithm, NSUInteger
 
 - (void)updatePassword
 {
-    if (self.type == OTPTokenTypeCounter) {
-        self.counter++;
-        if (self.isInKeychain)
-            [self saveToKeychain];
-    } else if (self.type == OTPTokenTypeTimer) {
-        self.counter = (uint64_t)([NSDate date].timeIntervalSince1970 / self.period);
-    }
+    [self.core updatePassword];
 }
 
 

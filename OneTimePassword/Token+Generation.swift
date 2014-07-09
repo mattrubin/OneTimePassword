@@ -21,6 +21,15 @@ extension Token {
         return self.passwordForCounter(self.counter)
     }
 
+    func updatePassword() {
+        if (self.type == .Counter) {
+            self.counter++;
+            // TODO: save updated token to keychain
+        } else if (self.type == .Timer) {
+            self.counter = UInt64(NSDate().timeIntervalSince1970 / self.period);
+        }
+    }
+
     func passwordForCounter(counter: UInt64) -> String? {
         if !self.isValid() { return nil }
         return passwordForToken(self.secret, hashAlgorithmForAlgorithm(self.algorithm), self.digits, counter)

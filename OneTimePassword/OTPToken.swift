@@ -38,7 +38,8 @@ class OTPTokenBridge: NSObject {
     // Generation
 
     func password() -> String? { return token.password() }
-    
+    func updatePassword() { token.updatePassword() }
+
     func generatePasswordForCounter(counter: UInt64) -> String? {
         return token.passwordForCounter(counter)
     }
