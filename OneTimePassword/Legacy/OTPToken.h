@@ -31,7 +31,6 @@
 - (instancetype)init DEPRECATED_MSG_ATTRIBUTE("Use -initWithType:secret:name:issuer:algorithm:digits:period:");
 - (instancetype)initWithCore:(OTPTokenBridge *)core;
 - (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits period:(NSTimeInterval)period;
-+ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer;
 
 @property (nonatomic, readonly) OTPTokenBridge *core;
 

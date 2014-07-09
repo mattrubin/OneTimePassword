@@ -64,18 +64,6 @@
             self.class, self, self.type, self.name, self.algorithm, (unsigned long)self.digits];
 }
 
-+ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer
-{
-    OTPToken *token = [[OTPToken alloc] initWithType:type
-                                              secret:secret
-                                                name:name
-                                              issuer:issuer
-                                           algorithm:[OTPToken defaultAlgorithm]
-                                              digits:[OTPToken defaultDigits]
-                                              period:[OTPToken defaultPeriod]];
-    return token;
-}
-
 
 #pragma mark - Defaults
 
