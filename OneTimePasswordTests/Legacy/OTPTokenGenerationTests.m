@@ -26,11 +26,6 @@
 @import OneTimePassword;
 
 
-@interface OTPToken ()
-- (NSString *)generatePasswordForCounter:(uint64_t)counter;
-@end
-
-
 @interface OTPTokenGenerationTests : XCTestCase
 @end
 

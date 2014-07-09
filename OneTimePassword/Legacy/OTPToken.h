@@ -28,12 +28,6 @@
 
 @interface OTPLegacyToken : NSObject
 
-- (instancetype)init DEPRECATED_MSG_ATTRIBUTE("Use -initWithType:secret:name:issuer:algorithm:digits:period:");
-- (instancetype)initWithCore:(OTPToken *)core;
-- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits period:(NSTimeInterval)period;
-
-@property (nonatomic, strong) OTPToken *core;
-
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *issuer;
 @property (nonatomic, readonly) OTPTokenType type;
@@ -42,12 +36,6 @@
 @property (nonatomic, readonly) NSUInteger digits;
 @property (nonatomic, readonly) NSTimeInterval period;
 @property (nonatomic) uint64_t counter;
-
-- (BOOL)validate;
-
-// Generation
-@property (nonatomic, readonly) NSString *password;
-- (void)updatePassword;
 
 // Serialization
 + (instancetype)tokenWithURL:(NSURL *)url;

@@ -25,15 +25,12 @@
 #import "OTPToken.h"
 #import <OneTimePassword/OneTimePassword-Swift.h>
 
-@implementation OTPLegacyToken
 
-- (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits period:(NSTimeInterval)period
-{
-    NSAssert(secret != nil, @"Token secret must be non-nil");
-    NSAssert(name != nil, @"Token name must be non-nil");
-    NSAssert(issuer != nil, @"Token issuer must be non-nil");
-    return [self initWithCore:[[OTPToken alloc] initWithType:type secret:secret name:name issuer:issuer algorithm:algorithm digits:digits period:period]];
-}
+@interface OTPLegacyToken ()
+@property (nonatomic, strong) OTPToken *core;
+@end
+
+@implementation OTPLegacyToken
 
 - (instancetype)initWithCore:(OTPToken *)core
 {
@@ -46,15 +43,7 @@
     return self;
 }
 
-- (id)init
-{
-    NSAssert(NO, @"Use -initWithType:secret:name:issuer:algorithm:digits:period:");
-    return nil;
-}
-
-
 - (NSString *)description { return self.core.description; }
-- (BOOL)validate { return [self.core validate]; }
 
 - (NSString *)name { return self.core.name; }
 - (NSString *)issuer { return self.core.issuer; }
@@ -63,27 +52,7 @@
 - (OTPAlgorithm)algorithm { return self.core.algorithm; }
 - (NSUInteger)digits { return self.core.digits; }
 - (NSTimeInterval)period { return self.core.period; }
-
 - (uint64_t)counter { return self.core.counter; }
-- (void)setCounter:(uint64_t)counter { self.core.counter = counter; }
-
-
-#pragma mark - Generation
-
-- (NSString *)password
-{
-    return self.core.password;
-}
-
-- (void)updatePassword
-{
-    [self.core updatePassword];
-}
-
-- (NSString *)generatePasswordForCounter:(uint64_t)counter
-{
-    return [self.core generatePasswordForCounter:counter];
-}
 
 
 #pragma mark - Serialization
