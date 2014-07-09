@@ -9,6 +9,7 @@
 import Foundation
 
 extension Token {
+    // TODO: KVO on password
     func password() -> String? {
         if (self.type == TokenType.Timer) {
             let newCounter = UInt64(NSDate().timeIntervalSince1970 / self.period)

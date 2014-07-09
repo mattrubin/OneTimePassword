@@ -96,14 +96,6 @@ NSString *passwordForToken(NSData *secret, CCHmacAlgorithm algorithm, NSUInteger
 
 @implementation OTPToken (Generation)
 
-+ (NSSet *)keyPathsForValuesAffectingPassword
-{
-    return [NSSet setWithArray:@[@"secret",
-                                 @"algorithm",
-                                 @"digits",
-                                 @"counter"]];
-}
-
 - (NSString *)password
 {
     return self.core.password;
