@@ -25,12 +25,6 @@
 #import "OTPToken.h"
 #import <OneTimePassword/OneTimePassword-Swift.h>
 
-
-@interface OTPToken ()
-@property (nonatomic, strong) OTPTokenBridge *core;
-@end
-
-
 @implementation OTPToken
 
 - (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits period:(NSTimeInterval)period
@@ -58,18 +52,9 @@
     return nil;
 }
 
-- (NSString *)description
-{
-    return self.core.description;
-}
 
-
-#pragma mark - Validation
-
+- (NSString *)description { return self.core.description; }
 - (BOOL)validate { return self.core.isValid; }
-
-
-#pragma mark - Core
 
 - (NSString *)name { return self.core.name; }
 - (NSString *)issuer { return self.core.issuer; }

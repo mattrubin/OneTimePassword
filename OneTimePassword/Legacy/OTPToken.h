@@ -32,7 +32,7 @@
 - (instancetype)initWithCore:(OTPTokenBridge *)core;
 - (instancetype)initWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer algorithm:(OTPAlgorithm)algorithm digits:(NSUInteger)digits period:(NSTimeInterval)period;
 
-@property (nonatomic, readonly) OTPTokenBridge *core;
+@property (nonatomic, strong) OTPTokenBridge *core;
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *issuer;
@@ -40,14 +40,9 @@
 @property (nonatomic, readonly) NSData *secret;
 @property (nonatomic, readonly) OTPAlgorithm algorithm;
 @property (nonatomic, readonly) NSUInteger digits;
-
-// HOTP
+@property (nonatomic, readonly) NSTimeInterval period;
 @property (nonatomic) uint64_t counter;
 
-// TOTP
-@property (nonatomic, readonly) NSTimeInterval period;
-
-// Validation
 - (BOOL)validate;
 
 @end
