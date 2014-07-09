@@ -30,7 +30,7 @@
 
 + (instancetype)tokenWithURL:(NSURL *)url
 {
-    return [self tokenWithURL:url secret:nil];
+    return [[OTPToken alloc] initWithCore:[OTPTokenBridge tokenWithURL:url]];
 }
 
 + (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret

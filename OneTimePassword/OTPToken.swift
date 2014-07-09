@@ -45,8 +45,14 @@ class OTPTokenBridge: NSObject {
 
     // Serialization
 
-    class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> OTPTokenBridge? {
+    class func tokenWithURL(url: NSURL) -> OTPTokenBridge? {
+        if let token = Token.tokenWithURL(url) {
+            return OTPTokenBridge(token: token)
+        }
+        return nil
+    }
 
+    class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> OTPTokenBridge? {
         if let token = Token.tokenWithURL(url, secret: secret) {
             return OTPTokenBridge(token: token)
         }
