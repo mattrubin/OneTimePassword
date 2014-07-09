@@ -84,15 +84,16 @@ extension Token {
             period = NSTimeInterval(periodInt)
         }
 
-        let token = Token(type:type!, secret:secret!, name:name, issuer:issuer, algorithm:algorithm, digits:digits, period:period)
-
+        var counter: UInt64 = 1
         if let counterString = queryDictionary[kQueryCounterKey] {
             errno = 0
             let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
             if errno == 0 {
-                token.counter = counterValue
+                counter = counterValue
             }
         }
+
+        let token = Token(type:type!, secret:secret!, name:name, issuer:issuer, algorithm:algorithm, digits:digits, period:period, counter:counter)
 
         if token.isValid() {
             return token

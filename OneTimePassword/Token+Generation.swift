@@ -11,22 +11,20 @@ import Foundation
 extension Token {
     // TODO: KVO on password
     func password() -> String? {
+        var newCounter = counter
         if (self.type == TokenType.Timer) {
-            let newCounter = UInt64(NSDate().timeIntervalSince1970 / self.period)
-            if (self.counter != newCounter) {
-                self.counter = newCounter
-            }
+            newCounter = UInt64(NSDate().timeIntervalSince1970 / self.period)
         }
 
-        return self.passwordForCounter(self.counter)
+        return self.passwordForCounter(newCounter)
     }
 
-    func updatePassword() {
-        if (self.type == .Counter) {
-            self.counter++;
-            // TODO: save updated token to keychain
-        } else if (self.type == .Timer) {
-            self.counter = UInt64(NSDate().timeIntervalSince1970 / self.period);
+    func updatedToken() -> Token {
+        switch type {
+        case .Counter:
+            return Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: digits, period: period, counter: counter + 1)
+        case .Timer:
+            return self
         }
     }
 

@@ -9,7 +9,7 @@
 import Foundation
 
 class OTPToken: NSObject {
-    let token: Token
+    var token: Token
 
     init(token: Token) {
         self.token = token
@@ -29,7 +29,7 @@ class OTPToken: NSObject {
 
     var counter: UInt64 {
     get { return token.counter }
-    set { token.counter = newValue }
+    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: digits, period: period, counter: newValue) }
     }
 
     func validate() -> Bool { return token.isValid() }
@@ -38,7 +38,7 @@ class OTPToken: NSObject {
     // Generation
 
     func password() -> String? { return token.password() }
-    func updatePassword() { token.updatePassword() }
+    func updatePassword() { token = token.updatedToken() }
 
     func generatePasswordForCounter(counter: UInt64) -> String? {
         return token.passwordForCounter(counter)

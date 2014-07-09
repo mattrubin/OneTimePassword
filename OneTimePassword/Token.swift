@@ -14,9 +14,9 @@ class Token {
     let algorithm: Algorithm
     let digits: Int
     let period: NSTimeInterval
-    var counter: UInt64 = 1
+    let counter: UInt64
 
-    init(type: TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Algorithm = .SHA1, digits: Int = 6, period: NSTimeInterval = 30) {
+    init(type: TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Algorithm = .SHA1, digits: Int = 6, period: NSTimeInterval = 30, counter: UInt64 = 1) {
         self.type = type
         self.secret = secret
         self.name = name
@@ -24,6 +24,7 @@ class Token {
         self.algorithm = algorithm
         self.digits = digits
         self.period = period
+        self.counter = counter
     }
 
     func isValid() -> Bool {
