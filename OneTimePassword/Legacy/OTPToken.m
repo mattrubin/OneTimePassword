@@ -67,4 +67,19 @@
 - (uint64_t)counter { return self.core.counter; }
 - (void)setCounter:(uint64_t)counter { self.core.counter = counter; }
 
+
+#pragma mark - Serialization
+
++ (instancetype)tokenWithURL:(NSURL *)url
+{
+    return [[OTPToken alloc] initWithCore:[OTPTokenBridge tokenWithURL:url]];
+}
+
++ (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret
+{
+    return [[OTPToken alloc] initWithCore:[OTPTokenBridge tokenWithURL:url secret:secret]];
+}
+
+- (NSURL *)url { return self.core.url; }
+
 @end

@@ -23,7 +23,6 @@
 //
 
 #import "OTPToken+Persistence.h"
-#import "OTPToken+Serialization.h"
 @import ObjectiveC.runtime;
 
 

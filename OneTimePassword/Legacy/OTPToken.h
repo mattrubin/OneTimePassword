@@ -45,4 +45,9 @@
 
 - (BOOL)validate;
 
+// Serialization
++ (instancetype)tokenWithURL:(NSURL *)url;
++ (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret;
+- (NSURL *)url;
+
 @end
