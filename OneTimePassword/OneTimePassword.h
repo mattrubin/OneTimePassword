@@ -19,5 +19,4 @@ FOUNDATION_EXPORT const unsigned char OneTimePasswordVersionString[];
 #import <OneTimePassword/OTPToken+Serialization.h>
 #import <OneTimePassword/OTPToken+Persistence.h>
 #import <OneTimePassword/OTPToken+Generation.h>
-#import <OneTimePassword/OTPTokenType.h>
-#import <OneTimePassword/OTPAlgorithm.h>
+#import <OneTimePassword/OTPTypes.h>

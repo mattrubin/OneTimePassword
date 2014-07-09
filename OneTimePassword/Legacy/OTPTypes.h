@@ -1,5 +1,5 @@
 //
-//  OTPAlgorithm.h
+//  OTPTypes.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -24,7 +24,12 @@
 
 @import Foundation;
 
-typedef NS_ENUM(UInt8, OTPAlgorithm) {
+typedef NS_ENUM(char, OTPTokenType) {
+    OTPTokenTypeCounter,
+    OTPTokenTypeTimer,
+};
+
+typedef NS_ENUM(char, OTPAlgorithm) {
     OTPAlgorithmSHA1,
     OTPAlgorithmSHA256,
     OTPAlgorithmSHA512,

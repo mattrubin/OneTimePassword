@@ -24,8 +24,7 @@
 
 @import Foundation;
 @class OTPTokenBridge;
-#import "OTPTokenType.h"
-#import "OTPAlgorithm.h"
+#import "OTPTypes.h"
 
 @interface OTPToken : NSObject
 
