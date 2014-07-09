@@ -10,15 +10,14 @@ import XCTest
 import OneTimePassword
 
 class TokenGenerationTests: XCTestCase {
-
     // The values in this test are found in Appendix D of the HOTP RFC
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)
-        var token = Token(type: .Counter, secret: secret, algorithm: .SHA1, digits: 6, counter: 0)
+        var token = Token(type: .Counter, secret: secret, algorithm: .SHA1, digits: 6)
 
         XCTAssertEqualObjects("755224", token.passwordForCounter(0), "The 0th OTP should be the expected string.")
-        XCTAssertEqualObjects("755224", token.passwordForCounter(0), "The generatePasswordForCounter: method should be idempotent.")
+        XCTAssertEqualObjects("755224", token.passwordForCounter(0), "The passwordForCounter(counter:) function should be idempotent.")
 
         let expectedValues = [
             "287082",
@@ -33,8 +32,8 @@ class TokenGenerationTests: XCTestCase {
         ]
 
         for expectedPassword: String in expectedValues {
-            token = token.updatedToken()
             XCTAssertEqualObjects(token.password(), expectedPassword, "The generator did not produce the expected OTP.")
+            token = token.updatedToken()
         }
     }
 
@@ -42,9 +41,9 @@ class TokenGenerationTests: XCTestCase {
     // https://tools.ietf.org/html/rfc6238#appendix-B
     func testTOTPRFCValues() {
         let secretKeys = [
-            OTPAlgorithm.SHA1:   "12345678901234567890",
-            OTPAlgorithm.SHA256: "12345678901234567890123456789012",
-            OTPAlgorithm.SHA512: "1234567890123456789012345678901234567890123456789012345678901234",
+            Token.Algorithm.SHA1:   "12345678901234567890",
+            Token.Algorithm.SHA256: "12345678901234567890123456789012",
+            Token.Algorithm.SHA512: "1234567890123456789012345678901234567890123456789012345678901234",
         ]
 
         let times: Array<NSTimeInterval> = [
@@ -57,9 +56,9 @@ class TokenGenerationTests: XCTestCase {
         ]
 
         let expectedValues = [
-            OTPAlgorithm.SHA1:   ["94287082", "07081804", "14050471", "89005924", "69279037", "65353130"],
-            OTPAlgorithm.SHA256: ["46119246", "68084774", "67062674", "91819424", "90698825", "77737706"],
-            OTPAlgorithm.SHA512: ["90693936", "25091201", "99943326", "93441116", "38618901", "47863826"],
+            Token.Algorithm.SHA1:   ["94287082", "07081804", "14050471", "89005924", "69279037", "65353130"],
+            Token.Algorithm.SHA256: ["46119246", "68084774", "67062674", "91819424", "90698825", "77737706"],
+            Token.Algorithm.SHA512: ["90693936", "25091201", "99943326", "93441116", "38618901", "47863826"],
         ]
 
         for (algorithm, secretKey) in secretKeys {
@@ -69,7 +68,7 @@ class TokenGenerationTests: XCTestCase {
             for (var i = 0; i < times.count; i++) {
                 if let password = expectedValues[algorithm]?[i] {
                     let counter = UInt64(times[i] / token.period)
-                    XCTAssertEqualObjects(token.passwordForCounter(counter), password, "The generator did not produce the expected OTP.")
+                    XCTAssertEqualObjects(token.passwordForCounter(counter), password, "Incorrect result for \(algorithm) at \(times[i])")
                 }
             }
         }
@@ -79,25 +78,20 @@ class TokenGenerationTests: XCTestCase {
     // https://code.google.com/p/google-authenticator/source/browse/mobile/ios/Classes/TOTPGeneratorTest.m
     func testTOTPGoogleValues() {
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)
-        let intervals: Array<NSTimeInterval> = [1111111111, 1234567890, 2000000000]
-        let algorithms = [OTPAlgorithm.SHA1, OTPAlgorithm.SHA256, OTPAlgorithm.SHA512]
+        let times = [1111111111, 1234567890, 2000000000]
 
-        let results = [
-            // SHA1    SHA256    SHA512
-            "050471", "584430", "380122", // date1
-            "005924", "829826", "671578", // date2
-            "279037", "428693", "464532", // date3
+        let expectedValues = [
+            Token.Algorithm.SHA1:   ["050471", "005924", "279037"],
+            Token.Algorithm.SHA256: ["584430", "829826", "428693"],
+            Token.Algorithm.SHA512: ["380122", "671578", "464532"],
         ]
 
-        for (var i = 0, j = 0; i < intervals.count; i++) {
-            for algorithm in algorithms {
-                let token = Token(type: .Timer, secret: secret, algorithm: algorithm, digits: 6, period: 30)
-                let counter = UInt64(intervals[i] / token.period)
-                
-                XCTAssertEqualObjects(results[j],
-                                      token.passwordForCounter(counter),
-                                      "Invalid result \(i), \(algorithm), \(intervals[i])")
-                j++
+        for (algorithm, values) in expectedValues {
+            let token = Token(type: .Timer, secret: secret, algorithm: algorithm, digits: 6, period: 30)
+            for (var i = 0; i < times.count; i++) {
+                let counter = UInt64(NSTimeInterval(times[i]) / token.period)
+                XCTAssertEqualObjects(values[i], token.passwordForCounter(counter),
+                                      "Incorrect result for \(algorithm) at \(times[i])")
             }
         }
     }
