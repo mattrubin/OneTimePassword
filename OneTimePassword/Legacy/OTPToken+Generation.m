@@ -106,14 +106,7 @@ NSString *passwordForToken(NSData *secret, CCHmacAlgorithm algorithm, NSUInteger
 
 - (NSString *)password
 {
-    if (self.type == OTPTokenTypeTimer) {
-        uint64_t newCounter = (uint64_t)([NSDate date].timeIntervalSince1970 / self.period);
-        if (self.counter != newCounter) {
-            self.counter = newCounter;
-        }
-    }
-
-    return [self generatePasswordForCounter:self.counter];
+    return self.core.password;
 }
 
 - (void)updatePassword
