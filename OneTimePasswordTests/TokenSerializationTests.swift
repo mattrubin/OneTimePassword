@@ -1,5 +1,5 @@
 //
-//  OTPTokenSerializationTests.swift
+//  TokenSerializationTests.swift
 //  OneTimePassword
 //
 //  Created by Matt Rubin on 6/10/14.
@@ -24,7 +24,7 @@ let periods: NSTimeInterval[] = [0, 1, 30];
 let counters: UInt64[] = [0, 1, 18_446_744_073_709_551_615];
 
 
-class OTPTokenSerializationTests: XCTestCase {
+class TokenSerializationTests: XCTestCase {
 
     func testSerialization() {
         for type in types {
