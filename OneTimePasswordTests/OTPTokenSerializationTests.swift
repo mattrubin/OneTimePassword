@@ -9,16 +9,16 @@
 import XCTest
 import OneTimePassword
 
-/*
+
 let kOTPScheme = "otpauth";
 let kOTPTokenTypeCounterHost = "hotp";
 let kOTPTokenTypeTimerHost   = "totp";
 
-let types: OTPToken.TokenType[] = [.Counter, .Timer];
+let types: Token.TokenType[] = [.Counter, .Timer];
 let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""];
 let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""];
 let secretStrings = ["12345678901234567890", "12345678901234567890123456789012", "1234567890123456789012345678901234567890123456789012345678901234", ""];
-let algorithms: OTPToken.Algorithm[] = [.SHA1, .SHA256, .SHA512];
+let algorithms: Token.Algorithm[] = [.SHA1, .SHA256, .SHA512];
 let digits = [6, 7, 8];
 let periods: NSTimeInterval[] = [0, 1, 30];
 let counters: UInt64[] = [0, 1, 18_446_744_073_709_551_615];
@@ -36,12 +36,10 @@ class OTPTokenSerializationTests: XCTestCase {
                                 for period in periods {
                                     for counter in counters {
                                         // Create the token
-                                        let token = OTPToken(type: type, secret:secretString.dataUsingEncoding(NSASCIIStringEncoding), name:name, issuer:issuer, algorithm:algorithm, digits:digitNumber)
-                                        token.period = period;
-                                        token.counter = counter;
+                                        let token = Token(type: type, secret:secretString.dataUsingEncoding(NSASCIIStringEncoding), name:name, issuer:issuer, algorithm:algorithm, digits:digitNumber, period: period, counter: counter)
 
                                         // Serialize
-                                        let url = token.url;
+                                        let url = token.url();
 
                                         // Test scheme
                                         XCTAssertEqualObjects(url.scheme, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"");
@@ -70,7 +68,7 @@ class OTPTokenSerializationTests: XCTestCase {
 
                                         // Test period
                                         if type == .Timer {
-                                            XCTAssertEqualObjects(queryArguments["period"], String(period), "The period value should be \"\(period)\"");
+                                            XCTAssertEqualObjects(queryArguments["period"], String(Int(period)), "The period value should be \"\(period)\"");
                                         } else {
                                             XCTAssertNil(queryArguments["period"], "The url query string should not contain the period");
                                         }
@@ -85,7 +83,7 @@ class OTPTokenSerializationTests: XCTestCase {
                                         XCTAssertEqualObjects(queryArguments["issuer"], issuer, "The issuer value should be \"\(issuer)\"");
 
                                         // Check url again
-                                        let checkURL = token.url;
+                                        let checkURL = token.url();
                                         XCTAssertEqualObjects(url, checkURL, "Repeated calls to url() should return the same result!");
                                     }
                                 }
@@ -98,4 +96,3 @@ class OTPTokenSerializationTests: XCTestCase {
     }
 
 }
-*/
