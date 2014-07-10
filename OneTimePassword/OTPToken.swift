@@ -10,6 +10,7 @@ import Foundation
 
 class OTPToken: NSObject {
     var token: Token
+    var keychainItem: Token.KeychainItem?
 
     @required init(token: Token) {
         self.token = token
@@ -72,18 +73,18 @@ class OTPToken: NSObject {
 
     func validate() -> Bool { return token.isValid }
     override var description: String { return token.description }
+}
 
-    // Generation
-
+extension OTPToken {
     func password() -> String? { return token.password() }
     func updatePassword() { token = token.updatedToken() }
 
     func generatePasswordForCounter(counter: UInt64) -> String? {
         return token.passwordForCounter(counter)
     }
+}
 
-    // Serialization
-
+extension OTPToken {
     class func tokenWithURL(url: NSURL) -> OTPToken? {
         if let token = Token.tokenWithURL(url) {
             return OTPToken(token: token)
@@ -99,10 +100,9 @@ class OTPToken: NSObject {
     }
 
     var url: NSURL { return token.url }
+}
 
-    // Persistence
-
-    var keychainItem: Token.KeychainItem?
+extension OTPToken {
     var keychainItemRef: NSData? {return self.keychainItem?.keychainItemRef }
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 
