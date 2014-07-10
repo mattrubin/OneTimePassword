@@ -25,6 +25,11 @@
 #import "OTPToken.h"
 
 
+NSData * addKeychainItemWithAttributes(NSDictionary *attributes);
+BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSDictionary *attributesToUpdate);
+BOOL deleteKeychainItemForPersistentRef(NSData *persistentRef);
+
+
 @interface OTPLegacyToken (Persistence)
 
 + (instancetype)tokenWithKeychainItemRef:(NSData *)keychainItemRef;

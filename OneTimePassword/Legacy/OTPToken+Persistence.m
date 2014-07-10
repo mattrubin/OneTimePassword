@@ -95,13 +95,12 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     NSMutableDictionary *attributes = [@{(__bridge id)kSecAttrGeneric: urlData} mutableCopy];
 
     if (self.isInKeychain) {
-        return [OTPLegacyToken updateKeychainItemForPersistentRef:self.keychainItemRef
-                                             withAttributes:attributes];
+        return updateKeychainItemForPersistentRefWithAttributes(self.keychainItemRef, attributes);
     } else {
         attributes[(__bridge id)kSecValueData] = self.secret;
         attributes[(__bridge id)kSecAttrService] = kOTPService;
 
-        NSData *persistentRef = [OTPLegacyToken addKeychainItemWithAttributes:attributes];
+        NSData *persistentRef = addKeychainItemWithAttributes(attributes);
 
         self.keychainItemRef = persistentRef;
         return !!persistentRef;
@@ -112,7 +111,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 {
     if (!self.isInKeychain) return NO;
 
-    BOOL success = [OTPLegacyToken deleteKeychainItemForPersistentRef:self.keychainItemRef];
+    BOOL success = deleteKeychainItemForPersistentRef(self.keychainItemRef);
 
     if (success) {
         [self setKeychainItemRef:nil];
@@ -157,7 +156,10 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     return (resultCode == errSecSuccess) ? (__bridge NSArray *)(result) : nil;
 }
 
-+ (NSData *)addKeychainItemWithAttributes:(NSDictionary *)attributes
+@end
+
+
+NSData * addKeychainItemWithAttributes(NSDictionary *attributes)
 {
     NSMutableDictionary *mutableAttributes = [attributes mutableCopy];
     mutableAttributes[(__bridge __strong id)kSecClass] = (__bridge id)kSecClassGenericPassword;
@@ -174,7 +176,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     return (resultCode == errSecSuccess) ? (__bridge NSData *)(result) : nil;
 }
 
-+ (BOOL)updateKeychainItemForPersistentRef:(NSData *)persistentRef withAttributes:(NSDictionary *)attributesToUpdate
+BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSDictionary *attributesToUpdate)
 {
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecValuePersistentRef: persistentRef,
@@ -186,7 +188,8 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     return (resultCode == errSecSuccess);
 }
 
-+ (BOOL)deleteKeychainItemForPersistentRef:(NSData *)persistentRef
+
+BOOL deleteKeychainItemForPersistentRef(NSData *persistentRef)
 {
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecValuePersistentRef: persistentRef,
@@ -196,5 +199,3 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
     return (resultCode == errSecSuccess);
 }
-
-@end
