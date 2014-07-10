@@ -85,7 +85,11 @@ class OTPToken: NSObject {
 
     // Persistence
 
-    var keychainItemRef: NSData?
+    var keychainWrapper: Token.KeychainWrapper?
+    var keychainItemRef: NSData? { // TODO: make this readonly
+    get { return self.keychainWrapper?.keychainItemRef }
+    set { self.keychainWrapper = Token.KeychainWrapper(token: self.token, keychainItemRef: newValue) }
+    }
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 }
 

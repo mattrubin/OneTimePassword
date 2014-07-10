@@ -30,6 +30,7 @@
 		C9DC7EC4196BD5DF00B50C82 /* Token+Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */; };
 		C9DC7EC8196BDF3B00B50C82 /* Token+Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Token+Generation.swift */; };
 		C9DC7ECD196C4D3D00B50C82 /* OTPToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */; };
+		C9F5981B196E3E48002E4D0E /* Token+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F5981A196E3E48002E4D0E /* Token+Persistence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+Serialization.swift"; sourceTree = "<group>"; };
 		C9DC7EC7196BDF3B00B50C82 /* Token+Generation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+Generation.swift"; sourceTree = "<group>"; };
 		C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPToken.swift; sourceTree = "<group>"; };
+		C9F5981A196E3E48002E4D0E /* Token+Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+Persistence.swift"; sourceTree = "<group>"; };
 		CA0307BA64104BFF93EB7509 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,6 +161,7 @@
 				C93A2519196B1BA400F86892 /* Token.swift */,
 				C9DC7EC7196BDF3B00B50C82 /* Token+Generation.swift */,
 				C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */,
+				C9F5981A196E3E48002E4D0E /* Token+Persistence.swift */,
 				C93A24F1196AF8E900F86892 /* Legacy */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
 			);
@@ -357,6 +360,7 @@
 				C93A251A196B1BA400F86892 /* Token.swift in Sources */,
 				C9DC7EC8196BDF3B00B50C82 /* Token+Generation.swift in Sources */,
 				C9DC7ECD196C4D3D00B50C82 /* OTPToken.swift in Sources */,
+				C9F5981B196E3E48002E4D0E /* Token+Persistence.swift in Sources */,
 				C93A2507196AF8E900F86892 /* OTPToken.m in Sources */,
 				C93A2501196AF8E900F86892 /* OTPGenerator.m in Sources */,
 				C93A2503196AF8E900F86892 /* OTPToken+Persistence.m in Sources */,
