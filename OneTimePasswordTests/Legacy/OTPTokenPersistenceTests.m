@@ -130,16 +130,27 @@ static NSURL *kValidTokenURL;
     XCTAssertFalse(token2.isInKeychain, @"Token should not be in keychain: %@", token2);
 
     XCTAssertTrue([token1 saveToKeychain], @"Failed to save to keychain: %@", token1);
+
+    XCTAssertTrue(token1.isInKeychain, @"Token should be in keychain: %@", token1);
+    XCTAssertFalse(token2.isInKeychain, @"Token should not be in keychain: %@", token2);
+
     XCTAssertTrue([token2 saveToKeychain], @"Failed to save to keychain: %@", token2);
 
     XCTAssertTrue(token1.isInKeychain, @"Token should be in keychain: %@", token1);
     XCTAssertTrue(token2.isInKeychain, @"Token should be in keychain: %@", token2);
 
     XCTAssertTrue([token1 removeFromKeychain], @"Failed to remove from keychain: %@", token1);
+
+    XCTAssertFalse(token1.isInKeychain, @"Token should not be in keychain: %@", token1);
+    XCTAssertTrue(token2.isInKeychain, @"Token should be in keychain: %@", token2);
+
     XCTAssertTrue([token2 removeFromKeychain], @"Failed to remove from keychain: %@", token2);
 
     XCTAssertFalse(token1.isInKeychain, @"Token should not be in keychain: %@", token1);
     XCTAssertFalse(token2.isInKeychain, @"Token should not be in keychain: %@", token2);
+
+    XCTAssertFalse([token1 removeFromKeychain], @"Removing again should fail: %@", token1);
+    XCTAssertFalse([token2 removeFromKeychain], @"Removing again should fail: %@", token2);
 }
 
 @end
