@@ -15,6 +15,24 @@ let kQueryPeriodKey = "period"
 let kQueryIssuerKey = "issuer"
 
 extension Token {
+    var url: NSURL {
+        let urlComponents = NSURLComponents()
+        urlComponents.scheme = kOTPAuthScheme
+        urlComponents.host = type.toRaw()
+        urlComponents.path = "/" + name
+
+        urlComponents.queryItems = [
+            NSURLQueryItem(name:kQueryAlgorithmKey, value:algorithm.toRaw()),
+            NSURLQueryItem(name:kQueryDigitsKey, value:String(digits)),
+            NSURLQueryItem(name:kQueryIssuerKey, value:issuer),
+            (type == TokenType.Timer
+                ? NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period)))
+                : NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
+        ]
+
+        return urlComponents.URL
+    }
+
     static func tokenWithURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
         if (url.scheme != kOTPAuthScheme) { return nil }
 
@@ -100,23 +118,5 @@ extension Token {
         } else {
             return nil
         }
-    }
-
-    var url: NSURL {
-        let urlComponents = NSURLComponents()
-        urlComponents.scheme = kOTPAuthScheme
-        urlComponents.host = type.toRaw()
-        urlComponents.path = "/" + name
-
-        urlComponents.queryItems = [
-            NSURLQueryItem(name:kQueryAlgorithmKey, value:algorithm.toRaw()),
-            NSURLQueryItem(name:kQueryDigitsKey, value:String(digits)),
-            NSURLQueryItem(name:kQueryIssuerKey, value:issuer),
-            (type == TokenType.Timer
-                ? NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period)))
-                : NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
-        ]
-        
-        return urlComponents.URL
     }
 }
