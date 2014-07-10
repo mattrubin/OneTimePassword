@@ -16,6 +16,13 @@ extension Token {
             self.keychainItemRef = keychainItemRef
         }
 
+        class func wrapperForToken(token: Token) -> KeychainWrapper? {
+            if let persistentRef = addKeychainItemWithURLAndSecret(token.url(), token.secret) {
+                return Token.KeychainWrapper(token: token, keychainItemRef: persistentRef)
+            }
+            return nil
+        }
+
         func removeFromKeychain() -> Bool {
             if (!self.keychainItemRef) { return false }
 
