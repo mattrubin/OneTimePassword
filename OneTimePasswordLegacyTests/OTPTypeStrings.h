@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-@import OneTimePassword.OTPTypes;
+@import OneTimePasswordLegacy;
 
 
 #pragma mark - OTPTokenType

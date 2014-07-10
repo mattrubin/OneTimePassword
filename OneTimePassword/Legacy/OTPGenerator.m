@@ -38,14 +38,14 @@ static NSUInteger kPinModTable[] = {
     100000000,
 };
 
-CCHmacAlgorithm hashAlgorithmForAlgorithm(OTPAlgorithm algorithm)
+CCHmacAlgorithm hashAlgorithmForAlgorithm(OTPGeneratorAlgorithm algorithm)
 {
     switch (algorithm) {
-        case OTPAlgorithmSHA1:
+        case OTPGeneratorAlgorithmSHA1:
             return kCCHmacAlgSHA1;
-        case OTPAlgorithmSHA256:
+        case OTPGeneratorAlgorithmSHA256:
             return kCCHmacAlgSHA256;
-        case OTPAlgorithmSHA512:
+        case OTPGeneratorAlgorithmSHA512:
             return kCCHmacAlgSHA512;
     }
 }
@@ -64,7 +64,7 @@ NSUInteger digestLengthForAlgorithm(CCHmacAlgorithm algorithm)
     }
 }
 
-NSString *passwordForToken(NSData *secret, OTPAlgorithm otpAlgorithm, NSUInteger digits, uint64_t counter)
+NSString *passwordForToken(NSData *secret, OTPGeneratorAlgorithm otpAlgorithm, NSUInteger digits, uint64_t counter)
 {
     // Ensure the counter value is big-endian
     counter = NSSwapHostLongLongToBig(counter);

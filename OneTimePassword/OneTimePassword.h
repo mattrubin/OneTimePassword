@@ -15,4 +15,3 @@ FOUNDATION_EXPORT double OneTimePasswordVersionNumber;
 FOUNDATION_EXPORT const unsigned char OneTimePasswordVersionString[];
 
 // All the public headers
-#import <OneTimePassword/OTPTypes.h>

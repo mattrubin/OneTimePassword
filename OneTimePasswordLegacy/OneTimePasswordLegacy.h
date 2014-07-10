@@ -15,5 +15,4 @@ FOUNDATION_EXPORT double OneTimePasswordLegacyVersionNumber;
 FOUNDATION_EXPORT const unsigned char OneTimePasswordLegacyVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <OneTimePasswordLegacy/PublicHeader.h>
-
-
+#import <OneTimePasswordLegacy/OTPTypes.h>

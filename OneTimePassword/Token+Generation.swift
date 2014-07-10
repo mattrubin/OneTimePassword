@@ -27,11 +27,11 @@ extension Token {
 
     func passwordForCounter(counter: UInt64) -> String? {
         if !self.isValid { return nil }
-        return passwordForToken(self.secret, otpAlgorithmForTokenAlgorithm(self.algorithm), self.digits, counter)
+        return passwordForToken(self.secret, generatorAlgorithmForTokenAlgorithm(self.algorithm), self.digits, counter)
     }
 }
 
-func otpAlgorithmForTokenAlgorithm(algorithm: Token.Algorithm) -> OTPAlgorithm {
+func generatorAlgorithmForTokenAlgorithm(algorithm: Token.Algorithm) -> OTPGeneratorAlgorithm {
     switch algorithm {
     case .SHA1:   return .SHA1
     case .SHA256: return .SHA256

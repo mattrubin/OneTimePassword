@@ -25,7 +25,6 @@
 @import XCTest;
 @import Security.SecItem;
 @import OneTimePasswordLegacy;
-@import OneTimePassword.OTPTypes;
 
 
 static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,

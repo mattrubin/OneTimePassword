@@ -22,6 +22,12 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPTypes.h"
+@import Foundation;
 
-NSString *passwordForToken(NSData *secret, OTPAlgorithm algorithm, NSUInteger digits, uint64_t counter);
+typedef NS_ENUM(unsigned char, OTPGeneratorAlgorithm) {
+    OTPGeneratorAlgorithmSHA1,
+    OTPGeneratorAlgorithmSHA256,
+    OTPGeneratorAlgorithmSHA512,
+};
+
+NSString *passwordForToken(NSData *secret, OTPGeneratorAlgorithm algorithm, NSUInteger digits, uint64_t counter);
