@@ -153,13 +153,13 @@ static NSURL *kValidTokenURL;
     XCTAssertFalse([token2 removeFromKeychain], @"Removing again should fail: %@", token2);
 }
 
-- (OTPLegacyToken *)_tokenFromArray:(NSArray *)tokens withKeychainItemRef:(NSData *)keychainItemRef
+- (OTPToken *)_tokenFromArray:(NSArray *)tokens withKeychainItemRef:(NSData *)keychainItemRef
 {
     XCTAssertNotNil(tokens, @"Can't find a token in a nil array.");
     XCTAssertNotNil(keychainItemRef, @"Can't find a token with a nil keychain ref.");
 
-    OTPLegacyToken *foundToken = nil;
-    for (OTPLegacyToken *token in tokens) {
+    OTPToken *foundToken = nil;
+    for (OTPToken *token in tokens) {
         if (!foundToken) {
             if ([token.keychainItemRef isEqualToData:keychainItemRef]) {
                 foundToken = token;
@@ -173,15 +173,15 @@ static NSURL *kValidTokenURL;
 
 - (void)testAllTokensInKeychain
 {
-    OTPLegacyToken *token1 = [OTPLegacyToken tokenWithURL:kValidTokenURL];
-    OTPLegacyToken *token2 = [OTPLegacyToken tokenWithURL:kValidTokenURL];
-    OTPLegacyToken *token3 = [OTPLegacyToken tokenWithURL:kValidTokenURL];
+    OTPToken *token1 = [OTPToken tokenWithURL:kValidTokenURL];
+    OTPToken *token2 = [OTPToken tokenWithURL:kValidTokenURL];
+    OTPToken *token3 = [OTPToken tokenWithURL:kValidTokenURL];
 
     [token1 saveToKeychain];
     [token2 saveToKeychain];
     [token3 saveToKeychain];
 
-    NSArray *tokens = [OTPLegacyToken allTokensInKeychain];
+    NSArray *tokens = [OTPToken allTokensInKeychain];
 
     XCTAssertNotNil([self _tokenFromArray:tokens withKeychainItemRef:token1.keychainItemRef], @"Token not recovered from keychain: %@", token1);
     XCTAssertNotNil([self _tokenFromArray:tokens withKeychainItemRef:token2.keychainItemRef], @"Token not recovered from keychain: %@", token2);
