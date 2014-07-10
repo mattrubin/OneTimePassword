@@ -147,18 +147,6 @@
 			path = Legacy;
 			sourceTree = "<group>";
 		};
-		C93A2512196AFE1100F86892 /* Legacy */ = {
-			isa = PBXGroup;
-			children = (
-				C93A2513196AFE1100F86892 /* OTPTokenGenerationTests.m */,
-				C93A2514196AFE1100F86892 /* OTPTokenPersistenceTests.m */,
-				C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */,
-				C9C9FE23196D176300C7ACEE /* Helpers */,
-			);
-			name = Legacy;
-			path = ../OneTimePasswordTests/Legacy;
-			sourceTree = "<group>";
-		};
 		C97C822E1946E51D00FD9F4C = {
 			isa = PBXGroup;
 			children = (
@@ -244,7 +232,10 @@
 		C9A486B7196F352F00524F51 /* OneTimePasswordLegacyTests */ = {
 			isa = PBXGroup;
 			children = (
-				C93A2512196AFE1100F86892 /* Legacy */,
+				C93A2513196AFE1100F86892 /* OTPTokenGenerationTests.m */,
+				C93A2514196AFE1100F86892 /* OTPTokenPersistenceTests.m */,
+				C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */,
+				C9C9FE23196D176300C7ACEE /* Helpers */,
 				C9A486B8196F352F00524F51 /* Supporting Files */,
 			);
 			path = OneTimePasswordLegacyTests;
@@ -798,6 +789,7 @@
 				C9A486BD196F352F00524F51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C9A486C1196F352F00524F51 /* Build configuration list for PBXNativeTarget "OneTimePasswordLegacyTests" */ = {
 			isa = XCConfigurationList;
@@ -806,6 +798,7 @@
 				C9A486BF196F352F00524F51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
