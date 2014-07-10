@@ -64,15 +64,11 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     return [[self alloc] initWithCore:[OTPToken tokenWithURL:url secret:secret keychainItemRef:keychainItemRef]];
 }
 
+
 + (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary
 {
-    NSData *urlData = keychainDictionary[(__bridge id)kSecAttrGeneric];
-    NSData *secretData = keychainDictionary[(__bridge id)kSecValueData];
-    NSString *urlString = [[NSString alloc] initWithData:urlData
-                                                encoding:NSUTF8StringEncoding];
-    NSURL *url = [NSURL URLWithString:urlString];
-    OTPLegacyToken *token = [self tokenWithURL:url secret:secretData
-                               keychainItemRef:keychainDictionary[(__bridge id)(kSecValuePersistentRef)]];
+    TokenKeychainTuple *tuple = tupleWithKeychainDictionary(keychainDictionary);
+    OTPLegacyToken *token = [self tokenWithURL:tuple.url secret:tuple.secret keychainItemRef:tuple.keychainItemRef];
     return token;
 }
 
@@ -137,6 +133,22 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 }
 
 @end
+
+
+@implementation TokenKeychainTuple
+@end
+
+TokenKeychainTuple * tupleWithKeychainDictionary(NSDictionary *keychainDictionary)
+{
+    TokenKeychainTuple *tuple = [TokenKeychainTuple new];
+    NSData *urlData = keychainDictionary[(__bridge id)kSecAttrGeneric];
+    NSString *urlString = [[NSString alloc] initWithData:urlData
+                                                encoding:NSUTF8StringEncoding];
+    tuple.url = [NSURL URLWithString:urlString];
+    tuple.secret = keychainDictionary[(__bridge id)kSecValueData];
+    tuple.keychainItemRef = keychainDictionary[(__bridge id)(kSecValuePersistentRef)];
+    return tuple;
+}
 
 
 NSData * addKeychainItemWithURLAndSecret(NSURL *url, NSData *secret)

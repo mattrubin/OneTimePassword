@@ -33,6 +33,15 @@ NSData * addKeychainItemWithURLAndSecret(NSURL *url, NSData *secret);
 BOOL updateKeychainItemForPersistentRefWithURL(NSData *persistentRef, NSURL *url);
 
 
+@interface TokenKeychainTuple: NSObject
+@property NSURL *url;
+@property NSData *secret;
+@property NSData *keychainItemRef;
+@end
+
+TokenKeychainTuple * tupleWithKeychainDictionary(NSDictionary *keychainDictionary);
+
+
 @interface OTPLegacyToken (Persistence)
 
 + (instancetype)tokenWithKeychainItemRef:(NSData *)keychainItemRef;
