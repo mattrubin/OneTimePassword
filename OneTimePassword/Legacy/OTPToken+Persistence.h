@@ -29,6 +29,9 @@ NSData * addKeychainItemWithAttributes(NSDictionary *attributes);
 BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSDictionary *attributesToUpdate);
 BOOL deleteKeychainItemForPersistentRef(NSData *persistentRef);
 
+NSData * addKeychainItemWithURLAndSecret(NSURL *url, NSData *secret);
+BOOL updateKeychainItemForPersistentRefWithURL(NSData *persistentRef, NSURL *url);
+
 
 @interface OTPLegacyToken (Persistence)
 

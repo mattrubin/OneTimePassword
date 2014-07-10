@@ -92,6 +92,16 @@ class OTPToken: NSObject {
     }
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 
+    func saveToKeychain() -> Bool {
+        if (self.isInKeychain) {
+            return updateKeychainItemForPersistentRefWithURL(self.keychainItemRef, self.url);
+        } else {
+            let persistentRef = addKeychainItemWithURLAndSecret(self.url, self.secret);
+            self.keychainItemRef = persistentRef;
+            return (persistentRef != nil);
+        }
+    }
+    
     func removeFromKeychain() -> Bool {
         if let wrapper = self.keychainWrapper {
             return wrapper.removeFromKeychain()

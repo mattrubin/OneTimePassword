@@ -90,21 +90,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 - (BOOL)saveToKeychain
 {
-    NSData *urlData = [self.url.absoluteString dataUsingEncoding:NSUTF8StringEncoding];
-
-    NSMutableDictionary *attributes = [@{(__bridge id)kSecAttrGeneric: urlData} mutableCopy];
-
-    if (self.isInKeychain) {
-        return updateKeychainItemForPersistentRefWithAttributes(self.keychainItemRef, attributes);
-    } else {
-        attributes[(__bridge id)kSecValueData] = self.secret;
-        attributes[(__bridge id)kSecAttrService] = kOTPService;
-
-        NSData *persistentRef = addKeychainItemWithAttributes(attributes);
-
-        self.keychainItemRef = persistentRef;
-        return !!persistentRef;
-    }
+    return [self.core saveToKeychain];
 }
 
 - (BOOL)removeFromKeychain
@@ -152,6 +138,15 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 @end
 
 
+NSData * addKeychainItemWithURLAndSecret(NSURL *url, NSData *secret)
+{
+    NSDictionary *attributes = @{(__bridge id)kSecAttrGeneric: [url.absoluteString dataUsingEncoding:NSUTF8StringEncoding],
+                                 (__bridge id)kSecValueData: secret,
+                                 (__bridge id)kSecAttrService: kOTPService};
+
+    return addKeychainItemWithAttributes(attributes);
+}
+
 NSData * addKeychainItemWithAttributes(NSDictionary *attributes)
 {
     NSMutableDictionary *mutableAttributes = [attributes mutableCopy];
@@ -167,6 +162,13 @@ NSData * addKeychainItemWithAttributes(NSDictionary *attributes)
                                      &result);
 
     return (resultCode == errSecSuccess) ? (__bridge NSData *)(result) : nil;
+}
+
+BOOL updateKeychainItemForPersistentRefWithURL(NSData *persistentRef, NSURL *url)
+{
+    NSData *urlData = [url.absoluteString dataUsingEncoding:NSUTF8StringEncoding];
+    NSMutableDictionary *attributes = [@{(__bridge id)kSecAttrGeneric: urlData} mutableCopy];
+    return updateKeychainItemForPersistentRefWithAttributes(persistentRef, attributes);
 }
 
 BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSDictionary *attributesToUpdate)
