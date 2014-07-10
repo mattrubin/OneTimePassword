@@ -9,9 +9,7 @@
 /* Begin PBXBuildFile section */
 		B6C6D5560BC6437A8E4F8580 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 560131D4F5D140EA8458D149 /* libPods.a */; };
 		C9290C301947D104008AE4DE /* TokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */; };
-		C93A2500196AF8E900F86892 /* OTPGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24F4196AF8E900F86892 /* OTPGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C93A2501196AF8E900F86892 /* OTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A24F5196AF8E900F86892 /* OTPGenerator.m */; };
-		C93A2502196AF8E900F86892 /* OTPPersistence.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24F6196AF8E900F86892 /* OTPPersistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C93A2503196AF8E900F86892 /* OTPPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A24F7196AF8E900F86892 /* OTPPersistence.m */; };
 		C93A2508196AF8E900F86892 /* OTPTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24FC196AF8E900F86892 /* OTPTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C93A2516196AFE1100F86892 /* OTPTokenGenerationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A2513196AFE1100F86892 /* OTPTokenGenerationTests.m */; };
@@ -211,9 +209,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C93A2502196AF8E900F86892 /* OTPPersistence.h in Headers */,
 				C97C823E1946E51D00FD9F4C /* OneTimePassword.h in Headers */,
-				C93A2500196AF8E900F86892 /* OTPGenerator.h in Headers */,
 				C93A2508196AF8E900F86892 /* OTPTypes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
