@@ -33,11 +33,6 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 static NSURL *kValidTokenURL;
 
 
-@interface OTPLegacyToken ()
-+ (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary;
-@end
-
-
 @interface OTPTokenPersistenceTests : XCTestCase
 
 @end
@@ -56,7 +51,7 @@ static NSURL *kValidTokenURL;
     NSData *urlData = [@"otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45" dataUsingEncoding:NSUTF8StringEncoding];
     NSData *keychainItemRef = [[NSData alloc] initWithBase64EncodedString:@"Z2VucAAAAAAAAAAQ" options:NSDataBase64DecodingIgnoreUnknownCharacters];
 
-    OTPLegacyToken *token = [OTPLegacyToken tokenWithKeychainDictionary:@{(__bridge id)kSecAttrGeneric: urlData,
+    OTPToken *token = [OTPToken tokenWithKeychainDictionary:@{(__bridge id)kSecAttrGeneric: urlData,
                                                               (__bridge id)kSecValueData: secret,
                                                               (__bridge id)kSecValuePersistentRef: keychainItemRef,
                                                               }];

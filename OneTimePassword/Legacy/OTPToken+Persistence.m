@@ -42,7 +42,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     OTPLegacyToken *token = nil;
     NSDictionary *result = [self keychainItemForPersistentRef:keychainItemRef];
     if (result) {
-        token = [self tokenWithKeychainDictionary:result];
+        token = [[self alloc] initWithCore:[OTPToken tokenWithKeychainDictionary:result]];
     }
     return token;
 }
@@ -52,16 +52,11 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     NSArray *keychainItems = [self allKeychainItems];
     NSMutableArray *tokens = [NSMutableArray array];
     for (NSDictionary *keychainDict in keychainItems) {
-        OTPLegacyToken *token = [self tokenWithKeychainDictionary:keychainDict];
+        OTPLegacyToken *token = [[self alloc] initWithCore:[OTPToken tokenWithKeychainDictionary:keychainDict]];
         if (token)
             [tokens addObject:token];
     }
     return tokens;
-}
-
-+ (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary
-{
-    return [[self alloc] initWithCore:[OTPToken tokenWithKeychainDictionary:keychainDictionary]];
 }
 
 
