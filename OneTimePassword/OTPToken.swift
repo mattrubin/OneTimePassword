@@ -86,10 +86,7 @@ class OTPToken: NSObject {
     // Persistence
 
     var keychainWrapper: Token.KeychainWrapper?
-    var keychainItemRef: NSData? { // TODO: make this readonly
-    get { return self.keychainWrapper?.keychainItemRef }
-    set { self.keychainWrapper = Token.KeychainWrapper(token: self.token, keychainItemRef: newValue) }
-    }
+    var keychainItemRef: NSData? {return self.keychainWrapper?.keychainItemRef }
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 
     func saveToKeychain() -> Bool {
@@ -97,7 +94,7 @@ class OTPToken: NSObject {
             return updateKeychainItemForPersistentRefWithURL(self.keychainItemRef, self.url);
         } else {
             let persistentRef = addKeychainItemWithURLAndSecret(self.url, self.secret);
-            self.keychainItemRef = persistentRef;
+            self.keychainWrapper = Token.KeychainWrapper(token: self.token, keychainItemRef: persistentRef)
             return (persistentRef != nil);
         }
     }
@@ -113,7 +110,7 @@ class OTPToken: NSObject {
     class func tokenWithURL(url: NSURL, secret: NSData?, keychainItemRef: NSData?) -> OTPToken? {
         if let token = Token.tokenWithURL(url, secret: secret) {
             let otp = OTPToken(token: token)
-            otp.keychainItemRef = keychainItemRef
+            otp.keychainWrapper = Token.KeychainWrapper(token: otp.token, keychainItemRef: keychainItemRef)
             return otp
         }
         return nil
