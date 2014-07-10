@@ -68,3 +68,13 @@ func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     }
     return nil
 }
+
+func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token) -> Token.KeychainItem?
+{
+    var attributes = NSMutableDictionary()
+    attributes.setObject(token.url().absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
+    if updateKeychainItemForPersistentRefWithAttributes(keychainItem.keychainItemRef, attributes) {
+        return Token.KeychainItem(token: token, keychainItemRef: keychainItem.keychainItemRef)
+    }
+    return nil
+}

@@ -25,9 +25,6 @@
 #import "OTPPersistence.h"
 
 
-BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSDictionary *attributesToUpdate);
-
-
 NSDictionary * keychainItemForPersistentRef(NSData *persistentRef)
 {
     if (!persistentRef) return nil;
@@ -78,13 +75,6 @@ NSData * addKeychainItemWithAttributes(NSDictionary *attributes)
                                      &result);
 
     return (resultCode == errSecSuccess) ? (__bridge NSData *)(result) : nil;
-}
-
-BOOL updateKeychainItemForPersistentRefWithURL(NSData *persistentRef, NSURL *url)
-{
-    NSData *urlData = [url.absoluteString dataUsingEncoding:NSUTF8StringEncoding];
-    NSMutableDictionary *attributes = [@{(__bridge id)kSecAttrGeneric: urlData} mutableCopy];
-    return updateKeychainItemForPersistentRefWithAttributes(persistentRef, attributes);
 }
 
 BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSDictionary *attributesToUpdate)
