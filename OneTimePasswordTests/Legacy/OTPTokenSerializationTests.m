@@ -210,7 +210,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
                                 NSTimeInterval period;
                                 if ([periodNumber isEqual:kRandomKey]) {
-                                    period = arc4random();
+                                    period = (arc4random()%299 + 1);
                                 } else {
                                     period = [periodNumber doubleValue];
                                 }
