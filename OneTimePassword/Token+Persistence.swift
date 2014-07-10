@@ -11,7 +11,7 @@ extension Token {
         let token: Token
         var keychainItemRef: NSData? // TODO: make this a required constant
 
-        init(token: Token, keychainItemRef: NSData?) {
+        init(token: Token, keychainItemRef: NSData) {
             self.token = token
             self.keychainItemRef = keychainItemRef
         }
