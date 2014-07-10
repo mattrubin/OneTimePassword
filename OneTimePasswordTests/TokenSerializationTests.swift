@@ -9,22 +9,19 @@
 import XCTest
 import OneTimePassword
 
-
-let kOTPScheme = "otpauth";
-let kOTPTokenTypeCounterHost = "hotp";
-let kOTPTokenTypeTimerHost   = "totp";
-
-let types: Token.TokenType[] = [.Counter, .Timer];
-let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""];
-let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""];
-let secretStrings = ["12345678901234567890", "12345678901234567890123456789012", "1234567890123456789012345678901234567890123456789012345678901234", ""];
-let algorithms: Token.Algorithm[] = [.SHA1, .SHA256, .SHA512];
-let digits = [6, 7, 8];
-let periods: NSTimeInterval[] = [0, 1, 30];
-let counters: UInt64[] = [0, 1, 18_446_744_073_709_551_615];
-
-
 class TokenSerializationTests: XCTestCase {
+    let kOTPScheme = "otpauth";
+    let kOTPTokenTypeCounterHost = "hotp";
+    let kOTPTokenTypeTimerHost   = "totp";
+
+    let types: Token.TokenType[] = [.Counter, .Timer];
+    let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""];
+    let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""];
+    let secretStrings = ["12345678901234567890", "12345678901234567890123456789012", "1234567890123456789012345678901234567890123456789012345678901234", ""];
+    let algorithms: Token.Algorithm[] = [.SHA1, .SHA256, .SHA512];
+    let digits = [6, 7, 8];
+    let periods: NSTimeInterval[] = [0, 1, 30];
+    let counters: UInt64[] = [0, 1, UInt64.max];
 
     func testSerialization() {
         for type in types {
