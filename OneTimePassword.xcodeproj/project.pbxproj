@@ -690,6 +690,7 @@
 		};
 		C9A486BC196F352F00524F51 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -704,6 +705,7 @@
 		};
 		C9A486BD196F352F00524F51 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -718,6 +720,7 @@
 		};
 		C9A486BE196F352F00524F51 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -739,6 +742,7 @@
 		};
 		C9A486BF196F352F00524F51 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
