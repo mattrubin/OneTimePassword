@@ -109,14 +109,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 - (BOOL)removeFromKeychain
 {
-    if (!self.isInKeychain) return NO;
-
-    BOOL success = deleteKeychainItemForPersistentRef(self.keychainItemRef);
-
-    if (success) {
-        [self setKeychainItemRef:nil];
-    }
-    return success;
+    return [self.core removeFromKeychain];
 }
 
 

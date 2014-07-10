@@ -91,6 +91,13 @@ class OTPToken: NSObject {
     set { self.keychainWrapper = Token.KeychainWrapper(token: self.token, keychainItemRef: newValue) }
     }
     var isInKeychain: Bool { return (keychainItemRef != nil) }
+
+    func removeFromKeychain() -> Bool {
+        if let wrapper = self.keychainWrapper {
+            return wrapper.removeFromKeychain()
+        }
+        return false;
+    }
 }
 
 extension Token.TokenType {

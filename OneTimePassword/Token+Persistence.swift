@@ -7,8 +7,22 @@
 //
 
 extension Token {
-    struct KeychainWrapper {
+    class KeychainWrapper {
         let token: Token
-        let keychainItemRef: NSData? // TODO: make this a required constant
+        var keychainItemRef: NSData? // TODO: make this a required constant
+
+        init(token: Token, keychainItemRef: NSData?) {
+            self.token = token
+            self.keychainItemRef = keychainItemRef
+        }
+
+        func removeFromKeychain() -> Bool {
+            if (!self.keychainItemRef) { return false }
+
+            let success = deleteKeychainItemForPersistentRef(self.keychainItemRef)
+            if (success) { self.keychainItemRef = nil}
+
+            return success;
+        }
     }
 }
