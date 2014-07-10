@@ -30,6 +30,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 
 @interface OTPLegacyToken ()
+- (instancetype)initWithCore:(OTPToken *)core;
 @property (nonatomic, strong) OTPToken *core;
 @end
 
@@ -58,6 +59,11 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     return tokens;
 }
 
++ (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret keychainItemRef:(NSData *)keychainItemRef
+{
+    return [[self alloc] initWithCore:[OTPToken tokenWithURL:url secret:secret keychainItemRef:keychainItemRef]];
+}
+
 + (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary
 {
     NSData *urlData = keychainDictionary[(__bridge id)kSecAttrGeneric];
@@ -65,8 +71,8 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     NSString *urlString = [[NSString alloc] initWithData:urlData
                                                 encoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:urlString];
-    OTPLegacyToken *token = [self tokenWithURL:url secret:secretData];
-    token.keychainItemRef = keychainDictionary[(__bridge id)(kSecValuePersistentRef)];
+    OTPLegacyToken *token = [self tokenWithURL:url secret:secretData
+                               keychainItemRef:keychainDictionary[(__bridge id)(kSecValuePersistentRef)]];
     return token;
 }
 
@@ -76,11 +82,6 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 - (NSData *)keychainItemRef
 {
     return self.core.keychainItemRef;
-}
-
-- (void)setKeychainItemRef:(NSData *)keychainItemRef
-{
-    self.core.keychainItemRef = keychainItemRef;
 }
 
 - (BOOL)isInKeychain
