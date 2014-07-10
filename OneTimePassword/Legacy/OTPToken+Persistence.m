@@ -39,10 +39,10 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 + (NSArray *)allTokensInKeychain
 {
-    NSArray *keychainItems = allKeychainItems();
+    NSArray *cores = [OTPToken allTokensInKeychain];
     NSMutableArray *tokens = [NSMutableArray array];
-    for (NSDictionary *keychainDict in keychainItems) {
-        OTPLegacyToken *token = [[self alloc] initWithCore:[OTPToken tokenWithKeychainDictionary:keychainDict]];
+    for (OTPToken *core in cores) {
+        OTPLegacyToken *token = [[self alloc] initWithCore:core];
         if (token)
             [tokens addObject:token];
     }
