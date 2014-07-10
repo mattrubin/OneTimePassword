@@ -85,22 +85,22 @@ class OTPToken: NSObject {
 
     // Persistence
 
-    var keychainWrapper: Token.KeychainWrapper?
-    var keychainItemRef: NSData? {return self.keychainWrapper?.keychainItemRef }
+    var keychainItem: Token.KeychainItem?
+    var keychainItemRef: NSData? {return self.keychainItem?.keychainItemRef }
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 
     func saveToKeychain() -> Bool {
         if (self.isInKeychain) {
             return updateKeychainItemForPersistentRefWithURL(self.keychainItemRef, self.url);
         } else {
-            self.keychainWrapper = Token.KeychainWrapper.wrapperForToken(self.token)
-            return (self.keychainWrapper != nil);
+            self.keychainItem = Token.KeychainItem.keychainItemForToken(self.token)
+            return (self.keychainItem != nil);
         }
     }
     
     func removeFromKeychain() -> Bool {
-        if let success = self.keychainWrapper?.removeFromKeychain() {
-            self.keychainWrapper = nil
+        if let success = self.keychainItem?.removeFromKeychain() {
+            self.keychainItem = nil
             return true
         }
         return false
@@ -132,7 +132,7 @@ class OTPToken: NSObject {
         let tuple = tupleWithKeychainDictionary(keychainDictionary)
         if let token = Token.tokenWithURL(tuple.url, secret: tuple.secret) {
             let otp = OTPToken(token: token)
-            otp.keychainWrapper = Token.KeychainWrapper(token: otp.token, keychainItemRef: tuple.keychainItemRef)
+            otp.keychainItem = Token.KeychainItem(token: otp.token, keychainItemRef: tuple.keychainItemRef)
             return otp
         }
         return nil

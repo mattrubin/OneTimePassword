@@ -7,23 +7,18 @@
 //
 
 extension Token {
-    class KeychainWrapper {
+    struct KeychainItem {
         let token: Token
         let keychainItemRef: NSData
 
-        init(token: Token, keychainItemRef: NSData) {
-            self.token = token
-            self.keychainItemRef = keychainItemRef
-        }
-
-        class func wrapperForToken(token: Token) -> KeychainWrapper? {
+        static func keychainItemForToken(token: Token) -> KeychainItem? {
             if let persistentRef = addKeychainItemWithURLAndSecret(token.url(), token.secret) {
-                return Token.KeychainWrapper(token: token, keychainItemRef: persistentRef)
+                return KeychainItem(token: token, keychainItemRef: persistentRef)
             }
             return nil
         }
 
-        // After calling removeFromKeychain(), the KeychainWrapper's keychainItemRef is no longer valid, and the wrapper should be discarded
+        // After calling removeFromKeychain(), the KeychainItem's keychainItemRef is no longer valid, and the keychain item should be discarded
         func removeFromKeychain() -> Bool {
             return deleteKeychainItemForPersistentRef(self.keychainItemRef)
         }
