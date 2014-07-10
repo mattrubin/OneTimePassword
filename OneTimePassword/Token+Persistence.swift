@@ -6,13 +6,20 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
+let kOTPService = "me.mattrubin.authenticator.token"
+
 extension Token {
     struct KeychainItem {
         let token: Token
         let keychainItemRef: NSData
 
         static func keychainItemForToken(token: Token) -> KeychainItem? {
-            if let persistentRef = addKeychainItemWithURLAndSecret(token.url(), token.secret) {
+            var attributes = NSMutableDictionary()
+            attributes.setObject(token.url().absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
+            attributes.setObject(token.secret, forKey: _kSecValueData() as NSCopying)
+            attributes.setObject(kOTPService, forKey: _kSecAttrService() as NSCopying)
+
+            if let persistentRef = addKeychainItemWithAttributes(attributes) {
                 return KeychainItem(token: token, keychainItemRef: persistentRef)
             }
             return nil

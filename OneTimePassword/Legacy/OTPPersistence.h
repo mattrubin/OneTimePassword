@@ -24,7 +24,7 @@
 
 @import Foundation;
 
-NSData * addKeychainItemWithURLAndSecret(NSURL *url, NSData *secret);
+NSData * addKeychainItemWithAttributes(NSDictionary *attributes);
 BOOL updateKeychainItemForPersistentRefWithURL(NSData *persistentRef, NSURL *url);
 BOOL deleteKeychainItemForPersistentRef(NSData *persistentRef);
 

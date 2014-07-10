@@ -25,11 +25,7 @@
 #import "OTPPersistence.h"
 
 
-NSData * addKeychainItemWithAttributes(NSDictionary *attributes);
 BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSDictionary *attributesToUpdate);
-
-
-static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 
 NSDictionary * keychainItemForPersistentRef(NSData *persistentRef)
@@ -66,15 +62,6 @@ NSArray * _allKeychainItems()
     return (resultCode == errSecSuccess) ? (__bridge NSArray *)(result) : nil;
 }
 
-
-NSData * addKeychainItemWithURLAndSecret(NSURL *url, NSData *secret)
-{
-    NSDictionary *attributes = @{(__bridge id)kSecAttrGeneric: [url.absoluteString dataUsingEncoding:NSUTF8StringEncoding],
-                                 (__bridge id)kSecValueData: secret,
-                                 (__bridge id)kSecAttrService: kOTPService};
-
-    return addKeychainItemWithAttributes(attributes);
-}
 
 NSData * addKeychainItemWithAttributes(NSDictionary *attributes)
 {

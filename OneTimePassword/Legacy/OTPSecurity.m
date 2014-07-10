@@ -17,3 +17,6 @@ id _kSecValueData() {
 id _kSecValuePersistentRef() {
     return (__bridge id)(kSecValuePersistentRef);
 }
+id _kSecAttrService() {
+    return (__bridge id)(kSecAttrService);
+}
