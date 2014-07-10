@@ -76,7 +76,7 @@ class OTPToken: NSObject {
 }
 
 extension OTPToken {
-    func password() -> String? { return token.password() }
+    var password: String? { return token.password() }
     func updatePassword() { token = token.updatedToken() }
 
     func generatePasswordForCounter(counter: UInt64) -> String? {
