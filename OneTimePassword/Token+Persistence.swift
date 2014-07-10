@@ -13,18 +13,6 @@ extension Token {
         let token: Token
         let keychainItemRef: NSData
 
-        static func keychainItemForToken(token: Token) -> KeychainItem? {
-            var attributes = NSMutableDictionary()
-            attributes.setObject(token.url().absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
-            attributes.setObject(token.secret, forKey: _kSecValueData() as NSCopying)
-            attributes.setObject(kOTPService, forKey: _kSecAttrService() as NSCopying)
-
-            if let persistentRef = addKeychainItemWithAttributes(attributes) {
-                return KeychainItem(token: token, keychainItemRef: persistentRef)
-            }
-            return nil
-        }
-
         static func keychainItemWithKeychainItemRef(keychainItemRef: NSData) -> KeychainItem? {
             if let result = keychainItemForPersistentRef(keychainItemRef) {
                 return keychainItemWithDictionary(result)
@@ -67,4 +55,16 @@ extension Token {
             return deleteKeychainItemForPersistentRef(self.keychainItemRef)
         }
     }
+}
+
+func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
+    var attributes = NSMutableDictionary()
+    attributes.setObject(token.url().absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
+    attributes.setObject(token.secret, forKey: _kSecValueData() as NSCopying)
+    attributes.setObject(kOTPService, forKey: _kSecAttrService() as NSCopying)
+
+    if let persistentRef = addKeychainItemWithAttributes(attributes) {
+        return Token.KeychainItem(token: token, keychainItemRef: persistentRef)
+    }
+    return nil
 }

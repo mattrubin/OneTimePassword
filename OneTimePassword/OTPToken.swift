@@ -93,7 +93,7 @@ class OTPToken: NSObject {
         if let keychainRef = self.keychainItem?.keychainItemRef {
             return updateKeychainItemForPersistentRefWithURL(keychainRef, self.url)
         } else {
-            self.keychainItem = Token.KeychainItem.keychainItemForToken(self.token)
+            self.keychainItem = addTokenToKeychain(self.token)
             return (self.keychainItem != nil)
         }
     }
