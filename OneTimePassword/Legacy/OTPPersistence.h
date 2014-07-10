@@ -37,4 +37,4 @@ BOOL deleteKeychainItemForPersistentRef(NSData *persistentRef);
 TokenKeychainTuple * tupleWithKeychainDictionary(NSDictionary *keychainDictionary);
 
 NSDictionary * keychainItemForPersistentRef(NSData *persistentRef);
-NSArray * allKeychainItems();
+NSArray * _allKeychainItems();

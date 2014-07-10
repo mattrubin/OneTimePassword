@@ -107,26 +107,20 @@ class OTPToken: NSObject {
     }
 
     class func allTokensInKeychain() -> Array<OTPToken> {
-        var tokens = Array<OTPToken>()
-        if let keychainItems = allKeychainItems() {
-            for item: AnyObject in keychainItems {
-                if let keychainDict = item as? NSDictionary {
-                    if let token = OTPToken.tokenWithKeychainDictionary(keychainDict) {
-                        tokens.append(token)
-                    }
-                }
-            }
-        }
-        return tokens
+        return Token.KeychainItem.allKeychainItems().map(self.tokenWithKeychainItem)
     }
 
     class func tokenWithKeychainItem(item: Token.KeychainItem?) -> OTPToken? {
         if let keychainItem = item {
-            let otp = OTPToken(token: keychainItem.token)
-            otp.keychainItem = keychainItem
-            return otp
+            return tokenWithKeychainItem(keychainItem)
         }
         return nil
+    }
+
+    class func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> OTPToken {
+        let otp = OTPToken(token: keychainItem.token)
+        otp.keychainItem = keychainItem
+        return otp
     }
 
     class func tokenWithKeychainItemRef(keychainItemRef: NSData) -> OTPToken? {

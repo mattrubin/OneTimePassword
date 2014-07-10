@@ -50,7 +50,7 @@ NSDictionary * keychainItemForPersistentRef(NSData *persistentRef)
     return (resultCode == errSecSuccess) ? (__bridge NSDictionary *)(result) : nil;
 }
 
-NSArray * allKeychainItems()
+NSArray * _allKeychainItems()
 {
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecMatchLimit: (__bridge id)kSecMatchLimitAll,

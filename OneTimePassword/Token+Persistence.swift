@@ -34,6 +34,21 @@ extension Token {
             return nil
         }
 
+        static func allKeychainItems() -> Array<KeychainItem> {
+            var items = Array<KeychainItem>()
+            if let keychainItems = _allKeychainItems() {
+                for item: AnyObject in keychainItems {
+                    if let keychainDict = item as? NSDictionary {
+                        if let keychainItem = keychainItemWithDictionary(keychainDict) {
+                            items.append(keychainItem)
+                        }
+                    }
+                }
+            }
+            return items
+        }
+
+
         // After calling removeFromKeychain(), the KeychainItem's keychainItemRef is no longer valid, and the keychain item should be discarded
         func removeFromKeychain() -> Bool {
             return deleteKeychainItemForPersistentRef(self.keychainItemRef)
