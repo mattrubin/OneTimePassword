@@ -24,7 +24,6 @@
 
 @import XCTest;
 @import OneTimePassword;
-#import "OTPToken+Defaults.h"
 #import "OTPTypeStrings.h"
 #import "NSDictionary+QueryString.h"
 #import <Base32/MF_Base32Additions.h>
