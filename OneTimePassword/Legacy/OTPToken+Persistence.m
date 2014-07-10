@@ -40,7 +40,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 + (instancetype)tokenWithKeychainItemRef:(NSData *)keychainItemRef
 {
     OTPLegacyToken *token = nil;
-    NSDictionary *result = [self keychainItemForPersistentRef:keychainItemRef];
+    NSDictionary *result = keychainItemForPersistentRef(keychainItemRef);
     if (result) {
         token = [[self alloc] initWithCore:[OTPToken tokenWithKeychainDictionary:result]];
     }
@@ -49,7 +49,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 + (NSArray *)allTokensInKeychain
 {
-    NSArray *keychainItems = [self allKeychainItems];
+    NSArray *keychainItems = allKeychainItems();
     NSMutableArray *tokens = [NSMutableArray array];
     for (NSDictionary *keychainDict in keychainItems) {
         OTPLegacyToken *token = [[self alloc] initWithCore:[OTPToken tokenWithKeychainDictionary:keychainDict]];
@@ -82,10 +82,10 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     return [self.core removeFromKeychain];
 }
 
+@end
 
-#pragma mark - Keychain Items
 
-+ (NSDictionary *)keychainItemForPersistentRef:(NSData *)persistentRef
+NSDictionary * keychainItemForPersistentRef(NSData *persistentRef)
 {
     if (!persistentRef) return nil;
 
@@ -103,7 +103,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     return (resultCode == errSecSuccess) ? (__bridge NSDictionary *)(result) : nil;
 }
 
-+ (NSArray *)allKeychainItems
+NSArray * allKeychainItems()
 {
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecMatchLimit: (__bridge id)kSecMatchLimitAll,
@@ -118,8 +118,6 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
     return (resultCode == errSecSuccess) ? (__bridge NSArray *)(result) : nil;
 }
-
-@end
 
 
 @implementation TokenKeychainTuple

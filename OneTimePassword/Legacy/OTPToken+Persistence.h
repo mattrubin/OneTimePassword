@@ -41,6 +41,9 @@ BOOL updateKeychainItemForPersistentRefWithURL(NSData *persistentRef, NSURL *url
 
 TokenKeychainTuple * tupleWithKeychainDictionary(NSDictionary *keychainDictionary);
 
+NSDictionary * keychainItemForPersistentRef(NSData *persistentRef);
+NSArray * allKeychainItems();
+
 
 @interface OTPLegacyToken (Persistence)
 
