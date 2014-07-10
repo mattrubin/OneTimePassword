@@ -106,6 +106,13 @@ class OTPToken: NSObject {
         return false
     }
 
+    class func tokenWithKeychainItemRef(keychainItemRef: NSData) -> OTPToken? {
+        if let result = keychainItemForPersistentRef(keychainItemRef) {
+            return self.tokenWithKeychainDictionary(result)
+        }
+       return nil
+    }
+
     class func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> OTPToken?
     {
         let tuple = tupleWithKeychainDictionary(keychainDictionary)
