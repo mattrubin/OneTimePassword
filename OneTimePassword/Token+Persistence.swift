@@ -9,7 +9,7 @@
 extension Token {
     class KeychainWrapper {
         let token: Token
-        var keychainItemRef: NSData? // TODO: make this a required constant
+        let keychainItemRef: NSData
 
         init(token: Token, keychainItemRef: NSData) {
             self.token = token
@@ -23,13 +23,9 @@ extension Token {
             return nil
         }
 
+        // After calling removeFromKeychain(), the KeychainWrapper's keychainItemRef is no longer valid, and the wrapper should be discarded
         func removeFromKeychain() -> Bool {
-            if (!self.keychainItemRef) { return false }
-
-            let success = deleteKeychainItemForPersistentRef(self.keychainItemRef)
-            if (success) { self.keychainItemRef = nil}
-
-            return success;
+            return deleteKeychainItemForPersistentRef(self.keychainItemRef)
         }
     }
 }

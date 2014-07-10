@@ -99,10 +99,11 @@ class OTPToken: NSObject {
     }
     
     func removeFromKeychain() -> Bool {
-        if let wrapper = self.keychainWrapper {
-            return wrapper.removeFromKeychain()
+        if let success = self.keychainWrapper?.removeFromKeychain() {
+            self.keychainWrapper = nil
+            return true
         }
-        return false;
+        return false
     }
 
     // TODO: remove this temporary helper function
