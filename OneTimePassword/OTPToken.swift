@@ -129,10 +129,9 @@ class OTPToken: NSObject {
 
     class func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> OTPToken?
     {
-        let tuple = tupleWithKeychainDictionary(keychainDictionary)
-        if let token = Token.tokenWithURL(tuple.url, secret: tuple.secret) {
-            let otp = OTPToken(token: token)
-            otp.keychainItem = Token.KeychainItem(token: otp.token, keychainItemRef: tuple.keychainItemRef)
+        if let keychainItem = Token.KeychainItem.keychainItemWithDictionary(keychainDictionary) {
+            let otp = OTPToken(token: keychainItem.token)
+            otp.keychainItem = keychainItem
             return otp
         }
         return nil

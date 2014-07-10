@@ -18,6 +18,15 @@ extension Token {
             return nil
         }
 
+        static func keychainItemWithDictionary(keychainDictionary: NSDictionary) -> KeychainItem? {
+            if let tuple = tupleWithKeychainDictionary(keychainDictionary) {
+                if let token = Token.tokenWithURL(tuple.url, secret: tuple.secret) {
+                    return KeychainItem(token: token, keychainItemRef: tuple.keychainItemRef)
+                }
+            }
+            return nil
+        }
+
         // After calling removeFromKeychain(), the KeychainItem's keychainItemRef is no longer valid, and the keychain item should be discarded
         func removeFromKeychain() -> Bool {
             return deleteKeychainItemForPersistentRef(self.keychainItemRef)

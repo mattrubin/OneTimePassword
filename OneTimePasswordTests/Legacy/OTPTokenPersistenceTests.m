@@ -66,6 +66,10 @@ static NSURL *kValidTokenURL;
 
     XCTAssertEqualObjects(token.keychainItemRef, keychainItemRef);
     XCTAssertTrue(token.isInKeychain);
+
+    // Test failure case
+    OTPToken *noToken = [OTPToken tokenWithKeychainDictionary:@{}];
+    XCTAssertNil(noToken, @"Token should be nil: %@", noToken);
 }
 
 - (void)testTokenWithKeychainItemRef
