@@ -47,7 +47,6 @@ NSArray * allKeychainItems();
 
 @interface OTPLegacyToken (Persistence)
 
-+ (instancetype)tokenWithKeychainItemRef:(NSData *)keychainItemRef;
 + (NSArray *)allTokensInKeychain;
 
 - (BOOL)saveToKeychain;

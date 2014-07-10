@@ -71,7 +71,7 @@ static NSURL *kValidTokenURL;
 - (void)testTokenWithKeychainItemRef
 {
     // Create a token
-    OTPLegacyToken *token = [OTPLegacyToken tokenWithURL:kValidTokenURL];
+    OTPToken *token = [OTPToken tokenWithURL:kValidTokenURL]; //
 
     XCTAssertEqual(token.type, OTPTokenTypeTimer);
     XCTAssertEqualObjects(token.name, @"Léon");
@@ -93,7 +93,7 @@ static NSURL *kValidTokenURL;
     // Restore the token
     NSData *keychainItemRef = token.keychainItemRef;
 
-    OTPLegacyToken *secondToken = [OTPLegacyToken tokenWithKeychainItemRef:keychainItemRef];
+    OTPToken *secondToken = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
 
     XCTAssertEqual(secondToken.type, OTPTokenTypeTimer);
     XCTAssertEqualObjects(secondToken.name, @"Léon");
@@ -116,7 +116,7 @@ static NSURL *kValidTokenURL;
     XCTAssertNil(token.keychainItemRef);
 
     // Attempt to restore the deleted token
-    OTPLegacyToken *thirdToken = [OTPLegacyToken tokenWithKeychainItemRef:keychainItemRef];
+    OTPToken *thirdToken = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
     XCTAssertNil(thirdToken);
 
 }

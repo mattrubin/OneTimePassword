@@ -37,11 +37,6 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 @implementation OTPLegacyToken (Persistence)
 
-+ (instancetype)tokenWithKeychainItemRef:(NSData *)keychainItemRef
-{
-    return [[self alloc] initWithCore:[OTPToken tokenWithKeychainItemRef:keychainItemRef]];
-}
-
 + (NSArray *)allTokensInKeychain
 {
     NSArray *keychainItems = allKeychainItems();
