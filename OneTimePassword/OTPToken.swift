@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-import Foundation
-
 class OTPToken: NSObject {
     var token: Token
     var keychainItem: Token.KeychainItem?

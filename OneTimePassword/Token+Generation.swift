@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-import Foundation
-
 extension Token {
     func password() -> String? {
         var newCounter = counter
@@ -31,5 +29,4 @@ extension Token {
         if !self.isValid { return nil }
         return passwordForToken(self.secret, self.algorithm, self.digits, counter)
     }
-
 }
