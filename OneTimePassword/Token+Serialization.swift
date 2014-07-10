@@ -95,7 +95,7 @@ extension Token {
 
         let token = Token(type:type!, secret:secret!, name:name, issuer:issuer, algorithm:algorithm, digits:digits, period:period, counter:counter)
 
-        if token.isValid() {
+        if token.isValid {
             return token
         } else {
             return nil

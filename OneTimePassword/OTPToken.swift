@@ -53,7 +53,7 @@ class OTPToken: NSObject {
     set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: newValue) }
     }
 
-    func validate() -> Bool { return token.isValid() }
+    func validate() -> Bool { return token.isValid }
     override var description: String { return token.description }
 
     // Generation

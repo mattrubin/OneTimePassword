@@ -27,7 +27,7 @@ struct Token {
         self.counter = counter
     }
 
-    func isValid() -> Bool {
+    var isValid: Bool {
         let validType = (type == .Counter) || (type == .Timer)
         let validSecret = (secret.length > 0)
         let validAlgorithm = (algorithm == .SHA1) || (algorithm == .SHA256) || (algorithm == .SHA512)
