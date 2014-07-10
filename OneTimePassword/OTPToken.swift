@@ -121,8 +121,10 @@ class OTPToken: NSObject {
     }
 
     class func tokenWithKeychainItemRef(keychainItemRef: NSData) -> OTPToken? {
-        if let result = keychainItemForPersistentRef(keychainItemRef) {
-            return self.tokenWithKeychainDictionary(result)
+        if let keychainItem = Token.KeychainItem.keychainItemWithKeychainItemRef(keychainItemRef) {
+            let otp = OTPToken(token: keychainItem.token)
+            otp.keychainItem = keychainItem
+            return otp
         }
        return nil
     }

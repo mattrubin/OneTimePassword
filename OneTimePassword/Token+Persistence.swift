@@ -18,6 +18,13 @@ extension Token {
             return nil
         }
 
+        static func keychainItemWithKeychainItemRef(keychainItemRef: NSData) -> KeychainItem? {
+            if let result = keychainItemForPersistentRef(keychainItemRef) {
+                return keychainItemWithDictionary(result)
+            }
+            return nil
+        }
+
         static func keychainItemWithDictionary(keychainDictionary: NSDictionary) -> KeychainItem? {
             if let tuple = tupleWithKeychainDictionary(keychainDictionary) {
                 if let token = Token.tokenWithURL(tuple.url, secret: tuple.secret) {
