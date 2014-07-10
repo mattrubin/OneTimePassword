@@ -9,7 +9,6 @@
 import Foundation
 
 extension Token {
-    // TODO: KVO on password
     func password() -> String? {
         var newCounter = counter
         if (self.type == TokenType.Timer) {

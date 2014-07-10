@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-class Token {
+struct Token {
     let name: String
     let issuer: String
     let type: TokenType

@@ -15,7 +15,7 @@ let kQueryPeriodKey = "period"
 let kQueryIssuerKey = "issuer"
 
 extension Token {
-    class func tokenWithURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
+    static func tokenWithURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
         if (url.scheme != kOTPAuthScheme) { return nil }
 
         var queryDictionary = Dictionary<String, String>()
