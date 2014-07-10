@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-let kOTPService = "me.mattrubin.authenticator.token"
+let kOTPService = "me.mattrubin.onetimepassword.token"
 
 extension Token {
     struct KeychainItem {
