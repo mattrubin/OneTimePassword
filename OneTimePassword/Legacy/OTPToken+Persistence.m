@@ -25,6 +25,10 @@
 #import "OTPToken+Persistence.h"
 
 
+NSData * addKeychainItemWithAttributes(NSDictionary *attributes);
+BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSDictionary *attributesToUpdate);
+
+
 static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 
