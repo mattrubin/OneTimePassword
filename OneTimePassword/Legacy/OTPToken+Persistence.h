@@ -22,7 +22,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPToken.h"
+@import Foundation;
 
 
 NSData * addKeychainItemWithAttributes(NSDictionary *attributes);
@@ -43,14 +43,3 @@ TokenKeychainTuple * tupleWithKeychainDictionary(NSDictionary *keychainDictionar
 
 NSDictionary * keychainItemForPersistentRef(NSData *persistentRef);
 NSArray * allKeychainItems();
-
-
-@interface OTPLegacyToken (Persistence)
-
-- (BOOL)saveToKeychain;
-- (BOOL)removeFromKeychain;
-
-@property (nonatomic, readonly) BOOL isInKeychain;
-@property (nonatomic, readonly) NSData *keychainItemRef;
-
-@end

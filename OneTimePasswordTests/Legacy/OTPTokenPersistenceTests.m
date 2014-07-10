@@ -123,8 +123,8 @@ static NSURL *kValidTokenURL;
 
 - (void)testDuplicateURLs
 {
-    OTPLegacyToken *token1 = [OTPLegacyToken tokenWithURL:kValidTokenURL];
-    OTPLegacyToken *token2 = [OTPLegacyToken tokenWithURL:kValidTokenURL];
+    OTPToken *token1 = [OTPToken tokenWithURL:kValidTokenURL];
+    OTPToken *token2 = [OTPToken tokenWithURL:kValidTokenURL];
 
     XCTAssertFalse(token1.isInKeychain, @"Token should not be in keychain: %@", token1);
     XCTAssertFalse(token2.isInKeychain, @"Token should not be in keychain: %@", token2);

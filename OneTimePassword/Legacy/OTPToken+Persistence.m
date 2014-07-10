@@ -23,43 +23,9 @@
 //
 
 #import "OTPToken+Persistence.h"
-#import <OneTimePassword/OneTimePassword-Swift.h>
 
 
 static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
-
-
-@interface OTPLegacyToken ()
-- (instancetype)initWithCore:(OTPToken *)core;
-@property (nonatomic, strong) OTPToken *core;
-@end
-
-
-@implementation OTPLegacyToken (Persistence)
-
-#pragma mark -
-
-- (NSData *)keychainItemRef
-{
-    return self.core.keychainItemRef;
-}
-
-- (BOOL)isInKeychain
-{
-    return self.core.isInKeychain;
-}
-
-- (BOOL)saveToKeychain
-{
-    return [self.core saveToKeychain];
-}
-
-- (BOOL)removeFromKeychain
-{
-    return [self.core removeFromKeychain];
-}
-
-@end
 
 
 NSDictionary * keychainItemForPersistentRef(NSData *persistentRef)
