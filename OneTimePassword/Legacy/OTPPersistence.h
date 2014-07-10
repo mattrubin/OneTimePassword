@@ -1,5 +1,5 @@
 //
-//  OTPToken+Persistence.h
+//  OTPPersistence.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin

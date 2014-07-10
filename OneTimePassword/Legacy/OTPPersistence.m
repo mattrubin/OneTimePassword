@@ -1,5 +1,5 @@
 //
-//  OTPToken+Persistence.m
+//  OTPPersistence.m
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,7 +22,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPToken+Persistence.h"
+#import "OTPPersistence.h"
 
 
 NSData * addKeychainItemWithAttributes(NSDictionary *attributes);
