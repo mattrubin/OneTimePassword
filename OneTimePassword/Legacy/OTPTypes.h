@@ -24,12 +24,12 @@
 
 @import Foundation;
 
-typedef NS_ENUM(char, OTPTokenType) {
+typedef NS_ENUM(unsigned char, OTPTokenType) {
     OTPTokenTypeCounter,
     OTPTokenTypeTimer,
 };
 
-typedef NS_ENUM(char, OTPAlgorithm) {
+typedef NS_ENUM(uint32_t, OTPAlgorithm) {
     OTPAlgorithmSHA1,
     OTPAlgorithmSHA256,
     OTPAlgorithmSHA512,

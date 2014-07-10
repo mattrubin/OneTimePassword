@@ -22,35 +22,35 @@ class OTPToken: NSObject {
 
     var name: String {
     get { return token.name }
-    set { token = Token(type: type, secret: secret, name: newValue, issuer: issuer, algorithm: algorithm, digits: digits, period: period, counter: counter) }
+    set { token = Token(type: type, secret: secret, name: newValue, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
     }
     var issuer: String {
     get { return token.issuer }
-    set { token = Token(type: type, secret: secret, name: name, issuer: newValue, algorithm: algorithm, digits: digits, period: period, counter: counter) }
+    set { token = Token(type: type, secret: secret, name: name, issuer: newValue, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
     }
     var type: OTPTokenType {
     get { return token.type }
-    set { token = Token(type: newValue, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: digits, period: period, counter: counter) }
+    set { token = Token(type: newValue, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
     }
     var secret: NSData {
     get { return token.secret }
-    set { token = Token(type: type, secret: newValue, name: name, issuer: issuer, algorithm: algorithm, digits: digits, period: period, counter: counter) }
+    set { token = Token(type: type, secret: newValue, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
     }
     var algorithm: OTPAlgorithm {
     get { return token.algorithm }
-    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: newValue, digits: digits, period: period, counter: counter) }
+    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: newValue, digits: token.digits, period: period, counter: counter) }
     }
-    var digits: Int {
-    get { return token.digits }
-    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: newValue, period: period, counter: counter) }
+    var digits: UInt {
+    get { return UInt(token.digits) }
+    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: Int(newValue), period: period, counter: counter) }
     }
     var period: NSTimeInterval {
     get { return token.period }
-    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: digits, period: newValue, counter: counter) }
+    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: newValue, counter: counter) }
     }
     var counter: UInt64 {
     get { return token.counter }
-    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: digits, period: period, counter: newValue) }
+    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: newValue) }
     }
 
     func validate() -> Bool { return token.isValid() }
