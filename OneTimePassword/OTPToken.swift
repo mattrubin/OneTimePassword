@@ -11,13 +11,17 @@ import Foundation
 class OTPToken: NSObject {
     var token: Token
 
-    init(token: Token) {
+    @required init(token: Token) {
         self.token = token
     }
 
     convenience init() {
         // Stub an invalid token, to be replaced with a modified token via the setters
         self.init(token: Token(type: .Timer, secret: NSData()))
+    }
+
+    class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer:NSString) -> Self {
+        return self(token: Token(type: type, secret: secret, name: name, issuer: issuer))
     }
 
     var name: String {
@@ -51,6 +55,19 @@ class OTPToken: NSObject {
     var counter: UInt64 {
     get { return token.counter }
     set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: newValue) }
+    }
+
+    class func defaultAlgorithm() -> OTPAlgorithm {
+        return .SHA1
+    }
+    class func defaultDigits() -> UInt {
+        return 6
+    }
+    class func defaultInitialCounter() -> UInt64 {
+        return 0
+    }
+    class func defaultPeriod() -> NSTimeInterval {
+        return 30
     }
 
     func validate() -> Bool { return token.isValid }
