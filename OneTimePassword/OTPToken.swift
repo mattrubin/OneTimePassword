@@ -85,21 +85,21 @@ extension OTPToken {
 }
 
 extension OTPToken {
-    class func tokenWithURL(url: NSURL) -> OTPToken? {
+    class func tokenWithURL(url: NSURL) -> Self? {
         if let token = Token.tokenWithURL(url) {
-            return OTPToken(token: token)
+            return self(token: token)
         }
         return nil
     }
 
-    class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> OTPToken? {
+    class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> Self? {
         if let token = Token.tokenWithURL(url, secret: secret) {
-            return OTPToken(token: token)
+            return self(token: token)
         }
         return nil
     }
 
-    var url: NSURL { return token.url }
+    func url() -> NSURL { return token.url }
 }
 
 extension OTPToken {
