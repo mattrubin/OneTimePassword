@@ -48,12 +48,6 @@ extension Token {
             }
             return items
         }
-
-
-        // After calling removeFromKeychain(), the KeychainItem's keychainItemRef is no longer valid, and the keychain item should be discarded
-        func removeFromKeychain() -> Bool {
-            return deleteKeychainItemForPersistentRef(self.keychainItemRef)
-        }
     }
 }
 
@@ -78,3 +72,9 @@ func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token)
     }
     return nil
 }
+
+// After calling deleteKeychainItem(), the KeychainItem's keychainItemRef is no longer valid, and the keychain item should be discarded
+func deleteKeychainItem(keychainItem: Token.KeychainItem) -> Bool {
+    return deleteKeychainItemForPersistentRef(keychainItem.keychainItemRef)
+}
+

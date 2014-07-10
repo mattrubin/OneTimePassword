@@ -90,7 +90,7 @@ class OTPToken: NSObject {
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 
     func saveToKeychain() -> Bool {
-        if let keychainItem = self.keychainItem? {
+        if let keychainItem = self.keychainItem {
             if let newKeychainItem = updateKeychainItemWithToken(keychainItem, self.token) {
                 self.keychainItem = newKeychainItem
                 return true
@@ -103,9 +103,11 @@ class OTPToken: NSObject {
     }
 
     func removeFromKeychain() -> Bool {
-        if let success = self.keychainItem?.removeFromKeychain() {
-            self.keychainItem = nil
-            return true
+        if let keychainItem = self.keychainItem {
+            if deleteKeychainItem(keychainItem) {
+                self.keychainItem = nil
+                return true
+            }
         }
         return false
     }
