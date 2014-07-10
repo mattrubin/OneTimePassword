@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
+import OneTimePassword
+
 class OTPToken: NSObject {
     var token: Token
     var keychainItem: Token.KeychainItem?
