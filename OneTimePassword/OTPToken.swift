@@ -81,7 +81,7 @@ class OTPToken: NSObject {
         return nil
     }
 
-    var url: NSURL { return token.url() }
+    var url: NSURL { return token.url }
 
     // Persistence
 

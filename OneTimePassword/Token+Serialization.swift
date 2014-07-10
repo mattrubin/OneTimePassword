@@ -102,7 +102,7 @@ extension Token {
         }
     }
 
-    func url() -> NSURL {
+    var url: NSURL {
         let urlComponents = NSURLComponents()
         urlComponents.scheme = kOTPAuthScheme
         urlComponents.host = type.toRaw()

@@ -36,7 +36,7 @@ class TokenSerializationTests: XCTestCase {
                                         let token = Token(type: type, secret:secretString.dataUsingEncoding(NSASCIIStringEncoding), name:name, issuer:issuer, algorithm:algorithm, digits:digitNumber, period: period, counter: counter)
 
                                         // Serialize
-                                        let url = token.url();
+                                        let url = token.url;
 
                                         // Test scheme
                                         XCTAssertEqualObjects(url.scheme, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"");
@@ -80,7 +80,7 @@ class TokenSerializationTests: XCTestCase {
                                         XCTAssertEqualObjects(queryArguments["issuer"], issuer, "The issuer value should be \"\(issuer)\"");
 
                                         // Check url again
-                                        let checkURL = token.url();
+                                        let checkURL = token.url;
                                         XCTAssertEqualObjects(url, checkURL, "Repeated calls to url() should return the same result!");
                                     }
                                 }

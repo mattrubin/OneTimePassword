@@ -53,7 +53,7 @@ extension Token {
 
 func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     var attributes = NSMutableDictionary()
-    attributes.setObject(token.url().absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
+    attributes.setObject(token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
     attributes.setObject(token.secret, forKey: _kSecValueData() as NSCopying)
     attributes.setObject(kOTPService, forKey: _kSecAttrService() as NSCopying)
 
@@ -66,7 +66,7 @@ func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
 func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token) -> Token.KeychainItem?
 {
     var attributes = NSMutableDictionary()
-    attributes.setObject(token.url().absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
+    attributes.setObject(token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
     if updateKeychainItemForPersistentRefWithAttributes(keychainItem.keychainItemRef, attributes) {
         return Token.KeychainItem(token: token, keychainItemRef: keychainItem.keychainItemRef)
     }
