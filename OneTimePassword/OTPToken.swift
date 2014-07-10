@@ -84,7 +84,9 @@ class OTPToken: NSObject {
     var url: NSURL { return token.url() }
 
     // Persistence
+
     var keychainItemRef: NSData?
+    var isInKeychain: Bool { return (keychainItemRef != nil) }
 }
 
 extension Token.TokenType {

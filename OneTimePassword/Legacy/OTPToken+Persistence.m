@@ -85,7 +85,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 - (BOOL)isInKeychain
 {
-    return !!self.keychainItemRef;
+    return self.core.isInKeychain;
 }
 
 - (BOOL)saveToKeychain
