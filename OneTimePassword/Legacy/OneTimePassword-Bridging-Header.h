@@ -9,3 +9,4 @@
 #import <Base32/MF_Base32Additions.h>
 #import "OTPGenerator.h"
 #import "OTPPersistence.h"
+#import "OTPSecurity.h"

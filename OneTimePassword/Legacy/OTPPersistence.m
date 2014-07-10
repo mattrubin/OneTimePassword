@@ -67,22 +67,6 @@ NSArray * _allKeychainItems()
 }
 
 
-@implementation TokenKeychainTuple
-@end
-
-TokenKeychainTuple * tupleWithKeychainDictionary(NSDictionary *keychainDictionary)
-{
-    TokenKeychainTuple *tuple = [TokenKeychainTuple new];
-    NSData *urlData = keychainDictionary[(__bridge id)kSecAttrGeneric];
-    NSString *urlString = [[NSString alloc] initWithData:urlData
-                                                encoding:NSUTF8StringEncoding];
-    tuple.url = [NSURL URLWithString:urlString];
-    tuple.secret = keychainDictionary[(__bridge id)kSecValueData];
-    tuple.keychainItemRef = keychainDictionary[(__bridge id)(kSecValuePersistentRef)];
-    return tuple;
-}
-
-
 NSData * addKeychainItemWithURLAndSecret(NSURL *url, NSData *secret)
 {
     NSDictionary *attributes = @{(__bridge id)kSecAttrGeneric: [url.absoluteString dataUsingEncoding:NSUTF8StringEncoding],

@@ -26,9 +26,15 @@ extension Token {
         }
 
         static func keychainItemWithDictionary(keychainDictionary: NSDictionary) -> KeychainItem? {
-            if let tuple = tupleWithKeychainDictionary(keychainDictionary) {
-                if let token = Token.tokenWithURL(tuple.url, secret: tuple.secret) {
-                    return KeychainItem(token: token, keychainItemRef: tuple.keychainItemRef)
+            let urlData = keychainDictionary.objectForKey(_kSecAttrGeneric()) as? NSData
+            let urlString: NSString? = NSString(data: urlData, encoding:NSUTF8StringEncoding)
+            if let url = NSURL.URLWithString(urlString) {
+                if let secret = keychainDictionary.objectForKey(_kSecValueData()) as? NSData {
+                    if let keychainItemRef = keychainDictionary.objectForKey(_kSecValuePersistentRef()) as? NSData {
+                        if let token = Token.tokenWithURL(url, secret: secret) {
+                            return KeychainItem(token: token, keychainItemRef: keychainItemRef)
+                        }
+                    }
                 }
             }
             return nil

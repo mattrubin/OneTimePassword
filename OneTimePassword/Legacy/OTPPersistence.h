@@ -28,13 +28,5 @@ NSData * addKeychainItemWithURLAndSecret(NSURL *url, NSData *secret);
 BOOL updateKeychainItemForPersistentRefWithURL(NSData *persistentRef, NSURL *url);
 BOOL deleteKeychainItemForPersistentRef(NSData *persistentRef);
 
-@interface TokenKeychainTuple: NSObject
-@property NSURL *url;
-@property NSData *secret;
-@property NSData *keychainItemRef;
-@end
-
-TokenKeychainTuple * tupleWithKeychainDictionary(NSDictionary *keychainDictionary);
-
 NSDictionary * keychainItemForPersistentRef(NSData *persistentRef);
 NSArray * _allKeychainItems();
