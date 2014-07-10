@@ -97,7 +97,7 @@ class OTPToken: NSObject {
             return (self.keychainItem != nil)
         }
     }
-    
+
     func removeFromKeychain() -> Bool {
         if let success = self.keychainItem?.removeFromKeychain() {
             self.keychainItem = nil
@@ -120,23 +120,21 @@ class OTPToken: NSObject {
         return tokens
     }
 
-    class func tokenWithKeychainItemRef(keychainItemRef: NSData) -> OTPToken? {
-        if let keychainItem = Token.KeychainItem.keychainItemWithKeychainItemRef(keychainItemRef) {
-            let otp = OTPToken(token: keychainItem.token)
-            otp.keychainItem = keychainItem
-            return otp
-        }
-       return nil
-    }
-
-    class func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> OTPToken?
-    {
-        if let keychainItem = Token.KeychainItem.keychainItemWithDictionary(keychainDictionary) {
+    class func tokenWithKeychainItem(item: Token.KeychainItem?) -> OTPToken? {
+        if let keychainItem = item {
             let otp = OTPToken(token: keychainItem.token)
             otp.keychainItem = keychainItem
             return otp
         }
         return nil
+    }
+
+    class func tokenWithKeychainItemRef(keychainItemRef: NSData) -> OTPToken? {
+        return OTPToken.tokenWithKeychainItem(Token.KeychainItem.keychainItemWithKeychainItemRef(keychainItemRef))
+    }
+
+    class func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> OTPToken? {
+        return OTPToken.tokenWithKeychainItem(Token.KeychainItem.keychainItemWithDictionary(keychainDictionary))
     }
 }
 
