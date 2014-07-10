@@ -59,17 +59,9 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     return tokens;
 }
 
-+ (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret keychainItemRef:(NSData *)keychainItemRef
-{
-    return [[self alloc] initWithCore:[OTPToken tokenWithURL:url secret:secret keychainItemRef:keychainItemRef]];
-}
-
-
 + (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary
 {
-    TokenKeychainTuple *tuple = tupleWithKeychainDictionary(keychainDictionary);
-    OTPLegacyToken *token = [self tokenWithURL:tuple.url secret:tuple.secret keychainItemRef:tuple.keychainItemRef];
-    return token;
+    return [[self alloc] initWithCore:[OTPToken tokenWithKeychainDictionary:keychainDictionary]];
 }
 
 

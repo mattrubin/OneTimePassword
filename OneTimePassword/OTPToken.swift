@@ -106,16 +106,16 @@ class OTPToken: NSObject {
         return false
     }
 
-    // TODO: remove this temporary helper function
-    class func tokenWithURL(url: NSURL, secret: NSData?, keychainItemRef: NSData!) -> OTPToken? {
-        if let token = Token.tokenWithURL(url, secret: secret) {
+    class func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> OTPToken?
+    {
+        let tuple = tupleWithKeychainDictionary(keychainDictionary)
+        if let token = Token.tokenWithURL(tuple.url, secret: tuple.secret) {
             let otp = OTPToken(token: token)
-            otp.keychainWrapper = Token.KeychainWrapper(token: otp.token, keychainItemRef: keychainItemRef)
+            otp.keychainWrapper = Token.KeychainWrapper(token: otp.token, keychainItemRef: tuple.keychainItemRef)
             return otp
         }
         return nil
     }
-
 }
 
 extension Token.TokenType {
