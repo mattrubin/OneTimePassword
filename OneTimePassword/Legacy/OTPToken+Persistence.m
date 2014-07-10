@@ -23,16 +23,14 @@
 //
 
 #import "OTPToken+Persistence.h"
-@import ObjectiveC.runtime;
+#import <OneTimePassword/OneTimePassword-Swift.h>
 
 
 static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 
 @interface OTPLegacyToken ()
-
-@property (nonatomic, strong) NSData *keychainItemRef;
-
+@property (nonatomic, strong) OTPToken *core;
 @end
 
 
@@ -77,12 +75,12 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 - (NSData *)keychainItemRef
 {
-    return objc_getAssociatedObject(self, @selector(keychainItemRef));
+    return self.core.keychainItemRef;
 }
 
 - (void)setKeychainItemRef:(NSData *)keychainItemRef
 {
-    objc_setAssociatedObject(self, @selector(keychainItemRef), keychainItemRef, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.core.keychainItemRef = keychainItemRef;
 }
 
 - (BOOL)isInKeychain
