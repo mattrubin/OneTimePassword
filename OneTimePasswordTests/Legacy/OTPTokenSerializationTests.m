@@ -23,7 +23,7 @@
 //
 
 @import XCTest;
-@import OneTimePassword;
+@import OneTimePasswordLegacy;
 #import "OTPTypeStrings.h"
 #import "NSDictionary+QueryString.h"
 #import <Base32/MF_Base32Additions.h>

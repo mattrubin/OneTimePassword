@@ -23,7 +23,7 @@
 //
 
 @import XCTest;
-@import OneTimePassword;
+@import OneTimePasswordLegacy;
 #import "OTPTypeStrings.h"
 
 
