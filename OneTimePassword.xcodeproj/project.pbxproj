@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B6C6D5560BC6437A8E4F8580 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 560131D4F5D140EA8458D149 /* libPods.a */; };
+		C9003418196F7046009733E8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9003417196F7046009733E8 /* Keychain.swift */; };
 		C9290C301947D104008AE4DE /* TokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */; };
 		C93A2501196AF8E900F86892 /* OTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A24F5196AF8E900F86892 /* OTPGenerator.m */; };
 		C93A2503196AF8E900F86892 /* OTPPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A24F7196AF8E900F86892 /* OTPPersistence.m */; };
@@ -64,6 +65,7 @@
 
 /* Begin PBXFileReference section */
 		560131D4F5D140EA8458D149 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9003417196F7046009733E8 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializationTests.swift; sourceTree = "<group>"; };
 		C9377D40196B93F900D6C67E /* OneTimePassword-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OneTimePassword-Bridging-Header.h"; sourceTree = "<group>"; };
 		C93A24F4196AF8E900F86892 /* OTPGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPGenerator.h; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				C9DC7EC7196BDF3B00B50C82 /* Token+Generation.swift */,
 				C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */,
 				C9F5981A196E3E48002E4D0E /* Token+Persistence.swift */,
+				C9003417196F7046009733E8 /* Keychain.swift */,
 				C9F5981C196E6AD3002E4D0E /* Helpers */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
 			);
@@ -491,6 +494,7 @@
 				C96A4D86196E887F009FCB83 /* OTPSecurity.m in Sources */,
 				C9F5981B196E3E48002E4D0E /* Token+Persistence.swift in Sources */,
 				C93A2501196AF8E900F86892 /* OTPGenerator.m in Sources */,
+				C9003418196F7046009733E8 /* Keychain.swift in Sources */,
 				C93A2503196AF8E900F86892 /* OTPPersistence.m in Sources */,
 				C9DC7EC4196BD5DF00B50C82 /* Token+Serialization.swift in Sources */,
 			);
