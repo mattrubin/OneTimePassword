@@ -32,6 +32,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C9003415196F6C83009733E8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C97C82371946E51D00FD9F4C;
+			remoteInfo = OneTimePassword;
+		};
 		C97C82451946E51D00FD9F4C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
@@ -339,6 +346,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C9003416196F6C83009733E8 /* PBXTargetDependency */,
 			);
 			name = OneTimePasswordLegacy;
 			productName = OneTimePasswordLegacy;
@@ -521,6 +529,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C9003416196F6C83009733E8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C97C82371946E51D00FD9F4C /* OneTimePassword */;
+			targetProxy = C9003415196F6C83009733E8 /* PBXContainerItemProxy */;
+		};
 		C97C82461946E51D00FD9F4C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C97C82371946E51D00FD9F4C /* OneTimePassword */;
