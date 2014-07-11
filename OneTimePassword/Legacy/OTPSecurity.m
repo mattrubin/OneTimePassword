@@ -20,3 +20,9 @@ id _kSecValuePersistentRef() {
 id _kSecAttrService() {
     return (__bridge id)(kSecAttrService);
 }
+id _kSecClass() {
+    return (__bridge id)(kSecClass);
+}
+id _kSecClassGenericPassword() {
+    return (__bridge id)(kSecClassGenericPassword);
+}

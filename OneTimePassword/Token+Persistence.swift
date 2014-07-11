@@ -80,3 +80,14 @@ func deleteKeychainItem(keychainItem: Token.KeychainItem) -> Bool {
     return deleteKeychainItemForPersistentRef(keychainItem.keychainItemRef)
 }
 
+
+// Generic keychain methods
+
+func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
+    let queryDict = NSMutableDictionary()
+    queryDict.setObject(_kSecClassGenericPassword(), forKey: _kSecClass() as NSCopying)
+    queryDict.setObject(persistentRef, forKey: _kSecValuePersistentRef() as NSCopying)
+
+    let resultCode: OSStatus = SecItemDelete(queryDict as CFDictionary)
+    return (resultCode == OSStatus(errSecSuccess))
+}

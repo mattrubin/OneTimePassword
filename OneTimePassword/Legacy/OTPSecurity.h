@@ -10,3 +10,5 @@ id _kSecAttrGeneric();
 id _kSecValueData();
 id _kSecValuePersistentRef();
 id _kSecAttrService();
+id _kSecClass();
+id _kSecClassGenericPassword();

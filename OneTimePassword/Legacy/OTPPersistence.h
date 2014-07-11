@@ -26,7 +26,6 @@
 
 NSData * addKeychainItemWithAttributes(NSDictionary *attributes);
 BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSDictionary *attributesToUpdate);
-BOOL deleteKeychainItemForPersistentRef(NSData *persistentRef);
 
 NSDictionary * keychainItemForPersistentRef(NSData *persistentRef);
 NSArray * _allKeychainItems();

@@ -88,15 +88,3 @@ BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSD
 
     return (resultCode == errSecSuccess);
 }
-
-
-BOOL deleteKeychainItemForPersistentRef(NSData *persistentRef)
-{
-    NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
-                                (__bridge id)kSecValuePersistentRef: persistentRef,
-                                };
-
-    OSStatus resultCode = SecItemDelete((__bridge CFDictionaryRef)(queryDict));
-
-    return (resultCode == errSecSuccess);
-}
