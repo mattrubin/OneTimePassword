@@ -13,7 +13,7 @@ let kOTPService = "me.mattrubin.onetimepassword.token"
 extension Token {
     struct KeychainItem {
         let token: Token
-        let keychainItemRef: NSData
+        let persistentRef: NSData
 
         static func keychainItemWithKeychainItemRef(keychainItemRef: NSData) -> KeychainItem? {
             if let result = keychainItemForPersistentRef(keychainItemRef) {
@@ -29,7 +29,7 @@ extension Token {
                 if let secret = keychainDictionary.objectForKey(_kSecValueData()) as? NSData {
                     if let keychainItemRef = keychainDictionary.objectForKey(_kSecValuePersistentRef()) as? NSData {
                         if let token = Token.tokenWithURL(url, secret: secret) {
-                            return KeychainItem(token: token, keychainItemRef: keychainItemRef)
+                            return KeychainItem(token: token, persistentRef: keychainItemRef)
                         }
                     }
                 }
@@ -60,7 +60,7 @@ func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     attributes.setObject(kOTPService, forKey: _kSecAttrService() as NSCopying)
 
     if let persistentRef = addKeychainItemWithAttributes(attributes) {
-        return Token.KeychainItem(token: token, keychainItemRef: persistentRef)
+        return Token.KeychainItem(token: token, persistentRef: persistentRef)
     }
     return nil
 }
@@ -69,13 +69,13 @@ func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token)
 {
     var attributes = NSMutableDictionary()
     attributes.setObject(token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
-    if updateKeychainItemForPersistentRefWithAttributes(keychainItem.keychainItemRef, attributes) {
-        return Token.KeychainItem(token: token, keychainItemRef: keychainItem.keychainItemRef)
+    if updateKeychainItemForPersistentRefWithAttributes(keychainItem.persistentRef, attributes) {
+        return Token.KeychainItem(token: token, persistentRef: keychainItem.persistentRef)
     }
     return nil
 }
 
 // After calling deleteKeychainItem(), the KeychainItem's keychainItemRef is no longer valid, and the keychain item should be discarded
 func deleteKeychainItem(keychainItem: Token.KeychainItem) -> Bool {
-    return deleteKeychainItemForPersistentRef(keychainItem.keychainItemRef)
+    return deleteKeychainItemForPersistentRef(keychainItem.persistentRef)
 }

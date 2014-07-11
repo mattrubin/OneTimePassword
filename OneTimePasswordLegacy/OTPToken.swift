@@ -103,7 +103,7 @@ extension OTPToken {
 }
 
 extension OTPToken {
-    var keychainItemRef: NSData? {return self.keychainItem?.keychainItemRef }
+    var keychainItemRef: NSData? {return self.keychainItem?.persistentRef }
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 
     func saveToKeychain() -> Bool {
