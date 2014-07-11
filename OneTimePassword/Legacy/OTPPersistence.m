@@ -76,15 +76,3 @@ NSData * addKeychainItemWithAttributes(NSDictionary *attributes)
 
     return (resultCode == errSecSuccess) ? (__bridge NSData *)(result) : nil;
 }
-
-BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSDictionary *attributesToUpdate)
-{
-    NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
-                                (__bridge id)kSecValuePersistentRef: persistentRef,
-                                };
-
-    OSStatus resultCode = SecItemUpdate((__bridge CFDictionaryRef)(queryDict),
-                                        (__bridge CFDictionaryRef)(attributesToUpdate));
-
-    return (resultCode == errSecSuccess);
-}

@@ -25,7 +25,6 @@
 @import Foundation;
 
 NSData * addKeychainItemWithAttributes(NSDictionary *attributes);
-BOOL updateKeychainItemForPersistentRefWithAttributes(NSData *persistentRef, NSDictionary *attributesToUpdate);
 
 NSDictionary * keychainItemForPersistentRef(NSData *persistentRef);
 NSArray * _allKeychainItems();

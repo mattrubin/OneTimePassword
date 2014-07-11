@@ -110,6 +110,23 @@ static NSURL *kValidTokenURL;
     XCTAssertEqualObjects(secondToken.keychainItemRef, token.keychainItemRef);
     XCTAssertTrue(secondToken.isInKeychain);
 
+    // Modify the token
+    token.type = OTPTokenTypeCounter;
+    token.name = @"???";
+    token.digits = 6;
+
+    XCTAssertTrue([token saveToKeychain]);
+
+    // Fetch the token again
+    OTPToken *thirdToken = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
+
+    XCTAssertEqual(thirdToken.type, OTPTokenTypeCounter);
+    XCTAssertEqualObjects(thirdToken.name, @"???");
+    XCTAssertEqual(thirdToken.digits, 6U);
+
+    XCTAssertEqualObjects(thirdToken.keychainItemRef, token.keychainItemRef);
+    XCTAssertTrue(thirdToken.isInKeychain);
+
     // Remove the token
     XCTAssertTrue(token.isInKeychain);
     XCTAssertNotNil(token.keychainItemRef);
@@ -120,9 +137,8 @@ static NSURL *kValidTokenURL;
     XCTAssertNil(token.keychainItemRef);
 
     // Attempt to restore the deleted token
-    OTPToken *thirdToken = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
-    XCTAssertNil(thirdToken);
-
+    OTPToken *fourthToken = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
+    XCTAssertNil(fourthToken);
 }
 
 - (void)testDuplicateURLs
