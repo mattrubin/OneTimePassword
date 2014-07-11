@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
+import Foundation
+
 let kOTPService = "me.mattrubin.onetimepassword.token"
 
 extension Token {

@@ -15,7 +15,6 @@
 		C95B10CC196D22B9000840AA /* TokenGenerationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B10CB196D22B9000840AA /* TokenGenerationTests.swift */; };
 		C96A4D85196E887F009FCB83 /* OTPSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = C96A4D83196E887F009FCB83 /* OTPSecurity.h */; };
 		C96A4D86196E887F009FCB83 /* OTPSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = C96A4D84196E887F009FCB83 /* OTPSecurity.m */; };
-		C97C823E1946E51D00FD9F4C /* OneTimePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = C97C823D1946E51D00FD9F4C /* OneTimePassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
 		C9A486AE196F352E00524F51 /* OneTimePasswordLegacy.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9A486B4196F352F00524F51 /* OneTimePasswordLegacy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A486A9196F352E00524F51 /* OneTimePasswordLegacy.framework */; };
@@ -74,7 +73,6 @@
 		C96A4D84196E887F009FCB83 /* OTPSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPSecurity.m; sourceTree = "<group>"; };
 		C97C82381946E51D00FD9F4C /* OneTimePassword.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C823C1946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C97C823D1946E51D00FD9F4C /* OneTimePassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneTimePassword.h; sourceTree = "<group>"; };
 		C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C82491946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9A486A9196F352E00524F51 /* OneTimePasswordLegacy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePasswordLegacy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,7 +163,6 @@
 		C97C823A1946E51D00FD9F4C /* OneTimePassword */ = {
 			isa = PBXGroup;
 			children = (
-				C97C823D1946E51D00FD9F4C /* OneTimePassword.h */,
 				C93A2519196B1BA400F86892 /* Token.swift */,
 				C9DC7EC7196BDF3B00B50C82 /* Token+Generation.swift */,
 				C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */,
@@ -276,7 +273,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C97C823E1946E51D00FD9F4C /* OneTimePassword.h in Headers */,
 				C96A4D85196E887F009FCB83 /* OTPSecurity.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -626,6 +622,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "OneTimePassword/Legacy/OneTimePassword-Bridging-Header.h";
 			};
 			name = Debug;
@@ -642,6 +639,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "OneTimePassword/Legacy/OneTimePassword-Bridging-Header.h";
 			};
 			name = Release;
