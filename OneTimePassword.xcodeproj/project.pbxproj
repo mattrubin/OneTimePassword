@@ -99,39 +99,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C93A24F1196AF8E900F86892 /* Legacy */ = {
-			isa = PBXGroup;
-			children = (
-				C93A24FA196AF8E900F86892 /* OTPToken.h */,
-				C93A24FB196AF8E900F86892 /* OTPToken.m */,
-				C93A24F8196AF8E900F86892 /* OTPToken+Serialization.h */,
-				C93A24F9196AF8E900F86892 /* OTPToken+Serialization.m */,
-				C93A24F6196AF8E900F86892 /* OTPToken+Persistence.h */,
-				C93A24F7196AF8E900F86892 /* OTPToken+Persistence.m */,
-				C93A24F4196AF8E900F86892 /* OTPToken+Generation.h */,
-				C93A24F5196AF8E900F86892 /* OTPToken+Generation.m */,
-				C93A24FC196AF8E900F86892 /* OTPTokenType.h */,
-				C93A24FD196AF8E900F86892 /* OTPTokenType.m */,
-				C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */,
-				C93A24F3196AF8E900F86892 /* OTPAlgorithm.m */,
-				C93A250A196AFA3F00F86892 /* NSString+PercentEncoding.h */,
-				C93A250B196AFA3F00F86892 /* NSString+PercentEncoding.m */,
-				C93A250C196AFA3F00F86892 /* NSDictionary+QueryString.h */,
-				C93A250D196AFA3F00F86892 /* NSDictionary+QueryString.m */,
-			);
-			path = Legacy;
-			sourceTree = "<group>";
-		};
-		C93A2512196AFE1100F86892 /* Legacy */ = {
-			isa = PBXGroup;
-			children = (
-				C93A2513196AFE1100F86892 /* OTPTokenGenerationTests.m */,
-				C93A2514196AFE1100F86892 /* OTPTokenPersistenceTests.m */,
-				C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */,
-			);
-			path = Legacy;
-			sourceTree = "<group>";
-		};
 		C97C822E1946E51D00FD9F4C = {
 			isa = PBXGroup;
 			children = (
@@ -155,7 +122,22 @@
 			isa = PBXGroup;
 			children = (
 				C97C823D1946E51D00FD9F4C /* OneTimePassword.h */,
-				C93A24F1196AF8E900F86892 /* Legacy */,
+				C93A24FA196AF8E900F86892 /* OTPToken.h */,
+				C93A24FB196AF8E900F86892 /* OTPToken.m */,
+				C93A24F8196AF8E900F86892 /* OTPToken+Serialization.h */,
+				C93A24F9196AF8E900F86892 /* OTPToken+Serialization.m */,
+				C93A24F6196AF8E900F86892 /* OTPToken+Persistence.h */,
+				C93A24F7196AF8E900F86892 /* OTPToken+Persistence.m */,
+				C93A24F4196AF8E900F86892 /* OTPToken+Generation.h */,
+				C93A24F5196AF8E900F86892 /* OTPToken+Generation.m */,
+				C93A24FC196AF8E900F86892 /* OTPTokenType.h */,
+				C93A24FD196AF8E900F86892 /* OTPTokenType.m */,
+				C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */,
+				C93A24F3196AF8E900F86892 /* OTPAlgorithm.m */,
+				C93A250A196AFA3F00F86892 /* NSString+PercentEncoding.h */,
+				C93A250B196AFA3F00F86892 /* NSString+PercentEncoding.m */,
+				C93A250C196AFA3F00F86892 /* NSDictionary+QueryString.h */,
+				C93A250D196AFA3F00F86892 /* NSDictionary+QueryString.m */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
 			);
 			path = OneTimePassword;
@@ -172,7 +154,9 @@
 		C97C82471946E51D00FD9F4C /* OneTimePasswordTests */ = {
 			isa = PBXGroup;
 			children = (
-				C93A2512196AFE1100F86892 /* Legacy */,
+				C93A2513196AFE1100F86892 /* OTPTokenGenerationTests.m */,
+				C93A2514196AFE1100F86892 /* OTPTokenPersistenceTests.m */,
+				C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */,
 				C97C82481946E51D00FD9F4C /* Supporting Files */,
 			);
 			path = OneTimePasswordTests;
