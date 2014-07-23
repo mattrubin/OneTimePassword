@@ -29,6 +29,7 @@
 		C93A2518196AFE1100F86892 /* OTPTokenSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */; };
 		C97C823E1946E51D00FD9F4C /* OneTimePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = C97C823D1946E51D00FD9F4C /* OneTimePassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
+		C983AB6F197F913400975003 /* OTPBase32Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB6E197F913400975003 /* OTPBase32Tests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		C97C823D1946E51D00FD9F4C /* OneTimePassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneTimePassword.h; sourceTree = "<group>"; };
 		C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C82491946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C983AB6E197F913400975003 /* OTPBase32Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPBase32Tests.m; sourceTree = "<group>"; };
 		CA0307BA64104BFF93EB7509 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,6 +159,7 @@
 				C93A2513196AFE1100F86892 /* OTPTokenGenerationTests.m */,
 				C93A2514196AFE1100F86892 /* OTPTokenPersistenceTests.m */,
 				C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */,
+				C983AB6E197F913400975003 /* OTPBase32Tests.m */,
 				C97C82481946E51D00FD9F4C /* Supporting Files */,
 			);
 			path = OneTimePasswordTests;
@@ -337,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C93A2516196AFE1100F86892 /* OTPTokenGenerationTests.m in Sources */,
+				C983AB6F197F913400975003 /* OTPBase32Tests.m in Sources */,
 				C93A2517196AFE1100F86892 /* OTPTokenPersistenceTests.m in Sources */,
 				C93A2518196AFE1100F86892 /* OTPTokenSerializationTests.m in Sources */,
 			);
