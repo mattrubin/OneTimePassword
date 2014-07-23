@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import Foundation;
 
 //! Project version number for OneTimePassword.
 FOUNDATION_EXPORT double OneTimePasswordVersionNumber;
