@@ -29,8 +29,6 @@
 		C93A2518196AFE1100F86892 /* OTPTokenSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */; };
 		C97C823E1946E51D00FD9F4C /* OneTimePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = C97C823D1946E51D00FD9F4C /* OneTimePassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
-		C983AB6C197F8AEC00975003 /* NSData+Secret.h in Headers */ = {isa = PBXBuildFile; fileRef = C983AB6A197F8AEC00975003 /* NSData+Secret.h */; };
-		C983AB6D197F8AEC00975003 /* NSData+Secret.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB6B197F8AEC00975003 /* NSData+Secret.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,8 +67,6 @@
 		C97C823D1946E51D00FD9F4C /* OneTimePassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneTimePassword.h; sourceTree = "<group>"; };
 		C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C82491946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C983AB6A197F8AEC00975003 /* NSData+Secret.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Secret.h"; sourceTree = "<group>"; };
-		C983AB6B197F8AEC00975003 /* NSData+Secret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Secret.m"; sourceTree = "<group>"; };
 		CA0307BA64104BFF93EB7509 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,8 +134,6 @@
 				C93A24FD196AF8E900F86892 /* OTPTokenType.m */,
 				C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */,
 				C93A24F3196AF8E900F86892 /* OTPAlgorithm.m */,
-				C983AB6A197F8AEC00975003 /* NSData+Secret.h */,
-				C983AB6B197F8AEC00975003 /* NSData+Secret.m */,
 				C93A250A196AFA3F00F86892 /* NSString+PercentEncoding.h */,
 				C93A250B196AFA3F00F86892 /* NSString+PercentEncoding.m */,
 				C93A250C196AFA3F00F86892 /* NSDictionary+QueryString.h */,
@@ -190,7 +184,6 @@
 				C97C823E1946E51D00FD9F4C /* OneTimePassword.h in Headers */,
 				C93A2504196AF8E900F86892 /* OTPToken+Serialization.h in Headers */,
 				C93A2500196AF8E900F86892 /* OTPToken+Generation.h in Headers */,
-				C983AB6C197F8AEC00975003 /* NSData+Secret.h in Headers */,
 				C93A2510196AFA3F00F86892 /* NSDictionary+QueryString.h in Headers */,
 				C93A2508196AF8E900F86892 /* OTPTokenType.h in Headers */,
 			);
@@ -336,7 +329,6 @@
 				C93A2501196AF8E900F86892 /* OTPToken+Generation.m in Sources */,
 				C93A2503196AF8E900F86892 /* OTPToken+Persistence.m in Sources */,
 				C93A2509196AF8E900F86892 /* OTPTokenType.m in Sources */,
-				C983AB6D197F8AEC00975003 /* NSData+Secret.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

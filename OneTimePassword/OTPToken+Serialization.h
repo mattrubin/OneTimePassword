@@ -33,3 +33,10 @@
 - (NSURL *)url;
 
 @end
+
+
+@interface NSData (Secret)
+
++ (NSData *)secretWithString:(NSString *)string;
+
+@end
