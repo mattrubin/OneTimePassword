@@ -31,6 +31,7 @@
 		C9DC7EC4196BD5DF00B50C82 /* Token+Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */; };
 		C9DC7EC8196BDF3B00B50C82 /* Token+Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Token+Generation.swift */; };
 		C9F5981B196E3E48002E4D0E /* Token+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F5981A196E3E48002E4D0E /* Token+Persistence.swift */; };
+		C983AB6F197F913400975003 /* OTPBase32Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB6E197F913400975003 /* OTPBase32Tests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		C9DC7EC7196BDF3B00B50C82 /* Token+Generation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+Generation.swift"; sourceTree = "<group>"; };
 		C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPToken.swift; sourceTree = "<group>"; };
 		C9F5981A196E3E48002E4D0E /* Token+Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+Persistence.swift"; sourceTree = "<group>"; };
+		C983AB6E197F913400975003 /* OTPBase32Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPBase32Tests.m; sourceTree = "<group>"; };
 		CA0307BA64104BFF93EB7509 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -199,6 +201,7 @@
 				C94B2006197774A20014A202 /* TokenTests.swift */,
 				C95B10CB196D22B9000840AA /* TokenGenerationTests.swift */,
 				C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */,
+				C983AB6E197F913400975003 /* OTPBase32Tests.m */,
 				C97C82481946E51D00FD9F4C /* Supporting Files */,
 			);
 			path = OneTimePasswordTests;
@@ -510,6 +513,7 @@
 				C94B2007197774A20014A202 /* TokenTests.swift in Sources */,
 				C95B10CC196D22B9000840AA /* TokenGenerationTests.swift in Sources */,
 				C9290C301947D104008AE4DE /* TokenSerializationTests.swift in Sources */,
+				C983AB6F197F913400975003 /* OTPBase32Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
