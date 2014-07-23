@@ -71,6 +71,10 @@ static NSURL *kValidTokenURL;
 
     XCTAssertEqualObjects(token.keychainItemRef, keychainItemRef);
     XCTAssertTrue(token.isInKeychain);
+
+    // Test failure case
+    OTPToken *noToken = [OTPToken tokenWithKeychainDictionary:@{}];
+    XCTAssertNil(noToken, @"Token should be nil: %@", noToken);
 }
 
 - (void)testTokenWithKeychainItemRef
@@ -111,6 +115,23 @@ static NSURL *kValidTokenURL;
     XCTAssertEqualObjects(secondToken.keychainItemRef, token.keychainItemRef);
     XCTAssertTrue(secondToken.isInKeychain);
 
+    // Modify the token
+    token.type = OTPTokenTypeCounter;
+    token.name = @"???";
+    token.digits = 6;
+
+    XCTAssertTrue([token saveToKeychain]);
+
+    // Fetch the token again
+    OTPToken *thirdToken = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
+
+    XCTAssertEqual(thirdToken.type, OTPTokenTypeCounter);
+    XCTAssertEqualObjects(thirdToken.name, @"???");
+    XCTAssertEqual(thirdToken.digits, 6U);
+
+    XCTAssertEqualObjects(thirdToken.keychainItemRef, token.keychainItemRef);
+    XCTAssertTrue(thirdToken.isInKeychain);
+
     // Remove the token
     XCTAssertTrue(token.isInKeychain);
     XCTAssertNotNil(token.keychainItemRef);
@@ -121,9 +142,8 @@ static NSURL *kValidTokenURL;
     XCTAssertNil(token.keychainItemRef);
 
     // Attempt to restore the deleted token
-    OTPToken *thirdToken = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
-    XCTAssertNil(thirdToken);
-
+    OTPToken *fourthToken = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
+    XCTAssertNil(fourthToken);
 }
 
 - (void)testDuplicateURLs
@@ -135,16 +155,62 @@ static NSURL *kValidTokenURL;
     XCTAssertFalse(token2.isInKeychain, @"Token should not be in keychain: %@", token2);
 
     XCTAssertTrue([token1 saveToKeychain], @"Failed to save to keychain: %@", token1);
+
+    XCTAssertTrue(token1.isInKeychain, @"Token should be in keychain: %@", token1);
+    XCTAssertFalse(token2.isInKeychain, @"Token should not be in keychain: %@", token2);
+
     XCTAssertTrue([token2 saveToKeychain], @"Failed to save to keychain: %@", token2);
 
     XCTAssertTrue(token1.isInKeychain, @"Token should be in keychain: %@", token1);
     XCTAssertTrue(token2.isInKeychain, @"Token should be in keychain: %@", token2);
 
     XCTAssertTrue([token1 removeFromKeychain], @"Failed to remove from keychain: %@", token1);
+
+    XCTAssertFalse(token1.isInKeychain, @"Token should not be in keychain: %@", token1);
+    XCTAssertTrue(token2.isInKeychain, @"Token should be in keychain: %@", token2);
+
     XCTAssertTrue([token2 removeFromKeychain], @"Failed to remove from keychain: %@", token2);
 
     XCTAssertFalse(token1.isInKeychain, @"Token should not be in keychain: %@", token1);
     XCTAssertFalse(token2.isInKeychain, @"Token should not be in keychain: %@", token2);
+
+    XCTAssertFalse([token1 removeFromKeychain], @"Removing again should fail: %@", token1);
+    XCTAssertFalse([token2 removeFromKeychain], @"Removing again should fail: %@", token2);
+}
+
+- (OTPToken *)_tokenFromArray:(NSArray *)tokens withKeychainItemRef:(NSData *)keychainItemRef
+{
+    XCTAssertNotNil(tokens, @"Can't find a token in a nil array.");
+    XCTAssertNotNil(keychainItemRef, @"Can't find a token with a nil keychain ref.");
+
+    OTPToken *foundToken = nil;
+    for (OTPToken *token in tokens) {
+        if (!foundToken) {
+            if ([token.keychainItemRef isEqualToData:keychainItemRef]) {
+                foundToken = token;
+            }
+        } else {
+            XCTAssertNotEqualObjects(token.keychainItemRef, keychainItemRef, @"Found two tokens with identical keychain refs!\n%@\n%@", foundToken, token);
+        }
+    }
+    return foundToken;
+}
+
+- (void)testAllTokensInKeychain
+{
+    OTPToken *token1 = [OTPToken tokenWithURL:kValidTokenURL];
+    OTPToken *token2 = [OTPToken tokenWithURL:kValidTokenURL];
+    OTPToken *token3 = [OTPToken tokenWithURL:kValidTokenURL];
+
+    [token1 saveToKeychain];
+    [token2 saveToKeychain];
+    [token3 saveToKeychain];
+
+    NSArray *tokens = [OTPToken allTokensInKeychain];
+
+    XCTAssertNotNil([self _tokenFromArray:tokens withKeychainItemRef:token1.keychainItemRef], @"Token not recovered from keychain: %@", token1);
+    XCTAssertNotNil([self _tokenFromArray:tokens withKeychainItemRef:token2.keychainItemRef], @"Token not recovered from keychain: %@", token2);
+    XCTAssertNotNil([self _tokenFromArray:tokens withKeychainItemRef:token3.keychainItemRef], @"Token not recovered from keychain: %@", token3);
 }
 
 @end
