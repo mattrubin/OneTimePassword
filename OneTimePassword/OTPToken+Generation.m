@@ -24,6 +24,7 @@
 
 #import "OTPToken+Generation.h"
 #import "OTPToken+Persistence.h"
+#import <CommonCrypto/CommonHMAC.h>
 
 
 static NSUInteger kPinModTable[] = {
@@ -75,16 +76,41 @@ static NSUInteger kPinModTable[] = {
 
 #pragma mark - Generator
 
+CCHmacAlgorithm hashAlgorithmForAlgorithm(OTPAlgorithm algorithm)
+{
+    switch (algorithm) {
+        case OTPAlgorithmSHA1:
+            return kCCHmacAlgSHA1;
+        case OTPAlgorithmSHA256:
+            return kCCHmacAlgSHA256;
+        case OTPAlgorithmSHA512:
+            return kCCHmacAlgSHA512;
+    }
+    return kCCHmacAlgSHA1;
+}
+
+NSUInteger digestLengthForAlgorithm(CCHmacAlgorithm algorithm)
+{
+    switch (algorithm) {
+        case kCCHmacAlgSHA1:
+            return CC_SHA1_DIGEST_LENGTH;
+        case kCCHmacAlgSHA256:
+            return CC_SHA256_DIGEST_LENGTH;
+        case kCCHmacAlgSHA512:
+            return CC_SHA512_DIGEST_LENGTH;
+    }
+    return 0;
+}
+
 - (NSString *)generatePasswordForCounter:(uint64_t)counter
 {
-    if (![self validate]) return nil;
-
     // Ensure the counter value is big-endian
     counter = NSSwapHostLongLongToBig(counter);
 
     // Generate an HMAC value from the key and counter
-    NSMutableData *hash = [NSMutableData dataWithLength:digestLengthForAlgorithm(self.algorithm)];
-    CCHmac(self.algorithm, self.secret.bytes, self.secret.length, &counter, sizeof(counter), hash.mutableBytes);
+    CCHmacAlgorithm algorithm = hashAlgorithmForAlgorithm(self.algorithm);
+    NSMutableData *hash = [NSMutableData dataWithLength:digestLengthForAlgorithm(algorithm)];
+    CCHmac(algorithm, self.secret.bytes, self.secret.length, &counter, sizeof(counter), hash.mutableBytes);
 
     // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
     const char *ptr = hash.bytes;

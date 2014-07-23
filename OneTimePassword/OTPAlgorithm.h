@@ -23,18 +23,15 @@
 //
 
 @import Foundation;
-#import <CommonCrypto/CommonHMAC.h>
 
 
-typedef NS_ENUM(CCHmacAlgorithm, OTPAlgorithm) {
-    OTPAlgorithmSHA1   = kCCHmacAlgSHA1,
-    OTPAlgorithmSHA256 = kCCHmacAlgSHA256,
-    OTPAlgorithmSHA512 = kCCHmacAlgSHA512,
+typedef NS_ENUM(UInt8, OTPAlgorithm) {
+    OTPAlgorithmSHA1,
+    OTPAlgorithmSHA256,
+    OTPAlgorithmSHA512,
 };
 
 extern OTPAlgorithm OTPAlgorithmUnknown;
-
-NSUInteger digestLengthForAlgorithm(OTPAlgorithm algorithm);
 
 
 #pragma mark - String Representations
