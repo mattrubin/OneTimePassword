@@ -129,13 +129,3 @@ static NSString *const kQueryIssuerKey = @"issuer";
 }
 
 @end
-
-
-@implementation OTPToken (Secret)
-
-+ (NSData *)secretWithString:(NSString *)string
-{
-    return [NSData dataWithBase32String:string];
-}
-
-@end

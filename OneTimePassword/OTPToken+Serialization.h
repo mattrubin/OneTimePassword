@@ -33,10 +33,3 @@
 - (NSURL *)url;
 
 @end
-
-
-@interface OTPToken (Secret)
-
-+ (NSData *)secretWithString:(NSString *)string;
-
-@end
