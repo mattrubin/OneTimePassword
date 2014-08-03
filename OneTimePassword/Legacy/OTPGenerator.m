@@ -64,7 +64,7 @@ NSUInteger digestLengthForAlgorithm(CCHmacAlgorithm algorithm)
     }
 }
 
-NSString *passwordForToken(NSData *secret, OTPGeneratorAlgorithm otpAlgorithm, NSUInteger digits, uint64_t counter)
+NSString *passwordForToken(NSData *secret, OTPGeneratorAlgorithm otpAlgorithm, NSInteger digits, uint64_t counter)
 {
     // Ensure the counter value is big-endian
     counter = NSSwapHostLongLongToBig(counter);
