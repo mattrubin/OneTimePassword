@@ -40,3 +40,17 @@
 + (NSData *)secretWithString:(NSString *)string;
 
 @end
+
+
+@interface NSURL (QueryDictionary)
+
+- (NSDictionary *)queryDictionary;
+
+@end
+
+
+@interface NSDictionary (QueryItems)
+
+- (NSArray *)queryItemsArray;
+
+@end

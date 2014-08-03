@@ -23,8 +23,6 @@
 //
 
 #import "OTPToken+Serialization.h"
-#import "NSString+PercentEncoding.h"
-#import "NSDictionary+QueryString.h"
 #import <Base32/MF_Base32Additions.h>
 
 
@@ -65,7 +63,7 @@ static NSString *const kQueryIssuerKey = @"issuer";
     token.type = [url.host tokenTypeValue];
     token.name = (url.path.length > 1) ? [url.path substringFromIndex:1] : nil; // Skip the leading "/"
 
-    NSDictionary *query = [NSDictionary dictionaryWithQueryString:url.query];
+    NSDictionary *query = [url queryDictionary];
 
     NSString *algorithmString = query[kQueryAlgorithmKey];
     token.algorithm = algorithmString ? [algorithmString algorithmValue] : [OTPToken defaultAlgorithm];
@@ -104,26 +102,26 @@ static NSString *const kQueryIssuerKey = @"issuer";
 
 - (NSURL *)url
 {
-    NSMutableDictionary *query = [NSMutableDictionary dictionary];
+    NSMutableArray *query = [NSMutableArray array];
 
-    query[kQueryAlgorithmKey] = [NSString stringForAlgorithm:self.algorithm];
-    query[kQueryDigitsKey] = @(self.digits);
+    [query addObject:[NSURLQueryItem queryItemWithName:kQueryAlgorithmKey value:[NSString stringForAlgorithm:self.algorithm]]];
+    [query addObject:[NSURLQueryItem queryItemWithName:kQueryDigitsKey value:@(self.digits).stringValue]];
 
     if (self.type == OTPTokenTypeTimer) {
-        query[kQueryPeriodKey] = @(self.period);
+        [query addObject:[NSURLQueryItem queryItemWithName:kQueryPeriodKey value:@(self.period).stringValue]];
     } else if (self.type == OTPTokenTypeCounter) {
-        query[kQueryCounterKey] = @(self.counter);
+        [query addObject:[NSURLQueryItem queryItemWithName:kQueryCounterKey value:@(self.counter).stringValue]];
     }
 
     if (self.issuer)
-        query[kQueryIssuerKey] = self.issuer;
+        [query addObject:[NSURLQueryItem queryItemWithName:kQueryIssuerKey value:self.issuer]];
 
     NSURLComponents *urlComponents = [NSURLComponents new];
     urlComponents.scheme = kOTPAuthScheme;
     urlComponents.host = [NSString stringForTokenType:self.type];
     if (self.name)
         urlComponents.path = [@"/" stringByAppendingString:self.name];
-    urlComponents.percentEncodedQuery = [query queryString];
+    urlComponents.queryItems = query;
 
     return urlComponents.URL;
 }
@@ -136,6 +134,41 @@ static NSString *const kQueryIssuerKey = @"issuer";
 + (NSData *)secretWithString:(NSString *)string
 {
     return [NSData dataWithBase32String:string];
+}
+
+@end
+
+
+@implementation NSURL (QueryDictionary)
+
+- (NSDictionary *)queryDictionary
+{
+    NSArray *queryItems = [NSURLComponents componentsWithURL:self resolvingAgainstBaseURL:NO].queryItems;
+    NSMutableDictionary *queryDictionary = [NSMutableDictionary dictionaryWithCapacity:queryItems.count];
+    for (NSURLQueryItem *item in queryItems) {
+        queryDictionary[item.name] = item.value;
+    }
+    return queryDictionary;
+}
+
+@end
+
+
+@implementation NSDictionary (QueryItems)
+
+- (NSArray *)queryItemsArray
+{
+    NSMutableArray *queryItems = [NSMutableArray arrayWithCapacity:self.count];
+    for (NSString *key in self) {
+        id value = self[key];
+        if ([value isKindOfClass:[NSNumber class]]) {
+            value = ((NSNumber *)value).stringValue;
+        } else if (![value isKindOfClass:[NSString class]]) {
+            NSAssert(NO, @":(");
+        }
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:key value:value]];
+    }
+    return queryItems;
 }
 
 @end

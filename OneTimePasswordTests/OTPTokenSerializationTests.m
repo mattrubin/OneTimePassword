@@ -24,7 +24,6 @@
 
 @import XCTest;
 @import OneTimePassword;
-#import "NSDictionary+QueryString.h"
 #import <Base32/MF_Base32Additions.h>
 
 
@@ -95,7 +94,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                     if (![name isEqual:[NSNull null]])
                                         urlComponents.path = [@"/" stringByAppendingString:name];
-                                    urlComponents.percentEncodedQuery = [query queryString];
+                                    urlComponents.queryItems = [query queryItemsArray];
 
                                     // Create the token
                                     OTPToken *token = [OTPToken tokenWithURL:[urlComponents URL]];
@@ -159,7 +158,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                     if (![name isEqual:[NSNull null]])
                                         urlComponents.path = [@"/" stringByAppendingString:name];
-                                    urlComponents.percentEncodedQuery = [query queryString];
+                                    urlComponents.queryItems = [query queryItemsArray];
 
                                     // Create the token
                                     NSData *secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
@@ -267,7 +266,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         XCTAssertEqualObjects(url.path, @"", @"The url path should be empty");
                                     }
 
-                                    NSDictionary *queryArguments = [NSDictionary dictionaryWithQueryString:url.query];
+                                    NSDictionary *queryArguments = [url queryDictionary];
 
                                     // Test algorithm
                                     NSString *expectedAlgorithmString = [NSString stringForAlgorithm:[algorithmNumber unsignedIntValue]];
@@ -422,7 +421,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     NSDictionary *expectedQueryString = @{@"algorithm": @"SHA256",
                                           @"digits": @"8",
                                           @"period": @"45"};
-    XCTAssertEqualObjects([NSDictionary dictionaryWithQueryString:url.query], expectedQueryString);
+    XCTAssertEqualObjects([url queryDictionary], expectedQueryString);
 }
 
 - (void)testHOTPURL
@@ -437,7 +436,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     NSDictionary *expectedQueryString = @{@"algorithm": @"SHA256",
                                           @"digits": @"8",
                                           @"counter": @"18446744073709551615"};
-    XCTAssertEqualObjects([NSDictionary dictionaryWithQueryString:url.query], expectedQueryString);
+    XCTAssertEqualObjects([url queryDictionary], expectedQueryString);
 }
 
 @end
