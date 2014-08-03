@@ -71,7 +71,7 @@ public extension Token {
             issuer = issuerString
             // If the name is prefixed by the issuer string, trim the name
             if let prefixRange = name.rangeOfString(issuer) {
-                if (prefixRange.startIndex == issuer.startIndex) && (name[prefixRange.endIndex] == ":") {
+                if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
                     name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 }
             }
@@ -80,7 +80,12 @@ public extension Token {
             let components = name.componentsSeparatedByString(":")
             if components.count > 1 {
                 issuer = components[0]
-                name = name.substringFromIndex(issuer.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                // If the name is prefixed by the issuer string, trim the name
+                if let prefixRange = name.rangeOfString(issuer) {
+                    if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
+                        name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                    }
+                }
             }
         }
 
