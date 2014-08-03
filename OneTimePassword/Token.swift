@@ -40,16 +40,17 @@ public extension Token {
     }
 
     var description: String {
-        return "Token(type:\(type), name:\(name), issuer:\(issuer), algorithm:\(algorithm), digits:\(digits))"
+        return "Token(type:\(type.toRaw()), name:\(name), issuer:\(issuer), algorithm:\(algorithm.toRaw()), digits:\(digits))"
     }
 
-    enum TokenType : String, Printable {
-        case Counter = "hotp", Timer = "totp"
-        public var description: String { return self.toRaw() }
+    enum TokenType : String {
+        case Counter = "hotp",
+             Timer   = "totp"
     }
 
-    enum Algorithm : String, Printable {
-        case SHA1 = "SHA1", SHA256 = "SHA256", SHA512 = "SHA512"
-        public var description: String { return self.toRaw() }
+    enum Algorithm : String {
+        case SHA1   = "SHA1",
+             SHA256 = "SHA256",
+             SHA512 = "SHA512"
     }
 }
