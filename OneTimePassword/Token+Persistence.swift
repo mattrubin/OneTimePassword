@@ -10,19 +10,19 @@ import Foundation
 
 let kOTPService = "me.mattrubin.onetimepassword.token"
 
-extension Token {
-    struct KeychainItem {
-        let token: Token
-        let persistentRef: NSData
+public extension Token {
+    public struct KeychainItem {
+        public let token: Token
+        public let persistentRef: NSData
 
-        static func keychainItemWithKeychainItemRef(keychainItemRef: NSData) -> KeychainItem? {
+        public static func keychainItemWithKeychainItemRef(keychainItemRef: NSData) -> KeychainItem? {
             if let result = keychainItemForPersistentRef(keychainItemRef) {
                 return keychainItemWithDictionary(result)
             }
             return nil
         }
 
-        static func keychainItemWithDictionary(keychainDictionary: NSDictionary) -> KeychainItem? {
+        public static func keychainItemWithDictionary(keychainDictionary: NSDictionary) -> KeychainItem? {
             let urlData = keychainDictionary.objectForKey(_kSecAttrGeneric()) as? NSData
             let urlString: NSString? = NSString(data: urlData, encoding:NSUTF8StringEncoding)
             if let url = NSURL.URLWithString(urlString) {
@@ -37,7 +37,7 @@ extension Token {
             return nil
         }
 
-        static func allKeychainItems() -> Array<KeychainItem> {
+        public static func allKeychainItems() -> Array<KeychainItem> {
             var items = Array<KeychainItem>()
             if let keychainItems = _allKeychainItems() {
                 for item: AnyObject in keychainItems {
@@ -53,7 +53,7 @@ extension Token {
     }
 }
 
-func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
+public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     var attributes = NSMutableDictionary()
     attributes.setObject(token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
     attributes.setObject(token.secret, forKey: _kSecValueData() as NSCopying)
@@ -65,7 +65,7 @@ func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     return nil
 }
 
-func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token) -> Token.KeychainItem?
+public func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token) -> Token.KeychainItem?
 {
     var attributes = NSMutableDictionary()
     attributes.setObject(token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
@@ -76,6 +76,6 @@ func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token)
 }
 
 // After calling deleteKeychainItem(), the KeychainItem's keychainItemRef is no longer valid, and the keychain item should be discarded
-func deleteKeychainItem(keychainItem: Token.KeychainItem) -> Bool {
+public func deleteKeychainItem(keychainItem: Token.KeychainItem) -> Bool {
     return deleteKeychainItemForPersistentRef(keychainItem.persistentRef)
 }

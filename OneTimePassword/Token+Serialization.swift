@@ -14,7 +14,7 @@ let kQueryDigitsKey = "digits"
 let kQueryPeriodKey = "period"
 let kQueryIssuerKey = "issuer"
 
-extension Token {
+public extension Token {
     var url: NSURL {
         let urlComponents = NSURLComponents()
         urlComponents.scheme = kOTPAuthScheme

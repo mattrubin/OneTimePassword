@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-extension Token {
+public extension Token {
     func password() -> String? {
         var newCounter = counter
         if (self.type == TokenType.Timer) {
