@@ -8,11 +8,11 @@
 
 import OneTimePassword
 
-class OTPToken: NSObject {
+public class OTPToken: NSObject {
     var token: Token
     var keychainItem: Token.KeychainItem?
 
-    @required init(token: Token) {
+    required public init(token: Token) {
         self.token = token
     }
 
@@ -25,57 +25,57 @@ class OTPToken: NSObject {
         return self(token: Token(type: type, secret: secret, name: name, issuer: issuer))
     }
 
-    var name: String {
+    public var name: String {
     get { return token.name }
     set { token = Token(type: type, secret: secret, name: newValue, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
     }
-    var issuer: String {
+    public var issuer: String {
     get { return token.issuer }
     set { token = Token(type: type, secret: secret, name: name, issuer: newValue, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
     }
-    var type: OTPTokenType {
+    public var type: OTPTokenType {
     get { return token.type }
     set { token = Token(type: newValue, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
     }
-    var secret: NSData {
+    public var secret: NSData {
     get { return token.secret }
     set { token = Token(type: type, secret: newValue, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
     }
-    var algorithm: OTPAlgorithm {
+    public var algorithm: OTPAlgorithm {
     get { return token.algorithm }
     set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: newValue, digits: token.digits, period: period, counter: counter) }
     }
-    var digits: UInt {
+    public var digits: UInt {
     get { return UInt(token.digits) }
     set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: Int(newValue), period: period, counter: counter) }
     }
-    var period: NSTimeInterval {
+    public var period: NSTimeInterval {
     get { return token.period }
     set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: newValue, counter: counter) }
     }
-    var counter: UInt64 {
+    public var counter: UInt64 {
     get { return token.counter }
     set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: newValue) }
     }
 
-    class func defaultAlgorithm() -> OTPAlgorithm {
+    public class func defaultAlgorithm() -> OTPAlgorithm {
         return .SHA1
     }
-    class func defaultDigits() -> UInt {
+    public class func defaultDigits() -> UInt {
         return 6
     }
-    class func defaultInitialCounter() -> UInt64 {
+    public class func defaultInitialCounter() -> UInt64 {
         return 0
     }
-    class func defaultPeriod() -> NSTimeInterval {
+    public class func defaultPeriod() -> NSTimeInterval {
         return 30
     }
 
-    func validate() -> Bool { return token.isValid }
-    override var description: String { return token.description }
+    public func validate() -> Bool { return token.isValid }
+    override public var description: String { return token.description }
 }
 
-extension OTPToken {
+public extension OTPToken {
     var password: String? { return token.password() }
     func updatePassword() { token = token.updatedToken() }
 
@@ -84,7 +84,7 @@ extension OTPToken {
     }
 }
 
-extension OTPToken {
+public extension OTPToken {
     class func tokenWithURL(url: NSURL) -> Self? {
         if let token = Token.tokenWithURL(url) {
             return self(token: token)
@@ -102,7 +102,7 @@ extension OTPToken {
     func url() -> NSURL { return token.url }
 }
 
-extension OTPToken {
+public extension OTPToken {
     var keychainItemRef: NSData? {return self.keychainItem?.persistentRef }
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 
@@ -114,8 +114,11 @@ extension OTPToken {
             }
             return false
         } else {
-            self.keychainItem = addTokenToKeychain(self.token)
-            return (self.keychainItem != nil)
+            if let newKeychainItem = addTokenToKeychain(self.token) {
+                self.keychainItem = newKeychainItem
+                return true
+            }
+            return false
         }
     }
 

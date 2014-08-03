@@ -13,20 +13,20 @@ class TokenGenerationTests: XCTestCase {
     // The values in this test are found in Appendix D of the HOTP RFC
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
-        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)
+        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let expectedValues = ["755224", "287082", "359152", "969429", "338314", "254676", "287922", "162583", "399871", "520489"]
 
         var token = Token(type: .Counter, secret: secret, algorithm: .SHA1, digits: 6, counter: 0)
 
         for (var counter = 0; counter < expectedValues.count; counter++) {
-            XCTAssertEqualObjects(token.passwordForCounter(UInt64(counter)), expectedValues[counter])
-            XCTAssertEqualObjects(token.passwordForCounter(UInt64(counter)), expectedValues[counter],
+            XCTAssertEqual(token.passwordForCounter(UInt64(counter))!, expectedValues[counter])
+            XCTAssertEqual(token.passwordForCounter(UInt64(counter))!, expectedValues[counter],
                 "Inconsistent return value from token.passwordForCounter(\(counter))")
         }
 
         for expectedPassword: String in expectedValues {
-            XCTAssertEqualObjects(token.password(), expectedPassword)
-            XCTAssertEqualObjects(token.password(), expectedPassword,
+            XCTAssertEqual(token.password()!, expectedPassword)
+            XCTAssertEqual(token.password()!, expectedPassword,
                 "Inconsistent return value from token.password()")
             token = token.updatedToken()
         }
@@ -50,14 +50,14 @@ class TokenGenerationTests: XCTestCase {
         ]
 
         for (algorithm, secretKey) in secretKeys {
-            let secret = secretKey.dataUsingEncoding(NSASCIIStringEncoding)
+            let secret = secretKey.dataUsingEncoding(NSASCIIStringEncoding)!
             let token = Token(type: .Timer, secret: secret, algorithm: algorithm, digits: 8, period: 30)
 
             for (var i = 0; i < times.count; i++) {
                 if let password = expectedValues[algorithm]?[i] {
                     let counter = UInt64(times[i] / token.period)
-                    XCTAssertEqualObjects(token.passwordForCounter(counter), password, "Incorrect result for \(algorithm) at \(times[i])")
-                    XCTAssertEqualObjects(token.passwordForCounter(counter), password, "Inconsistent result for \(algorithm) at \(times[i])")
+                    XCTAssertEqual(token.passwordForCounter(counter)!, password, "Incorrect result for \(algorithm) at \(times[i])")
+                    XCTAssertEqual(token.passwordForCounter(counter)!, password, "Inconsistent result for \(algorithm) at \(times[i])")
                 }
             }
         }
@@ -66,7 +66,7 @@ class TokenGenerationTests: XCTestCase {
     // From Google Authenticator for iOS
     // https://code.google.com/p/google-authenticator/source/browse/mobile/ios/Classes/TOTPGeneratorTest.m
     func testTOTPGoogleValues() {
-        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)
+        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let times = [1111111111, 1234567890, 2000000000]
 
         let expectedValues = [
@@ -79,7 +79,7 @@ class TokenGenerationTests: XCTestCase {
             let token = Token(type: .Timer, secret: secret, algorithm: algorithm, digits: 6, period: 30)
             for (var i = 0; i < times.count; i++) {
                 let counter = UInt64(NSTimeInterval(times[i]) / token.period)
-                XCTAssertEqualObjects(values[i], token.passwordForCounter(counter),
+                XCTAssertEqual(values[i], token.passwordForCounter(counter)!,
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
         }

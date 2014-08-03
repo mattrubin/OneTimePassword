@@ -30,4 +30,4 @@ typedef NS_ENUM(unsigned char, OTPGeneratorAlgorithm) {
     OTPGeneratorAlgorithmSHA512,
 };
 
-NSString *passwordForToken(NSData *secret, OTPGeneratorAlgorithm algorithm, NSUInteger digits, uint64_t counter);
+NSString *passwordForToken(NSData *secret, OTPGeneratorAlgorithm algorithm, NSInteger digits, uint64_t counter);

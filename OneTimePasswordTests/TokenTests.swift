@@ -13,7 +13,7 @@ class TokenTests: XCTestCase {
     func testInit() {
         // Create a token
         let type = Token.TokenType.Counter
-        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)
+        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let name = "Test Name"
         let issuer = "Test Issuer"
         let algorithm = Token.Algorithm.SHA256
@@ -41,7 +41,7 @@ class TokenTests: XCTestCase {
 
         // Create another token
         let other_type = Token.TokenType.Timer
-        let other_secret = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)
+        let other_secret = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
         let other_name = "Other Test Name"
         let other_issuer = "Other Test Issuer"
         let other_algorithm = Token.Algorithm.SHA512
@@ -80,7 +80,7 @@ class TokenTests: XCTestCase {
 
     func testDefaults() {
         let t = Token.TokenType.Counter
-        let s = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)
+        let s = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let n = "Test Name"
         let i = "Test Issuer"
         let a = Token.Algorithm.SHA256
@@ -97,7 +97,7 @@ class TokenTests: XCTestCase {
 
         XCTAssertEqual(tokenWithDefaultName.name, "")
         XCTAssertEqual(tokenWithDefaultIssuer.issuer, "")
-        XCTAssertEqual(tokenWithDefaultAlgorithm.algorithm, .SHA1)
+        XCTAssertEqual(tokenWithDefaultAlgorithm.algorithm, Token.Algorithm.SHA1)
         XCTAssertEqual(tokenWithDefaultDigits.digits, 6)
         XCTAssertEqual(tokenWithDefaultPeriod.period, 30)
         XCTAssertEqual(tokenWithDefaultCounter.counter, 0)
@@ -106,14 +106,14 @@ class TokenTests: XCTestCase {
 
         XCTAssertEqual(tokenWithAllDefaults.name, "")
         XCTAssertEqual(tokenWithAllDefaults.issuer, "")
-        XCTAssertEqual(tokenWithAllDefaults.algorithm, .SHA1)
+        XCTAssertEqual(tokenWithAllDefaults.algorithm, Token.Algorithm.SHA1)
         XCTAssertEqual(tokenWithAllDefaults.digits, 6)
         XCTAssertEqual(tokenWithAllDefaults.period, 30)
         XCTAssertEqual(tokenWithAllDefaults.counter, 0)
     }
 
     func testValidation() {
-        let validSecret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)
+        let validSecret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
 
         let tokenWithInvalidSecret = Token(type: .Timer, secret: NSData())
         let tokenWithValidSecret = Token(type: .Timer, secret: validSecret)

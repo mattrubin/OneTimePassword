@@ -14,7 +14,7 @@ let kQueryDigitsKey = "digits"
 let kQueryPeriodKey = "period"
 let kQueryIssuerKey = "issuer"
 
-extension Token {
+public extension Token {
     var url: NSURL {
         let urlComponents = NSURLComponents()
         urlComponents.scheme = kOTPAuthScheme
@@ -61,8 +61,8 @@ extension Token {
 
         var name = ""
         if let path = url.path {
-            if path.utf16count > 1 {
-                name = path.substringFromIndex(1) // Skip the leading "/"
+            if countElements(path) > 1 {
+                name = path.substringFromIndex(path.startIndex.successor()) // Skip the leading "/"
             }
         }
 
@@ -70,16 +70,22 @@ extension Token {
         if let issuerString = queryDictionary[kQueryIssuerKey] {
             issuer = issuerString
             // If the name is prefixed by the issuer string, trim the name
-            let prefixRange = name.rangeOfString(issuer)
-            if (prefixRange.startIndex == issuer.startIndex) && (name[prefixRange.endIndex] == ":") {
-                name = name.substringFromIndex(issuer.utf16count + 1).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            if let prefixRange = name.rangeOfString(issuer) {
+                if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
+                    name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                }
             }
         } else {
             // If there is no issuer string, try to extract one from the name
             let components = name.componentsSeparatedByString(":")
             if components.count > 1 {
                 issuer = components[0]
-                name = name.substringFromIndex(issuer.utf16count + 1).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                // If the name is prefixed by the issuer string, trim the name
+                if let prefixRange = name.rangeOfString(issuer) {
+                    if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
+                        name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                    }
+                }
             }
         }
 

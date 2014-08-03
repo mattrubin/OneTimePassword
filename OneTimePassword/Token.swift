@@ -6,17 +6,17 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-struct Token {
-    let name: String
-    let issuer: String
-    let type: TokenType
-    let secret: NSData
-    let algorithm: Algorithm
-    let digits: Int
-    let period: NSTimeInterval
-    let counter: UInt64
+public struct Token {
+    public let name: String
+    public let issuer: String
+    public let type: TokenType
+    public let secret: NSData
+    public let algorithm: Algorithm
+    public let digits: Int
+    public let period: NSTimeInterval
+    public let counter: UInt64
 
-    init(type: TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Algorithm = .SHA1, digits: Int = 6, period: NSTimeInterval = 30, counter: UInt64 = 0) {
+    public init(type: TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Algorithm = .SHA1, digits: Int = 6, period: NSTimeInterval = 30, counter: UInt64 = 0) {
         self.type = type
         self.secret = secret
         self.name = name
@@ -26,7 +26,9 @@ struct Token {
         self.period = period
         self.counter = counter
     }
+}
 
+public extension Token {
     var isValid: Bool {
         let validType = (type == .Counter) || (type == .Timer)
         let validSecret = (secret.length > 0)
@@ -43,11 +45,11 @@ struct Token {
 
     enum TokenType : String, Printable {
         case Counter = "hotp", Timer = "totp"
-        var description: String { return self.toRaw() }
+        public var description: String { return self.toRaw() }
     }
 
     enum Algorithm : String, Printable {
         case SHA1 = "SHA1", SHA256 = "SHA256", SHA512 = "SHA512"
-        var description: String { return self.toRaw() }
+        public var description: String { return self.toRaw() }
     }
 }
