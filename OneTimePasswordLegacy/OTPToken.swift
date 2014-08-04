@@ -16,7 +16,7 @@ public class OTPToken: NSObject {
         self.token = token
     }
 
-    convenience init() {
+    convenience override init() {
         // Stub an invalid token, to be replaced with a modified token via the setters
         self.init(token: Token(type: .Timer, secret: NSData()))
     }
