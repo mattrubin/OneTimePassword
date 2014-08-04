@@ -49,15 +49,15 @@ public extension Token {
         if let host = url.host {
             type = TokenType.fromRaw(host)
         }
-        if !type { return nil } // A token type is required
+        if type == nil { return nil } // A token type is required
 
         var secret = externalSecret
-        if !secret {
+        if secret == nil {
             if let secretString = queryDictionary[kQuerySecretKey] {
                 secret = NSData(base32String:secretString)
             }
         }
-        if !secret { return nil } // A secret is required
+        if secret == nil { return nil } // A secret is required
 
         var name = ""
         if let path = url.path {
