@@ -8,21 +8,18 @@
 
 public extension Token {
     func password() -> String? {
-        var newCounter = counter
         switch type {
-        case .Timer:
-            newCounter = UInt64(NSDate().timeIntervalSince1970 / self.period)
-        default:
-            break
+        case .Counter(let counter):
+            return self.passwordForCounter(counter)
+        case .Timer(let period):
+            return self.passwordForCounter(UInt64(NSDate().timeIntervalSince1970 / period))
         }
-
-        return self.passwordForCounter(newCounter)
     }
 
     func updatedToken() -> Token {
         switch type {
-        case .Counter:
-            return Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: digits, period: period, counter: counter + 1)
+        case .Counter(let counter):
+            return Token(type: .Counter(counter + 1), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: digits)
         case .Timer:
             return self
         }

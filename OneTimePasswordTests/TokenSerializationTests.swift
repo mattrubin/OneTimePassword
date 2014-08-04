@@ -14,14 +14,13 @@ class TokenSerializationTests: XCTestCase {
     let kOTPTokenTypeCounterHost = "hotp";
     let kOTPTokenTypeTimerHost   = "totp";
 
-    let types: [Token.TokenType] = [.Counter(0), .Timer(30)];
+    let types: [Token.TokenType] = [.Counter(0), .Counter(1), .Counter(UInt64.max),
+                                    .Timer(0), .Timer(1), .Timer(30)];
     let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""];
     let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""];
     let secretStrings = ["12345678901234567890", "12345678901234567890123456789012", "1234567890123456789012345678901234567890123456789012345678901234", ""];
     let algorithms: [Token.Algorithm] = [.SHA1, .SHA256, .SHA512];
     let digits = [6, 7, 8];
-    let periods: [NSTimeInterval] = [0, 1, 30];
-    let counters: [UInt64] = [0, 1, UInt64.max];
 
     func testSerialization() {
         for type in types {
@@ -30,10 +29,8 @@ class TokenSerializationTests: XCTestCase {
                     for secretString in secretStrings {
                         for algorithm in algorithms {
                             for digitNumber in digits {
-                                for period in periods {
-                                    for counter in counters {
                                         // Create the token
-                                        let token = Token(type: type, secret:secretString.dataUsingEncoding(NSASCIIStringEncoding)!, name:name, issuer:issuer, algorithm:algorithm, digits:digitNumber, period: period, counter: counter)
+                                        let token = Token(type: type, secret:secretString.dataUsingEncoding(NSASCIIStringEncoding)!, name:name, issuer:issuer, algorithm:algorithm, digits:digitNumber)
 
                                         // Serialize
                                         let url = token.url;
@@ -71,14 +68,14 @@ class TokenSerializationTests: XCTestCase {
 
                                         // Test period
                                         switch type {
-                                        case .Timer:
+                                        case .Timer(let period):
                                             XCTAssertEqual(queryArguments["period"]!, String(Int(period)), "The period value should be \"\(period)\"");
                                         default:
                                             XCTAssertNil(queryArguments["period"], "The url query string should not contain the period");
                                         }
                                         // Test counter
                                         switch type {
-                                        case .Counter:
+                                        case .Counter(let counter):
                                             XCTAssertEqual(queryArguments["counter"]!, String(counter), "The counter value should be \"\(counter)\"");
                                         default:
                                             XCTAssertNil(queryArguments["counter"], "The url query string should not contain the counter");
@@ -90,8 +87,6 @@ class TokenSerializationTests: XCTestCase {
                                         // Check url again
                                         let checkURL = token.url;
                                         XCTAssertEqual(url, checkURL, "Repeated calls to url() should return the same result!");
-                                    }
-                                }
                             }
                         }
                     }

@@ -13,18 +13,14 @@ public struct Token {
     public let secret: NSData
     public let algorithm: Algorithm
     public let digits: Int
-    public let period: NSTimeInterval
-    public let counter: UInt64
 
-    public init(type: TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Algorithm = .SHA1, digits: Int = 6, period: NSTimeInterval = 30, counter: UInt64 = 0) {
+    public init(type: TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Algorithm = .SHA1, digits: Int = 6) {
         self.type = type
         self.secret = secret
         self.name = name
         self.issuer = issuer
         self.algorithm = algorithm
         self.digits = digits
-        self.period = period
-        self.counter = counter
     }
 }
 
@@ -32,7 +28,14 @@ public extension Token {
     var isValid: Bool {
         let validSecret = (secret.length > 0)
         let validDigits = (digits >= 6) && (digits <= 8)
-        let validPeriod = (period > 0) && (period <= 300)
+        var validPeriod = true
+        switch type {
+        case .Timer(let period):
+            validPeriod = (period > 0) && (period <= 300)
+        default:
+            break
+        }
+
 
         return validSecret && validDigits && validPeriod
     }

@@ -28,9 +28,9 @@ public extension Token {
         ]
 
         switch type {
-        case .Timer:
+        case .Timer(let period):
             urlComponents.queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
-        case .Counter:
+        case .Counter(let counter):
             urlComponents.queryItems.append(NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
         }
 
@@ -107,21 +107,22 @@ public extension Token {
             digits = digitsInt
         }
 
-        var period: NSTimeInterval = 30
-        if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
-            period = NSTimeInterval(periodInt)
-        }
-
-        var counter: UInt64 = 0
-        if let counterString = queryDictionary[kQueryCounterKey] {
-            errno = 0
-            let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
-            if errno == 0 {
-                counter = counterValue
+        switch type! {
+        case .Timer:
+            if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
+                type = .Timer(NSTimeInterval(periodInt))
+            }
+        case .Counter:
+            if let counterString = queryDictionary[kQueryCounterKey] {
+                errno = 0
+                let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
+                if errno == 0 {
+                    type = .Counter(counterValue)
+                }
             }
         }
 
-        let token = Token(type:type!, secret:secret!, name:name, issuer:issuer, algorithm:algorithm, digits:digits, period:period, counter:counter)
+        let token = Token(type:type!, secret:secret!, name:name, issuer:issuer, algorithm:algorithm, digits:digits)
 
         if token.isValid {
             return token

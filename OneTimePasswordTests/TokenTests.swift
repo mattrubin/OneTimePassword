@@ -18,17 +18,13 @@ class TokenTests: XCTestCase {
         let issuer = "Test Issuer"
         let algorithm = Token.Algorithm.SHA256
         let digits = 8
-        let period: NSTimeInterval = 45
-        let counter: UInt64 = 111
 
         let token = Token(type: type,
             secret: secret,
             name: name,
             issuer: issuer,
             algorithm: algorithm,
-            digits: digits,
-            period: period,
-            counter: counter)
+            digits: digits)
 
         XCTAssertEqual(token.type, type)
         XCTAssertEqual(token.secret, secret)
@@ -36,8 +32,6 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(token.issuer, issuer)
         XCTAssertEqual(token.algorithm, algorithm)
         XCTAssertEqual(token.digits, digits)
-        XCTAssertEqual(token.period, period)
-        XCTAssertEqual(token.counter, counter)
 
         // Create another token
         let other_type = Token.TokenType.Timer(123)
@@ -46,17 +40,13 @@ class TokenTests: XCTestCase {
         let other_issuer = "Other Test Issuer"
         let other_algorithm = Token.Algorithm.SHA512
         let other_digits = 7
-        let other_period: NSTimeInterval = 123
-        let other_counter: UInt64 = 222
 
         let other_token = Token(type: other_type,
             secret: other_secret,
             name: other_name,
             issuer: other_issuer,
             algorithm: other_algorithm,
-            digits: other_digits,
-            period: other_period,
-            counter: other_counter)
+            digits: other_digits)
 
         XCTAssertEqual(other_token.type, other_type)
         XCTAssertEqual(other_token.secret, other_secret)
@@ -64,8 +54,6 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(other_token.issuer, other_issuer)
         XCTAssertEqual(other_token.algorithm, other_algorithm)
         XCTAssertEqual(other_token.digits, other_digits)
-        XCTAssertEqual(other_token.period, other_period)
-        XCTAssertEqual(other_token.counter, other_counter)
 
         // Ensure the tokens are different
         XCTAssertNotEqual(token.type, other_token.type)
@@ -74,8 +62,6 @@ class TokenTests: XCTestCase {
         XCTAssertNotEqual(token.issuer, other_token.issuer)
         XCTAssertNotEqual(token.algorithm, other_token.algorithm)
         XCTAssertNotEqual(token.digits, other_token.digits)
-        XCTAssertNotEqual(token.period, other_token.period)
-        XCTAssertNotEqual(token.counter, other_token.counter)
     }
 
     func testDefaults() {
@@ -88,19 +74,15 @@ class TokenTests: XCTestCase {
         let p: NSTimeInterval = 45
         let c: UInt64 = 111
 
-        let tokenWithDefaultName      = Token(type: t, secret: s,          issuer: i, algorithm: a, digits: d, period: p, counter: c)
-        let tokenWithDefaultIssuer    = Token(type: t, secret: s, name: n,            algorithm: a, digits: d, period: p, counter: c)
-        let tokenWithDefaultAlgorithm = Token(type: t, secret: s, name: n, issuer: i,               digits: d, period: p, counter: c)
-        let tokenWithDefaultDigits    = Token(type: t, secret: s, name: n, issuer: i, algorithm: a,            period: p, counter: c)
-        let tokenWithDefaultPeriod    = Token(type: t, secret: s, name: n, issuer: i, algorithm: a, digits: d,            counter: c)
-        let tokenWithDefaultCounter   = Token(type: t, secret: s, name: n, issuer: i, algorithm: a, digits: d, period: p            )
+        let tokenWithDefaultName      = Token(type: t, secret: s,          issuer: i, algorithm: a, digits: d)
+        let tokenWithDefaultIssuer    = Token(type: t, secret: s, name: n,            algorithm: a, digits: d)
+        let tokenWithDefaultAlgorithm = Token(type: t, secret: s, name: n, issuer: i,               digits: d)
+        let tokenWithDefaultDigits    = Token(type: t, secret: s, name: n, issuer: i, algorithm: a           )
 
         XCTAssertEqual(tokenWithDefaultName.name, "")
         XCTAssertEqual(tokenWithDefaultIssuer.issuer, "")
         XCTAssertEqual(tokenWithDefaultAlgorithm.algorithm, Token.Algorithm.SHA1)
         XCTAssertEqual(tokenWithDefaultDigits.digits, 6)
-        XCTAssertEqual(tokenWithDefaultPeriod.period, 30)
-        XCTAssertEqual(tokenWithDefaultCounter.counter, 0)
 
         let tokenWithAllDefaults = Token(type: t, secret: s)
 
@@ -108,8 +90,6 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(tokenWithAllDefaults.issuer, "")
         XCTAssertEqual(tokenWithAllDefaults.algorithm, Token.Algorithm.SHA1)
         XCTAssertEqual(tokenWithAllDefaults.digits, 6)
-        XCTAssertEqual(tokenWithAllDefaults.period, 30)
-        XCTAssertEqual(tokenWithAllDefaults.counter, 0)
     }
 
     func testValidation() {
@@ -131,10 +111,10 @@ class TokenTests: XCTestCase {
         XCTAssertFalse(tokenWithNegativeDigits.isValid)
         XCTAssertTrue(tokenWithValidDigits.isValid)
 
-        let tokenWithTooLongPeriod = Token(type: .Timer(301), secret: validSecret, period: 301)
-        let tokenWithTooShortPeriod = Token(type: .Timer(0), secret: validSecret, period: 0)
-        let tokenWithNegativePeriod = Token(type: .Timer(-30), secret: validSecret, period: -30)
-        let tokenWithValidPeriod = Token(type: .Timer(30), secret: validSecret, period: 30)
+        let tokenWithTooLongPeriod = Token(type: .Timer(301), secret: validSecret)
+        let tokenWithTooShortPeriod = Token(type: .Timer(0), secret: validSecret)
+        let tokenWithNegativePeriod = Token(type: .Timer(-30), secret: validSecret)
+        let tokenWithValidPeriod = Token(type: .Timer(30), secret: validSecret)
 
         XCTAssertFalse(tokenWithTooLongPeriod.isValid)
         XCTAssertFalse(tokenWithTooShortPeriod.isValid)
