@@ -24,11 +24,15 @@ public extension Token {
         urlComponents.queryItems = [
             NSURLQueryItem(name:kQueryAlgorithmKey, value:algorithm.toRaw()),
             NSURLQueryItem(name:kQueryDigitsKey, value:String(digits)),
-            NSURLQueryItem(name:kQueryIssuerKey, value:issuer),
-            (type == TokenType.Timer
-                ? NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period)))
-                : NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
+            NSURLQueryItem(name:kQueryIssuerKey, value:issuer)
         ]
+
+        switch type {
+        case .Timer:
+            urlComponents.queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
+        case .Counter:
+            urlComponents.queryItems.append(NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
+        }
 
         return urlComponents.URL
     }

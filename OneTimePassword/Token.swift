@@ -30,27 +30,64 @@ public struct Token {
 
 public extension Token {
     var isValid: Bool {
-        let validType = (type == .Counter) || (type == .Timer)
         let validSecret = (secret.length > 0)
-        let validAlgorithm = (algorithm == .SHA1) || (algorithm == .SHA256) || (algorithm == .SHA512)
         let validDigits = (digits >= 6) && (digits <= 8)
         let validPeriod = (period > 0) && (period <= 300)
 
-        return validType && validSecret && validAlgorithm && validDigits && validPeriod
+        return validSecret && validDigits && validPeriod
     }
 
     var description: String {
         return "Token(type:\(type.toRaw()), name:\(name), issuer:\(issuer), algorithm:\(algorithm.toRaw()), digits:\(digits))"
     }
 
-    enum TokenType : String {
-        case Counter = "hotp",
-             Timer   = "totp"
+    enum TokenType: Equatable {
+        case Counter(UInt64)
+        case Timer(NSTimeInterval)
+
+        func toRaw() -> String {
+            switch self {
+            case .Counter:
+                return "hotp"
+            case .Timer:
+                return "totp"
+            }
+        }
+
+        static func fromRaw(raw: String) -> TokenType? {
+            switch raw {
+            case "hotp":
+                return .Counter(0)
+            case "totp":
+                return .Timer(30)
+            default:
+                return nil
+            }
+        }
     }
 
     enum Algorithm : String {
         case SHA1   = "SHA1",
              SHA256 = "SHA256",
              SHA512 = "SHA512"
+    }
+}
+
+public func ==(lhs: Token.TokenType, rhs: Token.TokenType) -> Bool {
+    switch lhs {
+    case .Counter(let lhCounter):
+        switch rhs {
+        case .Counter(let rhCounter):
+            return lhCounter == rhCounter
+        default:
+            return false
+        }
+    case .Timer(let lhTimer):
+        switch rhs {
+        case .Timer(let rhTimer):
+            return lhTimer == rhTimer
+        default:
+            return false
+        }
     }
 }

@@ -14,7 +14,7 @@ class TokenSerializationTests: XCTestCase {
     let kOTPTokenTypeCounterHost = "hotp";
     let kOTPTokenTypeTimerHost   = "totp";
 
-    let types: [Token.TokenType] = [.Counter, .Timer];
+    let types: [Token.TokenType] = [.Counter(0), .Timer(30)];
     let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""];
     let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""];
     let secretStrings = ["12345678901234567890", "12345678901234567890123456789012", "1234567890123456789012345678901234567890123456789012345678901234", ""];
@@ -41,7 +41,13 @@ class TokenSerializationTests: XCTestCase {
                                         // Test scheme
                                         XCTAssertEqual(url.scheme, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"");
                                         // Test type
-                                        let expectedHost = (type == .Counter) ? kOTPTokenTypeCounterHost : kOTPTokenTypeTimerHost;
+                                        var expectedHost: String
+                                        switch type {
+                                        case .Counter:
+                                            expectedHost = kOTPTokenTypeCounterHost
+                                        case .Timer:
+                                            expectedHost = kOTPTokenTypeTimerHost
+                                        }
                                         XCTAssertEqual(url.host, expectedHost, "The url host should be \"\(expectedHost)\"");
                                         // Test name
                                         XCTAssertEqual(url.path.substringFromIndex(url.path.startIndex.successor()), name, "The url path should be \"\(name)\"");
@@ -64,15 +70,17 @@ class TokenSerializationTests: XCTestCase {
                                         XCTAssertNil(queryArguments["secret"], "The url query string should not contain the secret");
 
                                         // Test period
-                                        if type == .Timer {
+                                        switch type {
+                                        case .Timer:
                                             XCTAssertEqual(queryArguments["period"]!, String(Int(period)), "The period value should be \"\(period)\"");
-                                        } else {
+                                        default:
                                             XCTAssertNil(queryArguments["period"], "The url query string should not contain the period");
                                         }
                                         // Test counter
-                                        if (type == .Counter) {
+                                        switch type {
+                                        case .Counter:
                                             XCTAssertEqual(queryArguments["counter"]!, String(counter), "The counter value should be \"\(counter)\"");
-                                        } else {
+                                        default:
                                             XCTAssertNil(queryArguments["counter"], "The url query string should not contain the counter");
                                         }
 

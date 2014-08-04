@@ -12,7 +12,7 @@ import OneTimePassword
 class TokenTests: XCTestCase {
     func testInit() {
         // Create a token
-        let type = Token.TokenType.Counter
+        let type = Token.TokenType.Counter(111)
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let name = "Test Name"
         let issuer = "Test Issuer"
@@ -40,7 +40,7 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(token.counter, counter)
 
         // Create another token
-        let other_type = Token.TokenType.Timer
+        let other_type = Token.TokenType.Timer(123)
         let other_secret = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
         let other_name = "Other Test Name"
         let other_issuer = "Other Test Issuer"
@@ -79,7 +79,7 @@ class TokenTests: XCTestCase {
     }
 
     func testDefaults() {
-        let t = Token.TokenType.Counter
+        let t = Token.TokenType.Counter(111)
         let s = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let n = "Test Name"
         let i = "Test Issuer"
@@ -115,26 +115,26 @@ class TokenTests: XCTestCase {
     func testValidation() {
         let validSecret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
 
-        let tokenWithInvalidSecret = Token(type: .Timer, secret: NSData())
-        let tokenWithValidSecret = Token(type: .Timer, secret: validSecret)
+        let tokenWithInvalidSecret = Token(type: .Timer(30), secret: NSData())
+        let tokenWithValidSecret = Token(type: .Timer(30), secret: validSecret)
 
         XCTAssertFalse(tokenWithInvalidSecret.isValid)
         XCTAssertTrue(tokenWithValidSecret.isValid)
 
-        let tokenWithTooManyDigits = Token(type: .Timer, secret: validSecret, digits: 10)
-        let tokenWithTooFewDigits = Token(type: .Timer, secret: validSecret, digits: 3)
-        let tokenWithNegativeDigits = Token(type: .Timer, secret: validSecret, digits: -6)
-        let tokenWithValidDigits = Token(type: .Timer, secret: validSecret)
+        let tokenWithTooManyDigits = Token(type: .Timer(30), secret: validSecret, digits: 10)
+        let tokenWithTooFewDigits = Token(type: .Timer(30), secret: validSecret, digits: 3)
+        let tokenWithNegativeDigits = Token(type: .Timer(30), secret: validSecret, digits: -6)
+        let tokenWithValidDigits = Token(type: .Timer(30), secret: validSecret)
 
         XCTAssertFalse(tokenWithTooManyDigits.isValid)
         XCTAssertFalse(tokenWithTooFewDigits.isValid)
         XCTAssertFalse(tokenWithNegativeDigits.isValid)
         XCTAssertTrue(tokenWithValidDigits.isValid)
 
-        let tokenWithTooLongPeriod = Token(type: .Timer, secret: validSecret, period: 301)
-        let tokenWithTooShortPeriod = Token(type: .Timer, secret: validSecret, period: 0)
-        let tokenWithNegativePeriod = Token(type: .Timer, secret: validSecret, period: -30)
-        let tokenWithValidPeriod = Token(type: .Timer, secret: validSecret, period: 30)
+        let tokenWithTooLongPeriod = Token(type: .Timer(301), secret: validSecret, period: 301)
+        let tokenWithTooShortPeriod = Token(type: .Timer(0), secret: validSecret, period: 0)
+        let tokenWithNegativePeriod = Token(type: .Timer(-30), secret: validSecret, period: -30)
+        let tokenWithValidPeriod = Token(type: .Timer(30), secret: validSecret, period: 30)
 
         XCTAssertFalse(tokenWithTooLongPeriod.isValid)
         XCTAssertFalse(tokenWithTooShortPeriod.isValid)

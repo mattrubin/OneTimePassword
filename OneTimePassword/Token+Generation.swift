@@ -9,8 +9,11 @@
 public extension Token {
     func password() -> String? {
         var newCounter = counter
-        if (self.type == TokenType.Timer) {
+        switch type {
+        case .Timer:
             newCounter = UInt64(NSDate().timeIntervalSince1970 / self.period)
+        default:
+            break
         }
 
         return self.passwordForCounter(newCounter)

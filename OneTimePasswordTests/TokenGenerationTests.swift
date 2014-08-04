@@ -16,7 +16,7 @@ class TokenGenerationTests: XCTestCase {
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let expectedValues = ["755224", "287082", "359152", "969429", "338314", "254676", "287922", "162583", "399871", "520489"]
 
-        var token = Token(type: .Counter, secret: secret, algorithm: .SHA1, digits: 6, counter: 0)
+        var token = Token(type: .Counter(0), secret: secret, algorithm: .SHA1, digits: 6, counter: 0)
 
         for (var counter = 0; counter < expectedValues.count; counter++) {
             XCTAssertEqual(token.passwordForCounter(UInt64(counter))!, expectedValues[counter])
@@ -51,7 +51,7 @@ class TokenGenerationTests: XCTestCase {
 
         for (algorithm, secretKey) in secretKeys {
             let secret = secretKey.dataUsingEncoding(NSASCIIStringEncoding)!
-            let token = Token(type: .Timer, secret: secret, algorithm: algorithm, digits: 8, period: 30)
+            let token = Token(type: .Timer(30), secret: secret, algorithm: algorithm, digits: 8, period: 30)
 
             for (var i = 0; i < times.count; i++) {
                 if let password = expectedValues[algorithm]?[i] {
@@ -76,7 +76,7 @@ class TokenGenerationTests: XCTestCase {
         ]
 
         for (algorithm, values) in expectedValues {
-            let token = Token(type: .Timer, secret: secret, algorithm: algorithm, digits: 6, period: 30)
+            let token = Token(type: .Timer(30), secret: secret, algorithm: algorithm, digits: 6, period: 30)
             for (var i = 0; i < times.count; i++) {
                 let counter = UInt64(NSTimeInterval(times[i]) / token.period)
                 XCTAssertEqual(values[i], token.passwordForCounter(counter)!,
