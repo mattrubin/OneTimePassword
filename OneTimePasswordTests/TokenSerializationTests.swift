@@ -60,7 +60,13 @@ class TokenSerializationTests: XCTestCase {
                                         XCTAssertEqual(queryArguments.count, 4, "There shouldn't be any unexpected query arguments");
 
                                         // Test algorithm
-                                        XCTAssertEqual(queryArguments["algorithm"]!, algorithm.toRaw(), "The algorithm value should be \"\(algorithm.toRaw())\"");
+                                let algorithmString: String = {
+                                    switch $0 {
+                                    case .SHA1:   return "SHA1"
+                                    case .SHA256: return "SHA256"
+                                    case .SHA512: return "SHA512"
+                                    }}(algorithm)
+                                        XCTAssertEqual(queryArguments["algorithm"]!, algorithmString, "The algorithm value should be \"\(algorithmString)\"");
                                         // Test digits
                                         XCTAssertEqual(queryArguments["digits"]!, String(digitNumber), "The digits value should be \"\(digitNumber)\"");
                                         // Test secret
