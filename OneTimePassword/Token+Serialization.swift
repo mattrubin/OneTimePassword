@@ -18,7 +18,14 @@ public extension Token {
     var url: NSURL {
         let urlComponents = NSURLComponents()
         urlComponents.scheme = kOTPAuthScheme
-        urlComponents.host = type.toRaw()
+
+        switch type {
+        case .Counter:
+            urlComponents.host = TokenType.CounterString
+        case .Timer:
+            urlComponents.host = TokenType.TimerString
+        }
+
         urlComponents.path = "/" + name
 
         urlComponents.queryItems = [

@@ -41,7 +41,7 @@ public extension Token {
     }
 
     var description: String {
-        return "Token(type:\(type.toRaw()), name:\(name), issuer:\(issuer), algorithm:\(algorithm.toRaw()), digits:\(digits))"
+        return "Token(type:\(type), name:\(name), issuer:\(issuer), algorithm:\(algorithm.toRaw()), digits:\(digits))"
     }
 
     enum TokenType: Equatable {
@@ -50,15 +50,6 @@ public extension Token {
 
         static let CounterString = "hotp"
         static let TimerString = "totp"
-
-        func toRaw() -> String {
-            switch self {
-            case .Counter:
-                return TokenType.CounterString
-            case .Timer:
-                return TokenType.TimerString
-            }
-        }
     }
 
     enum Algorithm : String {
