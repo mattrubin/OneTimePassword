@@ -8,7 +8,6 @@
 
 public extension Token {
     var isValid: Bool {
-        let validSecret = (secret.length > 0)
         let validDigits = (digits >= 6) && (digits <= 8)
         let validPeriod: Bool = { switch $0 {
             case .Timer(let period):
@@ -17,7 +16,7 @@ public extension Token {
                 return true
         }}(type)
 
-        return validSecret && validDigits && validPeriod
+        return validDigits && validPeriod
     }
 
     var password: String? {

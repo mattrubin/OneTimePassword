@@ -118,12 +118,6 @@ class TokenTests: XCTestCase {
     func testValidation() {
         let validSecret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
 
-        let tokenWithInvalidSecret = Token(type: .Timer(30), secret: NSData())
-        let tokenWithValidSecret = Token(type: .Timer(30), secret: validSecret)
-
-        XCTAssertFalse(tokenWithInvalidSecret.isValid)
-        XCTAssertTrue(tokenWithValidSecret.isValid)
-
         let tokenWithTooManyDigits = Token(type: .Timer(30), secret: validSecret, digits: 10)
         let tokenWithTooFewDigits = Token(type: .Timer(30), secret: validSecret, digits: 3)
         let tokenWithNegativeDigits = Token(type: .Timer(30), secret: validSecret, digits: -6)
