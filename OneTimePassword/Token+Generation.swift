@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
+import Foundation
+
 public extension Token {
     var isValid: Bool {
         let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }

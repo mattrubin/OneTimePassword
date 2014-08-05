@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
+import Foundation
+
 func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
     let mutableAttributes = attributes.mutableCopy() as NSMutableDictionary
     mutableAttributes[kSecClass.takeUnretainedValue() as NSCopying] = kSecClassGenericPassword.takeUnretainedValue() as NSCopying

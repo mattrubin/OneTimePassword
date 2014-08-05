@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
+import Foundation
+
 let kOTPAuthScheme = "otpauth"
 let kQueryAlgorithmKey = "algorithm"
 let kQuerySecretKey = "secret"
