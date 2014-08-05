@@ -14,21 +14,35 @@ let kQueryDigitsKey = "digits"
 let kQueryPeriodKey = "period"
 let kQueryIssuerKey = "issuer"
 
+let TokenTypeCounterString = "hotp"
+let TokenTypeTimerString = "totp"
+
 public extension Token {
     var url: NSURL {
         let urlComponents = NSURLComponents()
         urlComponents.scheme = kOTPAuthScheme
-        urlComponents.host = type.toRaw()
+
+        switch type {
+        case .Counter:
+            urlComponents.host = TokenTypeCounterString
+        case .Timer:
+            urlComponents.host = TokenTypeTimerString
+        }
+
         urlComponents.path = "/" + name
 
         urlComponents.queryItems = [
             NSURLQueryItem(name:kQueryAlgorithmKey, value:algorithm.toRaw()),
             NSURLQueryItem(name:kQueryDigitsKey, value:String(digits)),
-            NSURLQueryItem(name:kQueryIssuerKey, value:issuer),
-            (type == TokenType.Timer
-                ? NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period)))
-                : NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
+            NSURLQueryItem(name:kQueryIssuerKey, value:issuer)
         ]
+
+        switch type {
+        case .Timer(let period):
+            urlComponents.queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
+        case .Counter(let counter):
+            urlComponents.queryItems.append(NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
+        }
 
         return urlComponents.URL
     }
@@ -47,7 +61,21 @@ public extension Token {
 
         var type: TokenType?
         if let host = url.host {
-            type = TokenType.fromRaw(host)
+            if host == TokenTypeCounterString {
+                type = TokenType.Counter(0)
+                if let counterString = queryDictionary[kQueryCounterKey] {
+                    errno = 0
+                    let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
+                    if errno == 0 {
+                        type = .Counter(counterValue)
+                    }
+                }
+            } else if host == TokenTypeTimerString {
+                type = TokenType.Timer(30)
+                if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
+                    type = .Timer(NSTimeInterval(periodInt))
+                }
+            }
         }
         if type == nil { return nil } // A token type is required
 
@@ -103,21 +131,7 @@ public extension Token {
             digits = digitsInt
         }
 
-        var period: NSTimeInterval = 30
-        if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
-            period = NSTimeInterval(periodInt)
-        }
-
-        var counter: UInt64 = 0
-        if let counterString = queryDictionary[kQueryCounterKey] {
-            errno = 0
-            let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
-            if errno == 0 {
-                counter = counterValue
-            }
-        }
-
-        let token = Token(type:type!, secret:secret!, name:name, issuer:issuer, algorithm:algorithm, digits:digits, period:period, counter:counter)
+        let token = Token(type:type!, secret:secret!, name:name, issuer:issuer, algorithm:algorithm, digits:digits)
 
         if token.isValid {
             return token

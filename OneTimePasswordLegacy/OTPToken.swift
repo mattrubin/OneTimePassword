@@ -18,44 +18,92 @@ public class OTPToken: NSObject {
 
     convenience override init() {
         // Stub an invalid token, to be replaced with a modified token via the setters
-        self.init(token: Token(type: .Timer, secret: NSData()))
+        self.init(token: Token(type: .Timer(30), secret: NSData()))
     }
 
     class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer:NSString) -> Self {
-        return self(token: Token(type: type, secret: secret, name: name, issuer: issuer))
+        switch type {
+        case .Counter:
+            return self(token: Token(type: .Counter(0), secret: secret, name: name, issuer: issuer))
+        case .Timer:
+            return self(token: Token(type: .Timer(30), secret: secret, name: name, issuer: issuer))
+        }
     }
 
     public var name: String {
     get { return token.name }
-    set { token = Token(type: type, secret: secret, name: newValue, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
+    set { token = Token(type: token.type, secret: secret, name: newValue, issuer: issuer, algorithm: algorithm, digits: token.digits) }
     }
     public var issuer: String {
     get { return token.issuer }
-    set { token = Token(type: type, secret: secret, name: name, issuer: newValue, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
+    set { token = Token(type: token.type, secret: secret, name: name, issuer: newValue, algorithm: algorithm, digits: token.digits) }
     }
     public var type: OTPTokenType {
-    get { return token.type }
-    set { token = Token(type: newValue, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
+    get {
+        switch token.type {
+        case .Counter: return .Counter
+        case .Timer:   return .Timer
+        }
+    }
+    set {
+        switch newValue {
+        case .Counter:
+            token = Token(type: .Counter(_counter), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
+        case .Timer:
+            token = Token(type: .Timer(_period), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
+        }
+    }
     }
     public var secret: NSData {
     get { return token.secret }
-    set { token = Token(type: type, secret: newValue, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: counter) }
+    set { token = Token(type: token.type, secret: newValue, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits) }
     }
     public var algorithm: OTPAlgorithm {
     get { return token.algorithm }
-    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: newValue, digits: token.digits, period: period, counter: counter) }
+    set { token = Token(type: token.type, secret: secret, name: name, issuer: issuer, algorithm: newValue, digits: token.digits) }
     }
     public var digits: UInt {
     get { return UInt(token.digits) }
-    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: Int(newValue), period: period, counter: counter) }
+    set { token = Token(type: token.type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: Int(newValue)) }
     }
+
+    private var _period: NSTimeInterval = 30
     public var period: NSTimeInterval {
-    get { return token.period }
-    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: newValue, counter: counter) }
+    get {
+        switch token.type {
+        case .Timer(let period):
+            _period = period
+        default: break
+        }
+        return _period
     }
+    set {
+        _period = newValue
+        switch token.type {
+        case .Timer:
+            token = Token(type: .Timer(_period), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
+        default: break
+        }
+    }
+    }
+    private var _counter: UInt64 = 0
     public var counter: UInt64 {
-    get { return token.counter }
-    set { token = Token(type: type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits, period: period, counter: newValue) }
+    get {
+        switch token.type {
+        case .Counter(let counter):
+            _counter = counter
+        default: break
+        }
+        return _counter
+    }
+    set {
+        _counter = newValue
+        switch token.type {
+        case .Counter:
+            token = Token(type: .Counter(_counter), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
+        default: break
+        }
+    }
     }
 
     public class func defaultAlgorithm() -> OTPAlgorithm {
@@ -158,23 +206,6 @@ public extension OTPToken {
     }
 }
 
-extension Token.TokenType {
-    func __conversion() -> OTPTokenType {
-        switch self {
-        case .Counter: return .Counter
-        case .Timer:   return .Timer
-        }
-    }
-}
-
-extension OTPTokenType {
-    func __conversion() -> Token.TokenType {
-        switch self {
-        case .Counter: return .Counter
-        case .Timer:   return .Timer
-        }
-    }
-}
 
 extension Token.Algorithm {
     func __conversion() -> OTPAlgorithm {

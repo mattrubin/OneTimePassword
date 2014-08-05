@@ -13,43 +13,45 @@ public struct Token {
     public let secret: NSData
     public let algorithm: Algorithm
     public let digits: Int
-    public let period: NSTimeInterval
-    public let counter: UInt64
 
-    public init(type: TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Algorithm = .SHA1, digits: Int = 6, period: NSTimeInterval = 30, counter: UInt64 = 0) {
+    public init(type: TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Algorithm = .SHA1, digits: Int = 6) {
         self.type = type
         self.secret = secret
         self.name = name
         self.issuer = issuer
         self.algorithm = algorithm
         self.digits = digits
-        self.period = period
-        self.counter = counter
     }
 }
 
 public extension Token {
     var isValid: Bool {
-        let validType = (type == .Counter) || (type == .Timer)
         let validSecret = (secret.length > 0)
-        let validAlgorithm = (algorithm == .SHA1) || (algorithm == .SHA256) || (algorithm == .SHA512)
         let validDigits = (digits >= 6) && (digits <= 8)
-        let validPeriod = (period > 0) && (period <= 300)
+        var validPeriod = true
+        switch type {
+        case .Timer(let period):
+            validPeriod = (period > 0) && (period <= 300)
+        default:
+            break
+        }
 
-        return validType && validSecret && validAlgorithm && validDigits && validPeriod
+
+        return validSecret && validDigits && validPeriod
     }
 
     var description: String {
-        return "Token(type:\(type), name:\(name), issuer:\(issuer), algorithm:\(algorithm), digits:\(digits))"
+        return "Token(type:\(type), name:\(name), issuer:\(issuer), algorithm:\(algorithm.toRaw()), digits:\(digits))"
     }
 
-    enum TokenType : String, Printable {
-        case Counter = "hotp", Timer = "totp"
-        public var description: String { return self.toRaw() }
+    enum TokenType {
+        case Counter(UInt64)
+        case Timer(NSTimeInterval)
     }
 
-    enum Algorithm : String, Printable {
-        case SHA1 = "SHA1", SHA256 = "SHA256", SHA512 = "SHA512"
-        public var description: String { return self.toRaw() }
+    enum Algorithm : String {
+        case SHA1   = "SHA1",
+             SHA256 = "SHA256",
+             SHA512 = "SHA512"
     }
 }
