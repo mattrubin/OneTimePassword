@@ -28,7 +28,7 @@ class TokenGenerationTests: XCTestCase {
             XCTAssertEqual(token.password!, expectedPassword)
             XCTAssertEqual(token.password!, expectedPassword,
                 "Inconsistent return value from token.password()")
-            token = token.updatedToken()
+            token = updatedToken(token)
         }
     }
 

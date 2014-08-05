@@ -124,7 +124,7 @@ public class OTPToken: NSObject {
 
 public extension OTPToken {
     var password: String? { return token.password }
-    func updatePassword() { token = token.updatedToken() }
+    func updatePassword() { token = updatedToken(token) }
 
     func generatePasswordForCounter(counter: UInt64) -> String? {
         return generatePassword(token.algorithm, token.digits, token.secret, counter)

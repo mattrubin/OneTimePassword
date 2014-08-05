@@ -29,14 +29,14 @@ public extension Token {
             return generatePassword(algorithm, digits, secret, UInt64(NSDate().timeIntervalSince1970 / period))
         }
     }
+}
 
-    func updatedToken() -> Token {
-        switch type {
-        case .Counter(let counter):
-            return Token(type: .Counter(counter + 1), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: digits)
-        case .Timer:
-            return self
-        }
+public func updatedToken(token: Token) -> Token {
+    switch token.type {
+    case .Counter(let counter):
+        return Token(type: .Counter(counter + 1), secret: token.secret, name: token.name, issuer: token.issuer, algorithm: token.algorithm, digits: token.digits)
+    case .Timer:
+        return token
     }
 }
 
