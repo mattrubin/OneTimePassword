@@ -20,7 +20,7 @@ public extension Token {
         return validSecret && validDigits && validPeriod
     }
 
-    func password() -> String? {
+    var password: String? {
         if !self.isValid { return nil }
         switch type {
         case .Counter(let counter):
