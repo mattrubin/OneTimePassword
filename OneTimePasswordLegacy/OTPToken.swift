@@ -127,7 +127,7 @@ public extension OTPToken {
     func updatePassword() { token = token.updatedToken() }
 
     func generatePasswordForCounter(counter: UInt64) -> String? {
-        return token.passwordForCounter(counter)
+        return generatePassword(token.algorithm, token.digits, token.secret, counter)
     }
 }
 

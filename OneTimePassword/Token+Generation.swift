@@ -10,9 +10,9 @@ public extension Token {
     func password() -> String? {
         switch type {
         case .Counter(let counter):
-            return self.passwordForCounter(counter)
+            return generatePassword(algorithm, digits, secret, counter)
         case .Timer(let period):
-            return self.passwordForCounter(UInt64(NSDate().timeIntervalSince1970 / period))
+            return generatePassword(algorithm, digits, secret, UInt64(NSDate().timeIntervalSince1970 / period))
         }
     }
 
@@ -24,17 +24,16 @@ public extension Token {
             return self
         }
     }
-
-    func passwordForCounter(counter: UInt64) -> String? {
-        if !self.isValid { return nil }
-        return passwordForToken(self.secret, generatorAlgorithmForTokenAlgorithm(self.algorithm), self.digits, counter)
-    }
 }
 
-func generatorAlgorithmForTokenAlgorithm(algorithm: Token.Algorithm) -> OTPGeneratorAlgorithm {
-    switch algorithm {
+public func generatePassword(algorithm: Token.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String? {
+//    if !token.isValid { return nil }
+
+    let generatorAlgorithm: OTPGeneratorAlgorithm = { switch $0 {
     case .SHA1:   return .SHA1
     case .SHA256: return .SHA256
     case .SHA512: return .SHA512
-    }
+    }}(algorithm)
+
+    return passwordForToken(secret, generatorAlgorithm, digits, counter)
 }
