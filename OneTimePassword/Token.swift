@@ -48,23 +48,15 @@ public extension Token {
         case Counter(UInt64)
         case Timer(NSTimeInterval)
 
+        static let CounterString = "hotp"
+        static let TimerString = "totp"
+
         func toRaw() -> String {
             switch self {
             case .Counter:
-                return "hotp"
+                return TokenType.CounterString
             case .Timer:
-                return "totp"
-            }
-        }
-
-        static func fromRaw(raw: String) -> TokenType? {
-            switch raw {
-            case "hotp":
-                return .Counter(0)
-            case "totp":
-                return .Timer(30)
-            default:
-                return nil
+                return TokenType.TimerString
             }
         }
     }

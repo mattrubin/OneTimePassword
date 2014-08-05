@@ -51,7 +51,21 @@ public extension Token {
 
         var type: TokenType?
         if let host = url.host {
-            type = TokenType.fromRaw(host)
+            if host == TokenType.CounterString {
+                type = TokenType.Counter(0)
+                if let counterString = queryDictionary[kQueryCounterKey] {
+                    errno = 0
+                    let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
+                    if errno == 0 {
+                        type = .Counter(counterValue)
+                    }
+                }
+            } else if host == TokenType.TimerString {
+                type = TokenType.Timer(30)
+                if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
+                    type = .Timer(NSTimeInterval(periodInt))
+                }
+            }
         }
         if type == nil { return nil } // A token type is required
 
@@ -105,21 +119,6 @@ public extension Token {
         var digits = 6
         if let digitsInt = queryDictionary[kQueryDigitsKey]?.toInt() {
             digits = digitsInt
-        }
-
-        switch type! {
-        case .Timer:
-            if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
-                type = .Timer(NSTimeInterval(periodInt))
-            }
-        case .Counter:
-            if let counterString = queryDictionary[kQueryCounterKey] {
-                errno = 0
-                let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
-                if errno == 0 {
-                    type = .Counter(counterValue)
-                }
-            }
         }
 
         let token = Token(type:type!, secret:secret!, name:name, issuer:issuer, algorithm:algorithm, digits:digits)
