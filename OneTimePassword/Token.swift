@@ -32,19 +32,3 @@ public struct Token {
         case SHA1, SHA256, SHA512
     }
 }
-
-public extension Token {
-    var isValid: Bool {
-        let validSecret = (secret.length > 0)
-        let validDigits = (digits >= 6) && (digits <= 8)
-        var validPeriod = true
-        switch type {
-        case .Timer(let period):
-            validPeriod = (period > 0) && (period <= 300)
-        default:
-            break
-        }
-
-        return validSecret && validDigits && validPeriod
-    }
-}

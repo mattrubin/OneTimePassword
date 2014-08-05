@@ -7,7 +7,21 @@
 //
 
 public extension Token {
+    var isValid: Bool {
+        let validSecret = (secret.length > 0)
+        let validDigits = (digits >= 6) && (digits <= 8)
+        let validPeriod: Bool = { switch $0 {
+            case .Timer(let period):
+                return (period > 0) && (period <= 300)
+            default:
+                return true
+        }}(type)
+
+        return validSecret && validDigits && validPeriod
+    }
+
     func password() -> String? {
+        if !self.isValid { return nil }
         switch type {
         case .Counter(let counter):
             return generatePassword(algorithm, digits, secret, counter)
@@ -27,8 +41,6 @@ public extension Token {
 }
 
 public func generatePassword(algorithm: Token.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String? {
-//    if !token.isValid { return nil }
-
     let generatorAlgorithm: OTPGeneratorAlgorithm = { switch $0 {
     case .SHA1:   return .SHA1
     case .SHA256: return .SHA256
