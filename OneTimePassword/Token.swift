@@ -47,9 +47,6 @@ public extension Token {
     enum TokenType {
         case Counter(UInt64)
         case Timer(NSTimeInterval)
-
-        static let CounterString = "hotp"
-        static let TimerString = "totp"
     }
 
     enum Algorithm : String {

@@ -14,6 +14,9 @@ let kQueryDigitsKey = "digits"
 let kQueryPeriodKey = "period"
 let kQueryIssuerKey = "issuer"
 
+let TokenTypeCounterString = "hotp"
+let TokenTypeTimerString = "totp"
+
 public extension Token {
     var url: NSURL {
         let urlComponents = NSURLComponents()
@@ -21,9 +24,9 @@ public extension Token {
 
         switch type {
         case .Counter:
-            urlComponents.host = TokenType.CounterString
+            urlComponents.host = TokenTypeCounterString
         case .Timer:
-            urlComponents.host = TokenType.TimerString
+            urlComponents.host = TokenTypeTimerString
         }
 
         urlComponents.path = "/" + name
@@ -58,7 +61,7 @@ public extension Token {
 
         var type: TokenType?
         if let host = url.host {
-            if host == TokenType.CounterString {
+            if host == TokenTypeCounterString {
                 type = TokenType.Counter(0)
                 if let counterString = queryDictionary[kQueryCounterKey] {
                     errno = 0
@@ -67,7 +70,7 @@ public extension Token {
                         type = .Counter(counterValue)
                     }
                 }
-            } else if host == TokenType.TimerString {
+            } else if host == TokenTypeTimerString {
                 type = TokenType.Timer(30)
                 if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
                     type = .Timer(NSTimeInterval(periodInt))
