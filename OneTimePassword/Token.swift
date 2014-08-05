@@ -45,11 +45,6 @@ public extension Token {
             break
         }
 
-
         return validSecret && validDigits && validPeriod
-    }
-
-    var description: String {
-        return "Token(type:\(type), name:\(name), issuer:\(issuer), algorithm:\(algorithm), digits:\(digits))"
     }
 }

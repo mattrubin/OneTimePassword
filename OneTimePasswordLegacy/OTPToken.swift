@@ -120,7 +120,6 @@ public class OTPToken: NSObject {
     }
 
     public func validate() -> Bool { return token.isValid }
-    override public var description: String { return token.description }
 }
 
 public extension OTPToken {
