@@ -8,15 +8,15 @@
 
 public extension Token {
     var isValid: Bool {
-        let validDigits = (digits >= 6) && (digits <= 8)
-        let validPeriod: Bool = { switch $0 {
-            case .Timer(let period):
-                return (period > 0) && (period <= 300)
-            default:
-                return true
-        }}(type)
+        let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
+        let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
 
-        return validDigits && validPeriod
+        switch type {
+        case .Counter:
+            return validDigits(digits)
+        case .Timer(let period):
+            return validDigits(digits) && validPeriod(period)
+        }
     }
 
     var password: String? {
