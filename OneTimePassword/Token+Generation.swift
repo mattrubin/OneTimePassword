@@ -40,22 +40,12 @@ public func updatedToken(token: Token) -> Token {
 }
 
 public func generatePassword(algorithm: Token.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String? {
-    let generatorAlgorithm: OTPGeneratorAlgorithm = { switch $0 {
-    case .SHA1:   return .SHA1
-    case .SHA256: return .SHA256
-    case .SHA512: return .SHA512
-    }}(algorithm)
-
-    return passwordForToken(secret, generatorAlgorithm, digits, counter)
+    return passwordForToken(secret, algorithm, digits, counter)
 }
 
 // MARK: - Helpers
 
-enum OTPGeneratorAlgorithm {
-    case SHA1, SHA256, SHA512
-}
-
-func hashAlgorithmForAlgorithm(algorithm: OTPGeneratorAlgorithm) -> CCHmacAlgorithm
+func hashAlgorithmForAlgorithm(algorithm: Token.Algorithm) -> CCHmacAlgorithm
 {
     switch algorithm {
     case .SHA1:
@@ -81,14 +71,14 @@ func digestLengthForAlgorithm(algorithm: CCHmacAlgorithm) -> Int
     }
 }
 
-func passwordForToken(secret: NSData, otpAlgorithm: OTPGeneratorAlgorithm, digits: NSInteger, _counter: UInt64) -> String
+func passwordForToken(secret: NSData, tokenAlgorithm: Token.Algorithm, digits: NSInteger, counter: UInt64) -> String
 {
     // Ensure the counter value is big-endian
     // TODO: use CFSwapInt64HostToBig instead
-    var bigCounter = _OSSwapInt64(_counter)
+    var bigCounter = _OSSwapInt64(counter)
 
     // Generate an HMAC value from the key and counter
-    let algorithm = hashAlgorithmForAlgorithm(otpAlgorithm)
+    let algorithm = hashAlgorithmForAlgorithm(tokenAlgorithm)
     var hash: NSMutableData = NSMutableData(length: digestLengthForAlgorithm(algorithm))
     CCHmac(algorithm, secret.bytes, UInt(secret.length), &bigCounter, 8, hash.mutableBytes)
 
