@@ -58,21 +58,3 @@ NSArray * _allKeychainItems()
 
     return (resultCode == errSecSuccess) ? (__bridge NSArray *)(result) : nil;
 }
-
-
-NSData * addKeychainItemWithAttributes(NSDictionary *attributes)
-{
-    NSMutableDictionary *mutableAttributes = [attributes mutableCopy];
-    mutableAttributes[(__bridge __strong id)kSecClass] = (__bridge id)kSecClassGenericPassword;
-    mutableAttributes[(__bridge __strong id)kSecReturnPersistentRef] = (__bridge id)kCFBooleanTrue;
-    // Set a random string for the account name.
-    // We never query by or display this value, but the keychain requires it to be unique.
-    if (!mutableAttributes[(__bridge __strong id)kSecAttrAccount])
-        mutableAttributes[(__bridge __strong id)kSecAttrAccount] = [[NSUUID UUID] UUIDString];
-
-    CFTypeRef result = NULL;
-    OSStatus resultCode = SecItemAdd((__bridge CFDictionaryRef)(mutableAttributes),
-                                     &result);
-
-    return (resultCode == errSecSuccess) ? (__bridge NSData *)(result) : nil;
-}
