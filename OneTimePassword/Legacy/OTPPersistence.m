@@ -42,19 +42,3 @@ NSDictionary * keychainItemForPersistentRef(NSData *persistentRef)
 
     return (resultCode == errSecSuccess) ? (__bridge NSDictionary *)(result) : nil;
 }
-
-NSArray * _allKeychainItems()
-{
-    NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
-                                (__bridge id)kSecMatchLimit: (__bridge id)kSecMatchLimitAll,
-                                (__bridge id)kSecReturnPersistentRef: (id)kCFBooleanTrue,
-                                (__bridge id)kSecReturnAttributes: (id)kCFBooleanTrue,
-                                (__bridge id)kSecReturnData: (id)kCFBooleanTrue
-                                };
-
-    CFTypeRef result = NULL;
-    OSStatus resultCode = SecItemCopyMatching((__bridge CFDictionaryRef)(queryDict),
-                                              &result);
-
-    return (resultCode == errSecSuccess) ? (__bridge NSArray *)(result) : nil;
-}

@@ -53,6 +53,27 @@ public extension Token {
     }
 }
 
+func _allKeychainItems() -> NSArray? {
+    let queryDict = [
+        kSecClass.takeUnretainedValue() as NSCopying: kSecClassGenericPassword.takeUnretainedValue() as NSCopying,
+        kSecMatchLimit.takeUnretainedValue() as NSCopying: kSecMatchLimitAll.takeUnretainedValue() as NSCopying,
+        kSecReturnPersistentRef.takeUnretainedValue() as NSCopying: kCFBooleanTrue,
+        kSecReturnAttributes.takeUnretainedValue() as NSCopying: kCFBooleanTrue,
+        kSecReturnData.takeUnretainedValue() as NSCopying: kCFBooleanTrue,
+    ]
+
+    var result: Unmanaged<AnyObject>?
+    let resultCode = SecItemCopyMatching(queryDict, &result);
+
+    if resultCode == OSStatus(errSecSuccess) {
+        if let opaquePointer = result?.toOpaque() {
+            return Unmanaged<NSArray>.fromOpaque(opaquePointer).takeUnretainedValue()
+        }
+    }
+    return nil
+}
+
+
 public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     var attributes = [
         kSecAttrGeneric.takeUnretainedValue() as NSCopying:

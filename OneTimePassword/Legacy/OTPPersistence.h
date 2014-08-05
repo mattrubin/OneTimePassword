@@ -25,4 +25,3 @@
 @import Foundation;
 
 NSDictionary * keychainItemForPersistentRef(NSData *persistentRef);
-NSArray * _allKeychainItems();
