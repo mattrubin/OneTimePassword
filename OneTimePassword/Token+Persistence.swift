@@ -23,11 +23,11 @@ public extension Token {
         }
 
         public static func keychainItemWithDictionary(keychainDictionary: NSDictionary) -> KeychainItem? {
-            let urlData = keychainDictionary.objectForKey(_kSecAttrGeneric()) as? NSData
+            let urlData = keychainDictionary[kSecAttrGeneric.takeUnretainedValue() as NSCopying] as? NSData
             let urlString: NSString? = NSString(data: urlData, encoding:NSUTF8StringEncoding)
             if let url = NSURL.URLWithString(urlString) {
-                if let secret = keychainDictionary.objectForKey(_kSecValueData()) as? NSData {
-                    if let keychainItemRef = keychainDictionary.objectForKey(_kSecValuePersistentRef()) as? NSData {
+                if let secret = keychainDictionary[kSecValueData.takeUnretainedValue() as NSCopying] as? NSData {
+                    if let keychainItemRef = keychainDictionary[kSecValuePersistentRef.takeUnretainedValue() as NSCopying] as? NSData {
                         if let token = Token.tokenWithURL(url, secret: secret) {
                             return KeychainItem(token: token, persistentRef: keychainItemRef)
                         }
@@ -54,10 +54,12 @@ public extension Token {
 }
 
 public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
-    var attributes = NSMutableDictionary()
-    attributes.setObject(token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
-    attributes.setObject(token.secret, forKey: _kSecValueData() as NSCopying)
-    attributes.setObject(kOTPService, forKey: _kSecAttrService() as NSCopying)
+    var attributes = [
+        kSecAttrGeneric.takeUnretainedValue() as NSCopying:
+            token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) as NSCopying,
+        kSecValueData.takeUnretainedValue() as NSCopying: token.secret,
+        kSecAttrService.takeUnretainedValue() as NSCopying: kOTPService,
+    ]
 
     if let persistentRef = addKeychainItemWithAttributes(attributes) {
         return Token.KeychainItem(token: token, persistentRef: persistentRef)
@@ -67,8 +69,11 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
 
 public func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token) -> Token.KeychainItem?
 {
-    var attributes = NSMutableDictionary()
-    attributes.setObject(token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding), forKey: _kSecAttrGeneric() as NSCopying)
+    var attributes = [
+        kSecAttrGeneric.takeUnretainedValue() as NSCopying:
+            token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) as NSCopying
+    ]
+
     if updateKeychainItemForPersistentRefWithAttributes(keychainItem.persistentRef, attributes) {
         return Token.KeychainItem(token: token, persistentRef: keychainItem.persistentRef)
     }

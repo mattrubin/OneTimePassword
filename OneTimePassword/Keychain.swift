@@ -7,19 +7,21 @@
 //
 
 func updateKeychainItemForPersistentRefWithAttributes(persistentRef: NSData, attributesToUpdate: NSDictionary) -> Bool {
-    let queryDict = NSMutableDictionary()
-    queryDict.setObject(_kSecClassGenericPassword(), forKey: _kSecClass() as NSCopying)
-    queryDict.setObject(persistentRef, forKey: _kSecValuePersistentRef() as NSCopying)
+    let queryDict = [
+        kSecClass.takeUnretainedValue() as NSCopying: kSecClassGenericPassword.takeUnretainedValue() as NSCopying,
+        kSecValuePersistentRef.takeUnretainedValue() as NSCopying: persistentRef,
+    ]
 
-    let resultCode = SecItemUpdate(queryDict as CFDictionary, attributesToUpdate as CFDictionary)
+    let resultCode = SecItemUpdate(queryDict, attributesToUpdate)
     return (resultCode == OSStatus(errSecSuccess))
 }
 
 func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
-    let queryDict = NSMutableDictionary()
-    queryDict.setObject(_kSecClassGenericPassword(), forKey: _kSecClass() as NSCopying)
-    queryDict.setObject(persistentRef, forKey: _kSecValuePersistentRef() as NSCopying)
+    let queryDict = [
+        kSecClass.takeUnretainedValue() as NSCopying: kSecClassGenericPassword.takeUnretainedValue() as NSCopying,
+        kSecValuePersistentRef.takeUnretainedValue() as NSCopying: persistentRef,
+    ]
 
-    let resultCode = SecItemDelete(queryDict as CFDictionary)
+    let resultCode = SecItemDelete(queryDict)
     return (resultCode == OSStatus(errSecSuccess))
 }

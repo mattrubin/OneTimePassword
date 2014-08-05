@@ -14,8 +14,6 @@
 		C93A251A196B1BA400F86892 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2519196B1BA400F86892 /* Token.swift */; };
 		C94B2007197774A20014A202 /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94B2006197774A20014A202 /* TokenTests.swift */; };
 		C95B10CC196D22B9000840AA /* TokenGenerationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B10CB196D22B9000840AA /* TokenGenerationTests.swift */; };
-		C96A4D85196E887F009FCB83 /* OTPSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = C96A4D83196E887F009FCB83 /* OTPSecurity.h */; };
-		C96A4D86196E887F009FCB83 /* OTPSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = C96A4D84196E887F009FCB83 /* OTPSecurity.m */; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
 		C983AB6F197F913400975003 /* OTPBase32Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB6E197F913400975003 /* OTPBase32Tests.m */; };
 		C9A486AE196F352E00524F51 /* OneTimePasswordLegacy.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -78,8 +76,6 @@
 		C93A2519196B1BA400F86892 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		C94B2006197774A20014A202 /* TokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
 		C95B10CB196D22B9000840AA /* TokenGenerationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenGenerationTests.swift; sourceTree = "<group>"; };
-		C96A4D83196E887F009FCB83 /* OTPSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPSecurity.h; sourceTree = "<group>"; };
-		C96A4D84196E887F009FCB83 /* OTPSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPSecurity.m; sourceTree = "<group>"; };
 		C97C82381946E51D00FD9F4C /* OneTimePassword.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C823C1946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -270,8 +266,6 @@
 				C9377D40196B93F900D6C67E /* OneTimePassword-Bridging-Header.h */,
 				C93A24F6196AF8E900F86892 /* OTPPersistence.h */,
 				C93A24F7196AF8E900F86892 /* OTPPersistence.m */,
-				C96A4D83196E887F009FCB83 /* OTPSecurity.h */,
-				C96A4D84196E887F009FCB83 /* OTPSecurity.m */,
 			);
 			name = Helpers;
 			path = Legacy;
@@ -284,7 +278,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C96A4D85196E887F009FCB83 /* OTPSecurity.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,7 +485,6 @@
 			files = (
 				C93A251A196B1BA400F86892 /* Token.swift in Sources */,
 				C9DC7EC8196BDF3B00B50C82 /* Token+Generation.swift in Sources */,
-				C96A4D86196E887F009FCB83 /* OTPSecurity.m in Sources */,
 				C9F5981B196E3E48002E4D0E /* Token+Persistence.swift in Sources */,
 				C9003418196F7046009733E8 /* Keychain.swift in Sources */,
 				C93A2503196AF8E900F86892 /* OTPPersistence.m in Sources */,
