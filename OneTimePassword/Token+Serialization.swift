@@ -91,9 +91,9 @@ public extension Token {
                     }
                 }
             } else if host == TokenTypeTimerString {
-                type = TokenType.Timer(30)
+                type = TokenType.Timer(period: 30)
                 if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
-                    type = .Timer(NSTimeInterval(periodInt))
+                    type = .Timer(period: NSTimeInterval(periodInt))
                 }
             }
         }

@@ -57,7 +57,7 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(token.digits, digits)
 
         // Create another token
-        let other_type = Token.TokenType.Timer(123)
+        let other_type = Token.TokenType.Timer(period: 123)
         let other_secret = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
         let other_name = "Other Test Name"
         let other_issuer = "Other Test Issuer"
@@ -118,20 +118,20 @@ class TokenTests: XCTestCase {
     func testValidation() {
         let validSecret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
 
-        let tokenWithTooManyDigits = Token(type: .Timer(30), secret: validSecret, digits: 10)
-        let tokenWithTooFewDigits = Token(type: .Timer(30), secret: validSecret, digits: 3)
-        let tokenWithNegativeDigits = Token(type: .Timer(30), secret: validSecret, digits: -6)
-        let tokenWithValidDigits = Token(type: .Timer(30), secret: validSecret)
+        let tokenWithTooManyDigits = Token(type: .Timer(period: 30), secret: validSecret, digits: 10)
+        let tokenWithTooFewDigits = Token(type: .Timer(period: 30), secret: validSecret, digits: 3)
+        let tokenWithNegativeDigits = Token(type: .Timer(period: 30), secret: validSecret, digits: -6)
+        let tokenWithValidDigits = Token(type: .Timer(period: 30), secret: validSecret)
 
         XCTAssertFalse(tokenWithTooManyDigits.isValid)
         XCTAssertFalse(tokenWithTooFewDigits.isValid)
         XCTAssertFalse(tokenWithNegativeDigits.isValid)
         XCTAssertTrue(tokenWithValidDigits.isValid)
 
-        let tokenWithTooLongPeriod = Token(type: .Timer(301), secret: validSecret)
-        let tokenWithTooShortPeriod = Token(type: .Timer(0), secret: validSecret)
-        let tokenWithNegativePeriod = Token(type: .Timer(-30), secret: validSecret)
-        let tokenWithValidPeriod = Token(type: .Timer(30), secret: validSecret)
+        let tokenWithTooLongPeriod = Token(type: .Timer(period: 301), secret: validSecret)
+        let tokenWithTooShortPeriod = Token(type: .Timer(period: 0), secret: validSecret)
+        let tokenWithNegativePeriod = Token(type: .Timer(period: -30), secret: validSecret)
+        let tokenWithValidPeriod = Token(type: .Timer(period: 30), secret: validSecret)
 
         XCTAssertFalse(tokenWithTooLongPeriod.isValid)
         XCTAssertFalse(tokenWithTooShortPeriod.isValid)

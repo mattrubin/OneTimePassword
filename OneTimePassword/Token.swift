@@ -25,7 +25,7 @@ public struct Token {
 
     public enum TokenType {
         case Counter(UInt64)
-        case Timer(NSTimeInterval)
+        case Timer(period: NSTimeInterval)
     }
 
     public enum Algorithm {

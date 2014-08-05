@@ -18,7 +18,7 @@ public class OTPToken: NSObject {
 
     convenience override init() {
         // Stub an invalid token, to be replaced with a modified token via the setters
-        self.init(token: Token(type: .Timer(30), secret: NSData()))
+        self.init(token: Token(type: .Timer(period: 30), secret: NSData()))
     }
 
     class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer:NSString) -> Self {
@@ -26,7 +26,7 @@ public class OTPToken: NSObject {
         case .Counter:
             return self(token: Token(type: .Counter(0), secret: secret, name: name, issuer: issuer))
         case .Timer:
-            return self(token: Token(type: .Timer(30), secret: secret, name: name, issuer: issuer))
+            return self(token: Token(type: .Timer(period: 30), secret: secret, name: name, issuer: issuer))
         }
     }
 
@@ -50,7 +50,7 @@ public class OTPToken: NSObject {
         case .Counter:
             token = Token(type: .Counter(_counter), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
         case .Timer:
-            token = Token(type: .Timer(_period), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
+            token = Token(type: .Timer(period: _period), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
         }
     }
     }
@@ -81,7 +81,7 @@ public class OTPToken: NSObject {
         _period = newValue
         switch token.type {
         case .Timer:
-            token = Token(type: .Timer(_period), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
+            token = Token(type: .Timer(period: _period), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
         default: break
         }
     }

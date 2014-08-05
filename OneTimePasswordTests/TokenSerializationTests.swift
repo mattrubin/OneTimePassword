@@ -15,7 +15,7 @@ class TokenSerializationTests: XCTestCase {
     let kOTPTokenTypeTimerHost   = "totp";
 
     let types: [Token.TokenType] = [.Counter(0), .Counter(1), .Counter(UInt64.max),
-                                    .Timer(0), .Timer(1), .Timer(30)];
+                                    .Timer(period: 0), .Timer(period: 1), .Timer(period: 30)];
     let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""];
     let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""];
     let secretStrings = ["12345678901234567890", "12345678901234567890123456789012", "1234567890123456789012345678901234567890123456789012345678901234", ""];

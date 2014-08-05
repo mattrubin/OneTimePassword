@@ -51,7 +51,7 @@ class TokenGenerationTests: XCTestCase {
 
         for (algorithm, secretKey) in secretKeys {
             let secret = secretKey.dataUsingEncoding(NSASCIIStringEncoding)!
-            let token = Token(type: .Timer(30), secret: secret, algorithm: algorithm, digits: 8)
+            let token = Token(type: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 8)
 
             for (var i = 0; i < times.count; i++) {
                 if let password = expectedValues[algorithm]?[i] {
@@ -76,7 +76,7 @@ class TokenGenerationTests: XCTestCase {
         ]
 
         for (algorithm, values) in expectedValues {
-            let token = Token(type: .Timer(30), secret: secret, algorithm: algorithm, digits: 6)
+            let token = Token(type: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
             for (var i = 0; i < times.count; i++) {
                 let counter = UInt64(NSTimeInterval(times[i]) / 30)
                 XCTAssertEqual(values[i], generatePassword(token.algorithm, token.digits, token.secret, counter),
