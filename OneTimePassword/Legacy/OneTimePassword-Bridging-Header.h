@@ -8,4 +8,3 @@
 
 #import <CommonCrypto/CommonHMAC.h>
 #import <Base32/MF_Base32Additions.h>
-#import "OTPPersistence.h"
