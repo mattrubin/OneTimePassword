@@ -22,6 +22,15 @@ public struct Token {
         self.algorithm = algorithm
         self.digits = digits
     }
+
+    public enum TokenType {
+        case Counter(UInt64)
+        case Timer(NSTimeInterval)
+    }
+
+    public enum Algorithm {
+        case SHA1, SHA256, SHA512
+    }
 }
 
 public extension Token {
@@ -41,17 +50,6 @@ public extension Token {
     }
 
     var description: String {
-        return "Token(type:\(type), name:\(name), issuer:\(issuer), algorithm:\(algorithm.toRaw()), digits:\(digits))"
-    }
-
-    enum TokenType {
-        case Counter(UInt64)
-        case Timer(NSTimeInterval)
-    }
-
-    enum Algorithm : String {
-        case SHA1   = "SHA1",
-             SHA256 = "SHA256",
-             SHA512 = "SHA512"
+        return "Token(type:\(type), name:\(name), issuer:\(issuer), algorithm:\(algorithm), digits:\(digits))"
     }
 }
