@@ -48,3 +48,71 @@ public func generatePassword(algorithm: Token.Algorithm, digits: Int, secret: NS
 
     return passwordForToken(secret, generatorAlgorithm, digits, counter)
 }
+
+// MARK: - Helpers
+
+enum OTPGeneratorAlgorithm {
+    case SHA1, SHA256, SHA512
+}
+
+func hashAlgorithmForAlgorithm(algorithm: OTPGeneratorAlgorithm) -> CCHmacAlgorithm
+{
+    switch algorithm {
+    case .SHA1:
+        return CCHmacAlgorithm(kCCHmacAlgSHA1)
+    case .SHA256:
+        return CCHmacAlgorithm(kCCHmacAlgSHA256)
+    case .SHA512:
+        return CCHmacAlgorithm(kCCHmacAlgSHA512)
+    }
+}
+
+func digestLengthForAlgorithm(algorithm: CCHmacAlgorithm) -> Int
+{
+    switch (algorithm) {
+    case CCHmacAlgorithm(kCCHmacAlgSHA1):
+        return Int(CC_SHA1_DIGEST_LENGTH)
+    case CCHmacAlgorithm(kCCHmacAlgSHA256):
+        return Int(CC_SHA256_DIGEST_LENGTH)
+    case CCHmacAlgorithm(kCCHmacAlgSHA512):
+        return Int(CC_SHA512_DIGEST_LENGTH)
+    default:
+        return 0
+    }
+}
+
+func passwordForToken(secret: NSData, otpAlgorithm: OTPGeneratorAlgorithm, digits: NSInteger, _counter: UInt64) -> String
+{
+    // Ensure the counter value is big-endian
+    // TODO: use CFSwapInt64HostToBig instead
+    var bigCounter = _OSSwapInt64(_counter)
+
+    // Generate an HMAC value from the key and counter
+    let algorithm = hashAlgorithmForAlgorithm(otpAlgorithm)
+    var hash: NSMutableData = NSMutableData(length: digestLengthForAlgorithm(algorithm))
+    CCHmac(algorithm, secret.bytes, UInt(secret.length), &bigCounter, 8, hash.mutableBytes)
+
+    // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
+    let ptr = UnsafePointer<UInt8>(hash.bytes)
+    let offset = ptr[hash.length-1] & 0x0f
+
+    // Take 4 bytes from the hash, starting at the given offset
+    var truncatedHashPtr = ptr
+    for var i: UInt8 = 0; i < offset; i++ {
+        truncatedHashPtr = truncatedHashPtr.successor()
+    }
+    var truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).memory
+
+    // Ensure the four bytes taken from the hash match the current endian format
+    // TODO: use CFSwapInt32BigToHost instead
+    truncatedHash = _OSSwapInt32(truncatedHash)
+    // Discard the most significant bit
+    truncatedHash &= 0x7fffffff
+
+    truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
+    var string = String(truncatedHash)
+    while countElements(string) < digits {
+        string = "0" + string
+    }
+    return string
+}

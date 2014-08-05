@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
+#import <CommonCrypto/CommonHMAC.h>
 #import <Base32/MF_Base32Additions.h>
-#import "OTPGenerator.h"
 #import "OTPPersistence.h"
 #import "OTPSecurity.h"
