@@ -41,28 +41,15 @@ public func updatedToken(token: Token) -> Token {
     }
 }
 
-public func generatePassword(tokenAlgorithm: Token.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String {
-    func hashAlgorithmForTokenAlgorithm(algorithm: Token.Algorithm) -> CCHmacAlgorithm {
+public func generatePassword(algorithm: Token.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String {
+    func hashInfoForAlgorithm(algorithm: Token.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
         case .SHA1:
-            return CCHmacAlgorithm(kCCHmacAlgSHA1)
+            return (CCHmacAlgorithm(kCCHmacAlgSHA1), Int(CC_SHA1_DIGEST_LENGTH))
         case .SHA256:
-            return CCHmacAlgorithm(kCCHmacAlgSHA256)
+            return (CCHmacAlgorithm(kCCHmacAlgSHA256), Int(CC_SHA256_DIGEST_LENGTH))
         case .SHA512:
-            return CCHmacAlgorithm(kCCHmacAlgSHA512)
-        }
-    }
-
-    func digestLengthForHashAlgorithm(algorithm: CCHmacAlgorithm) -> Int {
-        switch (algorithm) {
-        case CCHmacAlgorithm(kCCHmacAlgSHA1):
-            return Int(CC_SHA1_DIGEST_LENGTH)
-        case CCHmacAlgorithm(kCCHmacAlgSHA256):
-            return Int(CC_SHA256_DIGEST_LENGTH)
-        case CCHmacAlgorithm(kCCHmacAlgSHA512):
-            return Int(CC_SHA512_DIGEST_LENGTH)
-        default:
-            return 0
+            return (CCHmacAlgorithm(kCCHmacAlgSHA512), Int(CC_SHA512_DIGEST_LENGTH))
         }
     }
 
@@ -71,9 +58,9 @@ public func generatePassword(tokenAlgorithm: Token.Algorithm, digits: Int, secre
     var bigCounter = _OSSwapInt64(counter)
 
     // Generate an HMAC value from the key and counter
-    let algorithm = hashAlgorithmForTokenAlgorithm(tokenAlgorithm)
-    var hash: NSMutableData = NSMutableData(length: digestLengthForHashAlgorithm(algorithm))
-    CCHmac(algorithm, secret.bytes, UInt(secret.length), &bigCounter, 8, hash.mutableBytes)
+    let (hashAlgorithm, hashLength) = hashInfoForAlgorithm(algorithm)
+    var hash: NSMutableData = NSMutableData(length: hashLength)
+    CCHmac(hashAlgorithm, secret.bytes, UInt(secret.length), &bigCounter, 8, hash.mutableBytes)
 
     // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
     let ptr = UnsafePointer<UInt8>(hash.bytes)
