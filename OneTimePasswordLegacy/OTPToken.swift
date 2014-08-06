@@ -32,11 +32,11 @@ public class OTPToken: NSObject {
 
     public var name: String {
     get { return token.name }
-    set { token = Token(type: token.type, secret: secret, name: newValue, issuer: issuer, algorithm: algorithm, digits: token.digits) }
+    set { token = Token(type: token.type, secret: secret, name: newValue, issuer: issuer, algorithm: token.algorithm, digits: token.digits) }
     }
     public var issuer: String {
     get { return token.issuer }
-    set { token = Token(type: token.type, secret: secret, name: name, issuer: newValue, algorithm: algorithm, digits: token.digits) }
+    set { token = Token(type: token.type, secret: secret, name: name, issuer: newValue, algorithm: token.algorithm, digits: token.digits) }
     }
     public var type: OTPTokenType {
     get {
@@ -48,23 +48,38 @@ public class OTPToken: NSObject {
     set {
         switch newValue {
         case .Counter:
-            token = Token(type: .Counter(_counter), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
+            token = Token(type: .Counter(_counter), secret: secret, name: name, issuer: issuer, algorithm: token.algorithm, digits: token.digits)
         case .Timer:
-            token = Token(type: .Timer(period: _period), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
+            token = Token(type: .Timer(period: _period), secret: secret, name: name, issuer: issuer, algorithm: token.algorithm, digits: token.digits)
         }
     }
     }
     public var secret: NSData {
     get { return token.secret }
-    set { token = Token(type: token.type, secret: newValue, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits) }
+    set { token = Token(type: token.type, secret: newValue, name: name, issuer: issuer, algorithm: token.algorithm, digits: token.digits) }
     }
+
     public var algorithm: OTPAlgorithm {
-    get { return token.algorithm }
-    set { token = Token(type: token.type, secret: secret, name: name, issuer: issuer, algorithm: newValue, digits: token.digits) }
+        get {
+            switch token.algorithm {
+            case .SHA1:   return .SHA1
+            case .SHA256: return .SHA256
+            case .SHA512: return .SHA512
+            }
+        }
+        set {
+            let newAlgorithm: Token.Algorithm = {switch $0 {
+            case .SHA1:   return .SHA1
+            case .SHA256: return .SHA256
+            case .SHA512: return .SHA512
+                }}(newValue)
+            token = Token(type: token.type, secret: secret, name: name, issuer: issuer, algorithm: newAlgorithm, digits: token.digits)
+        }
     }
+
     public var digits: UInt {
     get { return UInt(token.digits) }
-    set { token = Token(type: token.type, secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: Int(newValue)) }
+    set { token = Token(type: token.type, secret: secret, name: name, issuer: issuer, algorithm: token.algorithm, digits: Int(newValue)) }
     }
 
     private var _period: NSTimeInterval = 30
@@ -81,7 +96,7 @@ public class OTPToken: NSObject {
         _period = newValue
         switch token.type {
         case .Timer:
-            token = Token(type: .Timer(period: _period), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
+            token = Token(type: .Timer(period: _period), secret: secret, name: name, issuer: issuer, algorithm: token.algorithm, digits: token.digits)
         default: break
         }
     }
@@ -100,7 +115,7 @@ public class OTPToken: NSObject {
         _counter = newValue
         switch token.type {
         case .Counter:
-            token = Token(type: .Counter(_counter), secret: secret, name: name, issuer: issuer, algorithm: algorithm, digits: token.digits)
+            token = Token(type: .Counter(_counter), secret: secret, name: name, issuer: issuer, algorithm: token.algorithm, digits: token.digits)
         default: break
         }
     }
@@ -202,26 +217,5 @@ public extension OTPToken {
 
     class func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
         return self.tokenWithKeychainItem(Token.KeychainItem.keychainItemWithDictionary(keychainDictionary))
-    }
-}
-
-
-extension Token.Algorithm {
-    func __conversion() -> OTPAlgorithm {
-        switch self {
-        case .SHA1:   return .SHA1
-        case .SHA256: return .SHA256
-        case .SHA512: return .SHA512
-        }
-    }
-}
-
-extension OTPAlgorithm {
-    func __conversion() -> Token.Algorithm {
-        switch self {
-        case .SHA1:   return .SHA1
-        case .SHA256: return .SHA256
-        case .SHA512: return .SHA512
-        }
     }
 }
