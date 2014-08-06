@@ -19,7 +19,7 @@ func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
     }
 
     var result: Unmanaged<AnyObject>?
-    let resultCode: OSStatus = SecItemAdd(mutableAttributes, &result);
+    let resultCode: OSStatus = SecItemAdd(mutableAttributes, &result)
 
     if resultCode == OSStatus(errSecSuccess) {
         if let opaquePointer = result?.toOpaque() {

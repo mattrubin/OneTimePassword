@@ -83,7 +83,7 @@ func _allKeychainItems() -> NSArray? {
     ]
 
     var result: Unmanaged<AnyObject>?
-    let resultCode = SecItemCopyMatching(queryDict, &result);
+    let resultCode = SecItemCopyMatching(queryDict, &result)
 
     if resultCode == OSStatus(errSecSuccess) {
         if let opaquePointer = result?.toOpaque() {
