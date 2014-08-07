@@ -91,25 +91,20 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
                         var issuer = ""
                         if let issuerString = queryDictionary[kQueryIssuerKey] {
                             issuer = issuerString
-                            // If the name is prefixed by the issuer string, trim the name
-                            if let prefixRange = name.rangeOfString(issuer) {
-                                if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
-                                    name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                                }
-                            }
                         } else {
                             // If there is no issuer string, try to extract one from the name
                             let components = name.componentsSeparatedByString(":")
                             if components.count > 1 {
                                 issuer = components[0]
-                                // If the name is prefixed by the issuer string, trim the name
-                                if let prefixRange = name.rangeOfString(issuer) {
-                                    if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
-                                        name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                                    }
-                                }
                             }
                         }
+                        // If the name is prefixed by the issuer string, trim the name
+                        if let prefixRange = name.rangeOfString(issuer) {
+                            if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
+                                name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                            }
+                        }
+
 
                         return Token(name: name, issuer: issuer, core: core)
                     }
