@@ -1,5 +1,5 @@
 //
-//  Token+Generation.swift
+//  Generator.swift
 //  OneTimePassword
 //
 //  Created by Matt Rubin on 7/8/14.
@@ -8,7 +8,30 @@
 
 import Foundation
 
-public extension Token {
+public struct Generator {
+    public let type: TokenType
+    public let secret: NSData
+    public let algorithm: Algorithm
+    public let digits: Int
+
+    public init(type: TokenType, secret: NSData, algorithm: Algorithm = .SHA1, digits: Int = 6) {
+        self.type = type
+        self.secret = secret
+        self.algorithm = algorithm
+        self.digits = digits
+    }
+
+    public enum TokenType {
+        case Counter(UInt64)
+        case Timer(period: NSTimeInterval)
+    }
+
+    public enum Algorithm {
+        case SHA1, SHA256, SHA512
+    }
+}
+
+public extension Generator {
     var isValid: Bool {
         let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
         let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
@@ -32,17 +55,17 @@ public extension Token {
     }
 }
 
-public func updatedToken(token: Token) -> Token {
-    switch token.type {
+public func updatedGenerator(generator: Generator) -> Generator {
+    switch generator.type {
     case .Counter(let counter):
-        return Token(type: .Counter(counter + 1), secret: token.secret, name: token.name, issuer: token.issuer, algorithm: token.algorithm, digits: token.digits)
+        return Generator(type: .Counter(counter + 1), secret: generator.secret, algorithm: generator.algorithm, digits: generator.digits)
     case .Timer:
-        return token
+        return generator
     }
 }
 
-public func generatePassword(algorithm: Token.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String {
-    func hashInfoForAlgorithm(algorithm: Token.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
+public func generatePassword(algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String {
+    func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
         case .SHA1:
             return (CCHmacAlgorithm(kCCHmacAlgSHA1), Int(CC_SHA1_DIGEST_LENGTH))

@@ -14,12 +14,12 @@ class TokenSerializationTests: XCTestCase {
     let kOTPTokenTypeCounterHost = "hotp"
     let kOTPTokenTypeTimerHost   = "totp"
 
-    let types: [Token.TokenType] = [.Counter(0), .Counter(1), .Counter(UInt64.max),
+    let types: [OneTimePassword.Generator.TokenType] = [.Counter(0), .Counter(1), .Counter(UInt64.max),
                                     .Timer(period: 0), .Timer(period: 1), .Timer(period: 30)]
     let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""]
     let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""]
     let secretStrings = ["12345678901234567890", "12345678901234567890123456789012", "1234567890123456789012345678901234567890123456789012345678901234", ""]
-    let algorithms: [Token.Algorithm] = [.SHA1, .SHA256, .SHA512]
+    let algorithms: [OneTimePassword.Generator.Algorithm] = [.SHA1, .SHA256, .SHA512]
     let digits = [6, 7, 8]
 
     func testSerialization() {
@@ -30,7 +30,16 @@ class TokenSerializationTests: XCTestCase {
                         for algorithm in algorithms {
                             for digitNumber in digits {
                                 // Create the token
-                                let token = Token(type: type, secret:secretString.dataUsingEncoding(NSASCIIStringEncoding)!, name:name, issuer:issuer, algorithm:algorithm, digits:digitNumber)
+                                let token = Token(
+                                    name: name,
+                                    issuer: issuer,
+                                    core: Generator(
+                                        type: type,
+                                        secret: secretString.dataUsingEncoding(NSASCIIStringEncoding)!,
+                                        algorithm: algorithm,
+                                        digits: digitNumber
+                                    )
+                                )
 
                                 // Serialize
                                 let url = token.url

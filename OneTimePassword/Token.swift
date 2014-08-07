@@ -11,26 +11,15 @@ import Foundation
 public struct Token {
     public let name: String
     public let issuer: String
-    public let type: TokenType
-    public let secret: NSData
-    public let algorithm: Algorithm
-    public let digits: Int
+    public let core: Generator
 
-    public init(type: TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Algorithm = .SHA1, digits: Int = 6) {
-        self.type = type
-        self.secret = secret
+    public init(name: String = "", issuer: String = "", core: Generator) {
         self.name = name
         self.issuer = issuer
-        self.algorithm = algorithm
-        self.digits = digits
+        self.core = core
     }
+}
 
-    public enum TokenType {
-        case Counter(UInt64)
-        case Timer(period: NSTimeInterval)
-    }
-
-    public enum Algorithm {
-        case SHA1, SHA256, SHA512
-    }
+public func updatedToken(token: Token) -> Token {
+    return Token(name: token.name, issuer: token.issuer, core: updatedGenerator(token.core))
 }
