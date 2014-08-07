@@ -156,56 +156,31 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
     }
 
 
-
-    var factor: Generator.Factor?
-    if let host = _factorString {
-        if host == FactorCounterString {
-            switch parse(_counterString, parseCounter) {
-            case .Default:
-                factor = Generator.Factor.Counter(0)
-            case .Result(let counter):
-                factor = .Counter(counter)
-            case .Error:
-                return nil
+    func parseFactor(parsedCounter: ParseResult<UInt64>, parsedPeriod: ParseResult<NSTimeInterval>) -> (string: String) -> Generator.Factor? {
+        return { string in
+        if string == FactorCounterString {
+            if let counter = parsedCounter.defaultTo(0) {
+                return .Counter(counter)
             }
-        } else if host == FactorTimerString {
-            switch parse(_periodString, parsePeriod) {
-            case .Default:
-                factor = Generator.Factor.Timer(period: 30)
-            case .Result(let period):
-                factor = .Timer(period: period)
-            case .Error:
-                return nil
+        } else if string == FactorTimerString {
+            if let period =  parsedPeriod.defaultTo(30) {
+                return .Timer(period: period)
+            }
+        }
+        return nil
+        }
+    }
+
+    if let factor = parse(_factorString, parseFactor(parse(_counterString, parseCounter), parse(_periodString, parsePeriod))).defaultTo(nil) {
+        if let secret = parse(_secretString, parseSecret).overrideWith(externalSecret) {
+            if let algorithm = parse(_algorithmString, parseAlgorithm).defaultTo(.SHA1) {
+                if let digits = parse(_digitsString, parseDigits).defaultTo(6) {
+                    return Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+                }
             }
         }
     }
-    if factor == nil {
-        return nil // A factor is required
-    }
-
-    var secret: NSData?
-    if let sec = parse(_secretString, parseSecret).overrideWith(externalSecret) {
-        secret = sec
-    } else {
-        return nil
-    }
-
-
-    var algorithm: Generator.Algorithm?
-    if let alg = parse(_algorithmString, parseAlgorithm).defaultTo(.SHA1) {
-        algorithm = alg
-    } else {
-        return nil
-    }
-
-    var digits: Int?
-    if let dig = parse(_digitsString, parseDigits).defaultTo(6) {
-        digits = dig
-    } else {
-        return nil
-    }
-
-    return Generator(factor: factor!, secret: secret!, algorithm: algorithm!, digits: digits!)
+    return nil
 }
 
 enum ParseResult<T> {
