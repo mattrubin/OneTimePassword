@@ -31,7 +31,7 @@ func stringForAlgorithm(algorithm: Generator.Algorithm) -> String {
     }
 }
 
-func algorithmFromString(string: String?) -> Generator.Algorithm? {
+func algorithmFromString(string: String) -> Generator.Algorithm? {
     if (string == kAlgorithmSHA1) { return .SHA1 }
     if (string == kAlgorithmSHA256) { return .SHA256 }
     if (string == kAlgorithmSHA512) { return .SHA512 }
