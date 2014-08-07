@@ -147,7 +147,7 @@ public extension Token {
             digits = digitsInt
         }
 
-        let token = Token(type:type!, secret:secret!, name:name, issuer:issuer, algorithm:algorithm, digits:digits)
+        let token = Token(name: name, issuer: issuer, core: Generator(type: type!, secret: secret!, algorithm: algorithm, digits: digits))
 
         if token.core.isValid {
             return token

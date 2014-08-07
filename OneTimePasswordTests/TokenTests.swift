@@ -34,12 +34,16 @@ class TokenTests: XCTestCase {
         let algorithm = Generator.Algorithm.SHA256
         let digits = 8
 
-        let token = Token(type: type,
-            secret: secret,
+        let token = Token(
             name: name,
             issuer: issuer,
-            algorithm: algorithm,
-            digits: digits)
+            core: Generator(
+                type: type,
+                secret: secret,
+                algorithm: algorithm,
+                digits: digits
+            )
+        )
 
         XCTAssertEqual(token.core.type, type)
         XCTAssertEqual(token.core.secret, secret)
@@ -56,12 +60,16 @@ class TokenTests: XCTestCase {
         let other_algorithm = Generator.Algorithm.SHA512
         let other_digits = 7
 
-        let other_token = Token(type: other_type,
-            secret: other_secret,
+        let other_token = Token(
             name: other_name,
             issuer: other_issuer,
-            algorithm: other_algorithm,
-            digits: other_digits)
+            core: Generator(
+                type: other_type,
+                secret: other_secret,
+                algorithm: other_algorithm,
+                digits: other_digits
+            )
+        )
 
         XCTAssertEqual(other_token.core.type, other_type)
         XCTAssertEqual(other_token.core.secret, other_secret)
@@ -89,17 +97,17 @@ class TokenTests: XCTestCase {
         let p: NSTimeInterval = 45
         let c: UInt64 = 111
 
-        let tokenWithDefaultName      = Token(type: t, secret: s,          issuer: i, algorithm: a, digits: d)
-        let tokenWithDefaultIssuer    = Token(type: t, secret: s, name: n,            algorithm: a, digits: d)
-        let tokenWithDefaultAlgorithm = Token(type: t, secret: s, name: n, issuer: i,               digits: d)
-        let tokenWithDefaultDigits    = Token(type: t, secret: s, name: n, issuer: i, algorithm: a           )
+        let tokenWithDefaultName      = Token(         issuer: i, core: Generator(type: t, secret: s,  algorithm: a, digits: d))
+        let tokenWithDefaultIssuer    = Token(name: n,            core: Generator(type: t, secret: s,  algorithm: a, digits: d))
+        let tokenWithDefaultAlgorithm = Token(name: n, issuer: i, core: Generator(type: t, secret: s,                digits: d))
+        let tokenWithDefaultDigits    = Token(name: n, issuer: i, core: Generator(type: t, secret: s,  algorithm: a           ))
 
         XCTAssertEqual(tokenWithDefaultName.name, "")
         XCTAssertEqual(tokenWithDefaultIssuer.issuer, "")
         XCTAssertEqual(tokenWithDefaultAlgorithm.core.algorithm, Generator.Algorithm.SHA1)
         XCTAssertEqual(tokenWithDefaultDigits.core.digits, 6)
 
-        let tokenWithAllDefaults = Token(type: t, secret: s)
+        let tokenWithAllDefaults = Token(core: Generator(type: t, secret: s))
 
         XCTAssertEqual(tokenWithAllDefaults.name, "")
         XCTAssertEqual(tokenWithAllDefaults.issuer, "")
@@ -110,20 +118,20 @@ class TokenTests: XCTestCase {
     func testValidation() {
         let validSecret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
 
-        let tokenWithTooManyDigits = Token(type: .Timer(period: 30), secret: validSecret, digits: 10)
-        let tokenWithTooFewDigits = Token(type: .Timer(period: 30), secret: validSecret, digits: 3)
-        let tokenWithNegativeDigits = Token(type: .Timer(period: 30), secret: validSecret, digits: -6)
-        let tokenWithValidDigits = Token(type: .Timer(period: 30), secret: validSecret)
+        let tokenWithTooManyDigits = Token(core: Generator(type: .Timer(period: 30), secret: validSecret, digits: 10))
+        let tokenWithTooFewDigits = Token(core: Generator(type: .Timer(period: 30), secret: validSecret, digits: 3))
+        let tokenWithNegativeDigits = Token(core: Generator(type: .Timer(period: 30), secret: validSecret, digits: -6))
+        let tokenWithValidDigits = Token(core: Generator(type: .Timer(period: 30), secret: validSecret))
 
         XCTAssertFalse(tokenWithTooManyDigits.core.isValid)
         XCTAssertFalse(tokenWithTooFewDigits.core.isValid)
         XCTAssertFalse(tokenWithNegativeDigits.core.isValid)
         XCTAssertTrue(tokenWithValidDigits.core.isValid)
 
-        let tokenWithTooLongPeriod = Token(type: .Timer(period: 301), secret: validSecret)
-        let tokenWithTooShortPeriod = Token(type: .Timer(period: 0), secret: validSecret)
-        let tokenWithNegativePeriod = Token(type: .Timer(period: -30), secret: validSecret)
-        let tokenWithValidPeriod = Token(type: .Timer(period: 30), secret: validSecret)
+        let tokenWithTooLongPeriod = Token(core: Generator(type: .Timer(period: 301), secret: validSecret))
+        let tokenWithTooShortPeriod = Token(core: Generator(type: .Timer(period: 0), secret: validSecret))
+        let tokenWithNegativePeriod = Token(core: Generator(type: .Timer(period: -30), secret: validSecret))
+        let tokenWithValidPeriod = Token(core: Generator(type: .Timer(period: 30), secret: validSecret))
 
         XCTAssertFalse(tokenWithTooLongPeriod.core.isValid)
         XCTAssertFalse(tokenWithTooShortPeriod.core.isValid)

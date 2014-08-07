@@ -13,12 +13,6 @@ public struct Token {
     public let issuer: String
     public let core: Generator
 
-    public init(type: Generator.TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Generator.Algorithm = .SHA1, digits: Int = 6) {
-        self.name = name
-        self.issuer = issuer
-        self.core = Generator(type: type, secret: secret, algorithm: algorithm, digits: digits)
-    }
-
     public init(name: String = "", issuer: String = "", core: Generator) {
         self.name = name
         self.issuer = issuer

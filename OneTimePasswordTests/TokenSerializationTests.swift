@@ -30,7 +30,16 @@ class TokenSerializationTests: XCTestCase {
                         for algorithm in algorithms {
                             for digitNumber in digits {
                                 // Create the token
-                                let token = Token(type: type, secret:secretString.dataUsingEncoding(NSASCIIStringEncoding)!, name:name, issuer:issuer, algorithm:algorithm, digits:digitNumber)
+                                let token = Token(
+                                    name: name,
+                                    issuer: issuer,
+                                    core: Generator(
+                                        type: type,
+                                        secret: secretString.dataUsingEncoding(NSASCIIStringEncoding)!,
+                                        algorithm: algorithm,
+                                        digits: digitNumber
+                                    )
+                                )
 
                                 // Serialize
                                 let url = token.url
