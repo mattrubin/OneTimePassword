@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-import Foundation
-
 public struct Token {
     public let name: String
     public let issuer: String
