@@ -47,7 +47,7 @@ public extension Token {
 
         urlComponents.queryItems = [
             NSURLQueryItem(name:kQueryAlgorithmKey, value:stringForAlgorithm(core.algorithm)),
-            NSURLQueryItem(name:kQueryDigitsKey, value:String(digits)),
+            NSURLQueryItem(name:kQueryDigitsKey, value:String(core.digits)),
             NSURLQueryItem(name:kQueryIssuerKey, value:issuer)
         ]
 

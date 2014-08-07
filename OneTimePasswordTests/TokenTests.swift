@@ -46,7 +46,7 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(token.name, name)
         XCTAssertEqual(token.issuer, issuer)
         XCTAssertEqual(token.core.algorithm, algorithm)
-        XCTAssertEqual(token.digits, digits)
+        XCTAssertEqual(token.core.digits, digits)
 
         // Create another token
         let other_type = OneTimePassword.Generator.TokenType.Timer(period: 123)
@@ -68,7 +68,7 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(other_token.name, other_name)
         XCTAssertEqual(other_token.issuer, other_issuer)
         XCTAssertEqual(other_token.core.algorithm, other_algorithm)
-        XCTAssertEqual(other_token.digits, other_digits)
+        XCTAssertEqual(other_token.core.digits, other_digits)
 
         // Ensure the tokens are different
         XCTAssertNotEqual(token.core.type, other_token.core.type)
@@ -76,7 +76,7 @@ class TokenTests: XCTestCase {
         XCTAssertNotEqual(token.name, other_token.name)
         XCTAssertNotEqual(token.issuer, other_token.issuer)
         XCTAssertNotEqual(token.core.algorithm, other_token.core.algorithm)
-        XCTAssertNotEqual(token.digits, other_token.digits)
+        XCTAssertNotEqual(token.core.digits, other_token.core.digits)
     }
 
     func testDefaults() {
@@ -97,14 +97,14 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(tokenWithDefaultName.name, "")
         XCTAssertEqual(tokenWithDefaultIssuer.issuer, "")
         XCTAssertEqual(tokenWithDefaultAlgorithm.core.algorithm, Generator.Algorithm.SHA1)
-        XCTAssertEqual(tokenWithDefaultDigits.digits, 6)
+        XCTAssertEqual(tokenWithDefaultDigits.core.digits, 6)
 
         let tokenWithAllDefaults = Token(type: t, secret: s)
 
         XCTAssertEqual(tokenWithAllDefaults.name, "")
         XCTAssertEqual(tokenWithAllDefaults.issuer, "")
         XCTAssertEqual(tokenWithAllDefaults.core.algorithm, Generator.Algorithm.SHA1)
-        XCTAssertEqual(tokenWithAllDefaults.digits, 6)
+        XCTAssertEqual(tokenWithAllDefaults.core.digits, 6)
     }
 
     func testValidation() {

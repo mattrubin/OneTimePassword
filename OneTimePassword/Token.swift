@@ -11,8 +11,6 @@ import Foundation
 public struct Token {
     public let name: String
     public let issuer: String
-    public var digits: Int { return core.digits }
-
     public let core: Generator
 
     public init(type: Generator.TokenType, secret: NSData, name: String = "", issuer: String = "", algorithm: Generator.Algorithm = .SHA1, digits: Int = 6) {

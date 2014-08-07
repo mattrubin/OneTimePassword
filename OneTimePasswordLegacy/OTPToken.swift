@@ -32,12 +32,12 @@ public class OTPToken: NSObject {
 
     public var name: String {
         get { return token.name }
-        set { token = Token(type: token.core.type, secret: secret, name: newValue, issuer: issuer, algorithm: token.core.algorithm, digits: token.digits) }
+        set { token = Token(type: token.core.type, secret: secret, name: newValue, issuer: issuer, algorithm: token.core.algorithm, digits: token.core.digits) }
     }
 
     public var issuer: String {
         get { return token.issuer }
-        set { token = Token(type: token.core.type, secret: secret, name: name, issuer: newValue, algorithm: token.core.algorithm, digits: token.digits) }
+        set { token = Token(type: token.core.type, secret: secret, name: name, issuer: newValue, algorithm: token.core.algorithm, digits: token.core.digits) }
     }
 
     public var type: OTPTokenType {
@@ -50,16 +50,16 @@ public class OTPToken: NSObject {
         set {
             switch newValue {
             case .Counter:
-                token = Token(type: .Counter(_counter), secret: secret, name: name, issuer: issuer, algorithm: token.core.algorithm, digits: token.digits)
+                token = Token(type: .Counter(_counter), secret: secret, name: name, issuer: issuer, algorithm: token.core.algorithm, digits: token.core.digits)
             case .Timer:
-                token = Token(type: .Timer(period: _period), secret: secret, name: name, issuer: issuer, algorithm: token.core.algorithm, digits: token.digits)
+                token = Token(type: .Timer(period: _period), secret: secret, name: name, issuer: issuer, algorithm: token.core.algorithm, digits: token.core.digits)
             }
         }
     }
 
     public var secret: NSData {
         get { return token.core.secret }
-        set { token = Token(type: token.core.type, secret: newValue, name: name, issuer: issuer, algorithm: token.core.algorithm, digits: token.digits) }
+        set { token = Token(type: token.core.type, secret: newValue, name: name, issuer: issuer, algorithm: token.core.algorithm, digits: token.core.digits) }
     }
 
     public var algorithm: OTPAlgorithm {
@@ -78,12 +78,12 @@ public class OTPToken: NSObject {
                 case .SHA512: return .SHA512
                 }
             })(newValue)
-            token = Token(type: token.core.type, secret: secret, name: name, issuer: issuer, algorithm: newAlgorithm, digits: token.digits)
+            token = Token(type: token.core.type, secret: secret, name: name, issuer: issuer, algorithm: newAlgorithm, digits: token.core.digits)
         }
     }
 
     public var digits: UInt {
-        get { return UInt(token.digits) }
+        get { return UInt(token.core.digits) }
         set { token = Token(type: token.core.type, secret: secret, name: name, issuer: issuer, algorithm: token.core.algorithm, digits: Int(newValue)) }
     }
 
@@ -101,7 +101,7 @@ public class OTPToken: NSObject {
             _period = newValue
             switch token.core.type {
             case .Timer:
-                token = Token(type: .Timer(period: _period), secret: secret, name: name, issuer: issuer, algorithm: token.core.algorithm, digits: token.digits)
+                token = Token(type: .Timer(period: _period), secret: secret, name: name, issuer: issuer, algorithm: token.core.algorithm, digits: token.core.digits)
             default: break
             }
         }
@@ -121,7 +121,7 @@ public class OTPToken: NSObject {
             _counter = newValue
             switch token.core.type {
             case .Counter:
-                token = Token(type: .Counter(_counter), secret: secret, name: name, issuer: issuer, algorithm: token.core.algorithm, digits: token.digits)
+                token = Token(type: .Counter(_counter), secret: secret, name: name, issuer: issuer, algorithm: token.core.algorithm, digits: token.core.digits)
             default: break
             }
         }
@@ -148,7 +148,7 @@ public extension OTPToken {
     func updatePassword() { token = updatedToken(token) }
 
     func generatePasswordForCounter(counter: UInt64) -> String? {
-        return generatePassword(token.core.algorithm, token.digits, token.core.secret, counter)
+        return generatePassword(token.core.algorithm, token.core.digits, token.core.secret, counter)
     }
 }
 
