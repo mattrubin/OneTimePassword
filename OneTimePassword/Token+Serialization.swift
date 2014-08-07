@@ -114,7 +114,7 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
 }
 
 
-func generatorFromStrings(_factorString: String?, _secretString: String?, _algorithmString: String?, _digitsString: String?, _counterString: String?, _periodString: String?, externalSecret: NSData?) -> Generator? {
+func generatorFromStrings(factorString: String?, secretString: String?, algorithmString: String?, digitsString: String?, counterString: String?, periodString: String?, externalSecret: NSData?) -> Generator? {
 
     func parse<P>(item: P?) -> ParsableItem<P> {
         return ParsableItem(item: item)
@@ -179,10 +179,10 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
         }
     }
 
-    if let factor = parse(_factorString).with(factorParser(parse(_counterString).with(counterParser), parse(_periodString).with(periodParser))).defaultTo(nil) {
-        if let secret = parse(_secretString).with(secretParser).overrideWith(externalSecret) {
-            if let algorithm = parse(_algorithmString).with(algorithmParser).defaultTo(.SHA1) {
-                if let digits = parse(_digitsString).with(digitsParser).defaultTo(6) {
+    if let factor = parse(factorString).with(factorParser(parse(counterString).with(counterParser), parse(periodString).with(periodParser))).defaultTo(nil) {
+        if let secret = parse(secretString).with(secretParser).overrideWith(externalSecret) {
+            if let algorithm = parse(algorithmString).with(algorithmParser).defaultTo(.SHA1) {
+                if let digits = parse(digitsString).with(digitsParser).defaultTo(6) {
                     return Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
                 }
             }
