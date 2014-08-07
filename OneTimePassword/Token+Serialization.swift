@@ -105,28 +105,22 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
         }
     }
 
-    if let core = generatorFromStrings(url.host, queryDictionary[kQuerySecretKey], queryDictionary[kQueryAlgorithmKey], queryDictionary[kQueryDigitsKey], queryDictionary[kQueryCounterKey], queryDictionary[kQueryPeriodKey], externalSecret) {
-        if core.isValid {
-            return Token(name: name, issuer: issuer, core: core)
-        }
-    }
-    return nil
-}
-
-
-func generatorFromStrings(factorString: String?, secretString: String?, algorithmString: String?, digitsString: String?, counterString: String?, periodString: String?, externalSecret: NSData?) -> Generator? {
-
-    if let factor = parse(factorString).with(factorParser(parse(counterString).with(counterParser), parse(periodString).with(periodParser))).defaultTo(nil) {
-        if let secret = parse(secretString).with({ MF_Base32Codec.dataFromBase32String($0) }).overrideWith(externalSecret) {
-            if let algorithm = parse(algorithmString).with(algorithmFromString).defaultTo(.SHA1) {
-                if let digits = parse(digitsString).with({ $0.toInt() }).defaultTo(6) {
-                    return Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+    if let factor = parse(url.host).with(factorParser(parse(queryDictionary[kQueryCounterKey]).with(counterParser), parse(queryDictionary[kQueryPeriodKey]).with(periodParser))).defaultTo(nil) {
+        if let secret = parse(queryDictionary[kQuerySecretKey]).with({ MF_Base32Codec.dataFromBase32String($0) }).overrideWith(externalSecret) {
+            if let algorithm = parse(queryDictionary[kQueryAlgorithmKey]).with(algorithmFromString).defaultTo(.SHA1) {
+                if let digits = parse(queryDictionary[kQueryDigitsKey]).with({ $0.toInt() }).defaultTo(6) {
+                    let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+                    if core.isValid {
+                        return Token(name: name, issuer: issuer, core: core)
+                    }
                 }
             }
         }
     }
     return nil
 }
+
+// MARK: Parsing Helpers
 
 func parse<P>(item: P?) -> ParsableItem<P> {
     return ParsableItem(item: item)
