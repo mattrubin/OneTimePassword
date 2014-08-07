@@ -74,33 +74,6 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
         }
     }
 
-    var factor: Generator.Factor?
-    if let host = url.host {
-        if host == FactorCounterString {
-            factor = Generator.Factor.Counter(0)
-            if let counterString = queryDictionary[kQueryCounterKey] {
-                errno = 0
-                let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
-                if errno == 0 {
-                    factor = .Counter(counterValue)
-                }
-            }
-        } else if host == FactorTimerString {
-            factor = Generator.Factor.Timer(period: 30)
-            if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
-                factor = .Timer(period: NSTimeInterval(periodInt))
-            }
-        }
-    }
-    if factor == nil { return nil } // A factor is required
-
-    var secret = externalSecret
-    if secret == nil {
-        if let secretString = queryDictionary[kQuerySecretKey] {
-            secret = NSData(base32String:secretString)
-        }
-    }
-    if secret == nil { return nil } // A secret is required
 
     var name = ""
     if let path = url.path {
@@ -132,25 +105,149 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
         }
     }
 
-    var algorithm = Generator.Algorithm.SHA1
-    if let algorithmString = queryDictionary[kQueryAlgorithmKey] {
-        if let algorithmFromURL = algorithmFromString(algorithmString) {
-            algorithm = algorithmFromURL
-        } else {
-            return nil // Parsed an unknown algorithm string
+    if let core = generatorFromStrings(url.host, queryDictionary[kQuerySecretKey], queryDictionary[kQueryAlgorithmKey], queryDictionary[kQueryDigitsKey], queryDictionary[kQueryCounterKey], queryDictionary[kQueryPeriodKey], externalSecret) {
+        if core.isValid {
+            return Token(name: name, issuer: issuer, core: core)
+        }
+    }
+    return nil
+}
+
+
+func generatorFromStrings(_factorString: String?, _secretString: String?, _algorithmString: String?, _digitsString: String?, _counterString: String?, _periodString: String?, externalSecret: NSData?) -> Generator? {
+
+    func parseCounter(string: String) -> UInt64? {
+        errno = 0
+        let counterValue = strtoull((string as NSString).UTF8String, nil, 10)
+        if errno == 0 {
+            return counterValue
+        }
+        return nil
+    }
+
+    func parse<T>(raw: String?, parse: (String -> T?)) -> ParseResult<T> {
+        if let string = raw {
+            if let value = parse(string) {
+                return .Result(value)
+            } else {
+                return .Error
+            }
+        }
+        return .Default
+    }
+
+    func parsePeriod(raw: String?) -> ParseResult<NSTimeInterval> {
+        if let string = raw {
+            if let int = string.toInt() {
+                return .Result(NSTimeInterval(int))
+            } else {
+                return .Error
+            }
+        }
+        return .Default // 30
+    }
+
+    func parseSecret(raw: String?) -> ParseResult<NSData> {
+        if let string = raw {
+            if let data = MF_Base32Codec.dataFromBase32String(string) {
+                return .Result(data)
+            } else {
+                return .Error
+            }
+        }
+        return .Default // externalSecret
+    }
+
+    func parseAlgorithm(raw: String?) -> ParseResult<Generator.Algorithm> {
+        if let string = raw {
+            if let algorithm = algorithmFromString(string) {
+                return .Result(algorithm)
+            } else {
+                return .Error
+            }
+        }
+        return .Default // Generator.Algorithm.SHA1
+    }
+
+    func parseDigits(raw: String?) -> ParseResult<Int> {
+        if let string = raw {
+            if let int = string.toInt() {
+                return .Result(int)
+            } else {
+                return .Error
+            }
+        }
+        return .Default // 6
+    }
+
+
+
+    var factor: Generator.Factor?
+    if let host = _factorString {
+        if host == FactorCounterString {
+            switch parse(_counterString, parseCounter) {
+            case .Default:
+                factor = Generator.Factor.Counter(0)
+            case .Result(let counter):
+                factor = .Counter(counter)
+            case .Error:
+                return nil
+            }
+        } else if host == FactorTimerString {
+            switch parsePeriod(_periodString) {
+            case .Default:
+                factor = Generator.Factor.Timer(period: 30)
+            case .Result(let period):
+                factor = .Timer(period: period)
+            case .Error:
+                return nil
+            }
+        }
+    }
+    if factor == nil {
+        return nil // A factor is required
+    }
+
+    var secret: NSData?
+    if let defaultSecret = externalSecret {
+        secret = defaultSecret
+    } else {
+        switch parseSecret(_secretString) {
+        case .Default:
+            return nil
+        case .Result(let data):
+            secret = data
+        case .Error:
+            return nil
         }
     }
 
-    var digits = 6
-    if let digitsInt = queryDictionary[kQueryDigitsKey]?.toInt() {
-        digits = digitsInt
-    }
 
-    let token = Token(name: name, issuer: issuer, core: Generator(factor: factor!, secret: secret!, algorithm: algorithm, digits: digits))
-
-    if token.core.isValid {
-        return token
-    } else {
+    var algorithm: Generator.Algorithm?
+    switch parseAlgorithm(_algorithmString) {
+    case .Default:
+        algorithm = .SHA1
+    case .Result(let result):
+        algorithm = result
+    case .Error:
         return nil
     }
+
+    var digits: Int?
+    switch parseDigits(_digitsString) {
+    case .Default:
+        digits = 6
+    case .Result(let result):
+        digits = result
+    case .Error:
+        return nil
+    }
+
+    return Generator(factor: factor!, secret: secret!, algorithm: algorithm!, digits: digits!)
+}
+
+enum ParseResult<T> {
+    case Default
+    case Error
+    case Result(T)
 }
