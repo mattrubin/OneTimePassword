@@ -105,7 +105,6 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
                             }
                         }
 
-
                         return Token(name: name, issuer: issuer, core: core)
                     }
                 }
@@ -154,7 +153,6 @@ enum ParsedResult<T> {
     }
 }
 
-
 func counterParser(string: String) -> UInt64? {
     errno = 0
     let counterValue = strtoull((string as NSString).UTF8String, nil, 10)
@@ -185,4 +183,3 @@ func factorParser(parsedCounter: ParsedResult<UInt64>, parsedPeriod: ParsedResul
         return nil
     }
 }
-
