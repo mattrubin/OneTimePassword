@@ -30,26 +30,10 @@ public struct Token {
         self.core = core
     }
 
-    public enum TokenType {
-        case Counter(UInt64)
-        case Timer(period: NSTimeInterval)
-    }
+    public typealias TokenType = Generator.TokenType
+    public typealias Algorithm = Generator.Algorithm
+}
 
-    public enum Algorithm {
-        case SHA1, SHA256, SHA512
-    }
-
-    public struct Generator {
-        public let type: TokenType
-        public let secret: NSData
-        public let algorithm: Algorithm
-        public let digits: Int
-
-        public init(type: TokenType, secret: NSData, algorithm: Algorithm = .SHA1, digits: Int = 6) {
-            self.type = type
-            self.secret = secret
-            self.algorithm = algorithm
-            self.digits = digits
-        }
-    }
+public func updatedToken(token: Token) -> Token {
+    return Token(name: token.name, issuer: token.issuer, core: updatedGenerator(token.core))
 }
