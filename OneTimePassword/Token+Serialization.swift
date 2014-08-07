@@ -116,76 +116,6 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
 
 func generatorFromStrings(factorString: String?, secretString: String?, algorithmString: String?, digitsString: String?, counterString: String?, periodString: String?, externalSecret: NSData?) -> Generator? {
 
-    func parse<P>(item: P?) -> ParsableItem<P> {
-        return ParsableItem(item: item)
-    }
-
-    struct ParsableItem<P> {
-        let item: P?
-
-        func with<T>(parser: (P -> T?)) -> ParsedResult<T> {
-            if let concrete = item {
-                if let value = parser(concrete) {
-                    return .Result(value)
-                } else {
-                    return .Error
-                }
-            }
-            return .Default
-        }
-    }
-
-    enum ParsedResult<T> {
-        case Result(T), Default, Error
-
-        func defaultTo(d: T?) -> T? {
-            switch self {
-            case .Default: return d
-            case .Result(let value): return value
-            case .Error: return nil
-            }
-        }
-
-        func overrideWith(possibleOverride: T?) -> T? {
-            if let concreteValue = possibleOverride {
-                return concreteValue
-            }
-            return self.defaultTo(possibleOverride)
-        }
-    }
-
-
-    func counterParser(string: String) -> UInt64? {
-        errno = 0
-        let counterValue = strtoull((string as NSString).UTF8String, nil, 10)
-        if errno == 0 {
-            return counterValue
-        }
-        return nil
-    }
-
-    func periodParser(string: String) -> NSTimeInterval? {
-        if let int = string.toInt() {
-            return NSTimeInterval(int)
-        }
-        return nil
-    }
-
-    func factorParser(parsedCounter: ParsedResult<UInt64>, parsedPeriod: ParsedResult<NSTimeInterval>) -> (string: String) -> Generator.Factor? {
-        return { string in
-        if string == FactorCounterString {
-            if let counter = parsedCounter.defaultTo(0) {
-                return .Counter(counter)
-            }
-        } else if string == FactorTimerString {
-            if let period =  parsedPeriod.defaultTo(30) {
-                return .Timer(period: period)
-            }
-        }
-        return nil
-        }
-    }
-
     if let factor = parse(factorString).with(factorParser(parse(counterString).with(counterParser), parse(periodString).with(periodParser))).defaultTo(nil) {
         if let secret = parse(secretString).with({ MF_Base32Codec.dataFromBase32String($0) }).overrideWith(externalSecret) {
             if let algorithm = parse(algorithmString).with(algorithmFromString).defaultTo(.SHA1) {
@@ -197,3 +127,73 @@ func generatorFromStrings(factorString: String?, secretString: String?, algorith
     }
     return nil
 }
+
+func parse<P>(item: P?) -> ParsableItem<P> {
+    return ParsableItem(item: item)
+}
+
+struct ParsableItem<P> {
+    let item: P?
+
+    func with<T>(parser: (P -> T?)) -> ParsedResult<T> {
+        if let concrete = item {
+            if let value = parser(concrete) {
+                return .Result(value)
+            }
+            return .Error
+        }
+        return .Default
+    }
+}
+
+enum ParsedResult<T> {
+    case Result(T), Default, Error
+
+    func defaultTo(d: T?) -> T? {
+        switch self {
+        case .Default: return d
+        case .Result(let value): return value
+        case .Error: return nil
+        }
+    }
+
+    func overrideWith(possibleOverride: T?) -> T? {
+        if let concreteValue = possibleOverride {
+            return concreteValue
+        }
+        return self.defaultTo(possibleOverride)
+    }
+}
+
+
+func counterParser(string: String) -> UInt64? {
+    errno = 0
+    let counterValue = strtoull((string as NSString).UTF8String, nil, 10)
+    if errno == 0 {
+        return counterValue
+    }
+    return nil
+}
+
+func periodParser(string: String) -> NSTimeInterval? {
+    if let int = string.toInt() {
+        return NSTimeInterval(int)
+    }
+    return nil
+}
+
+func factorParser(parsedCounter: ParsedResult<UInt64>, parsedPeriod: ParsedResult<NSTimeInterval>) -> (string: String) -> Generator.Factor? {
+    return { string in
+        if string == FactorCounterString {
+            if let counter = parsedCounter.defaultTo(0) {
+                return .Counter(counter)
+            }
+        } else if string == FactorTimerString {
+            if let period =  parsedPeriod.defaultTo(30) {
+                return .Timer(period: period)
+            }
+        }
+        return nil
+    }
+}
+
