@@ -98,7 +98,7 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     var attributes = [
         kSecAttrGeneric.takeUnretainedValue() as NSCopying:
             token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) as NSCopying,
-        kSecValueData.takeUnretainedValue() as NSCopying: token.secret,
+        kSecValueData.takeUnretainedValue() as NSCopying: token.core.secret,
         kSecAttrService.takeUnretainedValue() as NSCopying: kOTPService,
     ]
 

@@ -11,7 +11,6 @@ import Foundation
 public struct Token {
     public let name: String
     public let issuer: String
-    public var secret: NSData { return core.secret }
     public var algorithm: Algorithm { return core.algorithm }
     public var digits: Int { return core.digits }
 

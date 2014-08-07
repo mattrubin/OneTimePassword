@@ -42,7 +42,7 @@ class TokenTests: XCTestCase {
             digits: digits)
 
         XCTAssertEqual(token.core.type, type)
-        XCTAssertEqual(token.secret, secret)
+        XCTAssertEqual(token.core.secret, secret)
         XCTAssertEqual(token.name, name)
         XCTAssertEqual(token.issuer, issuer)
         XCTAssertEqual(token.algorithm, algorithm)
@@ -64,7 +64,7 @@ class TokenTests: XCTestCase {
             digits: other_digits)
 
         XCTAssertEqual(other_token.core.type, other_type)
-        XCTAssertEqual(other_token.secret, other_secret)
+        XCTAssertEqual(other_token.core.secret, other_secret)
         XCTAssertEqual(other_token.name, other_name)
         XCTAssertEqual(other_token.issuer, other_issuer)
         XCTAssertEqual(other_token.algorithm, other_algorithm)
@@ -72,7 +72,7 @@ class TokenTests: XCTestCase {
 
         // Ensure the tokens are different
         XCTAssertNotEqual(token.core.type, other_token.core.type)
-        XCTAssertNotEqual(token.secret, other_token.secret)
+        XCTAssertNotEqual(token.core.secret, other_token.core.secret)
         XCTAssertNotEqual(token.name, other_token.name)
         XCTAssertNotEqual(token.issuer, other_token.issuer)
         XCTAssertNotEqual(token.algorithm, other_token.algorithm)
