@@ -74,10 +74,13 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
         }
     }
 
-    if let factor = parse(url.host, with:factorParser(parse(queryDictionary[kQueryCounterKey], with:counterParser), parse(queryDictionary[kQueryPeriodKey], with:periodParser))).defaultTo(nil) {
+    if let factor = parsed(url.host, with: factorParser(
+        parsed(queryDictionary[kQueryCounterKey], with: counterParser, defaultTo: 0),
+        parsed(queryDictionary[kQueryPeriodKey], with: periodParser, defaultTo: 30)
+        ), defaultTo: nil) {
         if let secret = parse(queryDictionary[kQuerySecretKey], with:{ MF_Base32Codec.dataFromBase32String($0) }).overrideWith(externalSecret) {
-            if let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with:algorithmFromString).defaultTo(.SHA1) {
-                if let digits = parse(queryDictionary[kQueryDigitsKey], with:{ $0.toInt() }).defaultTo(6) {
+            if let algorithm = parsed(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: .SHA1) {
+                if let digits = parsed(queryDictionary[kQueryDigitsKey], with: { $0.toInt() }, defaultTo: 6) {
                     let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
 
                     if core.isValid {
@@ -126,6 +129,16 @@ func parse<P, T>(item: P?, with parser: (P -> T?)) -> ParsedResult<T> {
     return .Default
 }
 
+func parsed<P, T>(item: P?, with parser: (P -> T?), defaultTo def: T? = nil) -> T? {
+    if let concrete = item {
+        if let value = parser(concrete) {
+            return value
+        }
+        return nil
+    }
+    return def
+}
+
 enum ParsedResult<T> {
     case Result(T), Default, Error
 
@@ -161,14 +174,14 @@ func periodParser(string: String) -> NSTimeInterval? {
     return nil
 }
 
-func factorParser(parsedCounter: ParsedResult<UInt64>, parsedPeriod: ParsedResult<NSTimeInterval>) -> (string: String) -> Generator.Factor? {
+func factorParser(parsedCounter: UInt64?, parsedPeriod: NSTimeInterval?) -> (string: String) -> Generator.Factor? {
     return { string in
         if string == FactorCounterString {
-            if let counter = parsedCounter.defaultTo(0) {
+            if let counter = parsedCounter {
                 return .Counter(counter)
             }
         } else if string == FactorTimerString {
-            if let period =  parsedPeriod.defaultTo(30) {
+            if let period =  parsedPeriod {
                 return .Timer(period: period)
             }
         }
