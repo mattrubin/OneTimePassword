@@ -13,21 +13,13 @@ import OneTimePassword
 extension Token.TokenType: Equatable {}
 
 public func ==(lhs: Token.TokenType, rhs: Token.TokenType) -> Bool {
-    switch lhs {
-    case .Counter(let lhCounter):
-        switch rhs {
-        case .Counter(let rhCounter):
-            return lhCounter == rhCounter
-        default:
-            return false
-        }
-    case .Timer(let lhTimer):
-        switch rhs {
-        case .Timer(let rhTimer):
-            return lhTimer == rhTimer
-        default:
-            return false
-        }
+    switch (lhs, rhs) {
+    case (.Counter(let l), .Counter(let r)):
+        return l == r
+    case (.Timer(let l), .Timer(let r)):
+        return l == r
+    default:
+        return false
     }
 }
 
