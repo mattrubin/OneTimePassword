@@ -78,7 +78,7 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
         parsed(queryDictionary[kQueryCounterKey], with: counterParser, defaultTo: 0),
         parsed(queryDictionary[kQueryPeriodKey], with: periodParser, defaultTo: 30)
         ), defaultTo: nil) {
-        if let secret = parse(queryDictionary[kQuerySecretKey], with:{ MF_Base32Codec.dataFromBase32String($0) }).overrideWith(externalSecret) {
+            if let secret = parsed(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, defaultTo: externalSecret, preferDefault: true) {
             if let algorithm = parsed(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: .SHA1) {
                 if let digits = parsed(queryDictionary[kQueryDigitsKey], with: { $0.toInt() }, defaultTo: 6) {
                     let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
@@ -119,17 +119,13 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
 
 // MARK: Parsing Helpers
 
-func parse<P, T>(item: P?, with parser: (P -> T?)) -> ParsedResult<T> {
-    if let concrete = item {
-        if let value = parser(concrete) {
-            return .Result(value)
+func parsed<P, T>(item: P?, with parser: (P -> T?), defaultTo def: T? = nil, preferDefault: Bool = false) -> T? {
+    if preferDefault {
+        if let concreteDefault = def {
+            return concreteDefault
         }
-        return .Error
     }
-    return .Default
-}
 
-func parsed<P, T>(item: P?, with parser: (P -> T?), defaultTo def: T? = nil) -> T? {
     if let concrete = item {
         if let value = parser(concrete) {
             return value
@@ -137,25 +133,6 @@ func parsed<P, T>(item: P?, with parser: (P -> T?), defaultTo def: T? = nil) -> 
         return nil
     }
     return def
-}
-
-enum ParsedResult<T> {
-    case Result(T), Default, Error
-
-    func defaultTo(d: T?) -> T? {
-        switch self {
-        case .Default: return d
-        case .Result(let value): return value
-        case .Error: return nil
-        }
-    }
-
-    func overrideWith(possibleOverride: T?) -> T? {
-        if let concreteValue = possibleOverride {
-            return concreteValue
-        }
-        return self.defaultTo(possibleOverride)
-    }
 }
 
 func counterParser(string: String) -> UInt64? {
