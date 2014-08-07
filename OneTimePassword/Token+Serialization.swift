@@ -51,7 +51,7 @@ public extension Token {
             NSURLQueryItem(name:kQueryIssuerKey, value:issuer)
         ]
 
-        switch type {
+        switch core.type {
         case .Timer(let period):
             urlComponents.host = TokenTypeTimerString
             urlComponents.queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
@@ -75,10 +75,10 @@ public extension Token {
             }
         }
 
-        var type: TokenType?
+        var type: Generator.TokenType?
         if let host = url.host {
             if host == TokenTypeCounterString {
-                type = TokenType.Counter(0)
+                type = Generator.TokenType.Counter(0)
                 if let counterString = queryDictionary[kQueryCounterKey] {
                     errno = 0
                     let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
@@ -87,7 +87,7 @@ public extension Token {
                     }
                 }
             } else if host == TokenTypeTimerString {
-                type = TokenType.Timer(period: 30)
+                type = Generator.TokenType.Timer(period: 30)
                 if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
                     type = .Timer(period: NSTimeInterval(periodInt))
                 }

@@ -10,9 +10,9 @@ import XCTest
 import OneTimePassword
 
 
-extension Token.TokenType: Equatable {}
+extension OneTimePassword.Generator.TokenType: Equatable {}
 
-public func ==(lhs: Token.TokenType, rhs: Token.TokenType) -> Bool {
+public func ==(lhs: OneTimePassword.Generator.TokenType, rhs: OneTimePassword.Generator.TokenType) -> Bool {
     switch (lhs, rhs) {
     case (.Counter(let l), .Counter(let r)):
         return l == r
@@ -27,7 +27,7 @@ public func ==(lhs: Token.TokenType, rhs: Token.TokenType) -> Bool {
 class TokenTests: XCTestCase {
     func testInit() {
         // Create a token
-        let type = Token.TokenType.Counter(111)
+        let type = OneTimePassword.Generator.TokenType.Counter(111)
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let name = "Test Name"
         let issuer = "Test Issuer"
@@ -41,7 +41,7 @@ class TokenTests: XCTestCase {
             algorithm: algorithm,
             digits: digits)
 
-        XCTAssertEqual(token.type, type)
+        XCTAssertEqual(token.core.type, type)
         XCTAssertEqual(token.secret, secret)
         XCTAssertEqual(token.name, name)
         XCTAssertEqual(token.issuer, issuer)
@@ -49,7 +49,7 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(token.digits, digits)
 
         // Create another token
-        let other_type = Token.TokenType.Timer(period: 123)
+        let other_type = OneTimePassword.Generator.TokenType.Timer(period: 123)
         let other_secret = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
         let other_name = "Other Test Name"
         let other_issuer = "Other Test Issuer"
@@ -63,7 +63,7 @@ class TokenTests: XCTestCase {
             algorithm: other_algorithm,
             digits: other_digits)
 
-        XCTAssertEqual(other_token.type, other_type)
+        XCTAssertEqual(other_token.core.type, other_type)
         XCTAssertEqual(other_token.secret, other_secret)
         XCTAssertEqual(other_token.name, other_name)
         XCTAssertEqual(other_token.issuer, other_issuer)
@@ -71,7 +71,7 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(other_token.digits, other_digits)
 
         // Ensure the tokens are different
-        XCTAssertNotEqual(token.type, other_token.type)
+        XCTAssertNotEqual(token.core.type, other_token.core.type)
         XCTAssertNotEqual(token.secret, other_token.secret)
         XCTAssertNotEqual(token.name, other_token.name)
         XCTAssertNotEqual(token.issuer, other_token.issuer)
@@ -80,7 +80,7 @@ class TokenTests: XCTestCase {
     }
 
     func testDefaults() {
-        let t = Token.TokenType.Counter(111)
+        let t = OneTimePassword.Generator.TokenType.Counter(111)
         let s = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let n = "Test Name"
         let i = "Test Issuer"

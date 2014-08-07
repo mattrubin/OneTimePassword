@@ -14,7 +14,7 @@ class TokenSerializationTests: XCTestCase {
     let kOTPTokenTypeCounterHost = "hotp"
     let kOTPTokenTypeTimerHost   = "totp"
 
-    let types: [Token.TokenType] = [.Counter(0), .Counter(1), .Counter(UInt64.max),
+    let types: [OneTimePassword.Generator.TokenType] = [.Counter(0), .Counter(1), .Counter(UInt64.max),
                                     .Timer(period: 0), .Timer(period: 1), .Timer(period: 30)]
     let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""]
     let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""]
