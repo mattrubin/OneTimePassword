@@ -136,48 +136,23 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
         return .Default
     }
 
-    func parsePeriod(raw: String?) -> ParseResult<NSTimeInterval> {
-        if let string = raw {
-            if let int = string.toInt() {
-                return .Result(NSTimeInterval(int))
-            } else {
-                return .Error
-            }
+    func parsePeriod(string: String) -> NSTimeInterval? {
+        if let int = string.toInt() {
+            return NSTimeInterval(int)
         }
-        return .Default // 30
+        return nil
     }
 
-    func parseSecret(raw: String?) -> ParseResult<NSData> {
-        if let string = raw {
-            if let data = MF_Base32Codec.dataFromBase32String(string) {
-                return .Result(data)
-            } else {
-                return .Error
-            }
-        }
-        return .Default // externalSecret
+    func parseSecret(string: String) -> NSData? {
+        return MF_Base32Codec.dataFromBase32String(string)
     }
 
-    func parseAlgorithm(raw: String?) -> ParseResult<Generator.Algorithm> {
-        if let string = raw {
-            if let algorithm = algorithmFromString(string) {
-                return .Result(algorithm)
-            } else {
-                return .Error
-            }
-        }
-        return .Default // Generator.Algorithm.SHA1
+    func parseAlgorithm(string: String) -> Generator.Algorithm? {
+        return algorithmFromString(string)
     }
 
-    func parseDigits(raw: String?) -> ParseResult<Int> {
-        if let string = raw {
-            if let int = string.toInt() {
-                return .Result(int)
-            } else {
-                return .Error
-            }
-        }
-        return .Default // 6
+    func parseDigits(string: String) -> Int? {
+        return string.toInt()
     }
 
 
@@ -194,7 +169,7 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
                 return nil
             }
         } else if host == FactorTimerString {
-            switch parsePeriod(_periodString) {
+            switch parse(_periodString, parsePeriod) {
             case .Default:
                 factor = Generator.Factor.Timer(period: 30)
             case .Result(let period):
@@ -212,7 +187,7 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
     if let defaultSecret = externalSecret {
         secret = defaultSecret
     } else {
-        switch parseSecret(_secretString) {
+        switch parse(_secretString, parseSecret) {
         case .Default:
             return nil
         case .Result(let data):
@@ -224,7 +199,7 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
 
 
     var algorithm: Generator.Algorithm?
-    switch parseAlgorithm(_algorithmString) {
+    switch parse(_algorithmString, parseAlgorithm) {
     case .Default:
         algorithm = .SHA1
     case .Result(let result):
@@ -234,7 +209,7 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
     }
 
     var digits: Int?
-    switch parseDigits(_digitsString) {
+    switch parse(_digitsString, parseDigits) {
     case .Default:
         digits = 6
     case .Result(let result):
