@@ -144,24 +144,11 @@ func generatorFromStrings(factorString: String?, secretString: String?, algorith
         return nil
     }
 
-
     func periodParser(string: String) -> NSTimeInterval? {
         if let int = string.toInt() {
             return NSTimeInterval(int)
         }
         return nil
-    }
-
-    func secretParser(string: String) -> NSData? {
-        return MF_Base32Codec.dataFromBase32String(string)
-    }
-
-    func algorithmParser(string: String) -> Generator.Algorithm? {
-        return algorithmFromString(string)
-    }
-
-    func digitsParser(string: String) -> Int? {
-        return string.toInt()
     }
 
     func factorParser(parsedCounter: ParseResult<UInt64>, parsedPeriod: ParseResult<NSTimeInterval>) -> (string: String) -> Generator.Factor? {
@@ -180,9 +167,9 @@ func generatorFromStrings(factorString: String?, secretString: String?, algorith
     }
 
     if let factor = parse(factorString).with(factorParser(parse(counterString).with(counterParser), parse(periodString).with(periodParser))).defaultTo(nil) {
-        if let secret = parse(secretString).with(secretParser).overrideWith(externalSecret) {
-            if let algorithm = parse(algorithmString).with(algorithmParser).defaultTo(.SHA1) {
-                if let digits = parse(digitsString).with(digitsParser).defaultTo(6) {
+        if let secret = parse(secretString).with({ MF_Base32Codec.dataFromBase32String($0) }).overrideWith(externalSecret) {
+            if let algorithm = parse(algorithmString).with(algorithmFromString).defaultTo(.SHA1) {
+                if let digits = parse(digitsString).with({ $0.toInt() }).defaultTo(6) {
                     return Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
                 }
             }
