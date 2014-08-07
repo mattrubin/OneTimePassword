@@ -23,7 +23,7 @@ let kAlgorithmSHA1   = "SHA1"
 let kAlgorithmSHA256 = "SHA256"
 let kAlgorithmSHA512 = "SHA512"
 
-func stringForAlgorithm(algorithm: Token.Algorithm) -> String {
+func stringForAlgorithm(algorithm: Generator.Algorithm) -> String {
     switch algorithm {
     case .SHA1:   return kAlgorithmSHA1
     case .SHA256: return kAlgorithmSHA256
@@ -31,7 +31,7 @@ func stringForAlgorithm(algorithm: Token.Algorithm) -> String {
     }
 }
 
-func algorithmFromString(string: String?) -> Token.Algorithm? {
+func algorithmFromString(string: String?) -> Generator.Algorithm? {
     if (string == kAlgorithmSHA1) { return .SHA1 }
     if (string == kAlgorithmSHA256) { return .SHA256 }
     if (string == kAlgorithmSHA512) { return .SHA512 }
@@ -46,7 +46,7 @@ public extension Token {
         urlComponents.path = "/" + name
 
         urlComponents.queryItems = [
-            NSURLQueryItem(name:kQueryAlgorithmKey, value:stringForAlgorithm(algorithm)),
+            NSURLQueryItem(name:kQueryAlgorithmKey, value:stringForAlgorithm(core.algorithm)),
             NSURLQueryItem(name:kQueryDigitsKey, value:String(digits)),
             NSURLQueryItem(name:kQueryIssuerKey, value:issuer)
         ]
@@ -133,7 +133,7 @@ public extension Token {
             }
         }
 
-        var algorithm = Algorithm.SHA1
+        var algorithm = Generator.Algorithm.SHA1
         if let algorithmString = queryDictionary[kQueryAlgorithmKey] {
             if let algorithmFromURL = algorithmFromString(algorithmString) {
                 algorithm = algorithmFromURL
