@@ -116,6 +116,25 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
 
 func generatorFromStrings(_factorString: String?, _secretString: String?, _algorithmString: String?, _digitsString: String?, _counterString: String?, _periodString: String?, externalSecret: NSData?) -> Generator? {
 
+    func parse<P>(item: P?) -> ParsableItem<P> {
+        return ParsableItem(item: item)
+    }
+
+    struct ParsableItem<P> {
+        let item: P?
+
+        func with<T>(parser: (P -> T?)) -> ParseResult<T> {
+            if let concrete = item {
+                if let value = parser(concrete) {
+                    return .Result(value)
+                } else {
+                    return .Error
+                }
+            }
+            return .Default
+        }
+    }
+
     func counterParser(string: String) -> UInt64? {
         errno = 0
         let counterValue = strtoull((string as NSString).UTF8String, nil, 10)
@@ -125,16 +144,6 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
         return nil
     }
 
-    func parse<T>(raw: String?, parse: (String -> T?)) -> ParseResult<T> {
-        if let string = raw {
-            if let value = parse(string) {
-                return .Result(value)
-            } else {
-                return .Error
-            }
-        }
-        return .Default
-    }
 
     func periodParser(string: String) -> NSTimeInterval? {
         if let int = string.toInt() {
@@ -170,10 +179,10 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
         }
     }
 
-    if let factor = parse(_factorString, factorParser(parse(_counterString, counterParser), parse(_periodString, periodParser))).defaultTo(nil) {
-        if let secret = parse(_secretString, secretParser).overrideWith(externalSecret) {
-            if let algorithm = parse(_algorithmString, algorithmParser).defaultTo(.SHA1) {
-                if let digits = parse(_digitsString, digitsParser).defaultTo(6) {
+    if let factor = parse(_factorString).with(factorParser(parse(_counterString).with(counterParser), parse(_periodString).with(periodParser))).defaultTo(nil) {
+        if let secret = parse(_secretString).with(secretParser).overrideWith(externalSecret) {
+            if let algorithm = parse(_algorithmString).with(algorithmParser).defaultTo(.SHA1) {
+                if let digits = parse(_digitsString).with(digitsParser).defaultTo(6) {
                     return Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
                 }
             }
