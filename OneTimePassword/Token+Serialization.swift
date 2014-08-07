@@ -74,10 +74,10 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
         }
     }
 
-    if let factor = parse(url.host).with(factorParser(parse(queryDictionary[kQueryCounterKey]).with(counterParser), parse(queryDictionary[kQueryPeriodKey]).with(periodParser))).defaultTo(nil) {
-        if let secret = parse(queryDictionary[kQuerySecretKey]).with({ MF_Base32Codec.dataFromBase32String($0) }).overrideWith(externalSecret) {
-            if let algorithm = parse(queryDictionary[kQueryAlgorithmKey]).with(algorithmFromString).defaultTo(.SHA1) {
-                if let digits = parse(queryDictionary[kQueryDigitsKey]).with({ $0.toInt() }).defaultTo(6) {
+    if let factor = parse(url.host, with:factorParser(parse(queryDictionary[kQueryCounterKey], with:counterParser), parse(queryDictionary[kQueryPeriodKey], with:periodParser))).defaultTo(nil) {
+        if let secret = parse(queryDictionary[kQuerySecretKey], with:{ MF_Base32Codec.dataFromBase32String($0) }).overrideWith(externalSecret) {
+            if let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with:algorithmFromString).defaultTo(.SHA1) {
+                if let digits = parse(queryDictionary[kQueryDigitsKey], with:{ $0.toInt() }).defaultTo(6) {
                     let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
 
                     if core.isValid {
@@ -116,22 +116,14 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
 
 // MARK: Parsing Helpers
 
-func parse<P>(item: P?) -> ParsableItem<P> {
-    return ParsableItem(item: item)
-}
-
-struct ParsableItem<P> {
-    let item: P?
-
-    func with<T>(parser: (P -> T?)) -> ParsedResult<T> {
-        if let concrete = item {
-            if let value = parser(concrete) {
-                return .Result(value)
-            }
-            return .Error
+func parse<P, T>(item: P?, with parser: (P -> T?)) -> ParsedResult<T> {
+    if let concrete = item {
+        if let value = parser(concrete) {
+            return .Result(value)
         }
-        return .Default
+        return .Error
     }
+    return .Default
 }
 
 enum ParsedResult<T> {
