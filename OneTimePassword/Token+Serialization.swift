@@ -38,121 +38,119 @@ func algorithmFromString(string: String?) -> Generator.Algorithm? {
     return nil
 }
 
+func urlForToken(token: Token) -> NSURL
+{
+    let urlComponents = NSURLComponents()
+    urlComponents.scheme = kOTPAuthScheme
+    urlComponents.path = "/" + token.name
 
-public extension Token {
-    var url: NSURL {
-        let urlComponents = NSURLComponents()
-        urlComponents.scheme = kOTPAuthScheme
-        urlComponents.path = "/" + name
+    urlComponents.queryItems = [
+        NSURLQueryItem(name:kQueryAlgorithmKey, value:stringForAlgorithm(token.core.algorithm)),
+        NSURLQueryItem(name:kQueryDigitsKey, value:String(token.core.digits)),
+        NSURLQueryItem(name:kQueryIssuerKey, value:token.issuer)
+    ]
 
-        urlComponents.queryItems = [
-            NSURLQueryItem(name:kQueryAlgorithmKey, value:stringForAlgorithm(core.algorithm)),
-            NSURLQueryItem(name:kQueryDigitsKey, value:String(core.digits)),
-            NSURLQueryItem(name:kQueryIssuerKey, value:issuer)
-        ]
-
-        switch core.factor {
-        case .Timer(let period):
-            urlComponents.host = FactorTimerString
-            urlComponents.queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
-        case .Counter(let counter):
-            urlComponents.host = FactorCounterString
-            urlComponents.queryItems.append(NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
-        }
-
-        return urlComponents.URL
+    switch token.core.factor {
+    case .Timer(let period):
+        urlComponents.host = FactorTimerString
+        urlComponents.queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
+    case .Counter(let counter):
+        urlComponents.host = FactorCounterString
+        urlComponents.queryItems.append(NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
     }
 
-    static func tokenWithURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
-        if (url.scheme != kOTPAuthScheme) { return nil }
+    return urlComponents.URL
+}
 
-        var queryDictionary = Dictionary<String, String>()
-        if let queryItems = NSURLComponents(URL:url, resolvingAgainstBaseURL:false).queryItems {
-            for object : AnyObject in queryItems {
-                if let item = object as? NSURLQueryItem {
-                    queryDictionary[item.name] = item.value
+func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
+    if (url.scheme != kOTPAuthScheme) { return nil }
+
+    var queryDictionary = Dictionary<String, String>()
+    if let queryItems = NSURLComponents(URL:url, resolvingAgainstBaseURL:false).queryItems {
+        for object : AnyObject in queryItems {
+            if let item = object as? NSURLQueryItem {
+                queryDictionary[item.name] = item.value
+            }
+        }
+    }
+
+    var factor: Generator.Factor?
+    if let host = url.host {
+        if host == FactorCounterString {
+            factor = Generator.Factor.Counter(0)
+            if let counterString = queryDictionary[kQueryCounterKey] {
+                errno = 0
+                let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
+                if errno == 0 {
+                    factor = .Counter(counterValue)
                 }
             }
-        }
-
-        var factor: Generator.Factor?
-        if let host = url.host {
-            if host == FactorCounterString {
-                factor = Generator.Factor.Counter(0)
-                if let counterString = queryDictionary[kQueryCounterKey] {
-                    errno = 0
-                    let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
-                    if errno == 0 {
-                        factor = .Counter(counterValue)
-                    }
-                }
-            } else if host == FactorTimerString {
-                factor = Generator.Factor.Timer(period: 30)
-                if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
-                    factor = .Timer(period: NSTimeInterval(periodInt))
-                }
+        } else if host == FactorTimerString {
+            factor = Generator.Factor.Timer(period: 30)
+            if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
+                factor = .Timer(period: NSTimeInterval(periodInt))
             }
         }
-        if factor == nil { return nil } // A factor is required
+    }
+    if factor == nil { return nil } // A factor is required
 
-        var secret = externalSecret
-        if secret == nil {
-            if let secretString = queryDictionary[kQuerySecretKey] {
-                secret = NSData(base32String:secretString)
+    var secret = externalSecret
+    if secret == nil {
+        if let secretString = queryDictionary[kQuerySecretKey] {
+            secret = NSData(base32String:secretString)
+        }
+    }
+    if secret == nil { return nil } // A secret is required
+
+    var name = ""
+    if let path = url.path {
+        if countElements(path) > 1 {
+            name = path.substringFromIndex(path.startIndex.successor()) // Skip the leading "/"
+        }
+    }
+
+    var issuer = ""
+    if let issuerString = queryDictionary[kQueryIssuerKey] {
+        issuer = issuerString
+        // If the name is prefixed by the issuer string, trim the name
+        if let prefixRange = name.rangeOfString(issuer) {
+            if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
+                name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             }
         }
-        if secret == nil { return nil } // A secret is required
-
-        var name = ""
-        if let path = url.path {
-            if countElements(path) > 1 {
-                name = path.substringFromIndex(path.startIndex.successor()) // Skip the leading "/"
-            }
-        }
-
-        var issuer = ""
-        if let issuerString = queryDictionary[kQueryIssuerKey] {
-            issuer = issuerString
+    } else {
+        // If there is no issuer string, try to extract one from the name
+        let components = name.componentsSeparatedByString(":")
+        if components.count > 1 {
+            issuer = components[0]
             // If the name is prefixed by the issuer string, trim the name
             if let prefixRange = name.rangeOfString(issuer) {
                 if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
                     name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 }
             }
+        }
+    }
+
+    var algorithm = Generator.Algorithm.SHA1
+    if let algorithmString = queryDictionary[kQueryAlgorithmKey] {
+        if let algorithmFromURL = algorithmFromString(algorithmString) {
+            algorithm = algorithmFromURL
         } else {
-            // If there is no issuer string, try to extract one from the name
-            let components = name.componentsSeparatedByString(":")
-            if components.count > 1 {
-                issuer = components[0]
-                // If the name is prefixed by the issuer string, trim the name
-                if let prefixRange = name.rangeOfString(issuer) {
-                    if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
-                        name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                    }
-                }
-            }
+            return nil // Parsed an unknown algorithm string
         }
+    }
 
-        var algorithm = Generator.Algorithm.SHA1
-        if let algorithmString = queryDictionary[kQueryAlgorithmKey] {
-            if let algorithmFromURL = algorithmFromString(algorithmString) {
-                algorithm = algorithmFromURL
-            } else {
-                return nil // Parsed an unknown algorithm string
-            }
-        }
+    var digits = 6
+    if let digitsInt = queryDictionary[kQueryDigitsKey]?.toInt() {
+        digits = digitsInt
+    }
 
-        var digits = 6
-        if let digitsInt = queryDictionary[kQueryDigitsKey]?.toInt() {
-            digits = digitsInt
-        }
+    let token = Token(name: name, issuer: issuer, core: Generator(factor: factor!, secret: secret!, algorithm: algorithm, digits: digits))
 
-        let token = Token(name: name, issuer: issuer, core: Generator(factor: factor!, secret: secret!, algorithm: algorithm, digits: digits))
-
-        if token.core.isValid {
-            return token
-        } else {
-            return nil
-        }
+    if token.core.isValid {
+        return token
+    } else {
+        return nil
     }
 }

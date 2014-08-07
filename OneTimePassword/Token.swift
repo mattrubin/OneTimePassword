@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
+import Foundation
+
 public struct Token {
     public let name: String
     public let issuer: String
@@ -20,4 +22,14 @@ public struct Token {
 
 public func updatedToken(token: Token) -> Token {
     return Token(name: token.name, issuer: token.issuer, core: updatedGenerator(token.core))
+}
+
+public extension Token {
+    static func tokenWithURL(url: NSURL, secret: NSData? = nil) -> Token? {
+        return tokenFromURL(url, secret: secret)
+    }
+    
+    var url: NSURL {
+        return urlForToken(self)
+    }
 }
