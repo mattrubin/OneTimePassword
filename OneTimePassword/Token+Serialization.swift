@@ -43,14 +43,6 @@ public extension Token {
     var url: NSURL {
         let urlComponents = NSURLComponents()
         urlComponents.scheme = kOTPAuthScheme
-
-        switch type {
-        case .Counter:
-            urlComponents.host = TokenTypeCounterString
-        case .Timer:
-            urlComponents.host = TokenTypeTimerString
-        }
-
         urlComponents.path = "/" + name
 
         urlComponents.queryItems = [
@@ -61,8 +53,10 @@ public extension Token {
 
         switch type {
         case .Timer(let period):
+            urlComponents.host = TokenTypeTimerString
             urlComponents.queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
         case .Counter(let counter):
+            urlComponents.host = TokenTypeCounterString
             urlComponents.queryItems.append(NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
         }
 
