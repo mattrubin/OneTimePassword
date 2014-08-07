@@ -74,8 +74,21 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
         }
     }
 
-    let factorParser = generateFactorParser(parse(queryDictionary[kQueryCounterKey], with: counterParser, defaultTo: 0), parse(queryDictionary[kQueryPeriodKey], with: periodParser, defaultTo: 30))
-    if let factor = parse(url.host, with: factorParser, defaultTo: nil) {
+    let parsedCounter: UInt64? = parse(queryDictionary[kQueryCounterKey], with: {
+        errno = 0
+        let counterValue = strtoull(($0 as NSString).UTF8String, nil, 10)
+        if errno == 0 {
+            return counterValue
+        }
+        return nil
+        }, defaultTo: 0)
+    let parsedPeriod: NSTimeInterval? = parse(queryDictionary[kQueryPeriodKey], with: {
+        if let int = $0.toInt() {
+            return NSTimeInterval(int)
+        }
+        return nil
+        }, defaultTo: 30)
+    if let factor = parse(url.host, with: generateFactorParser(parsedCounter, parsedPeriod), defaultTo: nil) {
         if let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, defaultTo: externalSecret, preferDefault: true) {
             if let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: .SHA1) {
                 if let digits = parse(queryDictionary[kQueryDigitsKey], with: { $0.toInt() }, defaultTo: 6) {
@@ -131,22 +144,6 @@ func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo def: T? = nil, pref
         return nil
     }
     return def
-}
-
-func counterParser(string: String) -> UInt64? {
-    errno = 0
-    let counterValue = strtoull((string as NSString).UTF8String, nil, 10)
-    if errno == 0 {
-        return counterValue
-    }
-    return nil
-}
-
-func periodParser(string: String) -> NSTimeInterval? {
-    if let int = string.toInt() {
-        return NSTimeInterval(int)
-    }
-    return nil
 }
 
 func generateFactorParser(parsedCounter: UInt64?, parsedPeriod: NSTimeInterval?) -> (string: String) -> Generator.Factor? {
