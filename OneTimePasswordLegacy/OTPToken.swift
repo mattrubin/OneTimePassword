@@ -140,11 +140,11 @@ public class OTPToken: NSObject {
         return 30
     }
 
-    public func validate() -> Bool { return token.isValid }
+    public func validate() -> Bool { return token.core.isValid }
 }
 
 public extension OTPToken {
-    var password: String? { return token.password }
+    var password: String? { return token.core.password }
     func updatePassword() { token = updatedToken(token) }
 
     func generatePasswordForCounter(counter: UInt64) -> String? {

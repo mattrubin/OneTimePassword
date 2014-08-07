@@ -149,7 +149,7 @@ public extension Token {
 
         let token = Token(type:type!, secret:secret!, name:name, issuer:issuer, algorithm:algorithm, digits:digits)
 
-        if token.isValid {
+        if token.core.isValid {
             return token
         } else {
             return nil

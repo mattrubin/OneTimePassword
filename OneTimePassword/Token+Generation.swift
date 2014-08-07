@@ -8,7 +8,7 @@
 
 import Foundation
 
-public extension Token {
+public extension Token.Generator {
     var isValid: Bool {
         let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
         let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
@@ -33,9 +33,13 @@ public extension Token {
 }
 
 public func updatedToken(token: Token) -> Token {
+    return Token(name: token.name, issuer: token.issuer, core: updatedGenerator(token.core))
+}
+
+public func updatedGenerator(token: Token.Generator) -> Token.Generator {
     switch token.type {
     case .Counter(let counter):
-        return Token(type: .Counter(counter + 1), secret: token.secret, name: token.name, issuer: token.issuer, algorithm: token.algorithm, digits: token.digits)
+        return Token.Generator(type: .Counter(counter + 1), secret: token.secret, algorithm: token.algorithm, digits: token.digits)
     case .Timer:
         return token
     }

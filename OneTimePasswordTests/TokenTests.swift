@@ -110,20 +110,20 @@ class TokenTests: XCTestCase {
     func testValidation() {
         let validSecret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
 
-        let tokenWithTooManyDigits = Token(type: .Timer(period: 30), secret: validSecret, digits: 10)
-        let tokenWithTooFewDigits = Token(type: .Timer(period: 30), secret: validSecret, digits: 3)
-        let tokenWithNegativeDigits = Token(type: .Timer(period: 30), secret: validSecret, digits: -6)
-        let tokenWithValidDigits = Token(type: .Timer(period: 30), secret: validSecret)
+        let tokenWithTooManyDigits = Token.Generator(type: .Timer(period: 30), secret: validSecret, digits: 10)
+        let tokenWithTooFewDigits = Token.Generator(type: .Timer(period: 30), secret: validSecret, digits: 3)
+        let tokenWithNegativeDigits = Token.Generator(type: .Timer(period: 30), secret: validSecret, digits: -6)
+        let tokenWithValidDigits = Token.Generator(type: .Timer(period: 30), secret: validSecret)
 
         XCTAssertFalse(tokenWithTooManyDigits.isValid)
         XCTAssertFalse(tokenWithTooFewDigits.isValid)
         XCTAssertFalse(tokenWithNegativeDigits.isValid)
         XCTAssertTrue(tokenWithValidDigits.isValid)
 
-        let tokenWithTooLongPeriod = Token(type: .Timer(period: 301), secret: validSecret)
-        let tokenWithTooShortPeriod = Token(type: .Timer(period: 0), secret: validSecret)
-        let tokenWithNegativePeriod = Token(type: .Timer(period: -30), secret: validSecret)
-        let tokenWithValidPeriod = Token(type: .Timer(period: 30), secret: validSecret)
+        let tokenWithTooLongPeriod = Token.Generator(type: .Timer(period: 301), secret: validSecret)
+        let tokenWithTooShortPeriod = Token.Generator(type: .Timer(period: 0), secret: validSecret)
+        let tokenWithNegativePeriod = Token.Generator(type: .Timer(period: -30), secret: validSecret)
+        let tokenWithValidPeriod = Token.Generator(type: .Timer(period: 30), secret: validSecret)
 
         XCTAssertFalse(tokenWithTooLongPeriod.isValid)
         XCTAssertFalse(tokenWithTooShortPeriod.isValid)
