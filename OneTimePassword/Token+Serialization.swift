@@ -66,11 +66,9 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
     if (url.scheme != kOTPAuthScheme) { return nil }
 
     var queryDictionary = Dictionary<String, String>()
-    if let queryItems = NSURLComponents(URL:url, resolvingAgainstBaseURL:false).queryItems {
-        for object : AnyObject in queryItems {
-            if let item = object as? NSURLQueryItem {
-                queryDictionary[item.name] = item.value
-            }
+    if let queryItems = NSURLComponents(URL:url, resolvingAgainstBaseURL:false).queryItems as? [NSURLQueryItem] {
+        for item in queryItems {
+            queryDictionary[item.name] = item.value
         }
     }
 
