@@ -14,7 +14,7 @@ class TokenSerializationTests: XCTestCase {
     let kOTPTokenTypeCounterHost = "hotp"
     let kOTPTokenTypeTimerHost   = "totp"
 
-    let types: [OneTimePassword.Generator.TokenType] = [.Counter(0), .Counter(1), .Counter(UInt64.max),
+    let factors: [OneTimePassword.Generator.Factor] = [.Counter(0), .Counter(1), .Counter(UInt64.max),
                                     .Timer(period: 0), .Timer(period: 1), .Timer(period: 30)]
     let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""]
     let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""]
@@ -23,7 +23,7 @@ class TokenSerializationTests: XCTestCase {
     let digits = [6, 7, 8]
 
     func testSerialization() {
-        for type in types {
+        for factor in factors {
             for name in names {
                 for issuer in issuers {
                     for secretString in secretStrings {
@@ -34,7 +34,7 @@ class TokenSerializationTests: XCTestCase {
                                     name: name,
                                     issuer: issuer,
                                     core: Generator(
-                                        type: type,
+                                        factor: factor,
                                         secret: secretString.dataUsingEncoding(NSASCIIStringEncoding)!,
                                         algorithm: algorithm,
                                         digits: digitNumber
@@ -46,9 +46,9 @@ class TokenSerializationTests: XCTestCase {
 
                                 // Test scheme
                                 XCTAssertEqual(url.scheme, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"")
-                                // Test type
+                                // Test Factor
                                 var expectedHost: String
-                                switch type {
+                                switch factor {
                                 case .Counter:
                                     expectedHost = kOTPTokenTypeCounterHost
                                 case .Timer:
@@ -82,14 +82,14 @@ class TokenSerializationTests: XCTestCase {
                                 XCTAssertNil(queryArguments["secret"], "The url query string should not contain the secret")
 
                                 // Test period
-                                switch type {
+                                switch factor {
                                 case .Timer(let period):
                                     XCTAssertEqual(queryArguments["period"]!, String(Int(period)), "The period value should be \"\(period)\"")
                                 default:
                                     XCTAssertNil(queryArguments["period"], "The url query string should not contain the period")
                                 }
                                 // Test counter
-                                switch type {
+                                switch factor {
                                 case .Counter(let counter):
                                     XCTAssertEqual(queryArguments["counter"]!, String(counter), "The counter value should be \"\(counter)\"")
                                 default:

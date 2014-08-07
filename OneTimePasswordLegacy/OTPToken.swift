@@ -18,15 +18,15 @@ public class OTPToken: NSObject {
 
     convenience override init() {
         // Stub an invalid token, to be replaced with a modified token via the setters
-        self.init(token: Token(core: Generator(type: .Timer(period: 30), secret: NSData())))
+        self.init(token: Token(core: Generator(factor: .Timer(period: 30), secret: NSData())))
     }
 
     class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer:NSString) -> Self {
         switch type {
         case .Counter:
-            return self(token: Token(name: name, issuer: issuer, core: Generator(type: .Counter(0), secret: secret)))
+            return self(token: Token(name: name, issuer: issuer, core: Generator(factor: .Counter(0), secret: secret)))
         case .Timer:
-            return self(token: Token(name: name, issuer: issuer, core: Generator(type: .Timer(period: 30), secret: secret)))
+            return self(token: Token(name: name, issuer: issuer, core: Generator(factor: .Timer(period: 30), secret: secret)))
         }
     }
 
@@ -42,7 +42,7 @@ public class OTPToken: NSObject {
 
     public var type: OTPTokenType {
         get {
-            switch token.core.type {
+            switch token.core.factor {
             case .Counter: return .Counter
             case .Timer:   return .Timer
             }
@@ -54,7 +54,7 @@ public class OTPToken: NSObject {
                     name: token.name,
                     issuer: token.issuer,
                     core: Generator(
-                        type: .Counter(_counter),
+                        factor: .Counter(_counter),
                         secret: token.core.secret,
                         algorithm: token.core.algorithm,
                         digits: token.core.digits
@@ -65,7 +65,7 @@ public class OTPToken: NSObject {
                     name: token.name,
                     issuer: token.issuer,
                     core: Generator(
-                        type: .Timer(period: _period),
+                        factor: .Timer(period: _period),
                         secret: token.core.secret,
                         algorithm: token.core.algorithm,
                         digits: token.core.digits
@@ -82,7 +82,7 @@ public class OTPToken: NSObject {
                 name: token.name,
                 issuer: token.issuer,
                 core: Generator(
-                    type: token.core.type,
+                    factor: token.core.factor,
                     secret: newValue,
                     algorithm: token.core.algorithm,
                     digits: token.core.digits
@@ -111,7 +111,7 @@ public class OTPToken: NSObject {
                 name: token.name,
                 issuer: token.issuer,
                 core: Generator(
-                    type: token.core.type,
+                    factor: token.core.factor,
                     secret: token.core.secret,
                     algorithm: newAlgorithm,
                     digits: token.core.digits
@@ -127,7 +127,7 @@ public class OTPToken: NSObject {
                 name: token.name,
                 issuer: token.issuer,
                 core: Generator(
-                    type: token.core.type,
+                    factor: token.core.factor,
                     secret: token.core.secret,
                     algorithm: token.core.algorithm,
                     digits: Int(newValue)
@@ -139,7 +139,7 @@ public class OTPToken: NSObject {
     private var _period: NSTimeInterval = 30
     public var period: NSTimeInterval {
         get {
-            switch token.core.type {
+            switch token.core.factor {
             case .Timer(let period):
                 _period = period
             default: break
@@ -148,13 +148,13 @@ public class OTPToken: NSObject {
         }
         set {
             _period = newValue
-            switch token.core.type {
+            switch token.core.factor {
             case .Timer:
                 token = Token(
                     name: token.name,
                     issuer: token.issuer,
                     core: Generator(
-                        type: .Timer(period: _period),
+                        factor: .Timer(period: _period),
                         secret: token.core.secret,
                         algorithm: token.core.algorithm,
                         digits: token.core.digits
@@ -168,7 +168,7 @@ public class OTPToken: NSObject {
     private var _counter: UInt64 = 0
     public var counter: UInt64 {
         get {
-            switch token.core.type {
+            switch token.core.factor {
             case .Counter(let counter):
                 _counter = counter
             default: break
@@ -177,13 +177,13 @@ public class OTPToken: NSObject {
         }
         set {
             _counter = newValue
-            switch token.core.type {
+            switch token.core.factor {
             case .Counter:
                 token = Token(
                     name: token.name,
                     issuer: token.issuer,
                     core: Generator(
-                        type: .Counter(_counter),
+                        factor: .Counter(_counter),
                         secret: token.core.secret,
                         algorithm: token.core.algorithm,
                         digits: token.core.digits

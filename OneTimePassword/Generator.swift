@@ -9,19 +9,19 @@
 import Foundation
 
 public struct Generator {
-    public let type: TokenType
+    public let factor: Factor
     public let secret: NSData
     public let algorithm: Algorithm
     public let digits: Int
 
-    public init(type: TokenType, secret: NSData, algorithm: Algorithm = .SHA1, digits: Int = 6) {
-        self.type = type
+    public init(factor: Factor, secret: NSData, algorithm: Algorithm = .SHA1, digits: Int = 6) {
+        self.factor = factor
         self.secret = secret
         self.algorithm = algorithm
         self.digits = digits
     }
 
-    public enum TokenType {
+    public enum Factor {
         case Counter(UInt64)
         case Timer(period: NSTimeInterval)
     }
@@ -36,7 +36,7 @@ public extension Generator {
         let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
         let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
 
-        switch type {
+        switch factor {
         case .Counter:
             return validDigits(digits)
         case .Timer(let period):
@@ -46,7 +46,7 @@ public extension Generator {
 
     var password: String? {
         if !self.isValid { return nil }
-        switch type {
+        switch factor {
         case .Counter(let counter):
             return generatePassword(algorithm, digits, secret, counter)
         case .Timer(let period):
@@ -56,9 +56,9 @@ public extension Generator {
 }
 
 public func updatedGenerator(generator: Generator) -> Generator {
-    switch generator.type {
+    switch generator.factor {
     case .Counter(let counter):
-        return Generator(type: .Counter(counter + 1), secret: generator.secret, algorithm: generator.algorithm, digits: generator.digits)
+        return Generator(factor: .Counter(counter + 1), secret: generator.secret, algorithm: generator.algorithm, digits: generator.digits)
     case .Timer:
         return generator
     }

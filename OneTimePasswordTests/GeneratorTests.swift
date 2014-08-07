@@ -16,7 +16,7 @@ class GeneratorTests: XCTestCase {
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let expectedValues = ["755224", "287082", "359152", "969429", "338314", "254676", "287922", "162583", "399871", "520489"]
 
-        var generator = Generator(type: .Counter(0), secret: secret, algorithm: .SHA1, digits: 6)
+        var generator = Generator(factor: .Counter(0), secret: secret, algorithm: .SHA1, digits: 6)
 
         for (var counter = 0; counter < expectedValues.count; counter++) {
             XCTAssertEqual(generatePassword(generator.algorithm, generator.digits, generator.secret, UInt64(counter)), expectedValues[counter])
@@ -51,7 +51,7 @@ class GeneratorTests: XCTestCase {
 
         for (algorithm, secretKey) in secretKeys {
             let secret = secretKey.dataUsingEncoding(NSASCIIStringEncoding)!
-            let generator = Generator(type: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 8)
+            let generator = Generator(factor: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 8)
 
             for (var i = 0; i < times.count; i++) {
                 if let password = expectedValues[algorithm]?[i] {
@@ -76,7 +76,7 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (algorithm, values) in expectedValues {
-            let generator = Generator(type: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
+            let generator = Generator(factor: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
             for (var i = 0; i < times.count; i++) {
                 let counter = UInt64(NSTimeInterval(times[i]) / 30)
                 XCTAssertEqual(values[i], generatePassword(generator.algorithm, generator.digits, generator.secret, counter),

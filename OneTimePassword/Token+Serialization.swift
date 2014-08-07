@@ -16,8 +16,8 @@ let kQueryDigitsKey = "digits"
 let kQueryPeriodKey = "period"
 let kQueryIssuerKey = "issuer"
 
-let TokenTypeCounterString = "hotp"
-let TokenTypeTimerString = "totp"
+let FactorCounterString = "hotp"
+let FactorTimerString = "totp"
 
 let kAlgorithmSHA1   = "SHA1"
 let kAlgorithmSHA256 = "SHA256"
@@ -51,12 +51,12 @@ public extension Token {
             NSURLQueryItem(name:kQueryIssuerKey, value:issuer)
         ]
 
-        switch core.type {
+        switch core.factor {
         case .Timer(let period):
-            urlComponents.host = TokenTypeTimerString
+            urlComponents.host = FactorTimerString
             urlComponents.queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
         case .Counter(let counter):
-            urlComponents.host = TokenTypeCounterString
+            urlComponents.host = FactorCounterString
             urlComponents.queryItems.append(NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
         }
 
@@ -75,25 +75,25 @@ public extension Token {
             }
         }
 
-        var type: Generator.TokenType?
+        var factor: Generator.Factor?
         if let host = url.host {
-            if host == TokenTypeCounterString {
-                type = Generator.TokenType.Counter(0)
+            if host == FactorCounterString {
+                factor = Generator.Factor.Counter(0)
                 if let counterString = queryDictionary[kQueryCounterKey] {
                     errno = 0
                     let counterValue = strtoull((counterString as NSString).UTF8String, nil, 10)
                     if errno == 0 {
-                        type = .Counter(counterValue)
+                        factor = .Counter(counterValue)
                     }
                 }
-            } else if host == TokenTypeTimerString {
-                type = Generator.TokenType.Timer(period: 30)
+            } else if host == FactorTimerString {
+                factor = Generator.Factor.Timer(period: 30)
                 if let periodInt = queryDictionary[kQueryPeriodKey]?.toInt() {
-                    type = .Timer(period: NSTimeInterval(periodInt))
+                    factor = .Timer(period: NSTimeInterval(periodInt))
                 }
             }
         }
-        if type == nil { return nil } // A token type is required
+        if factor == nil { return nil } // A factor is required
 
         var secret = externalSecret
         if secret == nil {
@@ -147,7 +147,7 @@ public extension Token {
             digits = digitsInt
         }
 
-        let token = Token(name: name, issuer: issuer, core: Generator(type: type!, secret: secret!, algorithm: algorithm, digits: digits))
+        let token = Token(name: name, issuer: issuer, core: Generator(factor: factor!, secret: secret!, algorithm: algorithm, digits: digits))
 
         if token.core.isValid {
             return token
