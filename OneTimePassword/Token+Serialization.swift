@@ -199,22 +199,16 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
 
 
     var algorithm: Generator.Algorithm?
-    switch parse(_algorithmString, parseAlgorithm) {
-    case .Default:
-        algorithm = .SHA1
-    case .Result(let result):
-        algorithm = result
-    case .Error:
+    if let alg = parse(_algorithmString, parseAlgorithm).defaultTo(.SHA1) {
+        algorithm = alg
+    } else {
         return nil
     }
 
     var digits: Int?
-    switch parse(_digitsString, parseDigits) {
-    case .Default:
-        digits = 6
-    case .Result(let result):
-        digits = result
-    case .Error:
+    if let dig = parse(_digitsString, parseDigits).defaultTo(6) {
+        digits = dig
+    } else {
         return nil
     }
 
@@ -225,4 +219,15 @@ enum ParseResult<T> {
     case Default
     case Error
     case Result(T)
+
+    func defaultTo(d: T) -> T? {
+        switch self {
+        case .Default:
+            return d
+        case .Result(let value):
+            return value
+        case .Error:
+            return nil
+        }
+    }
 }
