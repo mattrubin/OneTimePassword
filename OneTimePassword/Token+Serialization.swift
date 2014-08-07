@@ -184,14 +184,10 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
     }
 
     var secret: NSData?
-    if let defaultSecret = externalSecret {
-        secret = defaultSecret
+    if let sec = parse(_secretString, parseSecret).overrideWith(externalSecret) {
+        secret = sec
     } else {
-        if let sec = parse(_secretString, parseSecret).defaultTo(externalSecret) {
-            secret = sec
-        } else {
-            return nil
-        }
+        return nil
     }
 
 
@@ -226,5 +222,12 @@ enum ParseResult<T> {
         case .Error:
             return nil
         }
+    }
+
+    func overrideWith(possibleOverride: T?) -> T? {
+        if let concreteValue = possibleOverride {
+            return concreteValue
+        }
+        return self.defaultTo(possibleOverride)
     }
 }
