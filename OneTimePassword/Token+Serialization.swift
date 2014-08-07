@@ -187,12 +187,9 @@ func generatorFromStrings(_factorString: String?, _secretString: String?, _algor
     if let defaultSecret = externalSecret {
         secret = defaultSecret
     } else {
-        switch parse(_secretString, parseSecret) {
-        case .Default:
-            return nil
-        case .Result(let data):
-            secret = data
-        case .Error:
+        if let sec = parse(_secretString, parseSecret).defaultTo(externalSecret) {
+            secret = sec
+        } else {
             return nil
         }
     }
@@ -220,7 +217,7 @@ enum ParseResult<T> {
     case Error
     case Result(T)
 
-    func defaultTo(d: T) -> T? {
+    func defaultTo(d: T?) -> T? {
         switch self {
         case .Default:
             return d
