@@ -75,7 +75,7 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
     }
 
     if let factor = parse(url.host, with: generateFactorParser(queryDictionary[kQueryCounterKey], queryDictionary[kQueryPeriodKey]), defaultTo: nil) {
-        if let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, defaultTo: externalSecret, preferDefault: true) {
+        if let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, overrideWith: externalSecret) {
             if let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: .SHA1) {
                 if let digits = parse(queryDictionary[kQueryDigitsKey], with: { $0.toInt() }, defaultTo: 6) {
                     let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
@@ -116,11 +116,9 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
 
 // MARK: Parsing Helpers
 
-func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo def: T? = nil, preferDefault: Bool = false) -> T? {
-    if preferDefault {
-        if let concreteDefault = def {
-            return concreteDefault
-        }
+func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo def: T? = nil, overrideWith ovr: T? = nil) -> T? {
+    if let concreteOverride = ovr {
+        return concreteOverride
     }
 
     if let concrete = item {
