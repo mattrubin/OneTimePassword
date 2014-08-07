@@ -123,7 +123,7 @@ func generatorFromStrings(factorString: String?, secretString: String?, algorith
     struct ParsableItem<P> {
         let item: P?
 
-        func with<T>(parser: (P -> T?)) -> ParseResult<T> {
+        func with<T>(parser: (P -> T?)) -> ParsedResult<T> {
             if let concrete = item {
                 if let value = parser(concrete) {
                     return .Result(value)
@@ -134,6 +134,26 @@ func generatorFromStrings(factorString: String?, secretString: String?, algorith
             return .Default
         }
     }
+
+    enum ParsedResult<T> {
+        case Result(T), Default, Error
+
+        func defaultTo(d: T?) -> T? {
+            switch self {
+            case .Default: return d
+            case .Result(let value): return value
+            case .Error: return nil
+            }
+        }
+
+        func overrideWith(possibleOverride: T?) -> T? {
+            if let concreteValue = possibleOverride {
+                return concreteValue
+            }
+            return self.defaultTo(possibleOverride)
+        }
+    }
+
 
     func counterParser(string: String) -> UInt64? {
         errno = 0
@@ -151,7 +171,7 @@ func generatorFromStrings(factorString: String?, secretString: String?, algorith
         return nil
     }
 
-    func factorParser(parsedCounter: ParseResult<UInt64>, parsedPeriod: ParseResult<NSTimeInterval>) -> (string: String) -> Generator.Factor? {
+    func factorParser(parsedCounter: ParsedResult<UInt64>, parsedPeriod: ParsedResult<NSTimeInterval>) -> (string: String) -> Generator.Factor? {
         return { string in
         if string == FactorCounterString {
             if let counter = parsedCounter.defaultTo(0) {
@@ -176,28 +196,4 @@ func generatorFromStrings(factorString: String?, secretString: String?, algorith
         }
     }
     return nil
-}
-
-enum ParseResult<T> {
-    case Default
-    case Error
-    case Result(T)
-
-    func defaultTo(d: T?) -> T? {
-        switch self {
-        case .Default:
-            return d
-        case .Result(let value):
-            return value
-        case .Error:
-            return nil
-        }
-    }
-
-    func overrideWith(possibleOverride: T?) -> T? {
-        if let concreteValue = possibleOverride {
-            return concreteValue
-        }
-        return self.defaultTo(possibleOverride)
-    }
 }
