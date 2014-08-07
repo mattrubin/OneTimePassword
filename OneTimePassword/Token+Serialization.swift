@@ -74,13 +74,11 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
         }
     }
 
-    if let factor = parsed(url.host, with: factorParser(
-        parsed(queryDictionary[kQueryCounterKey], with: counterParser, defaultTo: 0),
-        parsed(queryDictionary[kQueryPeriodKey], with: periodParser, defaultTo: 30)
-        ), defaultTo: nil) {
-            if let secret = parsed(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, defaultTo: externalSecret, preferDefault: true) {
-            if let algorithm = parsed(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: .SHA1) {
-                if let digits = parsed(queryDictionary[kQueryDigitsKey], with: { $0.toInt() }, defaultTo: 6) {
+    let factorParser = generateFactorParser(parse(queryDictionary[kQueryCounterKey], with: counterParser, defaultTo: 0), parse(queryDictionary[kQueryPeriodKey], with: periodParser, defaultTo: 30))
+    if let factor = parse(url.host, with: factorParser, defaultTo: nil) {
+        if let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, defaultTo: externalSecret, preferDefault: true) {
+            if let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: .SHA1) {
+                if let digits = parse(queryDictionary[kQueryDigitsKey], with: { $0.toInt() }, defaultTo: 6) {
                     let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
 
                     if core.isValid {
@@ -119,7 +117,7 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
 
 // MARK: Parsing Helpers
 
-func parsed<P, T>(item: P?, with parser: (P -> T?), defaultTo def: T? = nil, preferDefault: Bool = false) -> T? {
+func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo def: T? = nil, preferDefault: Bool = false) -> T? {
     if preferDefault {
         if let concreteDefault = def {
             return concreteDefault
@@ -151,7 +149,7 @@ func periodParser(string: String) -> NSTimeInterval? {
     return nil
 }
 
-func factorParser(parsedCounter: UInt64?, parsedPeriod: NSTimeInterval?) -> (string: String) -> Generator.Factor? {
+func generateFactorParser(parsedCounter: UInt64?, parsedPeriod: NSTimeInterval?) -> (string: String) -> Generator.Factor? {
     return { string in
         if string == FactorCounterString {
             if let counter = parsedCounter {
