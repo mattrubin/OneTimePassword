@@ -81,7 +81,7 @@ public func generatePassword(algorithm: Generator.Algorithm, digits: Int, secret
 
     // Generate an HMAC value from the key and counter
     let (hashAlgorithm, hashLength) = hashInfoForAlgorithm(algorithm)
-    var hash: NSMutableData = NSMutableData(length: hashLength)
+    let hash: NSMutableData = NSMutableData(length: hashLength)
     CCHmac(hashAlgorithm, secret.bytes, UInt(secret.length), &bigCounter, 8, hash.mutableBytes)
 
     // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
@@ -89,10 +89,7 @@ public func generatePassword(algorithm: Generator.Algorithm, digits: Int, secret
     let offset = ptr[hash.length-1] & 0x0f
 
     // Take 4 bytes from the hash, starting at the given byte offset
-    var truncatedHashPtr = ptr
-    for var i: UInt8 = 0; i < offset; i++ {
-        truncatedHashPtr = truncatedHashPtr.successor()
-    }
+    let truncatedHashPtr = ptr + Int(offset)
     var truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).memory
 
     // Ensure the four bytes taken from the hash match the current endian format
