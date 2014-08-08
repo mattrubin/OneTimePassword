@@ -89,10 +89,7 @@ public func generatePassword(algorithm: Generator.Algorithm, digits: Int, secret
     let offset = ptr[hash.length-1] & 0x0f
 
     // Take 4 bytes from the hash, starting at the given byte offset
-    var truncatedHashPtr = ptr
-    for var i: UInt8 = 0; i < offset; i++ {
-        truncatedHashPtr = truncatedHashPtr.successor()
-    }
+    var truncatedHashPtr = ptr + Int(offset)
     var truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).memory
 
     // Ensure the four bytes taken from the hash match the current endian format
