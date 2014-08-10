@@ -114,9 +114,9 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
 
 // MARK: Parsing Helpers
 
-func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo def: T? = nil, overrideWith ovr: T? = nil) -> T? {
-    if let concreteOverride = ovr {
-        return concreteOverride
+func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {
+    if let value = overrideValue {
+        return value
     }
 
     if let concrete = item {
@@ -125,7 +125,7 @@ func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo def: T? = nil, over
         }
         return nil
     }
-    return def
+    return defaultValue
 }
 
 func generateFactorParser(counterString: String?, periodString: String?) -> (string: String) -> Generator.Factor? {
