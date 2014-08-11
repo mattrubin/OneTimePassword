@@ -30,6 +30,6 @@ public extension Token {
     }
     
     var url: NSURL {
-        return urlForToken(self)
+        return urlForToken(name: self.name, issuer: self.issuer, factor: self.core.factor, algorithm: self.core.algorithm, digits: self.core.digits)
     }
 }
