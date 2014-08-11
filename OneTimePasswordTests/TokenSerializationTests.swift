@@ -9,6 +9,12 @@
 import XCTest
 import OneTimePassword
 
+extension Token {
+    var url: NSURL {
+        return NSURL(string: URLSerializer.serialize(self))
+    }
+}
+
 class TokenSerializationTests: XCTestCase {
     let kOTPScheme = "otpauth"
     let kOTPTokenTypeCounterHost = "hotp"

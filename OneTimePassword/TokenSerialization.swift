@@ -8,6 +8,28 @@
 
 import Foundation
 
+public protocol TokenSerializer {
+    class func serialize(token: Token) -> String
+    class func deserialize(string: String, secret: NSData?) -> Token?
+}
+
+public extension Token {
+    struct URLSerializer: TokenSerializer {
+        public static func serialize(token: Token) -> String {
+            let url = urlForToken(name: token.name, issuer: token.issuer, factor: token.core.factor, algorithm: token.core.algorithm, digits: token.core.digits)
+            return url.absoluteString
+        }
+
+        public static func deserialize(string: String, secret: NSData? = nil) -> Token? {
+            if let url = NSURL.URLWithString(string) {
+                return tokenFromURL(url, secret: secret)
+            }
+            return nil
+        }
+    }
+}
+
+
 let kOTPAuthScheme = "otpauth"
 let kQueryAlgorithmKey = "algorithm"
 let kQuerySecretKey = "secret"
