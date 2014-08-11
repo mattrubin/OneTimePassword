@@ -1,5 +1,5 @@
 //
-//  Token+Persistence.swift
+//  TokenPersistence.swift
 //  OneTimePassword
 //
 //  Created by Matt Rubin on 7/9/14.

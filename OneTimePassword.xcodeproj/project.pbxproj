@@ -25,9 +25,9 @@
 		C9A486CA196F38D100524F51 /* NSDictionary+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C9FE20196D175B00C7ACEE /* NSDictionary+QueryString.m */; };
 		C9A486CB196F38D500524F51 /* NSString+PercentEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C9FE1E196D175B00C7ACEE /* NSString+PercentEncoding.m */; };
 		C9A486CC196F4BD100524F51 /* OTPTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24FC196AF8E900F86892 /* OTPTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9DC7EC4196BD5DF00B50C82 /* Token+Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */; };
+		C9DC7EC4196BD5DF00B50C82 /* TokenSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* TokenSerialization.swift */; };
 		C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Generator.swift */; };
-		C9F5981B196E3E48002E4D0E /* Token+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F5981A196E3E48002E4D0E /* Token+Persistence.swift */; };
+		C9F5981B196E3E48002E4D0E /* TokenPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +65,7 @@
 		560131D4F5D140EA8458D149 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9003417196F7046009733E8 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializationTests.swift; sourceTree = "<group>"; };
-		C9377D40196B93F900D6C67E /* OneTimePassword-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OneTimePassword-Bridging-Header.h"; sourceTree = "<group>"; };
+		C9377D40196B93F900D6C67E /* OneTimePassword-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "OneTimePassword-Bridging-Header.h"; path = "Legacy/OneTimePassword-Bridging-Header.h"; sourceTree = "<group>"; };
 		C93A24FC196AF8E900F86892 /* OTPTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTypes.h; sourceTree = "<group>"; };
 		C93A2513196AFE1100F86892 /* OTPTokenGenerationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenGenerationTests.m; sourceTree = "<group>"; };
 		C93A2514196AFE1100F86892 /* OTPTokenPersistenceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenPersistenceTests.m; sourceTree = "<group>"; };
@@ -89,10 +89,10 @@
 		C9C9FE20196D175B00C7ACEE /* NSDictionary+QueryString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QueryString.m"; sourceTree = "<group>"; };
 		C9C9FE24196D181800C7ACEE /* OTPTypeStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTypeStrings.h; sourceTree = "<group>"; };
 		C9C9FE25196D181800C7ACEE /* OTPTypeStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTypeStrings.m; sourceTree = "<group>"; };
-		C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+Serialization.swift"; sourceTree = "<group>"; };
+		C9DC7EC3196BD5DF00B50C82 /* TokenSerialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerialization.swift; sourceTree = "<group>"; };
 		C9DC7EC7196BDF3B00B50C82 /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPToken.swift; sourceTree = "<group>"; };
-		C9F5981A196E3E48002E4D0E /* Token+Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+Persistence.swift"; sourceTree = "<group>"; };
+		C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenPersistence.swift; sourceTree = "<group>"; };
 		CA0307BA64104BFF93EB7509 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,12 +166,11 @@
 		C97C823A1946E51D00FD9F4C /* OneTimePassword */ = {
 			isa = PBXGroup;
 			children = (
-				C93A2519196B1BA400F86892 /* Token.swift */,
 				C9DC7EC7196BDF3B00B50C82 /* Generator.swift */,
-				C9DC7EC3196BD5DF00B50C82 /* Token+Serialization.swift */,
-				C9F5981A196E3E48002E4D0E /* Token+Persistence.swift */,
+				C93A2519196B1BA400F86892 /* Token.swift */,
+				C9DC7EC3196BD5DF00B50C82 /* TokenSerialization.swift */,
+				C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */,
 				C9003417196F7046009733E8 /* Keychain.swift */,
-				C9F5981C196E6AD3002E4D0E /* Helpers */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
 			);
 			path = OneTimePassword;
@@ -181,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				C97C823C1946E51D00FD9F4C /* Info.plist */,
+				C9377D40196B93F900D6C67E /* OneTimePassword-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -255,15 +255,6 @@
 				C9C9FE1E196D175B00C7ACEE /* NSString+PercentEncoding.m */,
 			);
 			name = Helpers;
-			sourceTree = "<group>";
-		};
-		C9F5981C196E6AD3002E4D0E /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				C9377D40196B93F900D6C67E /* OneTimePassword-Bridging-Header.h */,
-			);
-			name = Helpers;
-			path = Legacy;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -480,9 +471,9 @@
 			files = (
 				C93A251A196B1BA400F86892 /* Token.swift in Sources */,
 				C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */,
-				C9F5981B196E3E48002E4D0E /* Token+Persistence.swift in Sources */,
+				C9F5981B196E3E48002E4D0E /* TokenPersistence.swift in Sources */,
 				C9003418196F7046009733E8 /* Keychain.swift in Sources */,
-				C9DC7EC4196BD5DF00B50C82 /* Token+Serialization.swift in Sources */,
+				C9DC7EC4196BD5DF00B50C82 /* TokenSerialization.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

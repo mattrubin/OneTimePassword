@@ -1,5 +1,5 @@
 //
-//  Token+Serialization.swift
+//  TokenSerialization.swift
 //  OneTimePassword
 //
 //  Created by Matt Rubin on 7/8/14.
