@@ -38,19 +38,19 @@ func algorithmFromString(string: String) -> Generator.Algorithm? {
     return nil
 }
 
-func urlForToken(token: Token) -> NSURL
+func urlForToken(#name: String, #issuer: String, #factor: Generator.Factor, #algorithm: Generator.Algorithm, #digits: Int) -> NSURL
 {
     let urlComponents = NSURLComponents()
     urlComponents.scheme = kOTPAuthScheme
-    urlComponents.path = "/" + token.name
+    urlComponents.path = "/" + name
 
     urlComponents.queryItems = [
-        NSURLQueryItem(name:kQueryAlgorithmKey, value:stringForAlgorithm(token.core.algorithm)),
-        NSURLQueryItem(name:kQueryDigitsKey, value:String(token.core.digits)),
-        NSURLQueryItem(name:kQueryIssuerKey, value:token.issuer)
+        NSURLQueryItem(name:kQueryAlgorithmKey, value:stringForAlgorithm(algorithm)),
+        NSURLQueryItem(name:kQueryDigitsKey, value:String(digits)),
+        NSURLQueryItem(name:kQueryIssuerKey, value:issuer)
     ]
 
-    switch token.core.factor {
+    switch factor {
     case .Timer(let period):
         urlComponents.host = FactorTimerString
         urlComponents.queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
