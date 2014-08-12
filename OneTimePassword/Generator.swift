@@ -51,11 +51,11 @@ public extension Generator {
 
 public func passwordForGenerator(generator: Generator, atDate date: NSDate) -> String? {
     if !generator.isValid { return nil }
-    let counter = counterForTokenWithFactor(generator.factor, atTimeIntervalSince1970: date.timeIntervalSince1970)
+    let counter = counterForGeneratorWithFactor(generator.factor, atTimeIntervalSince1970: date.timeIntervalSince1970)
     return generatePassword(generator.algorithm, generator.digits, generator.secret, counter)
 }
 
-public func counterForTokenWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) -> UInt64 {
+public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) -> UInt64 {
     switch factor {
     case .Counter(let counter):
         return counter

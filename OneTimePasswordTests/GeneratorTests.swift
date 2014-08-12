@@ -86,7 +86,7 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (factor, timeInterval, counter) in factors {
-            XCTAssertEqual(counterForTokenWithFactor(factor, atTimeIntervalSince1970: timeInterval), counter)
+            XCTAssertEqual(counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: timeInterval), counter)
         }
     }
 
