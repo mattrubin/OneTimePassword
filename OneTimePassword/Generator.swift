@@ -55,15 +55,6 @@ public extension Generator {
     }
 }
 
-public func updatedGenerator(generator: Generator) -> Generator {
-    switch generator.factor {
-    case .Counter(let counter):
-        return Generator(factor: .Counter(counter + 1), secret: generator.secret, algorithm: generator.algorithm, digits: generator.digits)
-    case .Timer:
-        return generator
-    }
-}
-
 public func generatePassword(algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String {
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
