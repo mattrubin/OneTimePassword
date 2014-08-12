@@ -45,14 +45,10 @@ public extension Generator {
     }
 
     var password: String? {
-        return passwordForGenerator(self, atDate: NSDate())
+        if !self.isValid { return nil }
+        let counter = counterForGeneratorWithFactor(self.factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
+        return generatePassword(self.algorithm, self.digits, self.secret, counter)
     }
-}
-
-public func passwordForGenerator(generator: Generator, atDate date: NSDate) -> String? {
-    if !generator.isValid { return nil }
-    let counter = counterForGeneratorWithFactor(generator.factor, atTimeIntervalSince1970: date.timeIntervalSince1970)
-    return generatePassword(generator.algorithm, generator.digits, generator.secret, counter)
 }
 
 public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) -> UInt64 {
