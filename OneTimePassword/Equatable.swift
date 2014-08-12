@@ -18,3 +18,13 @@ public func ==(lhs: OneTimePassword.Generator.Factor, rhs: OneTimePassword.Gener
         return false
     }
 }
+
+
+extension Generator: Equatable {}
+
+public func ==(lhs: Generator, rhs: Generator) -> Bool {
+    return (lhs.factor == rhs.factor)
+        && (lhs.algorithm == rhs.algorithm)
+        && (lhs.secret == rhs.secret)
+        && (lhs.digits == rhs.digits)
+}
