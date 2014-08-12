@@ -31,17 +31,13 @@ class TokenTests: XCTestCase {
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let name = "Test Name"
         let issuer = "Test Issuer"
-        let algorithm = Generator.Algorithm.SHA256
-        let digits = 8
 
         let token = Token(
             name: name,
             issuer: issuer,
             core: Generator(
                 factor: factor,
-                secret: secret,
-                algorithm: algorithm,
-                digits: digits
+                secret: secret
             )
         )
 
@@ -49,25 +45,19 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(token.core.secret, secret)
         XCTAssertEqual(token.name, name)
         XCTAssertEqual(token.issuer, issuer)
-        XCTAssertEqual(token.core.algorithm, algorithm)
-        XCTAssertEqual(token.core.digits, digits)
 
         // Create another token
         let other_factor = OneTimePassword.Generator.Factor.Timer(period: 123)
         let other_secret = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
         let other_name = "Other Test Name"
         let other_issuer = "Other Test Issuer"
-        let other_algorithm = Generator.Algorithm.SHA512
-        let other_digits = 7
 
         let other_token = Token(
             name: other_name,
             issuer: other_issuer,
             core: Generator(
                 factor: other_factor,
-                secret: other_secret,
-                algorithm: other_algorithm,
-                digits: other_digits
+                secret: other_secret
             )
         )
 
@@ -75,16 +65,12 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(other_token.core.secret, other_secret)
         XCTAssertEqual(other_token.name, other_name)
         XCTAssertEqual(other_token.issuer, other_issuer)
-        XCTAssertEqual(other_token.core.algorithm, other_algorithm)
-        XCTAssertEqual(other_token.core.digits, other_digits)
 
         // Ensure the tokens are different
         XCTAssertNotEqual(token.core.factor, other_token.core.factor)
         XCTAssertNotEqual(token.core.secret, other_token.core.secret)
         XCTAssertNotEqual(token.name, other_token.name)
         XCTAssertNotEqual(token.issuer, other_token.issuer)
-        XCTAssertNotEqual(token.core.algorithm, other_token.core.algorithm)
-        XCTAssertNotEqual(token.core.digits, other_token.core.digits)
     }
 
     func testDefaults() {
