@@ -23,3 +23,8 @@ public struct Token {
 public func updatedToken(token: Token) -> Token {
     return Token(name: token.name, issuer: token.issuer, core: updatedGenerator(token.core))
 }
+
+public protocol TokenSerializer {
+    class func serialize(token: Token) -> String
+    class func deserialize(string: String, secret: NSData?) -> Token?
+}

@@ -8,11 +8,6 @@
 
 import Foundation
 
-public protocol TokenSerializer {
-    class func serialize(token: Token) -> String
-    class func deserialize(string: String, secret: NSData?) -> Token?
-}
-
 public extension Token {
     struct URLSerializer: TokenSerializer {
         public static func serialize(token: Token) -> String {
