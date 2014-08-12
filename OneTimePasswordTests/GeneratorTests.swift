@@ -10,6 +10,68 @@ import XCTest
 import OneTimePassword
 
 class GeneratorTests: XCTestCase {
+    func testInit() {
+        // Create a generator
+        let factor = OneTimePassword.Generator.Factor.Counter(111)
+        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+        let algorithm = Generator.Algorithm.SHA256
+        let digits = 8
+
+        let generator = Generator(
+                factor: factor,
+                secret: secret,
+                algorithm: algorithm,
+                digits: digits
+            )
+
+        XCTAssertEqual(generator.factor, factor)
+        XCTAssertEqual(generator.secret, secret)
+        XCTAssertEqual(generator.algorithm, algorithm)
+        XCTAssertEqual(generator.digits, digits)
+
+        // Create another generator
+        let other_factor = OneTimePassword.Generator.Factor.Timer(period: 123)
+        let other_secret = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
+        let other_algorithm = Generator.Algorithm.SHA512
+        let other_digits = 7
+
+        let other_generator = Generator(
+                factor: other_factor,
+                secret: other_secret,
+                algorithm: other_algorithm,
+                digits: other_digits
+        )
+
+        XCTAssertEqual(other_generator.factor, other_factor)
+        XCTAssertEqual(other_generator.secret, other_secret)
+        XCTAssertEqual(other_generator.algorithm, other_algorithm)
+        XCTAssertEqual(other_generator.digits, other_digits)
+
+        // Ensure the generators are different
+        XCTAssertNotEqual(generator.factor, other_generator.factor)
+        XCTAssertNotEqual(generator.secret, other_generator.secret)
+        XCTAssertNotEqual(generator.algorithm, other_generator.algorithm)
+        XCTAssertNotEqual(generator.digits, other_generator.digits)
+    }
+
+    func testDefaults() {
+        let f = OneTimePassword.Generator.Factor.Counter(111)
+        let s = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+        let a = Generator.Algorithm.SHA256
+        let d = 8
+
+        let generatorWithDefaultAlgorithm = Generator(factor: f, secret: s, digits: d)
+        let generatorWithDefaultDigits    = Generator(factor: f, secret: s, algorithm: a)
+
+        XCTAssertEqual(generatorWithDefaultAlgorithm.algorithm, Generator.Algorithm.SHA1)
+        XCTAssertEqual(generatorWithDefaultDigits.digits, 6)
+
+        let generatorWithAllDefaults = Generator(factor: f, secret: s)
+
+        XCTAssertEqual(generatorWithAllDefaults.algorithm, Generator.Algorithm.SHA1)
+        XCTAssertEqual(generatorWithAllDefaults.digits, 6)
+    }
+
     func testCounter() {
         let factors: [(OneTimePassword.Generator.Factor, NSTimeInterval, UInt64)] = [
             (.Counter(0),           -1,             0),
