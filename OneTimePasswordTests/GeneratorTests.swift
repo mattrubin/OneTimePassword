@@ -90,6 +90,43 @@ class GeneratorTests: XCTestCase {
         }
     }
 
+    func testValidation() {
+        let digitTests: [(Int, Bool)] = [
+            (-1, false),
+            (0, false),
+            (1, false),
+            (2, false),
+            (3, false),
+            (4, false),
+            (5, false),
+            (6, true),
+            (7, true),
+            (8, true),
+            (9, false),
+            (10, false),
+        ]
+
+        let periodTests: [(NSTimeInterval, Bool)] = [
+            (-1, false),
+            (0, false),
+            (30, true),
+            (60, true),
+            (150, true),
+            (300, true),
+            (301, false),
+        ]
+
+        for (digits, digitsAreValid) in digitTests {
+            let generator = Generator(factor: .Counter(0), secret: NSData(), digits: digits)
+            XCTAssertEqual(generator.isValid, digitsAreValid)
+
+            for (period, periodIsValid) in periodTests {
+                let generator = Generator(factor: .Timer(period: period), secret: NSData(), digits: digits)
+                XCTAssertEqual(generator.isValid, (digitsAreValid && periodIsValid))
+            }
+        }
+    }
+
     // The values in this test are found in Appendix D of the HOTP RFC
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
