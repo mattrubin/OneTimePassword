@@ -92,26 +92,21 @@ class GeneratorTests: XCTestCase {
 
     func testValidation() {
         let digitTests: [(Int, Bool)] = [
-            (-1, false),
+            (-6, false),
             (0, false),
             (1, false),
-            (2, false),
-            (3, false),
-            (4, false),
             (5, false),
             (6, true),
             (7, true),
             (8, true),
             (9, false),
-            (10, false),
         ]
 
         let periodTests: [(NSTimeInterval, Bool)] = [
-            (-1, false),
+            (-30, false),
             (0, false),
+            (1, true),
             (30, true),
-            (60, true),
-            (150, true),
             (300, true),
             (301, false),
         ]

@@ -114,28 +114,4 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(tokenWithAllDefaults.core.algorithm, Generator.Algorithm.SHA1)
         XCTAssertEqual(tokenWithAllDefaults.core.digits, 6)
     }
-
-    func testValidation() {
-        let validSecret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
-
-        let tokenWithTooManyDigits = Token(core: Generator(factor: .Timer(period: 30), secret: validSecret, digits: 10))
-        let tokenWithTooFewDigits = Token(core: Generator(factor: .Timer(period: 30), secret: validSecret, digits: 3))
-        let tokenWithNegativeDigits = Token(core: Generator(factor: .Timer(period: 30), secret: validSecret, digits: -6))
-        let tokenWithValidDigits = Token(core: Generator(factor: .Timer(period: 30), secret: validSecret))
-
-        XCTAssertFalse(tokenWithTooManyDigits.core.isValid)
-        XCTAssertFalse(tokenWithTooFewDigits.core.isValid)
-        XCTAssertFalse(tokenWithNegativeDigits.core.isValid)
-        XCTAssertTrue(tokenWithValidDigits.core.isValid)
-
-        let tokenWithTooLongPeriod = Token(core: Generator(factor: .Timer(period: 301), secret: validSecret))
-        let tokenWithTooShortPeriod = Token(core: Generator(factor: .Timer(period: 0), secret: validSecret))
-        let tokenWithNegativePeriod = Token(core: Generator(factor: .Timer(period: -30), secret: validSecret))
-        let tokenWithValidPeriod = Token(core: Generator(factor: .Timer(period: 30), secret: validSecret))
-
-        XCTAssertFalse(tokenWithTooLongPeriod.core.isValid)
-        XCTAssertFalse(tokenWithTooShortPeriod.core.isValid)
-        XCTAssertFalse(tokenWithNegativePeriod.core.isValid)
-        XCTAssertTrue(tokenWithValidPeriod.core.isValid)
-    }
 }
