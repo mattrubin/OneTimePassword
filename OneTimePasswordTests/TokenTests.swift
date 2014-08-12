@@ -9,21 +9,6 @@
 import XCTest
 import OneTimePassword
 
-
-extension OneTimePassword.Generator.Factor: Equatable {}
-
-public func ==(lhs: OneTimePassword.Generator.Factor, rhs: OneTimePassword.Generator.Factor) -> Bool {
-    switch (lhs, rhs) {
-    case (.Counter(let l), .Counter(let r)):
-        return l == r
-    case (.Timer(let l), .Timer(let r)):
-        return l == r
-    default:
-        return false
-    }
-}
-
-
 class TokenTests: XCTestCase {
     func testInit() {
         // Create a token
