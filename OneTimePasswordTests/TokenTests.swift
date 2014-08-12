@@ -88,30 +88,21 @@ class TokenTests: XCTestCase {
     }
 
     func testDefaults() {
-        let t = OneTimePassword.Generator.Factor.Counter(111)
-        let s = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+        let generator = Generator(factor: .Counter(0), secret: NSData())
+
         let n = "Test Name"
         let i = "Test Issuer"
-        let a = Generator.Algorithm.SHA256
-        let d = 8
-        let p: NSTimeInterval = 45
-        let c: UInt64 = 111
 
-        let tokenWithDefaultName      = Token(         issuer: i, core: Generator(factor: t, secret: s,  algorithm: a, digits: d))
-        let tokenWithDefaultIssuer    = Token(name: n,            core: Generator(factor: t, secret: s,  algorithm: a, digits: d))
-        let tokenWithDefaultAlgorithm = Token(name: n, issuer: i, core: Generator(factor: t, secret: s,                digits: d))
-        let tokenWithDefaultDigits    = Token(name: n, issuer: i, core: Generator(factor: t, secret: s,  algorithm: a           ))
-
+        let tokenWithDefaultName = Token(issuer: i, core: generator)
         XCTAssertEqual(tokenWithDefaultName.name, "")
+        XCTAssertEqual(tokenWithDefaultName.issuer, i)
+
+        let tokenWithDefaultIssuer = Token(name: n, core: generator)
+        XCTAssertEqual(tokenWithDefaultIssuer.name, n)
         XCTAssertEqual(tokenWithDefaultIssuer.issuer, "")
-        XCTAssertEqual(tokenWithDefaultAlgorithm.core.algorithm, Generator.Algorithm.SHA1)
-        XCTAssertEqual(tokenWithDefaultDigits.core.digits, 6)
 
-        let tokenWithAllDefaults = Token(core: Generator(factor: t, secret: s))
-
+        let tokenWithAllDefaults = Token(core: generator)
         XCTAssertEqual(tokenWithAllDefaults.name, "")
         XCTAssertEqual(tokenWithAllDefaults.issuer, "")
-        XCTAssertEqual(tokenWithAllDefaults.core.algorithm, Generator.Algorithm.SHA1)
-        XCTAssertEqual(tokenWithAllDefaults.core.digits, 6)
     }
 }
