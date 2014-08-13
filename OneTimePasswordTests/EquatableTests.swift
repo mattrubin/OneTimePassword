@@ -46,4 +46,13 @@ class EquatableTests: XCTestCase {
         XCTAssertNotEqual(g, Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA256))
         XCTAssertNotEqual(g, Generator(factor: .Counter(0), secret: NSData(), digits: 8))
     }
+
+    func testTokenEquality() {
+        let t = Token(name: "Name", issuer: "Issuer", core: Generator(factor: .Counter(0), secret: NSData()))
+
+        XCTAssertEqual(t, Token(name: "Name", issuer: "Issuer", core: Generator(factor: .Counter(0), secret: NSData())))
+        XCTAssertNotEqual(t, Token(name: "", issuer: "Issuer", core: Generator(factor: .Counter(0), secret: NSData())))
+        XCTAssertNotEqual(t, Token(name: "Name", issuer: "", core: Generator(factor: .Counter(0), secret: NSData())))
+        XCTAssertNotEqual(t, Token(name: "Name", issuer: "Issuer", core: Generator(factor: .Counter(1), secret: NSData())))
+    }
 }
