@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-extension OneTimePassword.Generator.Factor: Equatable {}
+extension Generator.Factor: Equatable {}
 
-public func ==(lhs: OneTimePassword.Generator.Factor, rhs: OneTimePassword.Generator.Factor) -> Bool {
+public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
     switch (lhs, rhs) {
     case (.Counter(let l), .Counter(let r)):
         return l == r
