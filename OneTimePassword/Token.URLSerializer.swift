@@ -1,5 +1,5 @@
 //
-//  TokenSerialization.swift
+//  Token.URLSerializer.swift
 //  OneTimePassword
 //
 //  Created by Matt Rubin on 7/8/14.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-public extension Token {
-    struct URLSerializer: TokenSerializer {
+extension Token {
+    public struct URLSerializer: TokenSerializer {
         public static func serialize(token: Token) -> String? {
             let url = urlForToken(name: token.name, issuer: token.issuer, factor: token.core.factor, algorithm: token.core.algorithm, digits: token.core.digits)
             return url.absoluteString
@@ -25,22 +25,22 @@ public extension Token {
 }
 
 
-let kOTPAuthScheme = "otpauth"
-let kQueryAlgorithmKey = "algorithm"
-let kQuerySecretKey = "secret"
-let kQueryCounterKey = "counter"
-let kQueryDigitsKey = "digits"
-let kQueryPeriodKey = "period"
-let kQueryIssuerKey = "issuer"
+private let kOTPAuthScheme = "otpauth"
+private let kQueryAlgorithmKey = "algorithm"
+private let kQuerySecretKey = "secret"
+private let kQueryCounterKey = "counter"
+private let kQueryDigitsKey = "digits"
+private let kQueryPeriodKey = "period"
+private let kQueryIssuerKey = "issuer"
 
-let FactorCounterString = "hotp"
-let FactorTimerString = "totp"
+private let FactorCounterString = "hotp"
+private let FactorTimerString = "totp"
 
-let kAlgorithmSHA1   = "SHA1"
-let kAlgorithmSHA256 = "SHA256"
-let kAlgorithmSHA512 = "SHA512"
+private let kAlgorithmSHA1   = "SHA1"
+private let kAlgorithmSHA256 = "SHA256"
+private let kAlgorithmSHA512 = "SHA512"
 
-func stringForAlgorithm(algorithm: Generator.Algorithm) -> String {
+private func stringForAlgorithm(algorithm: Generator.Algorithm) -> String {
     switch algorithm {
     case .SHA1:   return kAlgorithmSHA1
     case .SHA256: return kAlgorithmSHA256
@@ -48,14 +48,14 @@ func stringForAlgorithm(algorithm: Generator.Algorithm) -> String {
     }
 }
 
-func algorithmFromString(string: String) -> Generator.Algorithm? {
+private func algorithmFromString(string: String) -> Generator.Algorithm? {
     if (string == kAlgorithmSHA1) { return .SHA1 }
     if (string == kAlgorithmSHA256) { return .SHA256 }
     if (string == kAlgorithmSHA512) { return .SHA512 }
     return nil
 }
 
-func urlForToken(#name: String, #issuer: String, #factor: Generator.Factor, #algorithm: Generator.Algorithm, #digits: Int) -> NSURL {
+private func urlForToken(#name: String, #issuer: String, #factor: Generator.Factor, #algorithm: Generator.Algorithm, #digits: Int) -> NSURL {
     let urlComponents = NSURLComponents()
     urlComponents.scheme = kOTPAuthScheme
     urlComponents.path = "/" + name
@@ -78,7 +78,7 @@ func urlForToken(#name: String, #issuer: String, #factor: Generator.Factor, #alg
     return urlComponents.URL
 }
 
-func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
+private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
     if (url.scheme != kOTPAuthScheme) { return nil }
 
     var queryDictionary = Dictionary<String, String>()
@@ -155,7 +155,7 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
     return nil
 }
 
-func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {
+private func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {
     if let value = overrideValue {
         return value
     }
