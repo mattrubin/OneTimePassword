@@ -10,12 +10,12 @@ import Foundation
 
 func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
     let mutableAttributes = attributes.mutableCopy() as NSMutableDictionary
-    mutableAttributes[kSecClass.takeUnretainedValue() as NSCopying] = kSecClassGenericPassword.takeUnretainedValue() as NSCopying
-    mutableAttributes[kSecReturnPersistentRef.takeUnretainedValue() as NSCopying] = kCFBooleanTrue
+    mutableAttributes[kSecClass] = kSecClassGenericPassword
+    mutableAttributes[kSecReturnPersistentRef] = kCFBooleanTrue
     // Set a random string for the account name.
     // We never query by or display this value, but the keychain requires it to be unique.
-    if (mutableAttributes[kSecAttrAccount.takeUnretainedValue() as NSCopying] == nil) {
-        mutableAttributes[kSecAttrAccount.takeUnretainedValue() as NSCopying] = NSUUID.UUID().UUIDString
+    if (mutableAttributes[kSecAttrAccount] == nil) {
+        mutableAttributes[kSecAttrAccount] = NSUUID.UUID().UUIDString
     }
 
     var result: Unmanaged<AnyObject>?
@@ -31,8 +31,8 @@ func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
 
 func updateKeychainItemForPersistentRefWithAttributes(persistentRef: NSData, attributesToUpdate: NSDictionary) -> Bool {
     let queryDict = [
-        kSecClass.takeUnretainedValue() as NSCopying: kSecClassGenericPassword.takeUnretainedValue() as NSCopying,
-        kSecValuePersistentRef.takeUnretainedValue() as NSCopying: persistentRef,
+        kSecClass: kSecClassGenericPassword,
+        kSecValuePersistentRef: persistentRef,
     ]
 
     let resultCode = SecItemUpdate(queryDict, attributesToUpdate)
@@ -41,8 +41,8 @@ func updateKeychainItemForPersistentRefWithAttributes(persistentRef: NSData, att
 
 func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
     let queryDict = [
-        kSecClass.takeUnretainedValue() as NSCopying: kSecClassGenericPassword.takeUnretainedValue() as NSCopying,
-        kSecValuePersistentRef.takeUnretainedValue() as NSCopying: persistentRef,
+        kSecClass: kSecClassGenericPassword,
+        kSecValuePersistentRef: persistentRef,
     ]
 
     let resultCode = SecItemDelete(queryDict)
