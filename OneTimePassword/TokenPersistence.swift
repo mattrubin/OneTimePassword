@@ -24,7 +24,7 @@ public extension Token {
 
         public static func keychainItemWithDictionary(keychainDictionary: NSDictionary) -> KeychainItem? {
             if let urlData = keychainDictionary[kSecAttrGeneric] as? NSData {
-                let urlString: NSString? = NSString(data: urlData, encoding:NSUTF8StringEncoding)
+                let urlString: NSString? = NSString(data: urlData, encoding:NSUTF8StringEncoding) // may return nil
                 if let string = urlString {
                     if let secret = keychainDictionary[kSecValueData] as? NSData {
                         if let keychainItemRef = keychainDictionary[kSecValuePersistentRef] as? NSData {
@@ -96,28 +96,27 @@ func _allKeychainItems() -> NSArray? {
 
 
 public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
-    var attributes = [
-        kSecAttrGeneric:
-            Token.URLSerializer.serialize(token).dataUsingEncoding(NSUTF8StringEncoding) as NSCopying,
-        kSecValueData: token.core.secret,
-        kSecAttrService: kOTPService,
-    ]
+    if let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding) {
+        var attributes = [
+            kSecAttrGeneric: data,
+            kSecValueData: token.core.secret,
+            kSecAttrService: kOTPService,
+        ]
 
-    if let persistentRef = addKeychainItemWithAttributes(attributes) {
-        return Token.KeychainItem(token: token, persistentRef: persistentRef)
+        if let persistentRef = addKeychainItemWithAttributes(attributes) {
+            return Token.KeychainItem(token: token, persistentRef: persistentRef)
+        }
     }
     return nil
 }
 
-public func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token) -> Token.KeychainItem?
-{
-    var attributes = [
-        kSecAttrGeneric:
-            Token.URLSerializer.serialize(token).dataUsingEncoding(NSUTF8StringEncoding) as NSCopying
-    ]
+public func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token) -> Token.KeychainItem? {
+    if let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding) {
+        var attributes = [kSecAttrGeneric: data]
 
-    if updateKeychainItemForPersistentRefWithAttributes(keychainItem.persistentRef, attributes) {
-        return Token.KeychainItem(token: token, persistentRef: keychainItem.persistentRef)
+        if updateKeychainItemForPersistentRefWithAttributes(keychainItem.persistentRef, attributes) {
+            return Token.KeychainItem(token: token, persistentRef: keychainItem.persistentRef)
+        }
     }
     return nil
 }
