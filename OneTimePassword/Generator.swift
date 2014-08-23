@@ -46,21 +46,17 @@ public extension Generator {
 
     var password: String? {
         if !self.isValid { return nil }
-        switch factor {
-        case .Counter(let counter):
-            return generatePassword(algorithm, digits, secret, counter)
-        case .Timer(let period):
-            return generatePassword(algorithm, digits, secret, UInt64(NSDate().timeIntervalSince1970 / period))
-        }
+        let counter = counterForGeneratorWithFactor(self.factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
+        return generatePassword(self.algorithm, self.digits, self.secret, counter)
     }
 }
 
-public func updatedGenerator(generator: Generator) -> Generator {
-    switch generator.factor {
+public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) -> UInt64 {
+    switch factor {
     case .Counter(let counter):
-        return Generator(factor: .Counter(counter + 1), secret: generator.secret, algorithm: generator.algorithm, digits: generator.digits)
-    case .Timer:
-        return generator
+        return counter
+    case .Timer(let period):
+        return UInt64(timeInterval / period)
     }
 }
 

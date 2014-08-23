@@ -21,7 +21,13 @@ public struct Token {
 }
 
 public func updatedToken(token: Token) -> Token {
-    return Token(name: token.name, issuer: token.issuer, core: updatedGenerator(token.core))
+    switch token.core.factor {
+    case .Counter(let counter):
+        let updatedGenerator = Generator(factor: .Counter(counter + 1), secret: token.core.secret, algorithm: token.core.algorithm, digits: token.core.digits)
+        return Token(name: token.name, issuer: token.issuer, core: updatedGenerator)
+    case .Timer:
+        return token
+    }
 }
 
 public extension Token {
