@@ -23,7 +23,7 @@ public struct Generator {
 
     public enum Factor {
         case Counter(UInt64)
-        case Timer(period: NSTimeInterval)
+        case Timer(NSTimeInterval)
     }
 
     public enum Algorithm {

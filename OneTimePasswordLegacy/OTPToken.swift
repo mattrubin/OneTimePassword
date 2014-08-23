@@ -18,7 +18,7 @@ public class OTPToken: NSObject {
 
     convenience override init() {
         // Stub an invalid token, to be replaced with a modified token via the setters
-        self.init(token: Token(core: Generator(factor: .Timer(period: 30), secret: NSData())))
+        self.init(token: Token(core: Generator(factor: .Timer(30), secret: NSData())))
     }
 
     class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer:NSString) -> Self {
@@ -26,7 +26,7 @@ public class OTPToken: NSObject {
         case .Counter:
             return self(token: Token(name: name, issuer: issuer, core: Generator(factor: .Counter(0), secret: secret)))
         case .Timer:
-            return self(token: Token(name: name, issuer: issuer, core: Generator(factor: .Timer(period: 30), secret: secret)))
+            return self(token: Token(name: name, issuer: issuer, core: Generator(factor: .Timer(30), secret: secret)))
         }
     }
 
@@ -65,7 +65,7 @@ public class OTPToken: NSObject {
                     name: token.name,
                     issuer: token.issuer,
                     core: Generator(
-                        factor: .Timer(period: _period),
+                        factor: .Timer(_period),
                         secret: token.core.secret,
                         algorithm: token.core.algorithm,
                         digits: token.core.digits
@@ -154,7 +154,7 @@ public class OTPToken: NSObject {
                     name: token.name,
                     issuer: token.issuer,
                     core: Generator(
-                        factor: .Timer(period: _period),
+                        factor: .Timer(_period),
                         secret: token.core.secret,
                         algorithm: token.core.algorithm,
                         digits: token.core.digits
@@ -221,15 +221,19 @@ public extension OTPToken {
 
 public extension OTPToken {
     class func tokenWithURL(url: NSURL) -> Self? {
-        if let token = Token.URLSerializer.deserialize(url.absoluteString) {
-            return self(token: token)
+        if let urlString = url.absoluteString {
+            if let token = Token.URLSerializer.deserialize(urlString) {
+                return self(token: token)
+            }
         }
         return nil
     }
 
     class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> Self? {
-        if let token = Token.URLSerializer.deserialize(url.absoluteString, secret: secret) {
-            return self(token: token)
+        if let urlString = url.absoluteString {
+            if let token = Token.URLSerializer.deserialize(urlString, secret: secret) {
+                return self(token: token)
+            }
         }
         return nil
     }
@@ -271,13 +275,6 @@ public extension OTPToken {
         return Token.KeychainItem.allKeychainItems().map(self.tokenWithKeychainItem)
     }
 
-    class func tokenWithKeychainItem(item: Token.KeychainItem?) -> Self? {
-        if let keychainItem = item {
-            return self.tokenWithKeychainItem(keychainItem)
-        }
-        return nil
-    }
-
     class func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
         let otp = self(token: keychainItem.token)
         otp.keychainItem = keychainItem
@@ -285,10 +282,16 @@ public extension OTPToken {
     }
 
     class func tokenWithKeychainItemRef(keychainItemRef: NSData) -> Self? {
-        return self.tokenWithKeychainItem(Token.KeychainItem.keychainItemWithKeychainItemRef(keychainItemRef))
+        if let keychainItem = Token.KeychainItem.keychainItemWithKeychainItemRef(keychainItemRef) {
+            return self.tokenWithKeychainItem(keychainItem)
+        }
+        return nil
     }
 
     class func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
-        return self.tokenWithKeychainItem(Token.KeychainItem.keychainItemWithDictionary(keychainDictionary))
+        if let keychainItem = Token.KeychainItem.keychainItemWithDictionary(keychainDictionary) {
+            return self.tokenWithKeychainItem(keychainItem)
+        }
+        return nil
     }
 }
