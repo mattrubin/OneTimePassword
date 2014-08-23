@@ -33,7 +33,7 @@ class TokenTests: XCTestCase {
         let other_name = "Other Test Name"
         let other_issuer = "Other Test Issuer"
         let other_generator = Generator(
-            factor: .Timer(period: 123),
+            factor: .Timer(123),
             secret: "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
         )
 

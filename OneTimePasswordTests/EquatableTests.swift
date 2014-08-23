@@ -13,8 +13,8 @@ class EquatableTests: XCTestCase {
     func testFactorEquality() {
         let c0 = Generator.Factor.Counter(30)
         let c1 = Generator.Factor.Counter(60)
-        let t0 = Generator.Factor.Timer(period: 30)
-        let t1 = Generator.Factor.Timer(period: 60)
+        let t0 = Generator.Factor.Timer(30)
+        let t1 = Generator.Factor.Timer(60)
 
         XCTAssertEqual(c0, c0)
         XCTAssertEqual(c1, c1)

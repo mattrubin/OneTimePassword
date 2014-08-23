@@ -109,7 +109,7 @@ func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
                 return nil
                 }, defaultTo: 30)
             {
-                return .Timer(period: period)
+                return .Timer(period)
             }
         }
         return nil
