@@ -275,13 +275,6 @@ public extension OTPToken {
         return Token.KeychainItem.allKeychainItems().map(self.tokenWithKeychainItem)
     }
 
-    class func tokenWithKeychainItem(item: Token.KeychainItem?) -> Self? {
-        if let keychainItem = item {
-            return self.tokenWithKeychainItem(keychainItem)
-        }
-        return nil
-    }
-
     class func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
         let otp = self(token: keychainItem.token)
         otp.keychainItem = keychainItem
@@ -289,10 +282,16 @@ public extension OTPToken {
     }
 
     class func tokenWithKeychainItemRef(keychainItemRef: NSData) -> Self? {
-        return self.tokenWithKeychainItem(Token.KeychainItem.keychainItemWithKeychainItemRef(keychainItemRef))
+        if let keychainItem = Token.KeychainItem.keychainItemWithKeychainItemRef(keychainItemRef) {
+            return self.tokenWithKeychainItem(keychainItem)
+        }
+        return nil
     }
 
     class func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
-        return self.tokenWithKeychainItem(Token.KeychainItem.keychainItemWithDictionary(keychainDictionary))
+        if let keychainItem = Token.KeychainItem.keychainItemWithDictionary(keychainDictionary) {
+            return self.tokenWithKeychainItem(keychainItem)
+        }
+        return nil
     }
 }
