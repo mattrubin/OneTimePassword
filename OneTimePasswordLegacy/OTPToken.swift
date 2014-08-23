@@ -221,20 +221,20 @@ public extension OTPToken {
 
 public extension OTPToken {
     class func tokenWithURL(url: NSURL) -> Self? {
-        if let token = Token.tokenWithURL(url) {
+        if let token = Token.URLSerializer.deserialize(url.absoluteString) {
             return self(token: token)
         }
         return nil
     }
 
     class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> Self? {
-        if let token = Token.tokenWithURL(url, secret: secret) {
+        if let token = Token.URLSerializer.deserialize(url.absoluteString, secret: secret) {
             return self(token: token)
         }
         return nil
     }
 
-    func url() -> NSURL { return token.url }
+    func url() -> NSURL { return NSURL(string: Token.URLSerializer.serialize(token)) }
 }
 
 public extension OTPToken {

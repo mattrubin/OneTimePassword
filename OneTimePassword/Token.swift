@@ -30,12 +30,7 @@ public func updatedToken(token: Token) -> Token {
     }
 }
 
-public extension Token {
-    static func tokenWithURL(url: NSURL, secret: NSData? = nil) -> Token? {
-        return tokenFromURL(url, secret: secret)
-    }
-    
-    var url: NSURL {
-        return urlForToken(name: self.name, issuer: self.issuer, factor: self.core.factor, algorithm: self.core.algorithm, digits: self.core.digits)
-    }
+public protocol TokenSerializer {
+    class func serialize(token: Token) -> String
+    class func deserialize(string: String, secret: NSData?) -> Token?
 }

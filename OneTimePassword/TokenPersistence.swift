@@ -25,10 +25,10 @@ public extension Token {
         public static func keychainItemWithDictionary(keychainDictionary: NSDictionary) -> KeychainItem? {
             let urlData = keychainDictionary[kSecAttrGeneric.takeUnretainedValue() as NSCopying] as? NSData
             let urlString: NSString? = NSString(data: urlData, encoding:NSUTF8StringEncoding)
-            if let url = NSURL.URLWithString(urlString) {
+            if let string = urlString {
                 if let secret = keychainDictionary[kSecValueData.takeUnretainedValue() as NSCopying] as? NSData {
                     if let keychainItemRef = keychainDictionary[kSecValuePersistentRef.takeUnretainedValue() as NSCopying] as? NSData {
-                        if let token = Token.tokenWithURL(url, secret: secret) {
+                        if let token = Token.URLSerializer.deserialize(string, secret: secret) {
                             return KeychainItem(token: token, persistentRef: keychainItemRef)
                         }
                     }
@@ -97,7 +97,7 @@ func _allKeychainItems() -> NSArray? {
 public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     var attributes = [
         kSecAttrGeneric.takeUnretainedValue() as NSCopying:
-            token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) as NSCopying,
+            Token.URLSerializer.serialize(token).dataUsingEncoding(NSUTF8StringEncoding) as NSCopying,
         kSecValueData.takeUnretainedValue() as NSCopying: token.core.secret,
         kSecAttrService.takeUnretainedValue() as NSCopying: kOTPService,
     ]
@@ -112,7 +112,7 @@ public func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token:
 {
     var attributes = [
         kSecAttrGeneric.takeUnretainedValue() as NSCopying:
-            token.url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) as NSCopying
+            Token.URLSerializer.serialize(token).dataUsingEncoding(NSUTF8StringEncoding) as NSCopying
     ]
 
     if updateKeychainItemForPersistentRefWithAttributes(keychainItem.persistentRef, attributes) {
