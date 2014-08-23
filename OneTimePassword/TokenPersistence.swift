@@ -96,7 +96,7 @@ func _allKeychainItems() -> NSArray? {
 
 
 public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
-    if let data = Token.URLSerializer.serialize(token).dataUsingEncoding(NSUTF8StringEncoding) {
+    if let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding) {
         var attributes = [
             kSecAttrGeneric: data,
             kSecValueData: token.core.secret,
@@ -111,7 +111,7 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
 }
 
 public func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token) -> Token.KeychainItem? {
-    if let data = Token.URLSerializer.serialize(token).dataUsingEncoding(NSUTF8StringEncoding) {
+    if let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding) {
         var attributes = [kSecAttrGeneric: data]
 
         if updateKeychainItemForPersistentRefWithAttributes(keychainItem.persistentRef, attributes) {

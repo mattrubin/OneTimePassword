@@ -238,7 +238,12 @@ public extension OTPToken {
         return nil
     }
 
-    func url() -> NSURL { return NSURL(string: Token.URLSerializer.serialize(token)) }
+    func url() -> NSURL? {
+        if let string = Token.URLSerializer.serialize(token) {
+            return NSURL.URLWithString(string)
+        }
+        return nil
+    }
 }
 
 public extension OTPToken {
