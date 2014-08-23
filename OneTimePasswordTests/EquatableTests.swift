@@ -42,7 +42,7 @@ class EquatableTests: XCTestCase {
 
         XCTAssertEqual(g, Generator(factor: .Counter(0), secret: NSData()))
         XCTAssertNotEqual(g, Generator(factor: .Counter(1), secret: NSData()))
-        XCTAssertNotEqual(g, Generator(factor: .Counter(0), secret: "0".dataUsingEncoding(NSUTF8StringEncoding)))
+        XCTAssertNotEqual(g, Generator(factor: .Counter(0), secret: "0".dataUsingEncoding(NSUTF8StringEncoding)!))
         XCTAssertNotEqual(g, Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA256))
         XCTAssertNotEqual(g, Generator(factor: .Counter(0), secret: NSData(), digits: 8))
     }

@@ -60,9 +60,9 @@ class TokenSerializationTests: XCTestCase {
                                 case .Timer:
                                     expectedHost = kOTPTokenTypeTimerHost
                                 }
-                                XCTAssertEqual(url.host, expectedHost, "The url host should be \"\(expectedHost)\"")
+                                XCTAssertEqual(url.host!, expectedHost, "The url host should be \"\(expectedHost)\"")
                                 // Test name
-                                XCTAssertEqual(url.path.substringFromIndex(url.path.startIndex.successor()), name, "The url path should be \"\(name)\"")
+                                XCTAssertEqual(url.path!.substringFromIndex(url.path!.startIndex.successor()), name, "The url path should be \"\(name)\"")
 
                                 var urlComponents = NSURLComponents(URL:url, resolvingAgainstBaseURL:false)
                                 var items = urlComponents.queryItems as [NSURLQueryItem]
