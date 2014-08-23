@@ -23,13 +23,14 @@ public extension Token {
         }
 
         public static func keychainItemWithDictionary(keychainDictionary: NSDictionary) -> KeychainItem? {
-            let urlData = keychainDictionary[kSecAttrGeneric] as? NSData
-            let urlString: NSString? = NSString(data: urlData, encoding:NSUTF8StringEncoding)
-            if let string = urlString {
-                if let secret = keychainDictionary[kSecValueData] as? NSData {
-                    if let keychainItemRef = keychainDictionary[kSecValuePersistentRef] as? NSData {
-                        if let token = Token.URLSerializer.deserialize(string, secret: secret) {
-                            return KeychainItem(token: token, persistentRef: keychainItemRef)
+            if let urlData = keychainDictionary[kSecAttrGeneric] as? NSData {
+                let urlString: NSString? = NSString(data: urlData, encoding:NSUTF8StringEncoding)
+                if let string = urlString {
+                    if let secret = keychainDictionary[kSecValueData] as? NSData {
+                        if let keychainItemRef = keychainDictionary[kSecValuePersistentRef] as? NSData {
+                            if let token = Token.URLSerializer.deserialize(string, secret: secret) {
+                                return KeychainItem(token: token, persistentRef: keychainItemRef)
+                            }
                         }
                     }
                 }

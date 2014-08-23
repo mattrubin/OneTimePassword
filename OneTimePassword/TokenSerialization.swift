@@ -12,7 +12,7 @@ public extension Token {
     struct URLSerializer: TokenSerializer {
         public static func serialize(token: Token) -> String {
             let url = urlForToken(name: token.name, issuer: token.issuer, factor: token.core.factor, algorithm: token.core.algorithm, digits: token.core.digits)
-            return url.absoluteString
+            return url.absoluteString! // FIXME: serialize() should return an optional
         }
 
         public static func deserialize(string: String, secret: NSData? = nil) -> Token? {
