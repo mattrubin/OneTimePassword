@@ -28,12 +28,3 @@ public func ==(lhs: Generator, rhs: Generator) -> Bool {
         && (lhs.secret == rhs.secret)
         && (lhs.digits == rhs.digits)
 }
-
-
-extension Token: Equatable {}
-
-public func ==(lhs: Token, rhs: Token) -> Bool {
-    return (lhs.name == rhs.name)
-        && (lhs.issuer == rhs.issuer)
-        && (lhs.core == rhs.core)
-}

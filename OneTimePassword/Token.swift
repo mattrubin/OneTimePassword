@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Token {
+public struct Token: Equatable {
     public let name: String
     public let issuer: String
     public let core: Generator
@@ -18,6 +18,12 @@ public struct Token {
         self.issuer = issuer
         self.core = core
     }
+}
+
+public func ==(lhs: Token, rhs: Token) -> Bool {
+    return (lhs.name == rhs.name)
+        && (lhs.issuer == rhs.issuer)
+        && (lhs.core == rhs.core)
 }
 
 public func updatedToken(token: Token) -> Token {
