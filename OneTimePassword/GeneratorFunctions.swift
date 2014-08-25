@@ -8,6 +8,18 @@
 
 import Foundation
 
+internal func validateGenerator(factor: Generator.Factor, secret: NSData, algorithm: Generator.Algorithm, digits: Int) -> Bool {
+    let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
+    let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
+
+    switch factor {
+    case .Counter:
+        return validDigits(digits)
+    case .Timer(let period):
+        return validDigits(digits) && validPeriod(period)
+    }
+}
+
 public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) -> UInt64 {
     switch factor {
     case .Counter(let counter):
