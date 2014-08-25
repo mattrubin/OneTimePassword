@@ -10,6 +10,7 @@
 		B6C6D5560BC6437A8E4F8580 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 560131D4F5D140EA8458D149 /* libPods.a */; };
 		C9003418196F7046009733E8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9003417196F7046009733E8 /* Keychain.swift */; };
 		C9290C301947D104008AE4DE /* TokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */; };
+		C9307A8519A8515300609B02 /* TokenSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9307A8419A8515300609B02 /* TokenSerializer.swift */; };
 		C93A251A196B1BA400F86892 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2519196B1BA400F86892 /* Token.swift */; };
 		C94B2007197774A20014A202 /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94B2006197774A20014A202 /* TokenTests.swift */; };
 		C95B10CC196D22B9000840AA /* GeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B10CB196D22B9000840AA /* GeneratorTests.swift */; };
@@ -27,7 +28,7 @@
 		C9A486CC196F4BD100524F51 /* OTPTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24FC196AF8E900F86892 /* OTPTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9B2A19A199A7AAA00BC4A8A /* Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B2A199199A7AAA00BC4A8A /* Equatable.swift */; };
 		C9B2A19C199A7F1B00BC4A8A /* EquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */; };
-		C9DC7EC4196BD5DF00B50C82 /* TokenSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* TokenSerialization.swift */; };
+		C9DC7EC4196BD5DF00B50C82 /* Token.URLSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token.URLSerializer.swift */; };
 		C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Generator.swift */; };
 		C9F5981B196E3E48002E4D0E /* TokenPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */; };
 /* End PBXBuildFile section */
@@ -67,6 +68,7 @@
 		560131D4F5D140EA8458D149 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9003417196F7046009733E8 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializationTests.swift; sourceTree = "<group>"; };
+		C9307A8419A8515300609B02 /* TokenSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializer.swift; sourceTree = "<group>"; };
 		C9377D40196B93F900D6C67E /* OneTimePassword-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "OneTimePassword-Bridging-Header.h"; path = "Legacy/OneTimePassword-Bridging-Header.h"; sourceTree = "<group>"; };
 		C93A24FC196AF8E900F86892 /* OTPTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTypes.h; sourceTree = "<group>"; };
 		C93A2513196AFE1100F86892 /* OTPTokenGenerationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenGenerationTests.m; sourceTree = "<group>"; };
@@ -93,7 +95,7 @@
 		C9C9FE20196D175B00C7ACEE /* NSDictionary+QueryString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QueryString.m"; sourceTree = "<group>"; };
 		C9C9FE24196D181800C7ACEE /* OTPTypeStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTypeStrings.h; sourceTree = "<group>"; };
 		C9C9FE25196D181800C7ACEE /* OTPTypeStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTypeStrings.m; sourceTree = "<group>"; };
-		C9DC7EC3196BD5DF00B50C82 /* TokenSerialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerialization.swift; sourceTree = "<group>"; };
+		C9DC7EC3196BD5DF00B50C82 /* Token.URLSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.URLSerializer.swift; sourceTree = "<group>"; };
 		C9DC7EC7196BDF3B00B50C82 /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPToken.swift; sourceTree = "<group>"; };
 		C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenPersistence.swift; sourceTree = "<group>"; };
@@ -144,6 +146,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C9307A8619A8522F00609B02 /* Serializers */ = {
+			isa = PBXGroup;
+			children = (
+				C9307A8419A8515300609B02 /* TokenSerializer.swift */,
+				C9DC7EC3196BD5DF00B50C82 /* Token.URLSerializer.swift */,
+			);
+			name = Serializers;
+			sourceTree = "<group>";
+		};
 		C97C822E1946E51D00FD9F4C = {
 			isa = PBXGroup;
 			children = (
@@ -172,7 +183,7 @@
 			children = (
 				C9DC7EC7196BDF3B00B50C82 /* Generator.swift */,
 				C93A2519196B1BA400F86892 /* Token.swift */,
-				C9DC7EC3196BD5DF00B50C82 /* TokenSerialization.swift */,
+				C9307A8619A8522F00609B02 /* Serializers */,
 				C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */,
 				C9003417196F7046009733E8 /* Keychain.swift */,
 				C9B2A199199A7AAA00BC4A8A /* Equatable.swift */,
@@ -478,9 +489,10 @@
 				C9B2A19A199A7AAA00BC4A8A /* Equatable.swift in Sources */,
 				C93A251A196B1BA400F86892 /* Token.swift in Sources */,
 				C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */,
+				C9307A8519A8515300609B02 /* TokenSerializer.swift in Sources */,
 				C9F5981B196E3E48002E4D0E /* TokenPersistence.swift in Sources */,
 				C9003418196F7046009733E8 /* Keychain.swift in Sources */,
-				C9DC7EC4196BD5DF00B50C82 /* TokenSerialization.swift in Sources */,
+				C9DC7EC4196BD5DF00B50C82 /* Token.URLSerializer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

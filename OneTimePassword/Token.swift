@@ -29,8 +29,3 @@ public func updatedToken(token: Token) -> Token {
         return token
     }
 }
-
-public protocol TokenSerializer {
-    class func serialize(token: Token) -> String?
-    class func deserialize(string: String, secret: NSData?) -> Token?
-}
