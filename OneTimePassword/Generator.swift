@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Generator {
+public struct Generator: Equatable {
     public let factor: Factor
     public let secret: NSData
     public let algorithm: Algorithm
@@ -21,13 +21,31 @@ public struct Generator {
         self.digits = digits
     }
 
-    public enum Factor {
+    public enum Factor: Equatable {
         case Counter(UInt64)
         case Timer(NSTimeInterval)
     }
 
-    public enum Algorithm {
+    public enum Algorithm: Equatable {
         case SHA1, SHA256, SHA512
+    }
+}
+
+public func ==(lhs: Generator, rhs: Generator) -> Bool {
+    return (lhs.factor == rhs.factor)
+        && (lhs.algorithm == rhs.algorithm)
+        && (lhs.secret == rhs.secret)
+        && (lhs.digits == rhs.digits)
+}
+
+public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
+    switch (lhs, rhs) {
+    case (.Counter(let l), .Counter(let r)):
+        return l == r
+    case (.Timer(let l), .Timer(let r)):
+        return l == r
+    default:
+        return false
     }
 }
 
