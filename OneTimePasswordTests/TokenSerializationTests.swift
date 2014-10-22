@@ -66,13 +66,14 @@ class TokenSerializationTests: XCTestCase {
 
                                 var urlComponents = NSURLComponents(URL:url, resolvingAgainstBaseURL:false)
                                 var items = urlComponents?.queryItems as [NSURLQueryItem]
-                                XCTAssertEqual(items.count, 4, "There shouldn't be any unexpected query arguments")
+                                let expectedItemCount = 4
+                                XCTAssertEqual(items.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
 
                                 var queryArguments = Dictionary<String, String>()
                                 for item in items {
                                     queryArguments[item.name] = item.value
                                 }
-                                XCTAssertEqual(queryArguments.count, 4, "There shouldn't be any unexpected query arguments")
+                                XCTAssertEqual(queryArguments.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
 
                                 // Test algorithm
                                 let algorithmString: String = {
