@@ -12,11 +12,11 @@ extension Token {
     public struct URLSerializer: TokenSerializer {
         public static func serialize(token: Token) -> String? {
             let url = urlForToken(name: token.name, issuer: token.issuer, factor: token.core.factor, algorithm: token.core.algorithm, digits: token.core.digits)
-            return url.absoluteString
+            return url?.absoluteString
         }
 
         public static func deserialize(string: String, secret: NSData? = nil) -> Token? {
-            if let url = NSURL.URLWithString(string) {
+            if let url = NSURL(string: string) {
                 return tokenFromURL(url, secret: secret)
             }
             return nil
@@ -55,12 +55,12 @@ private func algorithmFromString(string: String) -> Generator.Algorithm? {
     return nil
 }
 
-private func urlForToken(#name: String, #issuer: String, #factor: Generator.Factor, #algorithm: Generator.Algorithm, #digits: Int) -> NSURL {
+private func urlForToken(#name: String, #issuer: String, #factor: Generator.Factor, #algorithm: Generator.Algorithm, #digits: Int) -> NSURL? {
     let urlComponents = NSURLComponents()
     urlComponents.scheme = kOTPAuthScheme
     urlComponents.path = "/" + name
 
-    urlComponents.queryItems = [
+    var queryItems = [
         NSURLQueryItem(name:kQueryAlgorithmKey, value:stringForAlgorithm(algorithm)),
         NSURLQueryItem(name:kQueryDigitsKey, value:String(digits)),
         NSURLQueryItem(name:kQueryIssuerKey, value:issuer)
@@ -69,11 +69,13 @@ private func urlForToken(#name: String, #issuer: String, #factor: Generator.Fact
     switch factor {
     case .Timer(let period):
         urlComponents.host = FactorTimerString
-        urlComponents.queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
+        queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
     case .Counter(let counter):
         urlComponents.host = FactorCounterString
-        urlComponents.queryItems.append(NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
+        queryItems.append(NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
     }
+
+    urlComponents.queryItems = queryItems
 
     return urlComponents.URL
 }
@@ -82,7 +84,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
     if (url.scheme != kOTPAuthScheme) { return nil }
 
     var queryDictionary = Dictionary<String, String>()
-    if let queryItems = NSURLComponents(URL:url, resolvingAgainstBaseURL:false).queryItems as? [NSURLQueryItem] {
+    if let queryItems = NSURLComponents(URL: url, resolvingAgainstBaseURL: false)?.queryItems as? [NSURLQueryItem] {
         for item in queryItems {
             queryDictionary[item.name] = item.value
         }
