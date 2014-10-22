@@ -240,7 +240,7 @@ public extension OTPToken {
 
     func url() -> NSURL? {
         if let string = Token.URLSerializer.serialize(token) {
-            return NSURL.URLWithString(string)
+            return NSURL(string: string)
         }
         return nil
     }
