@@ -121,34 +121,35 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
         if let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, overrideWith: externalSecret) {
             if let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: .SHA1) {
                 if let digits = parse(queryDictionary[kQueryDigitsKey], with: { $0.toInt() }, defaultTo: 6) {
-                    let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+                    if let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) {
 
-                    if core.isValid {
-                        var name = ""
-                        if let path = url.path {
-                            if countElements(path) > 1 {
-                                name = path.substringFromIndex(path.startIndex.successor()) // Skip the leading "/"
+                        if core.isValid {
+                            var name = ""
+                            if let path = url.path {
+                                if countElements(path) > 1 {
+                                    name = path.substringFromIndex(path.startIndex.successor()) // Skip the leading "/"
+                                }
                             }
-                        }
 
-                        var issuer = ""
-                        if let issuerString = queryDictionary[kQueryIssuerKey] {
-                            issuer = issuerString
-                        } else {
-                            // If there is no issuer string, try to extract one from the name
-                            let components = name.componentsSeparatedByString(":")
-                            if components.count > 1 {
-                                issuer = components[0]
+                            var issuer = ""
+                            if let issuerString = queryDictionary[kQueryIssuerKey] {
+                                issuer = issuerString
+                            } else {
+                                // If there is no issuer string, try to extract one from the name
+                                let components = name.componentsSeparatedByString(":")
+                                if components.count > 1 {
+                                    issuer = components[0]
+                                }
                             }
-                        }
-                        // If the name is prefixed by the issuer string, trim the name
-                        if let prefixRange = name.rangeOfString(issuer) {
-                            if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
-                                name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                            // If the name is prefixed by the issuer string, trim the name
+                            if let prefixRange = name.rangeOfString(issuer) {
+                                if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
+                                    name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                                }
                             }
-                        }
 
-                        return Token(name: name, issuer: issuer, core: core)
+                            return Token(name: name, issuer: issuer, core: core)
+                        }
                     }
                 }
             }

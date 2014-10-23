@@ -14,7 +14,10 @@ public struct Generator: Equatable {
     public let algorithm: Algorithm
     public let digits: Int
 
-    public init(factor: Factor, secret: NSData, algorithm: Algorithm = .SHA1, digits: Int = 6) {
+    public init?(factor: Factor, secret: NSData, algorithm: Algorithm = .SHA1, digits: Int = 6) {
+        if !validateGenerator(factor, secret, algorithm, digits) {
+            return nil
+        }
         self.factor = factor
         self.secret = secret
         self.algorithm = algorithm
