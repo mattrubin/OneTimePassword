@@ -11,7 +11,7 @@ import OneTimePassword
 
 extension Token {
     var url: NSURL {
-        return NSURL.URLWithString(URLSerializer.serialize(self)!)!
+        return NSURL(string: URLSerializer.serialize(self)!)!
     }
 }
 
@@ -51,7 +51,7 @@ class TokenSerializationTests: XCTestCase {
                                 let url = token.url
 
                                 // Test scheme
-                                XCTAssertEqual(url.scheme, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"")
+                                XCTAssertEqual(url.scheme!, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"")
                                 // Test Factor
                                 var expectedHost: String
                                 switch factor {
@@ -65,14 +65,15 @@ class TokenSerializationTests: XCTestCase {
                                 XCTAssertEqual(url.path!.substringFromIndex(url.path!.startIndex.successor()), name, "The url path should be \"\(name)\"")
 
                                 var urlComponents = NSURLComponents(URL:url, resolvingAgainstBaseURL:false)
-                                var items = urlComponents.queryItems as [NSURLQueryItem]
-                                XCTAssertEqual(items.count, 4, "There shouldn't be any unexpected query arguments")
+                                var items = urlComponents?.queryItems as [NSURLQueryItem]
+                                let expectedItemCount = 4
+                                XCTAssertEqual(items.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
 
                                 var queryArguments = Dictionary<String, String>()
                                 for item in items {
                                     queryArguments[item.name] = item.value
                                 }
-                                XCTAssertEqual(queryArguments.count, 4, "There shouldn't be any unexpected query arguments")
+                                XCTAssertEqual(queryArguments.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
 
                                 // Test algorithm
                                 let algorithmString: String = {

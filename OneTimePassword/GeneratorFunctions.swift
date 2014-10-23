@@ -29,7 +29,7 @@ public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInterv
     }
 }
 
-public func generatePassword(algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String {
+public func generatePassword(algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String? {
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
         case .SHA1:
@@ -46,28 +46,31 @@ public func generatePassword(algorithm: Generator.Algorithm, digits: Int, secret
 
     // Generate an HMAC value from the key and counter
     let (hashAlgorithm, hashLength) = hashInfoForAlgorithm(algorithm)
-    let hash = NSMutableData(length: hashLength)
-    CCHmac(hashAlgorithm, secret.bytes, UInt(secret.length), &bigCounter, 8, hash.mutableBytes)
+    if let hash = NSMutableData(length: hashLength) {
+        CCHmac(hashAlgorithm, secret.bytes, UInt(secret.length), &bigCounter, 8, hash.mutableBytes)
 
-    // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
-    let ptr = UnsafePointer<UInt8>(hash.bytes)
-    let offset = ptr[hash.length-1] & 0x0f
+        // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
+        let ptr = UnsafePointer<UInt8>(hash.bytes)
+        let offset = ptr[hash.length-1] & 0x0f
 
-    // Take 4 bytes from the hash, starting at the given byte offset
-    let truncatedHashPtr = ptr + Int(offset)
-    var truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).memory
+        // Take 4 bytes from the hash, starting at the given byte offset
+        let truncatedHashPtr = ptr + Int(offset)
+        var truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).memory
 
-    // Ensure the four bytes taken from the hash match the current endian format
-    truncatedHash = UInt32(bigEndian: truncatedHash)
-    // Discard the most significant bit
-    truncatedHash &= 0x7fffffff
-    // Constrain to the right number of digits
-    truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
+        // Ensure the four bytes taken from the hash match the current endian format
+        truncatedHash = UInt32(bigEndian: truncatedHash)
+        // Discard the most significant bit
+        truncatedHash &= 0x7fffffff
+        // Constrain to the right number of digits
+        truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
 
-    var string = String(truncatedHash)
-    // Pad the string representation with zeros, if necessary
-    while countElements(string) < digits {
-        string = "0" + string
+        var string = String(truncatedHash)
+        // Pad the string representation with zeros, if necessary
+        while countElements(string) < digits {
+            string = "0" + string
+        }
+        return string
     }
-    return string
+
+    return nil
 }
