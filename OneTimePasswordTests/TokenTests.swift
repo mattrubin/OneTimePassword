@@ -18,7 +18,9 @@ class TokenTests: XCTestCase {
             factor: .Counter(111),
             secret: "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         )
+        XCTAssert(generator != nil)
 
+        if let generator = generator {
         let token = Token(
             name: name,
             issuer: issuer,
@@ -36,7 +38,9 @@ class TokenTests: XCTestCase {
             factor: .Timer(123),
             secret: "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
         )
+        XCTAssert(other_generator != nil)
 
+        if let other_generator = other_generator {
         let other_token = Token(
             name: other_name,
             issuer: other_issuer,
@@ -51,11 +55,14 @@ class TokenTests: XCTestCase {
         XCTAssertNotEqual(token.name, other_token.name)
         XCTAssertNotEqual(token.issuer, other_token.issuer)
         XCTAssertNotEqual(token.core, other_token.core)
+        }}
     }
 
     func testDefaults() {
         let generator = Generator(factor: .Counter(0), secret: NSData())
+        XCTAssert(generator != nil)
 
+        if let generator = generator {
         let n = "Test Name"
         let i = "Test Issuer"
 
@@ -70,5 +77,6 @@ class TokenTests: XCTestCase {
         let tokenWithAllDefaults = Token(core: generator)
         XCTAssertEqual(tokenWithAllDefaults.name, "")
         XCTAssertEqual(tokenWithAllDefaults.issuer, "")
+        }
     }
 }
