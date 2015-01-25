@@ -85,6 +85,23 @@
 		C983AB6E197F913400975003 /* OTPBase32Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPBase32Tests.m; sourceTree = "<group>"; };
 		C996EBF61A74CF5C0076B105 /* MF_Base32Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MF_Base32Additions.h; path = Carthage/Checkouts/Base32/Base32/MF_Base32Additions.h; sourceTree = SOURCE_ROOT; };
 		C996EBF71A74CF5C0076B105 /* MF_Base32Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MF_Base32Additions.m; path = Carthage/Checkouts/Base32/Base32/MF_Base32Additions.m; sourceTree = SOURCE_ROOT; };
+		C996EC2A1A74D5830076B105 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		C996EC2C1A74D5830076B105 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		C996EC2D1A74D5830076B105 /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
+		C996EC2E1A74D5830076B105 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		C996EC2F1A74D5830076B105 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
+		C996EC311A74D5830076B105 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Application.xcconfig; sourceTree = "<group>"; };
+		C996EC321A74D5830076B105 /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Framework.xcconfig; sourceTree = "<group>"; };
+		C996EC331A74D5830076B105 /* StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StaticLibrary.xcconfig; sourceTree = "<group>"; };
+		C996EC351A74D5830076B105 /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
+		C996EC361A74D5830076B105 /* iOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Base.xcconfig"; sourceTree = "<group>"; };
+		C996EC371A74D5830076B105 /* iOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Framework.xcconfig"; sourceTree = "<group>"; };
+		C996EC381A74D5830076B105 /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		C996EC3A1A74D5830076B105 /* Mac-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Application.xcconfig"; sourceTree = "<group>"; };
+		C996EC3B1A74D5830076B105 /* Mac-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Base.xcconfig"; sourceTree = "<group>"; };
+		C996EC3C1A74D5830076B105 /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
+		C996EC3D1A74D5830076B105 /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
+		C996EC3E1A74D5830076B105 /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 		C9A486A9196F352E00524F51 /* OneTimePasswordLegacy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePasswordLegacy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A486AC196F352E00524F51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneTimePasswordLegacy.h; sourceTree = "<group>"; };
@@ -161,6 +178,7 @@
 				C9A486AA196F352E00524F51 /* OneTimePasswordLegacy */,
 				C9A486B7196F352F00524F51 /* OneTimePasswordLegacyTests */,
 				746E7166AD60449882DD84C7 /* Frameworks */,
+				C996EC281A74D5830076B105 /* xcconfigs */,
 				C97C82391946E51D00FD9F4C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -220,6 +238,71 @@
 				C97C82491946E51D00FD9F4C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C996EC281A74D5830076B105 /* xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				C996EC291A74D5830076B105 /* Base */,
+				C996EC341A74D5830076B105 /* iOS */,
+				C996EC391A74D5830076B105 /* Mac OS X */,
+			);
+			name = xcconfigs;
+			path = Carthage/Checkouts/xcconfigs;
+			sourceTree = "<group>";
+		};
+		C996EC291A74D5830076B105 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C996EC2A1A74D5830076B105 /* Common.xcconfig */,
+				C996EC2B1A74D5830076B105 /* Configurations */,
+				C996EC301A74D5830076B105 /* Targets */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		C996EC2B1A74D5830076B105 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				C996EC2C1A74D5830076B105 /* Debug.xcconfig */,
+				C996EC2D1A74D5830076B105 /* Profile.xcconfig */,
+				C996EC2E1A74D5830076B105 /* Release.xcconfig */,
+				C996EC2F1A74D5830076B105 /* Test.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
+		C996EC301A74D5830076B105 /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				C996EC311A74D5830076B105 /* Application.xcconfig */,
+				C996EC321A74D5830076B105 /* Framework.xcconfig */,
+				C996EC331A74D5830076B105 /* StaticLibrary.xcconfig */,
+			);
+			path = Targets;
+			sourceTree = "<group>";
+		};
+		C996EC341A74D5830076B105 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				C996EC351A74D5830076B105 /* iOS-Application.xcconfig */,
+				C996EC361A74D5830076B105 /* iOS-Base.xcconfig */,
+				C996EC371A74D5830076B105 /* iOS-Framework.xcconfig */,
+				C996EC381A74D5830076B105 /* iOS-StaticLibrary.xcconfig */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		C996EC391A74D5830076B105 /* Mac OS X */ = {
+			isa = PBXGroup;
+			children = (
+				C996EC3A1A74D5830076B105 /* Mac-Application.xcconfig */,
+				C996EC3B1A74D5830076B105 /* Mac-Base.xcconfig */,
+				C996EC3C1A74D5830076B105 /* Mac-DynamicLibrary.xcconfig */,
+				C996EC3D1A74D5830076B105 /* Mac-Framework.xcconfig */,
+				C996EC3E1A74D5830076B105 /* Mac-StaticLibrary.xcconfig */,
+			);
+			path = "Mac OS X";
 			sourceTree = "<group>";
 		};
 		C9A486AA196F352E00524F51 /* OneTimePasswordLegacy */ = {
@@ -400,6 +483,9 @@
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
 			mainGroup = C97C822E1946E51D00FD9F4C;
 			productRefGroup = C97C82391946E51D00FD9F4C /* Products */;
 			projectDirPath = "";
