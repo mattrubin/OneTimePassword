@@ -40,19 +40,29 @@ class EquatableTests: XCTestCase {
     func testGeneratorEquality() {
         let g = Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 6)
 
-        XCTAssertEqual(g, Generator(factor: .Counter(0), secret: NSData()))
-        XCTAssertNotEqual(g, Generator(factor: .Counter(1), secret: NSData()))
-        XCTAssertNotEqual(g, Generator(factor: .Counter(0), secret: "0".dataUsingEncoding(NSUTF8StringEncoding)!))
-        XCTAssertNotEqual(g, Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA256))
-        XCTAssertNotEqual(g, Generator(factor: .Counter(0), secret: NSData(), digits: 8))
+        XCTAssert(g == Generator(factor: .Counter(0), secret: NSData()))
+        XCTAssert(g != Generator(factor: .Counter(1), secret: NSData()))
+        XCTAssert(g != Generator(factor: .Counter(0), secret: "0".dataUsingEncoding(NSUTF8StringEncoding)!))
+        XCTAssert(g != Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA256))
+        XCTAssert(g != Generator(factor: .Counter(0), secret: NSData(), digits: 8))
     }
 
     func testTokenEquality() {
-        let t = Token(name: "Name", issuer: "Issuer", core: Generator(factor: .Counter(0), secret: NSData()))
+        let generator = Generator(factor: .Counter(0), secret: NSData())
+        let other_generator = Generator(factor: .Counter(1), secret: NSData())
 
-        XCTAssertEqual(t, Token(name: "Name", issuer: "Issuer", core: Generator(factor: .Counter(0), secret: NSData())))
-        XCTAssertNotEqual(t, Token(name: "", issuer: "Issuer", core: Generator(factor: .Counter(0), secret: NSData())))
-        XCTAssertNotEqual(t, Token(name: "Name", issuer: "", core: Generator(factor: .Counter(0), secret: NSData())))
-        XCTAssertNotEqual(t, Token(name: "Name", issuer: "Issuer", core: Generator(factor: .Counter(1), secret: NSData())))
+        XCTAssert(generator != nil)
+        XCTAssert(other_generator != nil)
+
+        if let genA = generator {
+            if let genB = other_generator {
+                let t = Token(name: "Name", issuer: "Issuer", core: genA)
+
+                XCTAssertEqual(t, Token(name: "Name", issuer: "Issuer", core: genA))
+                XCTAssertNotEqual(t, Token(name: "", issuer: "Issuer", core: genA))
+                XCTAssertNotEqual(t, Token(name: "Name", issuer: "", core: genA))
+                XCTAssertNotEqual(t, Token(name: "Name", issuer: "Issuer", core: genB))
+            }
+        }
     }
 }

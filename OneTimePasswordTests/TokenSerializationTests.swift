@@ -21,7 +21,7 @@ class TokenSerializationTests: XCTestCase {
     let kOTPTokenTypeTimerHost   = "totp"
 
     let factors: [OneTimePassword.Generator.Factor] = [.Counter(0), .Counter(1), .Counter(UInt64.max),
-                                                       .Timer(0), .Timer(1), .Timer(30)]
+                                                       .Timer(1), .Timer(30), .Timer(300)]
     let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""]
     let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""]
     let secretStrings = ["12345678901234567890", "12345678901234567890123456789012", "1234567890123456789012345678901234567890123456789012345678901234", ""]
@@ -36,15 +36,19 @@ class TokenSerializationTests: XCTestCase {
                         for algorithm in algorithms {
                             for digitNumber in digits {
                                 // Create the token
+                                let generator = Generator(
+                                    factor: factor,
+                                    secret: secretString.dataUsingEncoding(NSASCIIStringEncoding)!,
+                                    algorithm: algorithm,
+                                    digits: digitNumber
+                                )
+                                XCTAssert(generator != nil)
+
+                                if let generator = generator {
                                 let token = Token(
                                     name: name,
                                     issuer: issuer,
-                                    core: Generator(
-                                        factor: factor,
-                                        secret: secretString.dataUsingEncoding(NSASCIIStringEncoding)!,
-                                        algorithm: algorithm,
-                                        digits: digitNumber
-                                    )
+                                    core: generator
                                 )
 
                                 // Serialize
@@ -109,6 +113,7 @@ class TokenSerializationTests: XCTestCase {
                                 // Check url again
                                 let checkURL = token.url
                                 XCTAssertEqual(url, checkURL, "Repeated calls to url() should return the same result!")
+                                }
                             }
                         }
                     }
