@@ -207,7 +207,9 @@ public class OTPToken: NSObject {
         return 30
     }
 
-    public func validate() -> Bool { return token.core.isValid }
+    public func validate() -> Bool {
+        return true // Currently, an invalid token will fail creation
+    }
 }
 
 public extension OTPToken {

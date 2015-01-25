@@ -53,12 +53,8 @@ public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
 }
 
 public extension Generator {
-    var isValid: Bool {
-        return validateGenerator(factor, secret, algorithm, digits)
-    }
-
     var password: String? {
-        if !self.isValid { return nil }
+        if !validateGenerator(factor, secret, algorithm, digits) { return nil }
         let counter = counterForGeneratorWithFactor(self.factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
         return generatePassword(self.algorithm, self.digits, self.secret, counter)
     }
