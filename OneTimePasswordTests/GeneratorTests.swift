@@ -31,7 +31,7 @@ class GeneratorTests: XCTestCase {
         XCTAssert(generator?.digits == digits)
 
         // Create another generator
-        let other_factor = OneTimePassword.Generator.Factor.Timer(123)
+        let other_factor = OneTimePassword.Generator.Factor.Timer(period: 123)
         let other_secret = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
         let other_algorithm = Generator.Algorithm.SHA512
         let other_digits = 7
@@ -76,15 +76,15 @@ class GeneratorTests: XCTestCase {
 
     func testCounter() {
         let factors: [(OneTimePassword.Generator.Factor, NSTimeInterval, UInt64)] = [
-            (.Counter(0),       -1,             0),
-            (.Counter(1),       -1,             1),
-            (.Counter(123),     -1,             123),
-            (.Counter(99999),   -1,             99999),
-            (.Timer(30),        100,            3),
-            (.Timer(30),        10000,          333),
-            (.Timer(30),        1000000,        33333),
-            (.Timer(60),        100000000,      1666666),
-            (.Timer(90),        10000000000,    111111111),
+            (.Counter(0),           -1,             0),
+            (.Counter(1),           -1,             1),
+            (.Counter(123),         -1,             123),
+            (.Counter(99999),       -1,             99999),
+            (.Timer(period: 30),    100,            3),
+            (.Timer(period: 30),    10000,          333),
+            (.Timer(period: 30),    1000000,        33333),
+            (.Timer(period: 60),    100000000,      1666666),
+            (.Timer(period: 90),    10000000000,    111111111),
         ]
 
         for (factor, timeInterval, counter) in factors {
@@ -122,7 +122,7 @@ class GeneratorTests: XCTestCase {
             }
 
             for (period, periodIsValid) in periodTests {
-                let generator = Generator(factor: .Timer(period), secret: NSData(), digits: digits)
+                let generator = Generator(factor: .Timer(period: period), secret: NSData(), digits: digits)
                 if (digitsAreValid && periodIsValid) {
                     XCTAssert(generator != nil)
                 } else {

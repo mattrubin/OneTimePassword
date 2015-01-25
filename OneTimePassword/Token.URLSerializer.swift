@@ -111,7 +111,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
                 return nil
                 }, defaultTo: 30)
             {
-                return .Timer(period)
+                return .Timer(period: period)
             }
         }
         return nil

@@ -26,7 +26,7 @@ public struct Generator: Equatable {
 
     public enum Factor: Equatable {
         case Counter(UInt64)
-        case Timer(NSTimeInterval)
+        case Timer(period: NSTimeInterval)
     }
 
     public enum Algorithm: Equatable {
