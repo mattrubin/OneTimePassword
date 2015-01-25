@@ -16,6 +16,8 @@
 		C95B10CC196D22B9000840AA /* GeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B10CB196D22B9000840AA /* GeneratorTests.swift */; };
 		C969A5741A750D6F004FE0F7 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C969A5731A750D6F004FE0F7 /* Base32.framework */; };
 		C969A5751A750E00004FE0F7 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C969A5731A750D6F004FE0F7 /* Base32.framework */; };
+		C969A5761A750E9B004FE0F7 /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
+		C969A5771A750EA9004FE0F7 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C969A5731A750D6F004FE0F7 /* Base32.framework */; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
 		C983AB6F197F913400975003 /* OTPBase32Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB6E197F913400975003 /* OTPBase32Tests.m */; };
 		C9A486AE196F352E00524F51 /* OneTimePasswordLegacy.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -135,6 +137,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C969A5761A750E9B004FE0F7 /* OneTimePassword.framework in Frameworks */,
+				C969A5771A750EA9004FE0F7 /* Base32.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,6 +673,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = OneTimePasswordLegacy/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -681,6 +689,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = OneTimePasswordLegacy/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
