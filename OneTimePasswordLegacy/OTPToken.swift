@@ -18,15 +18,15 @@ public class OTPToken: NSObject {
 
     convenience override init() {
         // Stub an invalid token, to be replaced with a modified token via the setters
-        self.init(token: Token(core: Generator(factor: .Timer(period: 30), secret: NSData())))
+        self.init(token: Token(core: Generator(factor: .Timer(period: 30), secret: NSData())!))
     }
 
     class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer:NSString) -> Self {
         switch type {
         case .Counter:
-            return self(token: Token(name: name, issuer: issuer, core: Generator(factor: .Counter(0), secret: secret)))
+            return self(token: Token(name: name, issuer: issuer, core: Generator(factor: .Counter(0), secret: secret)!))
         case .Timer:
-            return self(token: Token(name: name, issuer: issuer, core: Generator(factor: .Timer(period: 30), secret: secret)))
+            return self(token: Token(name: name, issuer: issuer, core: Generator(factor: .Timer(period: 30), secret: secret)!))
         }
     }
 
@@ -58,7 +58,7 @@ public class OTPToken: NSObject {
                         secret: token.core.secret,
                         algorithm: token.core.algorithm,
                         digits: token.core.digits
-                    )
+                    )!
                 )
             case .Timer:
                 token = Token(
@@ -69,7 +69,7 @@ public class OTPToken: NSObject {
                         secret: token.core.secret,
                         algorithm: token.core.algorithm,
                         digits: token.core.digits
-                    )
+                    )!
                 )
             }
         }
@@ -86,7 +86,7 @@ public class OTPToken: NSObject {
                     secret: newValue,
                     algorithm: token.core.algorithm,
                     digits: token.core.digits
-                )
+                )!
             )
         }
     }
@@ -115,7 +115,7 @@ public class OTPToken: NSObject {
                     secret: token.core.secret,
                     algorithm: newAlgorithm,
                     digits: token.core.digits
-                )
+                )!
             )
         }
     }
@@ -131,7 +131,7 @@ public class OTPToken: NSObject {
                     secret: token.core.secret,
                     algorithm: token.core.algorithm,
                     digits: Int(newValue)
-                )
+                )!
             )
         }
     }
@@ -158,7 +158,7 @@ public class OTPToken: NSObject {
                         secret: token.core.secret,
                         algorithm: token.core.algorithm,
                         digits: token.core.digits
-                    )
+                    )!
                 )
             default: break
             }
@@ -187,7 +187,7 @@ public class OTPToken: NSObject {
                         secret: token.core.secret,
                         algorithm: token.core.algorithm,
                         digits: token.core.digits
-                    )
+                    )!
                 )
             default: break
             }
@@ -212,7 +212,7 @@ public class OTPToken: NSObject {
 
 public extension OTPToken {
     var password: String? { return token.core.password }
-    func updatePassword() { token = updatedToken(token) }
+    func updatePassword() { token = updatedToken(token)! }
 
     func generatePasswordForCounter(counter: UInt64) -> String? {
         return generatePassword(token.core.algorithm, token.core.digits, token.core.secret, counter)
