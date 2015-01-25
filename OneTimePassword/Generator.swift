@@ -43,9 +43,9 @@ public func ==(lhs: Generator, rhs: Generator) -> Bool {
 
 public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
     switch (lhs, rhs) {
-    case (.Counter(let l), .Counter(let r)):
+    case let (.Counter(l), .Counter(r)):
         return l == r
-    case (.Timer(let l), .Timer(let r)):
+    case let (.Timer(l), .Timer(r)):
         return l == r
     default:
         return false
