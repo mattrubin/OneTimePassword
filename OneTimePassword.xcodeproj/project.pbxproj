@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B6C6D5560BC6437A8E4F8580 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 560131D4F5D140EA8458D149 /* libPods.a */; };
 		C9003418196F7046009733E8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9003417196F7046009733E8 /* Keychain.swift */; };
 		C9290C301947D104008AE4DE /* TokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */; };
 		C9307A8519A8515300609B02 /* TokenSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9307A8419A8515300609B02 /* TokenSerializer.swift */; };
@@ -17,6 +16,8 @@
 		C95B10CC196D22B9000840AA /* GeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B10CB196D22B9000840AA /* GeneratorTests.swift */; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
 		C983AB6F197F913400975003 /* OTPBase32Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB6E197F913400975003 /* OTPBase32Tests.m */; };
+		C996EBF91A74CF5C0076B105 /* MF_Base32Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = C996EBF71A74CF5C0076B105 /* MF_Base32Additions.m */; };
+		C996EBFA1A74D0410076B105 /* MF_Base32Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = C996EBF61A74CF5C0076B105 /* MF_Base32Additions.h */; };
 		C9A486AE196F352E00524F51 /* OneTimePasswordLegacy.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9A486B4196F352F00524F51 /* OneTimePasswordLegacy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A486A9196F352E00524F51 /* OneTimePasswordLegacy.framework */; };
 		C9A486C4196F36E100524F51 /* OTPToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */; };
@@ -65,7 +66,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		560131D4F5D140EA8458D149 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9003417196F7046009733E8 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializationTests.swift; sourceTree = "<group>"; };
 		C9307A8419A8515300609B02 /* TokenSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializer.swift; sourceTree = "<group>"; };
@@ -83,6 +83,8 @@
 		C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C82491946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C983AB6E197F913400975003 /* OTPBase32Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPBase32Tests.m; sourceTree = "<group>"; };
+		C996EBF61A74CF5C0076B105 /* MF_Base32Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MF_Base32Additions.h; path = Carthage/Checkouts/Base32/Base32/MF_Base32Additions.h; sourceTree = SOURCE_ROOT; };
+		C996EBF71A74CF5C0076B105 /* MF_Base32Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MF_Base32Additions.m; path = Carthage/Checkouts/Base32/Base32/MF_Base32Additions.m; sourceTree = SOURCE_ROOT; };
 		C9A486A9196F352E00524F51 /* OneTimePasswordLegacy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePasswordLegacy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A486AC196F352E00524F51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneTimePasswordLegacy.h; sourceTree = "<group>"; };
@@ -99,7 +101,6 @@
 		C9DC7EC7196BDF3B00B50C82 /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPToken.swift; sourceTree = "<group>"; };
 		C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenPersistence.swift; sourceTree = "<group>"; };
-		CA0307BA64104BFF93EB7509 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +108,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6C6D5560BC6437A8E4F8580 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,8 +140,6 @@
 		746E7166AD60449882DD84C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CA0307BA64104BFF93EB7509 /* Pods.xcconfig */,
-				560131D4F5D140EA8458D149 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -187,6 +185,8 @@
 				C9307A8619A8522F00609B02 /* Serializers */,
 				C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */,
 				C9003417196F7046009733E8 /* Keychain.swift */,
+				C996EBF61A74CF5C0076B105 /* MF_Base32Additions.h */,
+				C996EBF71A74CF5C0076B105 /* MF_Base32Additions.m */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
 			);
 			path = OneTimePassword;
@@ -281,6 +281,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C996EBFA1A74D0410076B105 /* MF_Base32Additions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,12 +301,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword" */;
 			buildPhases = (
-				D546BD042EBE4EDF9F8F7C62 /* Check Pods Manifest.lock */,
 				C97C82331946E51D00FD9F4C /* Sources */,
 				C97C82341946E51D00FD9F4C /* Frameworks */,
 				C97C82351946E51D00FD9F4C /* Headers */,
 				C97C82361946E51D00FD9F4C /* Resources */,
-				4601C67B1F6043A68DEEBDF9 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -401,9 +400,6 @@
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
 			mainGroup = C97C822E1946E51D00FD9F4C;
 			productRefGroup = C97C82391946E51D00FD9F4C /* Products */;
 			projectDirPath = "";
@@ -448,44 +444,12 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		4601C67B1F6043A68DEEBDF9 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D546BD042EBE4EDF9F8F7C62 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		C97C82331946E51D00FD9F4C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C996EBF91A74CF5C0076B105 /* MF_Base32Additions.m in Sources */,
 				C93A251A196B1BA400F86892 /* Token.swift in Sources */,
 				C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */,
 				C9307A8519A8515300609B02 /* TokenSerializer.swift in Sources */,
@@ -626,7 +590,6 @@
 		};
 		C97C824F1946E51D00FD9F4C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -643,7 +606,6 @@
 		};
 		C97C82501946E51D00FD9F4C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -660,7 +622,6 @@
 		};
 		C97C82521946E51D00FD9F4C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -674,7 +635,6 @@
 		};
 		C97C82531946E51D00FD9F4C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -688,7 +648,6 @@
 		};
 		C9A486BC196F352F00524F51 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -703,7 +662,6 @@
 		};
 		C9A486BD196F352F00524F51 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -718,7 +676,6 @@
 		};
 		C9A486BE196F352F00524F51 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -740,7 +697,6 @@
 		};
 		C9A486BF196F352F00524F51 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

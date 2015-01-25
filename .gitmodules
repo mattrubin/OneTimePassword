@@ -1,0 +1,3 @@
+[submodule "Carthage/Checkouts/Base32"]
+	path = Carthage/Checkouts/Base32
+	url = https://github.com/ekscrypto/Base32.git
