@@ -634,10 +634,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = OneTimePasswordTests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -647,10 +643,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = OneTimePasswordTests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -684,10 +676,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = OneTimePasswordLegacyTests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -697,10 +685,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = OneTimePasswordLegacyTests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
