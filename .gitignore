@@ -1,6 +1,6 @@
 # Xcode
 #
-build/
+# * build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -30,4 +30,6 @@ DerivedData
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
 # Carthage/Checkouts
 
-Carthage/Build
+# * Carthage/Build
+
+# * Travis cannot `carthage bootstrap` because of code signing issues, so for now include the iOS builds
