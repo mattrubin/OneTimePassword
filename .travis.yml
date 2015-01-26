@@ -1,3 +1,10 @@
 language: objective-c
+
 xcode_workspace: onetimepassword.xcworkspace
 xcode_scheme: OneTimePassword
+
+before_install:
+- brew update
+- brew install carthage
+install:
+- carthage bootstrap
