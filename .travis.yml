@@ -9,3 +9,5 @@ xcode_sdk:
 before_install:
 - brew update
 - brew upgrade xctool
+
+script: xcodebuild -workspace onetimepassword.xcworkspace -scheme OneTimePassword -sdk iphonesimulator8.1 build test
