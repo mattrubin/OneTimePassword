@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Base32
 
 extension Token {
     public struct URLSerializer: TokenSerializer {

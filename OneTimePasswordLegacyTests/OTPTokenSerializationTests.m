@@ -23,10 +23,10 @@
 //
 
 @import XCTest;
+@import Base32;
 @import OneTimePasswordLegacy;
 #import "OTPTypeStrings.h"
 #import "NSDictionary+QueryString.h"
-#import "MF_Base32Additions.h"
 
 
 static NSString * const kOTPScheme = @"otpauth";

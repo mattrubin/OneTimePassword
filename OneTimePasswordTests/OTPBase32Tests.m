@@ -23,7 +23,7 @@
 //
 
 @import XCTest;
-#import "MF_Base32Additions.h"
+@import Base32;
 
 
 @interface OTPBase32Tests : XCTestCase

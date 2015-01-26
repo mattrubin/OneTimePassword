@@ -1,2 +1,2 @@
-github "ekscrypto/Base32"
+github "mattrubin/Base32" "master"
 github "jspahrsummers/xcconfigs"
