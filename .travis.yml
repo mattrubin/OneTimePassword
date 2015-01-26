@@ -6,11 +6,3 @@ xcode_scheme: OneTimePassword
 xcode_sdk:
 - iphonesimulator8.0
 - iphonesimulator8.1
-
-before_install:
-- brew update
-- brew install carthage
-- ./travis-keychain.sh
-
-install:
-- carthage bootstrap --configuration Debug
