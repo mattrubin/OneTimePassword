@@ -10,5 +10,7 @@ xcode_sdk:
 before_install:
 - brew update
 - brew install carthage
+- ./travis-keychain.sh
+
 install:
 - carthage bootstrap --configuration Debug
