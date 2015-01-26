@@ -15,7 +15,6 @@
 		C94B2007197774A20014A202 /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94B2006197774A20014A202 /* TokenTests.swift */; };
 		C95B10CC196D22B9000840AA /* GeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B10CB196D22B9000840AA /* GeneratorTests.swift */; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
-		C983AB6F197F913400975003 /* OTPBase32Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB6E197F913400975003 /* OTPBase32Tests.m */; };
 		C9A486AE196F352E00524F51 /* OneTimePasswordLegacy.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9A486B4196F352F00524F51 /* OneTimePasswordLegacy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A486A9196F352E00524F51 /* OneTimePasswordLegacy.framework */; };
 		C9A486C4196F36E100524F51 /* OTPToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */; };
@@ -80,7 +79,6 @@
 		C97C823C1946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C82491946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C983AB6E197F913400975003 /* OTPBase32Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPBase32Tests.m; sourceTree = "<group>"; };
 		C996EC2C1A74D5830076B105 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Configurations/Debug.xcconfig; sourceTree = "<group>"; };
 		C996EC2D1A74D5830076B105 /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Profile.xcconfig; path = Configurations/Profile.xcconfig; sourceTree = "<group>"; };
 		C996EC2E1A74D5830076B105 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Configurations/Release.xcconfig; sourceTree = "<group>"; };
@@ -214,7 +212,6 @@
 				C95B10CB196D22B9000840AA /* GeneratorTests.swift */,
 				C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */,
 				C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */,
-				C983AB6E197F913400975003 /* OTPBase32Tests.m */,
 				C97C82481946E51D00FD9F4C /* Supporting Files */,
 			);
 			path = OneTimePasswordTests;
@@ -517,7 +514,6 @@
 				C94B2007197774A20014A202 /* TokenTests.swift in Sources */,
 				C95B10CC196D22B9000840AA /* GeneratorTests.swift in Sources */,
 				C9290C301947D104008AE4DE /* TokenSerializationTests.swift in Sources */,
-				C983AB6F197F913400975003 /* OTPBase32Tests.m in Sources */,
 				C9B2A19C199A7F1B00BC4A8A /* EquatableTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
