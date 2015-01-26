@@ -3,6 +3,10 @@ language: objective-c
 xcode_workspace: onetimepassword.xcworkspace
 xcode_scheme: OneTimePassword
 
+xcode_sdk:
+- iphonesimulator8.0
+- iphonesimulator8.1
+
 before_install:
 - brew update
 - brew install carthage
