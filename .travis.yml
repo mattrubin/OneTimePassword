@@ -1,0 +1,9 @@
+language: objective-c
+
+xcode_workspace: onetimepassword.xcworkspace
+xcode_scheme: OneTimePassword
+
+xcode_sdk:
+- iphonesimulator8.1
+
+script: xcodebuild -workspace onetimepassword.xcworkspace -scheme OneTimePassword -sdk iphonesimulator8.1 build test
