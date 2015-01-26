@@ -5,3 +5,7 @@ xcode_scheme: OneTimePassword
 
 xcode_sdk:
 - iphonesimulator8.1
+
+before_install:
+- brew update
+- brew upgrade xctool
