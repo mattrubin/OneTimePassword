@@ -20,7 +20,7 @@ public class OTPToken: NSObject {
 
     required public override init() {}
 
-    class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer: NSString) -> Self {
+    public class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer: NSString) -> Self {
         let token = self()
         token.type = type
         token.secret = secret
