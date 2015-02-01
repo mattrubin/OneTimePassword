@@ -9,14 +9,31 @@
 import OneTimePassword
 
 public class OTPToken: NSObject {
+    public var name: String = ""
+    public var issuer: String = ""
+    public var type: OTPTokenType  = .Timer
+    public var secret: NSData = NSData()
+    public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm()
+    public var digits: UInt = OTPToken.defaultDigits()
+    public var period: NSTimeInterval = OTPToken.defaultPeriod()
+    public var counter: UInt64 = OTPToken.defaultInitialCounter()
+
+    required public override init() {}
+
+    class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer: NSString) -> Self {
+        let token = self()
+        token.type = type
+        token.secret = secret
+        token.name = name
+        token.issuer = issuer
+        return token
+    }
+
+
+    private var keychainItem: Token.KeychainItem?
+
     var token: Token? {
         return tokenForOTPToken(self)
-    }
-    var keychainItem: Token.KeychainItem?
-
-    required public convenience init(token: Token) {
-        self.init()
-        updateWithToken(token)
     }
 
     private func updateWithToken(token: Token) {
@@ -37,34 +54,6 @@ public class OTPToken: NSObject {
         }
     }
 
-    required override public init() {
-        name = ""
-        issuer = ""
-        secret = NSData()
-        type = .Timer
-        period = OTPToken.defaultPeriod()
-        counter = OTPToken.defaultInitialCounter()
-        algorithm = OTPToken.defaultAlgorithm()
-        digits = OTPToken.defaultDigits()
-    }
-
-    class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer:NSString) -> Self {
-        let token = self()
-        token.type = type
-        token.secret = secret
-        token.name = name
-        token.issuer = issuer
-        return token
-    }
-
-    public var name: String
-    public var issuer: String
-    public var type: OTPTokenType
-    public var secret: NSData
-    public var algorithm: OTPAlgorithm
-    public var digits: UInt
-    public var period: NSTimeInterval
-    public var counter: UInt64
 
     public class func defaultAlgorithm() -> OTPAlgorithm {
         return .SHA1
@@ -78,6 +67,7 @@ public class OTPToken: NSObject {
     public class func defaultPeriod() -> NSTimeInterval {
         return 30
     }
+
 
     public func validate() -> Bool {
         return (token != nil)
@@ -109,7 +99,9 @@ public extension OTPToken {
     class func tokenWithURL(url: NSURL) -> Self? {
         if let urlString = url.absoluteString {
             if let token = Token.URLSerializer.deserialize(urlString) {
-                return self(token: token)
+                let otp = self()
+                otp.updateWithToken(token)
+                return otp
             }
         }
         return nil
@@ -118,7 +110,9 @@ public extension OTPToken {
     class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> Self? {
         if let urlString = url.absoluteString {
             if let token = Token.URLSerializer.deserialize(urlString, secret: secret) {
-                return self(token: token)
+                let otp = self()
+                otp.updateWithToken(token)
+                return otp
             }
         }
         return nil
@@ -172,7 +166,8 @@ public extension OTPToken {
     }
 
     class func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
-        let otp = self(token: keychainItem.token)
+        let otp = self()
+        otp.updateWithToken(keychainItem.token)
         otp.keychainItem = keychainItem
         return otp
     }
