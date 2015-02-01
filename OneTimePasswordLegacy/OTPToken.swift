@@ -9,6 +9,17 @@
 import OneTimePassword
 
 public class OTPToken: NSObject {
+    public var name: String = ""
+    public var issuer: String = ""
+    public var type: OTPTokenType  = .Timer
+    public var secret: NSData = NSData()
+    public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm()
+    public var digits: UInt = OTPToken.defaultDigits()
+    public var period: NSTimeInterval = OTPToken.defaultPeriod()
+    public var counter: UInt64 = OTPToken.defaultInitialCounter()
+
+    required public override init() {}
+
     var token: Token? {
         return tokenForOTPToken(self)
     }
@@ -37,17 +48,6 @@ public class OTPToken: NSObject {
         }
     }
 
-    required override public init() {
-        name = ""
-        issuer = ""
-        secret = NSData()
-        type = .Timer
-        period = OTPToken.defaultPeriod()
-        counter = OTPToken.defaultInitialCounter()
-        algorithm = OTPToken.defaultAlgorithm()
-        digits = OTPToken.defaultDigits()
-    }
-
     class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer:NSString) -> Self {
         let token = self()
         token.type = type
@@ -56,15 +56,6 @@ public class OTPToken: NSObject {
         token.issuer = issuer
         return token
     }
-
-    public var name: String
-    public var issuer: String
-    public var type: OTPTokenType
-    public var secret: NSData
-    public var algorithm: OTPAlgorithm
-    public var digits: UInt
-    public var period: NSTimeInterval
-    public var counter: UInt64
 
     public class func defaultAlgorithm() -> OTPAlgorithm {
         return .SHA1
