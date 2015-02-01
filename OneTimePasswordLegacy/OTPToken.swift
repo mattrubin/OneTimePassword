@@ -14,37 +14,26 @@ public class OTPToken: NSObject {
     }
     var keychainItem: Token.KeychainItem?
 
-    required public init(token: Token?) {
-        self.name = token?.name ?? ""
-        self.issuer = token?.issuer ?? ""
+    required public convenience init(token: Token) {
+        self.init()
+        updateWithToken(token)
+    }
 
-        self.secret = token?.core.secret ?? NSData()
-        if let algorithm = token?.core.algorithm {
-            self.algorithm = otpAlgorithm(algorithm)
-        } else {
-            self.algorithm = OTPToken.defaultAlgorithm()
-        }
+    private func updateWithToken(token: Token) {
+        self.name = token.name
+        self.issuer = token.issuer
 
+        self.secret = token.core.secret
+        self.algorithm = otpAlgorithm(token.core.algorithm)
+        self.digits = UInt(token.core.digits)
 
-        if let digits = token?.core.digits {
-            self.digits = UInt(digits)
-        } else {
-            self.digits = OTPToken.defaultDigits()
-        }
-
-        switch token?.core.factor {
-        case let .Some(.Counter(counter)):
+        switch token.core.factor {
+        case let .Counter(counter):
             self.type = .Counter
-            self.period = OTPToken.defaultPeriod()
             self.counter = counter
-        case let .Some(.Timer(period)):
+        case let .Timer(period):
             self.type = .Timer
             self.period = period
-            self.counter = OTPToken.defaultInitialCounter()
-        default:
-            self.type = .Timer
-            self.period = OTPToken.defaultPeriod()
-            self.counter = OTPToken.defaultInitialCounter()
         }
     }
 
