@@ -148,6 +148,7 @@
 		746E7166AD60449882DD84C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C944A55E1A7EDAE200E08B1E /* Base32.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -164,7 +165,6 @@
 		C97C822E1946E51D00FD9F4C = {
 			isa = PBXGroup;
 			children = (
-				C944A55E1A7EDAE200E08B1E /* Base32.framework */,
 				C97C823A1946E51D00FD9F4C /* OneTimePassword */,
 				C97C82471946E51D00FD9F4C /* OneTimePasswordTests */,
 				C9A486AA196F352E00524F51 /* OneTimePasswordLegacy */,
