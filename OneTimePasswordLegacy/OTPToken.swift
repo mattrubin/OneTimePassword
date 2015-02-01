@@ -9,11 +9,12 @@
 import OneTimePassword
 
 public class OTPToken: NSObject {
-    var token: Token?
+    var token: Token? {
+        return tokenForOTPToken(self)
+    }
     var keychainItem: Token.KeychainItem?
 
     required public init(token: Token?) {
-        self.token = token
         self.name = token?.name ?? ""
         self.issuer = token?.issuer ?? ""
 
@@ -67,53 +68,14 @@ public class OTPToken: NSObject {
         return token
     }
 
-    public var name: String {
-        didSet {
-            token = tokenForOTPToken(self)
-        }
-    }
-
-    public var issuer: String {
-        didSet {
-            token = tokenForOTPToken(self)
-        }
-    }
-
-    public var type: OTPTokenType {
-        didSet {
-            token = tokenForOTPToken(self)
-        }
-    }
-
-    public var secret: NSData {
-        didSet {
-            token = tokenForOTPToken(self)
-        }
-    }
-
-    public var algorithm: OTPAlgorithm {
-        didSet {
-            token = tokenForOTPToken(self)
-        }
-    }
-
-    public var digits: UInt {
-        didSet {
-            token = tokenForOTPToken(self)
-        }
-    }
-
-    public var period: NSTimeInterval {
-        didSet {
-            token = tokenForOTPToken(self)
-        }
-    }
-
-    public var counter: UInt64 {
-        didSet {
-            token = tokenForOTPToken(self)
-        }
-    }
+    public var name: String
+    public var issuer: String
+    public var type: OTPTokenType
+    public var secret: NSData
+    public var algorithm: OTPAlgorithm
+    public var digits: UInt
+    public var period: NSTimeInterval
+    public var counter: UInt64
 
     public class func defaultAlgorithm() -> OTPAlgorithm {
         return .SHA1
@@ -140,7 +102,14 @@ public extension OTPToken {
 
     func updatePassword() {
         if let token = token {
-            self.token = updatedToken(token)
+            if let newToken = updatedToken(token) {
+                switch newToken.core.factor {
+                case let .Counter(counter):
+                    self.counter = counter
+                default:
+                    break
+                }
+            }
         }
     }
 
