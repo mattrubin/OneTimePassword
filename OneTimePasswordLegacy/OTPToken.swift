@@ -73,158 +73,49 @@ public class OTPToken: NSObject {
 
     public var name: String {
         didSet {
-            if let token = token {
-                self.token = Token(name: name, issuer: token.issuer, core: token.core)
-            }
+            token = tokenForOTPToken(self)
         }
     }
 
     public var issuer: String {
         didSet {
-            if let token = token {
-                self.token = Token(name: token.name, issuer: issuer, core: token.core)
-            }
+            token = tokenForOTPToken(self)
         }
     }
 
     public var type: OTPTokenType {
         didSet {
-            switch type {
-            case .Counter:
-                if let token = token {
-                    if let generator = Generator(
-                        factor: .Counter(counter),
-                        secret: token.core.secret,
-                        algorithm: token.core.algorithm,
-                        digits: token.core.digits
-                        ) {
-                            self.token = Token(
-                                name: token.name,
-                                issuer: token.issuer,
-                                core: generator
-                            )
-                    }
-                }
-            case .Timer:
-                if let token = token {
-                    if let generator = Generator(
-                        factor: .Timer(period: period),
-                        secret: token.core.secret,
-                        algorithm: token.core.algorithm,
-                        digits: token.core.digits
-                        ) {
-                            self.token = Token(
-                                name: token.name,
-                                issuer: token.issuer,
-                                core: generator
-                            )
-                    }
-                }
-            }
+            token = tokenForOTPToken(self)
         }
     }
 
     public var secret: NSData {
         didSet {
-            if let token = token {
-                if let generator = Generator(
-                    factor: token.core.factor,
-                    secret: secret,
-                    algorithm: token.core.algorithm,
-                    digits: token.core.digits
-                    ) {
-                        self.token = Token(
-                            name: token.name,
-                            issuer: token.issuer,
-                            core: generator
-                        )
-                }
-            }
+            token = tokenForOTPToken(self)
         }
     }
 
     public var algorithm: OTPAlgorithm {
         didSet {
-            let newAlgorithm = generatorAlgorithm(algorithm)
-            if let token = token {
-                if let generator = Generator(
-                    factor: token.core.factor,
-                    secret: token.core.secret,
-                    algorithm: newAlgorithm,
-                    digits: token.core.digits
-                    ) {
-                        self.token = Token(
-                            name: token.name,
-                            issuer: token.issuer,
-                            core: generator
-                        )
-                }
-            }
+            token = tokenForOTPToken(self)
         }
     }
 
     public var digits: UInt {
         didSet {
-            if let token = token {
-                if let generator = Generator(
-                    factor: token.core.factor,
-                    secret: token.core.secret,
-                    algorithm: token.core.algorithm,
-                    digits: Int(digits)
-                    ) {
-                        self.token = Token(
-                            name: token.name,
-                            issuer: token.issuer,
-                            core: generator
-                        )
-                }
-            }
+            token = tokenForOTPToken(self)
         }
     }
 
     public var period: NSTimeInterval {
         didSet {
-            if let token = token {
-                switch token.core.factor {
-                case .Timer:
-                    if let generator = Generator(
-                        factor: .Timer(period: period),
-                        secret: token.core.secret,
-                        algorithm: token.core.algorithm,
-                        digits: token.core.digits
-                        ) {
-                            self.token = Token(
-                                name: token.name,
-                                issuer: token.issuer,
-                                core: generator
-                            )
-                    }
-                default: break
-                }
-            }
+            token = tokenForOTPToken(self)
         }
     }
 
     public var counter: UInt64 {
         didSet {
-            if let token = token {
-                switch token.core.factor {
-                case .Counter:
-                    if let generator = Generator(
-                        factor: .Counter(counter),
-                        secret: token.core.secret,
-                        algorithm: token.core.algorithm,
-                        digits: token.core.digits
-                        ) {
-                            self.token = Token(
-                                name: token.name,
-                                issuer: token.issuer,
-                                core: generator
-                            )
-                    }
-                default: break
-                }
-            }
+            token = tokenForOTPToken(self)
         }
     }
 
@@ -367,4 +258,30 @@ private func otpAlgorithm(generatorAlgorithm: Generator.Algorithm) -> OTPAlgorit
     case .SHA256: return .SHA256
     case .SHA512: return .SHA512
     }
+}
+
+private func factorForOTPToken(token: OTPToken) -> Generator.Factor {
+    switch token.type {
+    case .Counter:
+        return .Counter(token.counter)
+    case .Timer:
+        return .Timer(period: token.period)
+    }
+}
+
+private func tokenForOTPToken(token: OTPToken) -> Token? {
+    if let generator = Generator(
+        factor: factorForOTPToken(token),
+        secret: token.secret,
+        algorithm: generatorAlgorithm(token.algorithm),
+        digits: Int(token.digits)
+        )
+    {
+        return Token(
+            name: token.name,
+            issuer: token.issuer,
+            core: generator
+        )
+    }
+    return nil
 }
