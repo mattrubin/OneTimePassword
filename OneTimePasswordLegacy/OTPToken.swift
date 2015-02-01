@@ -20,10 +20,21 @@ public class OTPToken: NSObject {
 
     required public override init() {}
 
+    class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer: NSString) -> Self {
+        let token = self()
+        token.type = type
+        token.secret = secret
+        token.name = name
+        token.issuer = issuer
+        return token
+    }
+
+
+    private var keychainItem: Token.KeychainItem?
+
     var token: Token? {
         return tokenForOTPToken(self)
     }
-    var keychainItem: Token.KeychainItem?
 
     private func updateWithToken(token: Token) {
         self.name = token.name
@@ -43,14 +54,6 @@ public class OTPToken: NSObject {
         }
     }
 
-    class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer:NSString) -> Self {
-        let token = self()
-        token.type = type
-        token.secret = secret
-        token.name = name
-        token.issuer = issuer
-        return token
-    }
 
     public class func defaultAlgorithm() -> OTPAlgorithm {
         return .SHA1
@@ -64,6 +67,7 @@ public class OTPToken: NSObject {
     public class func defaultPeriod() -> NSTimeInterval {
         return 30
     }
+
 
     public func validate() -> Bool {
         return (token != nil)
