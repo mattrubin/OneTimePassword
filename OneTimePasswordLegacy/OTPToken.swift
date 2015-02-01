@@ -92,12 +92,7 @@ public extension OTPToken {
     func updatePassword() {
         if let token = token {
             if let newToken = updatedToken(token) {
-                switch newToken.core.factor {
-                case let .Counter(counter):
-                    self.counter = counter
-                default:
-                    break
-                }
+                updateWithToken(newToken)
             }
         }
     }
