@@ -1,6 +1,0 @@
-framework module Base32 {
-  umbrella header "Base32.h"
-
-  export *
-  module * { export * }
-}

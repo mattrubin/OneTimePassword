@@ -4,4 +4,7 @@
    <FileRef
       location = "group:OneTimePassword.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Carthage/Checkouts/Base32/Base32.xcodeproj">
+   </FileRef>
 </Workspace>
