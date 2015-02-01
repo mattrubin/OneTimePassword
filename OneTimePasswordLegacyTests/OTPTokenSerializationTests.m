@@ -64,8 +64,8 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     secretStrings = @[@"12345678901234567890", @"12345678901234567890123456789012",
                       @"1234567890123456789012345678901234567890123456789012345678901234", @""];
     algorithmNumbers = @[@(OTPAlgorithmSHA1), @(OTPAlgorithmSHA256), @(OTPAlgorithmSHA512)];
-    digitNumbers = @[@6, @7, @8];
-    periodNumbers = @[@1, @([OTPToken defaultPeriod]), kRandomKey];
+    digitNumbers = @[@0, @6, @8];
+    periodNumbers = @[@0, @1, @([OTPToken defaultPeriod]), kRandomKey];
     counterNumbers = @[@0, @1, @([OTPToken defaultInitialCounter]), kRandomKey];
 }
 
@@ -238,6 +238,11 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
                                     // Serialize
                                     NSURL *url = token.url;
+
+                                    if (![token validate]) {
+                                        XCTAssertNil(url);
+                                        continue;
+                                    }
 
                                     // Test scheme
                                     XCTAssertEqualObjects(url.scheme, kOTPScheme,
