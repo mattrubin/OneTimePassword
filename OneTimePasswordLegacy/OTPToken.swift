@@ -31,7 +31,6 @@ public class OTPToken: NSObject {
             self.digits = OTPToken.defaultDigits()
         }
 
-
         switch token?.core.factor {
         case let .Some(.Counter(counter)):
             self.type = .Counter
@@ -48,27 +47,24 @@ public class OTPToken: NSObject {
         }
     }
 
-    convenience override init() {
-        // Stub an invalid token, to be replaced with a modified token via the setters
-        if let generator = Generator(factor: .Timer(period: 30), secret: NSData()) {
-            self.init(token: Token(core: generator))
-        } else {
-            self.init(token: nil)
-        }
+    required override public init() {
+        name = ""
+        issuer = ""
+        secret = NSData()
+        type = .Timer
+        period = OTPToken.defaultPeriod()
+        counter = OTPToken.defaultInitialCounter()
+        algorithm = OTPToken.defaultAlgorithm()
+        digits = OTPToken.defaultDigits()
     }
 
     class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer:NSString) -> Self {
-        switch type {
-        case .Counter:
-            if let generator = Generator(factor: .Counter(0), secret: secret) {
-                return self(token: Token(name: name, issuer: issuer, core: generator))
-            }
-        case .Timer:
-            if let generator = Generator(factor: .Timer(period: 30), secret: secret) {
-                return self(token: Token(name: name, issuer: issuer, core: generator))
-            }
-        }
-        return self(token: nil)
+        let token = self()
+        token.type = type
+        token.secret = secret
+        token.name = name
+        token.issuer = issuer
+        return token
     }
 
     public var name: String {
