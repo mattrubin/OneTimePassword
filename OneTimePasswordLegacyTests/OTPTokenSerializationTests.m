@@ -239,6 +239,11 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     // Serialize
                                     NSURL *url = token.url;
 
+                                    if (![token validate]) {
+                                        XCTAssertNil(url);
+                                        continue;
+                                    }
+
                                     // Test scheme
                                     XCTAssertEqualObjects(url.scheme, kOTPScheme,
                                                           @"The url scheme should be \"%@\"", kOTPScheme);
