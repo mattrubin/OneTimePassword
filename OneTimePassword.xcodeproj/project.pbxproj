@@ -605,7 +605,7 @@
 				INFOPLIST_FILE = OneTimePassword/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "OneTimePassword/Legacy/OneTimePassword-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "OneTimePassword/OneTimePassword-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -619,7 +619,7 @@
 				INFOPLIST_FILE = OneTimePassword/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "OneTimePassword/Legacy/OneTimePassword-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "OneTimePassword/OneTimePassword-Bridging-Header.h";
 			};
 			name = Release;
 		};
