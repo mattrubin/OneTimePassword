@@ -97,17 +97,10 @@ public extension OTPToken {
 
 public extension OTPToken {
     class func tokenWithURL(url: NSURL) -> Self? {
-        if let urlString = url.absoluteString {
-            if let token = Token.URLSerializer.deserialize(urlString) {
-                let otp = self()
-                otp.updateWithToken(token)
-                return otp
-            }
-        }
-        return nil
+        return tokenWithURL(url, secret: nil)
     }
 
-    class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> Self? {
+    class func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
         if let urlString = url.absoluteString {
             if let token = Token.URLSerializer.deserialize(urlString, secret: secret) {
                 let otp = self()
