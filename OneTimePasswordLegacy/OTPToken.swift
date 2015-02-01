@@ -25,11 +25,6 @@ public class OTPToken: NSObject {
     }
     var keychainItem: Token.KeychainItem?
 
-    required public convenience init(token: Token) {
-        self.init()
-        updateWithToken(token)
-    }
-
     private func updateWithToken(token: Token) {
         self.name = token.name
         self.issuer = token.issuer
@@ -100,7 +95,9 @@ public extension OTPToken {
     class func tokenWithURL(url: NSURL) -> Self? {
         if let urlString = url.absoluteString {
             if let token = Token.URLSerializer.deserialize(urlString) {
-                return self(token: token)
+                let otp = self()
+                otp.updateWithToken(token)
+                return otp
             }
         }
         return nil
@@ -109,7 +106,9 @@ public extension OTPToken {
     class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> Self? {
         if let urlString = url.absoluteString {
             if let token = Token.URLSerializer.deserialize(urlString, secret: secret) {
-                return self(token: token)
+                let otp = self()
+                otp.updateWithToken(token)
+                return otp
             }
         }
         return nil
@@ -163,7 +162,8 @@ public extension OTPToken {
     }
 
     class func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
-        let otp = self(token: keychainItem.token)
+        let otp = self()
+        otp.updateWithToken(keychainItem.token)
         otp.keychainItem = keychainItem
         return otp
     }
