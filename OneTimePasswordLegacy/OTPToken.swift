@@ -20,7 +20,7 @@ public class OTPToken: NSObject {
 
     required public override init() {}
 
-    class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer: NSString) -> Self {
+    public class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer: NSString) -> Self {
         let token = self()
         token.type = type
         token.secret = secret
@@ -87,6 +87,7 @@ public extension OTPToken {
         }
     }
 
+    // This should be private, but is public for testing purposes
     func generatePasswordForCounter(counter: UInt64) -> String? {
         if let token = token {
             return generatePassword(token.core.algorithm, token.core.digits, token.core.secret, counter)
@@ -97,17 +98,10 @@ public extension OTPToken {
 
 public extension OTPToken {
     class func tokenWithURL(url: NSURL) -> Self? {
-        if let urlString = url.absoluteString {
-            if let token = Token.URLSerializer.deserialize(urlString) {
-                let otp = self()
-                otp.updateWithToken(token)
-                return otp
-            }
-        }
-        return nil
+        return tokenWithURL(url, secret: nil)
     }
 
-    class func tokenWithURL(url: NSURL, secret: NSData? = nil) -> Self? {
+    class func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
         if let urlString = url.absoluteString {
             if let token = Token.URLSerializer.deserialize(urlString, secret: secret) {
                 let otp = self()
@@ -165,6 +159,7 @@ public extension OTPToken {
         return Token.KeychainItem.allKeychainItems().map(self.tokenWithKeychainItem)
     }
 
+    // This should be private, but is public for testing purposes
     class func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
         let otp = self()
         otp.updateWithToken(keychainItem.token)
@@ -179,6 +174,7 @@ public extension OTPToken {
         return nil
     }
 
+    // This should be private, but is public for testing purposes
     class func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
         if let keychainItem = Token.KeychainItem.keychainItemWithDictionary(keychainDictionary) {
             return self.tokenWithKeychainItem(keychainItem)
