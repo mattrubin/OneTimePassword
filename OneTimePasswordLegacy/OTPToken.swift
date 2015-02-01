@@ -87,6 +87,7 @@ public extension OTPToken {
         }
     }
 
+    // This should be private, but is public for testing purposes
     func generatePasswordForCounter(counter: UInt64) -> String? {
         if let token = token {
             return generatePassword(token.core.algorithm, token.core.digits, token.core.secret, counter)
@@ -158,6 +159,7 @@ public extension OTPToken {
         return Token.KeychainItem.allKeychainItems().map(self.tokenWithKeychainItem)
     }
 
+    // This should be private, but is public for testing purposes
     class func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
         let otp = self()
         otp.updateWithToken(keychainItem.token)
@@ -172,6 +174,7 @@ public extension OTPToken {
         return nil
     }
 
+    // This should be private, but is public for testing purposes
     class func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
         if let keychainItem = Token.KeychainItem.keychainItemWithDictionary(keychainDictionary) {
             return self.tokenWithKeychainItem(keychainItem)
