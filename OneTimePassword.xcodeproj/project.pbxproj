@@ -145,6 +145,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		746E7166AD60449882DD84C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C9307A8619A8522F00609B02 /* Serializers */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +169,7 @@
 				C97C82471946E51D00FD9F4C /* OneTimePasswordTests */,
 				C9A486AA196F352E00524F51 /* OneTimePasswordLegacy */,
 				C9A486B7196F352F00524F51 /* OneTimePasswordLegacyTests */,
+				746E7166AD60449882DD84C7 /* Frameworks */,
 				C996EC281A74D5830076B105 /* xcconfigs */,
 				C97C82391946E51D00FD9F4C /* Products */,
 			);
