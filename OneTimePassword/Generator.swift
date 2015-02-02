@@ -88,7 +88,7 @@ public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
 public extension Generator {
     /**
     Calculates the current password based on the generator's configuration. The password generated
-    will be constant for a counter-based generator, but for a timer-based generator the password
+    will be consistent for a counter-based generator, but for a timer-based generator the password
     will depend on the current time when this method is called.
 
     Note: Calling this method does *not* increment the counter of a counter-based generator.
