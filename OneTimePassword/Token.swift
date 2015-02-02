@@ -8,11 +8,27 @@
 
 import Foundation
 
+/// A `Token` contains a password generator and information identifying the corresponding account.
 public struct Token: Equatable {
+
+    /// A string indicating the account represented by the token. This is often an email address or username.
     public let name: String
+
+    /// A string indicating the provider or service which issued the token.
     public let issuer: String
+
+    /// A password generator containing this token's secret, algorithm, etc.
     public let core: Generator
 
+    /**
+    Initializes a new token with the given parameters.
+
+    :param: name        The user name for the token (defaults to "")
+    :param: issure      The entity which issued the token (defaults to "")
+    :param: core        The password generator
+
+    :returns: A new token with the given parameters.
+    */
     public init(name: String = defaultName, issuer: String = defaultIssuer, core: Generator) {
         self.name = name
         self.issuer = issuer
@@ -29,6 +45,10 @@ public func ==(lhs: Token, rhs: Token) -> Bool {
         && (lhs.core == rhs.core)
 }
 
+/**
+:param: token   The current token
+:returns: A new token, configured to generate the next password.
+*/
 public func updatedToken(token: Token) -> Token? {
     switch token.core.factor {
     case .Counter(let counter):
