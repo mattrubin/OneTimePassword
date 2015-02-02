@@ -56,10 +56,10 @@ public class OTPToken: NSObject {
 
 
     public class func defaultAlgorithm() -> OTPAlgorithm {
-        return .SHA1
+        return otpAlgorithm(Generator.defaultAlgorithm)
     }
     public class func defaultDigits() -> UInt {
-        return 6
+        return UInt(Generator.defaultDigits)
     }
     public class func defaultInitialCounter() -> UInt64 {
         return 0
