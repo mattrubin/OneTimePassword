@@ -120,18 +120,18 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
 
     if let factor = parse(url.host, with: factorParser, defaultTo: nil) {
         if let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, overrideWith: externalSecret) {
-            if let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: .SHA1) {
-                if let digits = parse(queryDictionary[kQueryDigitsKey], with: { $0.toInt() }, defaultTo: 6) {
+            if let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: Generator.defaultAlgorithm) {
+                if let digits = parse(queryDictionary[kQueryDigitsKey], with: { $0.toInt() }, defaultTo: Generator.defaultDigits) {
                     if let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) {
 
-                        var name = ""
+                        var name = Token.defaultName
                         if let path = url.path {
                             if countElements(path) > 1 {
                                 name = path.substringFromIndex(path.startIndex.successor()) // Skip the leading "/"
                             }
                         }
 
-                        var issuer = ""
+                        var issuer = Token.defaultIssuer
                         if let issuerString = queryDictionary[kQueryIssuerKey] {
                             issuer = issuerString
                         } else {

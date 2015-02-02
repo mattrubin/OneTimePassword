@@ -13,11 +13,14 @@ public struct Token: Equatable {
     public let issuer: String
     public let core: Generator
 
-    public init(name: String = "", issuer: String = "", core: Generator) {
+    public init(name: String = defaultName, issuer: String = defaultIssuer, core: Generator) {
         self.name = name
         self.issuer = issuer
         self.core = core
     }
+
+    public static let defaultName: String = ""
+    public static let defaultIssuer: String = ""
 }
 
 public func ==(lhs: Token, rhs: Token) -> Bool {
