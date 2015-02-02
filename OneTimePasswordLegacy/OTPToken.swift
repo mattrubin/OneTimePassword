@@ -9,8 +9,8 @@
 import OneTimePassword
 
 public class OTPToken: NSObject {
-    public var name: String = ""
-    public var issuer: String = ""
+    public var name: String = Token.defaultName
+    public var issuer: String = Token.defaultIssuer
     public var type: OTPTokenType  = .Timer
     public var secret: NSData = NSData()
     public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm()

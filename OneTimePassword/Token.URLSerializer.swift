@@ -124,14 +124,14 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
                 if let digits = parse(queryDictionary[kQueryDigitsKey], with: { $0.toInt() }, defaultTo: Generator.defaultDigits) {
                     if let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) {
 
-                        var name = ""
+                        var name = Token.defaultName
                         if let path = url.path {
                             if countElements(path) > 1 {
                                 name = path.substringFromIndex(path.startIndex.successor()) // Skip the leading "/"
                             }
                         }
 
-                        var issuer = ""
+                        var issuer = Token.defaultIssuer
                         if let issuerString = queryDictionary[kQueryIssuerKey] {
                             issuer = issuerString
                         } else {
