@@ -38,23 +38,4 @@
     XCTAssertEqual(token.counter, 0UL);
 }
 
-- (void)testConvenienceInit
-{
-    OTPTokenType type = OTPTokenTypeCounter;
-    NSData *secret = [@"!" dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *name = @"Name";
-    NSString *issuer = @"Issuer";
-
-    OTPToken *token = [[OTPToken alloc] initWithType:type secret:secret name:name issuer:issuer];
-
-    XCTAssertEqualObjects(token.name, name);
-    XCTAssertEqualObjects(token.issuer, issuer);
-    XCTAssertEqual(token.type, type);
-    XCTAssertEqualObjects(token.secret, secret);
-    XCTAssertEqual(token.algorithm, OTPAlgorithmSHA1);
-    XCTAssertEqual(token.digits, 6U);
-    XCTAssertEqual(token.period, 30);
-    XCTAssertEqual(token.counter, 0UL);
-}
-
 @end
