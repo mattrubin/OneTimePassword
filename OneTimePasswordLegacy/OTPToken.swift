@@ -13,21 +13,12 @@ public class OTPToken: NSObject {
     public var issuer: String = Token.defaultIssuer
     public var type: OTPTokenType  = .Timer
     public var secret: NSData = NSData()
-    public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm()
-    public var digits: UInt = OTPToken.defaultDigits()
-    public var period: NSTimeInterval = OTPToken.defaultPeriod()
-    public var counter: UInt64 = OTPToken.defaultInitialCounter()
+    public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm
+    public var digits: UInt = OTPToken.defaultDigits
+    public var period: NSTimeInterval = OTPToken.defaultPeriod
+    public var counter: UInt64 = OTPToken.defaultInitialCounter
 
     required public override init() {}
-
-    public class func tokenWithType(type: OTPTokenType, secret: NSData, name: NSString, issuer: NSString) -> Self {
-        let token = self()
-        token.type = type
-        token.secret = secret
-        token.name = name
-        token.issuer = issuer
-        return token
-    }
 
 
     private var keychainItem: Token.KeychainItem?
@@ -55,16 +46,16 @@ public class OTPToken: NSObject {
     }
 
 
-    public class func defaultAlgorithm() -> OTPAlgorithm {
+    public class var defaultAlgorithm: OTPAlgorithm {
         return otpAlgorithm(Generator.defaultAlgorithm)
     }
-    public class func defaultDigits() -> UInt {
+    public class var defaultDigits: UInt {
         return UInt(Generator.defaultDigits)
     }
-    public class func defaultInitialCounter() -> UInt64 {
+    public class var defaultInitialCounter: UInt64 {
         return 0
     }
-    public class func defaultPeriod() -> NSTimeInterval {
+    public class var defaultPeriod: NSTimeInterval {
         return 30
     }
 
