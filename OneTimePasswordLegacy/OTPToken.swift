@@ -20,7 +20,7 @@ public class OTPToken: NSObject {
 
     required public override init() {}
 
-    init(type: OTPTokenType, secret: NSData, name: NSString, issuer: NSString) {
+    public init(type: OTPTokenType, secret: NSData, name: NSString, issuer: NSString) {
         self.type = type
         self.secret = secret
         self.name = name
