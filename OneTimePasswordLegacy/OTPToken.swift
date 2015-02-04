@@ -8,6 +8,11 @@
 
 import OneTimePassword
 
+/**
+`OTPToken` is a mutable, Objective-C-compatible wrapper around `OneTimePassword.Token`. For more
+information about its properties and methods, consult the underlying `OneTimePassword`
+documentation.
+*/
 public class OTPToken: NSObject {
     required public override init() {}
 
