@@ -8,11 +8,14 @@
 
 import OneTimePassword
 
-internal func otpAlgorithm(generatorAlgorithm: Generator.Algorithm) -> OTPAlgorithm {
-    switch generatorAlgorithm {
-    case .SHA1:   return .SHA1
-    case .SHA256: return .SHA256
-    case .SHA512: return .SHA512
+
+internal extension OTPAlgorithm {
+    init(_ generatorAlgorithm: Generator.Algorithm) {
+        switch generatorAlgorithm {
+        case .SHA1:   self = .SHA1
+        case .SHA256: self = .SHA256
+        case .SHA512: self = .SHA512
+        }
     }
 }
 
