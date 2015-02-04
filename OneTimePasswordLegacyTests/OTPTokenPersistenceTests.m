@@ -206,6 +206,20 @@ static NSURL *kValidTokenURL;
     XCTAssertNotNil([self _tokenFromArray:tokens withKeychainItemRef:token1.keychainItemRef], @"Token not recovered from keychain: %@", token1);
     XCTAssertNotNil([self _tokenFromArray:tokens withKeychainItemRef:token2.keychainItemRef], @"Token not recovered from keychain: %@", token2);
     XCTAssertNotNil([self _tokenFromArray:tokens withKeychainItemRef:token3.keychainItemRef], @"Token not recovered from keychain: %@", token3);
+
+    NSData *keychainRef1 = token1.keychainItemRef;
+    NSData *keychainRef2 = token2.keychainItemRef;
+    NSData *keychainRef3 = token3.keychainItemRef;
+
+    [token1 removeFromKeychain];
+    [token2 removeFromKeychain];
+    [token3 removeFromKeychain];
+
+    NSArray *tokensRemaining = [OTPToken allTokensInKeychain];
+
+    XCTAssertNil([self _tokenFromArray:tokensRemaining withKeychainItemRef:keychainRef1], @"Token not removed from keychain: %@", token1);
+    XCTAssertNil([self _tokenFromArray:tokensRemaining withKeychainItemRef:keychainRef2], @"Token not removed from keychain: %@", token2);
+    XCTAssertNil([self _tokenFromArray:tokensRemaining withKeychainItemRef:keychainRef3], @"Token not removed from keychain: %@", token3);
 }
 
 @end
