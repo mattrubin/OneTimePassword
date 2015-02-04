@@ -8,22 +8,44 @@
 
 import OneTimePassword
 
+/**
+`OTPToken` is a mutable, Objective-C-compatible wrapper around `OneTimePassword.Token`. For more
+information about its properties and methods, consult the underlying `OneTimePassword`
+documentation.
+*/
 public class OTPToken: NSObject {
+    required public override init() {}
+
     public var name: String = Token.defaultName
     public var issuer: String = Token.defaultIssuer
-    public var type: OTPTokenType  = .Timer
+    public var type: OTPTokenType = .Timer
     public var secret: NSData = NSData()
     public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm
     public var digits: UInt = OTPToken.defaultDigits
     public var period: NSTimeInterval = OTPToken.defaultPeriod
     public var counter: UInt64 = OTPToken.defaultInitialCounter
 
-    required public override init() {}
-
-
     private var keychainItem: Token.KeychainItem?
 
-    var token: Token? {
+
+    public class var defaultAlgorithm: OTPAlgorithm {
+        return OTPAlgorithm(Generator.defaultAlgorithm)
+    }
+
+    public class var defaultDigits: UInt {
+        return UInt(Generator.defaultDigits)
+    }
+
+    public class var defaultInitialCounter: UInt64 {
+        return 0
+    }
+
+    public class var defaultPeriod: NSTimeInterval {
+        return 30
+    }
+
+
+    private var token: Token? {
         return tokenForOTPToken(self)
     }
 
@@ -32,7 +54,7 @@ public class OTPToken: NSObject {
         self.issuer = token.issuer
 
         self.secret = token.core.secret
-        self.algorithm = otpAlgorithm(token.core.algorithm)
+        self.algorithm = OTPAlgorithm(token.core.algorithm)
         self.digits = UInt(token.core.digits)
 
         switch token.core.factor {
@@ -44,21 +66,6 @@ public class OTPToken: NSObject {
             self.period = period
         }
     }
-
-
-    public class var defaultAlgorithm: OTPAlgorithm {
-        return otpAlgorithm(Generator.defaultAlgorithm)
-    }
-    public class var defaultDigits: UInt {
-        return UInt(Generator.defaultDigits)
-    }
-    public class var defaultInitialCounter: UInt64 {
-        return 0
-    }
-    public class var defaultPeriod: NSTimeInterval {
-        return 30
-    }
-
 
     public func validate() -> Bool {
         return (token != nil)
@@ -172,47 +179,4 @@ public extension OTPToken {
         }
         return nil
     }
-}
-
-
-private func generatorAlgorithm(otpAlgorithm: OTPAlgorithm) -> Generator.Algorithm {
-    switch otpAlgorithm {
-    case .SHA1:   return .SHA1
-    case .SHA256: return .SHA256
-    case .SHA512: return .SHA512
-    }
-}
-
-private func otpAlgorithm(generatorAlgorithm: Generator.Algorithm) -> OTPAlgorithm {
-    switch generatorAlgorithm {
-    case .SHA1:   return .SHA1
-    case .SHA256: return .SHA256
-    case .SHA512: return .SHA512
-    }
-}
-
-private func factorForOTPToken(token: OTPToken) -> Generator.Factor {
-    switch token.type {
-    case .Counter:
-        return .Counter(token.counter)
-    case .Timer:
-        return .Timer(period: token.period)
-    }
-}
-
-private func tokenForOTPToken(token: OTPToken) -> Token? {
-    if let generator = Generator(
-        factor: factorForOTPToken(token),
-        secret: token.secret,
-        algorithm: generatorAlgorithm(token.algorithm),
-        digits: Int(token.digits)
-        )
-    {
-        return Token(
-            name: token.name,
-            issuer: token.issuer,
-            core: generator
-        )
-    }
-    return nil
 }
