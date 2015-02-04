@@ -8,14 +8,6 @@
 
 import OneTimePassword
 
-internal func generatorAlgorithm(otpAlgorithm: OTPAlgorithm) -> Generator.Algorithm {
-    switch otpAlgorithm {
-    case .SHA1:   return .SHA1
-    case .SHA256: return .SHA256
-    case .SHA512: return .SHA512
-    }
-}
-
 internal func otpAlgorithm(generatorAlgorithm: Generator.Algorithm) -> OTPAlgorithm {
     switch generatorAlgorithm {
     case .SHA1:   return .SHA1
@@ -24,7 +16,24 @@ internal func otpAlgorithm(generatorAlgorithm: Generator.Algorithm) -> OTPAlgori
     }
 }
 
-internal func factorForOTPToken(token: OTPToken) -> Generator.Factor {
+
+internal func tokenForOTPToken(token: OTPToken) -> Token? {
+    if let generator = generatorForOTPToken(token) {
+        return Token(name: token.name, issuer: token.issuer, core: generator)
+    }
+    return nil
+}
+
+private func generatorForOTPToken(token: OTPToken) -> Generator? {
+    return Generator(
+        factor: factorForOTPToken(token),
+        secret: token.secret,
+        algorithm: algorithmForOTPAlgorithm(token.algorithm),
+        digits: Int(token.digits)
+    )
+}
+
+private func factorForOTPToken(token: OTPToken) -> Generator.Factor {
     switch token.type {
     case .Counter:
         return .Counter(token.counter)
@@ -33,18 +42,10 @@ internal func factorForOTPToken(token: OTPToken) -> Generator.Factor {
     }
 }
 
-private func generatorForOTPToken(token: OTPToken) -> Generator? {
-    return Generator(
-        factor: factorForOTPToken(token),
-        secret: token.secret,
-        algorithm: generatorAlgorithm(token.algorithm),
-        digits: Int(token.digits)
-    )
-}
-
-internal func tokenForOTPToken(token: OTPToken) -> Token? {
-    if let generator = generatorForOTPToken(token) {
-        return Token(name: token.name, issuer: token.issuer, core: generator)
+private func algorithmForOTPAlgorithm(algorithm: OTPAlgorithm) -> Generator.Algorithm {
+    switch algorithm {
+    case .SHA1:   return .SHA1
+    case .SHA256: return .SHA256
+    case .SHA512: return .SHA512
     }
-    return nil
 }
