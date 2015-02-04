@@ -33,19 +33,18 @@ internal func factorForOTPToken(token: OTPToken) -> Generator.Factor {
     }
 }
 
-internal func tokenForOTPToken(token: OTPToken) -> Token? {
-    if let generator = Generator(
+private func generatorForOTPToken(token: OTPToken) -> Generator? {
+    return Generator(
         factor: factorForOTPToken(token),
         secret: token.secret,
         algorithm: generatorAlgorithm(token.algorithm),
         digits: Int(token.digits)
-        )
-    {
-        return Token(
-            name: token.name,
-            issuer: token.issuer,
-            core: generator
-        )
+    )
+}
+
+internal func tokenForOTPToken(token: OTPToken) -> Token? {
+    if let generator = generatorForOTPToken(token) {
+        return Token(name: token.name, issuer: token.issuer, core: generator)
     }
     return nil
 }
