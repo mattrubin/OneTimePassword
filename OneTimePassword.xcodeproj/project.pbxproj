@@ -27,6 +27,7 @@
 		C9A486CA196F38D100524F51 /* NSDictionary+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C9FE20196D175B00C7ACEE /* NSDictionary+QueryString.m */; };
 		C9A486CB196F38D500524F51 /* NSString+PercentEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C9FE1E196D175B00C7ACEE /* NSString+PercentEncoding.m */; };
 		C9A486CC196F4BD100524F51 /* OTPTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24FC196AF8E900F86892 /* OTPTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9A9B0981A81CE5D00F3C4DC /* Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A9B0971A81CE5D00F3C4DC /* Conversion.swift */; };
 		C9B2A19C199A7F1B00BC4A8A /* EquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */; };
 		C9DC7EC4196BD5DF00B50C82 /* Token.URLSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token.URLSerializer.swift */; };
 		C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Generator.swift */; };
@@ -99,6 +100,7 @@
 		C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneTimePasswordLegacy.h; sourceTree = "<group>"; };
 		C9A486B3196F352E00524F51 /* OneTimePasswordLegacyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordLegacyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A486B9196F352F00524F51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9A9B0971A81CE5D00F3C4DC /* Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversion.swift; sourceTree = "<group>"; };
 		C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EquatableTests.swift; sourceTree = "<group>"; };
 		C9C9FE1D196D175B00C7ACEE /* NSString+PercentEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PercentEncoding.h"; sourceTree = "<group>"; };
 		C9C9FE1E196D175B00C7ACEE /* NSString+PercentEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PercentEncoding.m"; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */,
 				C93A24FC196AF8E900F86892 /* OTPTypes.h */,
 				C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */,
+				C9A9B0971A81CE5D00F3C4DC /* Conversion.swift */,
 				C9A486AB196F352E00524F51 /* Supporting Files */,
 			);
 			path = OneTimePasswordLegacy;
@@ -530,6 +533,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9A486C4196F36E100524F51 /* OTPToken.swift in Sources */,
+				C9A9B0981A81CE5D00F3C4DC /* Conversion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
