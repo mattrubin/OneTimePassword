@@ -157,13 +157,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C9307A8619A8522F00609B02 /* Serializers */ = {
+		C9307A8619A8522F00609B02 /* Serialization */ = {
 			isa = PBXGroup;
 			children = (
 				C9307A8419A8515300609B02 /* TokenSerializer.swift */,
 				C9DC7EC3196BD5DF00B50C82 /* Token.URLSerializer.swift */,
 			);
-			name = Serializers;
+			name = Serialization;
 			sourceTree = "<group>";
 		};
 		C97C822E1946E51D00FD9F4C = {
@@ -193,12 +193,10 @@
 		C97C823A1946E51D00FD9F4C /* OneTimePassword */ = {
 			isa = PBXGroup;
 			children = (
-				C9DC7EC7196BDF3B00B50C82 /* Generator.swift */,
-				C94599CA19AB906300A77558 /* GeneratorFunctions.swift */,
 				C93A2519196B1BA400F86892 /* Token.swift */,
-				C9307A8619A8522F00609B02 /* Serializers */,
-				C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */,
-				C9003417196F7046009733E8 /* Keychain.swift */,
+				C9A9B0991A81EF3100F3C4DC /* Generation */,
+				C9307A8619A8522F00609B02 /* Serialization */,
+				C9A9B09A1A81EF4B00F3C4DC /* Persistence */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
 			);
 			path = OneTimePassword;
@@ -315,6 +313,24 @@
 				C9A486B9196F352F00524F51 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C9A9B0991A81EF3100F3C4DC /* Generation */ = {
+			isa = PBXGroup;
+			children = (
+				C9DC7EC7196BDF3B00B50C82 /* Generator.swift */,
+				C94599CA19AB906300A77558 /* GeneratorFunctions.swift */,
+			);
+			name = Generation;
+			sourceTree = "<group>";
+		};
+		C9A9B09A1A81EF4B00F3C4DC /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */,
+				C9003417196F7046009733E8 /* Keychain.swift */,
+			);
+			name = Persistence;
 			sourceTree = "<group>";
 		};
 		C9C9FE23196D176300C7ACEE /* Helpers */ = {
