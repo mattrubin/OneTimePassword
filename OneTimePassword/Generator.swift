@@ -45,15 +45,15 @@ public struct Generator: Equatable {
 
     /**
     A moving factor with which a generator produces different one-time passwords over time.
-    
+
     Counter:
-      Indicates a HOTP, with an associated 8-byte counter value for the moving factor. After
-      each use of the password generator, the counter should be incremented to stay in sync with
-      the server.
+        Indicates a HOTP, with an associated 8-byte counter value for the moving factor. After
+        each use of the password generator, the counter should be incremented to stay in sync with
+        the server.
     Timer:
-      Indicates a TOTP, with an associated time interval for calculating the time-based moving
-      factor. This period value remains constant, and is used as a divisor for the number of
-      seconds since the Unix epoch.
+        Indicates a TOTP, with an associated time interval for calculating the time-based moving
+        factor. This period value remains constant, and is used as a divisor for the number of
+        seconds since the Unix epoch.
     */
     public enum Factor: Equatable {
         case Counter(UInt64)
