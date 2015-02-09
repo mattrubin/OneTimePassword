@@ -126,7 +126,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
 
                         var name = Token.defaultName
                         if let path = url.path {
-                            if countElements(path) > 1 {
+                            if count(path) > 1 {
                                 name = path.substringFromIndex(path.startIndex.successor()) // Skip the leading "/"
                             }
                         }
@@ -143,7 +143,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
                         }
                         // If the name is prefixed by the issuer string, trim the name
                         if let prefixRange = name.rangeOfString(issuer) {
-                            if (prefixRange.startIndex == issuer.startIndex) && (countElements(issuer) < countElements(name)) && (name[prefixRange.endIndex] == ":") {
+                            if (prefixRange.startIndex == issuer.startIndex) && (count(issuer) < count(name)) && (name[prefixRange.endIndex] == ":") {
                                 name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                             }
                         }
