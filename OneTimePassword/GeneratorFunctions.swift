@@ -47,7 +47,7 @@ public func generatePassword(algorithm: Generator.Algorithm, digits: Int, secret
     // Generate an HMAC value from the key and counter
     let (hashAlgorithm, hashLength) = hashInfoForAlgorithm(algorithm)
     if let hash = NSMutableData(length: hashLength) {
-        CCHmac(hashAlgorithm, secret.bytes, UInt(secret.length), &bigCounter, 8, hash.mutableBytes)
+        CCHmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, 8, hash.mutableBytes)
 
         // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
         let ptr = UnsafePointer<UInt8>(hash.bytes)
