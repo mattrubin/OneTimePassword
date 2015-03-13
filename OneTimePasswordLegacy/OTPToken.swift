@@ -28,19 +28,19 @@ public class OTPToken: NSObject {
     private var keychainItem: Token.KeychainItem?
 
 
-    public class var defaultAlgorithm: OTPAlgorithm {
+    public static var defaultAlgorithm: OTPAlgorithm {
         return OTPAlgorithm(Generator.defaultAlgorithm)
     }
 
-    public class var defaultDigits: UInt {
+    public static var defaultDigits: UInt {
         return UInt(Generator.defaultDigits)
     }
 
-    public class var defaultInitialCounter: UInt64 {
+    public static var defaultInitialCounter: UInt64 {
         return 0
     }
 
-    public class var defaultPeriod: NSTimeInterval {
+    public static var defaultPeriod: NSTimeInterval {
         return 30
     }
 
@@ -95,11 +95,11 @@ public extension OTPToken {
 }
 
 public extension OTPToken {
-    class func tokenWithURL(url: NSURL) -> Self? {
+    static func tokenWithURL(url: NSURL) -> Self? {
         return tokenWithURL(url, secret: nil)
     }
 
-    class func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
+    static func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
         if let urlString = url.absoluteString {
             if let token = Token.URLSerializer.deserialize(urlString, secret: secret) {
                 let otp = self()
@@ -153,19 +153,19 @@ public extension OTPToken {
         return false
     }
 
-    class func allTokensInKeychain() -> Array<OTPToken> {
+    static func allTokensInKeychain() -> Array<OTPToken> {
         return Token.KeychainItem.allKeychainItems().map(self.tokenWithKeychainItem)
     }
 
     // This should be private, but is public for testing purposes
-    class func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
+    static func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
         let otp = self()
         otp.updateWithToken(keychainItem.token)
         otp.keychainItem = keychainItem
         return otp
     }
 
-    class func tokenWithKeychainItemRef(keychainItemRef: NSData) -> Self? {
+    static func tokenWithKeychainItemRef(keychainItemRef: NSData) -> Self? {
         if let keychainItem = Token.KeychainItem.keychainItemWithKeychainItemRef(keychainItemRef) {
             return self.tokenWithKeychainItem(keychainItem)
         }
@@ -173,7 +173,7 @@ public extension OTPToken {
     }
 
     // This should be private, but is public for testing purposes
-    class func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
+    static func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
         if let keychainItem = Token.KeychainItem.keychainItemWithDictionary(keychainDictionary) {
             return self.tokenWithKeychainItem(keychainItem)
         }
