@@ -13,7 +13,7 @@ import OneTimePassword
 information about its properties and methods, consult the underlying `OneTimePassword`
 documentation.
 */
-public class OTPToken: NSObject {
+public final class OTPToken: NSObject {
     required public override init() {}
 
     public var name: String = Token.defaultName
