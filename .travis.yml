@@ -5,10 +5,20 @@ xcode_scheme:
  - OneTimePassword
  - OneTimePasswordLegacy
 
-oosx_image:
+osx_image:
+ - xcode6.0
+ - xcode6.1
+ - beta-xcode6.2
+ - beta-xcode6.3
  - xcode6.4
  - xcode7
 xcode_sdk:
+ - iphonesimulator7.0
+ - iphonesimulator7.1
+ - iphonesimulator8.0
+ - iphonesimulator8.1
+ - iphonesimulator8.2
+ - iphonesimulator8.3
  - iphonesimulator8.4
  - iphonesimulator9.0
 
