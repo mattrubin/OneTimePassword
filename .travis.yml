@@ -6,10 +6,6 @@ xcode_scheme:
  - OneTimePasswordLegacy
 
 osx_image:
- - xcode6.0
- - xcode6.1
- - beta-xcode6.2
- - beta-xcode6.3
  - xcode6.4
  - xcode7
 xcode_sdk:
