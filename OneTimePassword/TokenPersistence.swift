@@ -63,12 +63,14 @@ func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
         kSecReturnData as! NSCopying: kCFBooleanTrue,
     ]
 
-    var result: Unmanaged<AnyObject>?
-    let resultCode = SecItemCopyMatching(queryDict, &result)
+    var result: AnyObject?
+    let resultCode = withUnsafeMutablePointer(&result) {
+        SecItemCopyMatching(queryDict, $0)
+    }
 
     if resultCode == OSStatus(errSecSuccess) {
-        if let opaquePointer = result?.toOpaque() {
-            return Unmanaged<NSDictionary>.fromOpaque(opaquePointer).takeUnretainedValue()
+        if let result = result {
+            return result as? NSDictionary
         }
     }
     return nil
@@ -83,12 +85,14 @@ func _allKeychainItems() -> NSArray? {
         kSecReturnData as! NSCopying: kCFBooleanTrue,
     ]
 
-    var result: Unmanaged<AnyObject>?
-    let resultCode = SecItemCopyMatching(queryDict, &result)
+    var result: AnyObject?
+    let resultCode = withUnsafeMutablePointer(&result) {
+        SecItemCopyMatching(queryDict, $0)
+    }
 
     if resultCode == OSStatus(errSecSuccess) {
-        if let opaquePointer = result?.toOpaque() {
-            return Unmanaged<NSArray>.fromOpaque(opaquePointer).takeUnretainedValue()
+        if let result = result {
+            return result as? NSArray
         }
     }
     return nil

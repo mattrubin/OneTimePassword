@@ -18,12 +18,14 @@ func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
         mutableAttributes[kSecAttrAccount as! NSCopying] = NSUUID().UUIDString
     }
 
-    var result: Unmanaged<AnyObject>?
-    let resultCode: OSStatus = SecItemAdd(mutableAttributes, &result)
+    var result: AnyObject?
+    let resultCode: OSStatus = withUnsafeMutablePointer(&result) {
+        SecItemAdd(mutableAttributes, $0)
+    }
 
     if resultCode == OSStatus(errSecSuccess) {
-        if let opaquePointer = result?.toOpaque() {
-            return Unmanaged<NSData>.fromOpaque(opaquePointer).takeUnretainedValue()
+        if let result = result {
+            return result as? NSData
         }
     }
     return nil
