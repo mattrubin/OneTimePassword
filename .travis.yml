@@ -4,8 +4,11 @@ xcode_workspace: onetimepassword.xcworkspace
 xcode_scheme:
 - OneTimePassword
 - OneTimePasswordLegacy
+
+osx_image:
+ - xcode7
 xcode_sdk:
-- iphonesimulator8.1
+- iphonesimulator
 
 before_install: git submodule update --init --recursive
 script: xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK build test
