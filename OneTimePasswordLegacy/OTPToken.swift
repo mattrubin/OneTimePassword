@@ -102,7 +102,7 @@ public extension OTPToken {
     static func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
         if let urlString = url.absoluteString {
             if let token = Token.URLSerializer.deserialize(urlString, secret: secret) {
-                let otp = self()
+                let otp = self.init()
                 otp.updateWithToken(token)
                 return otp
             }
@@ -159,7 +159,7 @@ public extension OTPToken {
 
     // This should be private, but is public for testing purposes
     static func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
-        let otp = self()
+        let otp = self.init()
         otp.updateWithToken(keychainItem.token)
         otp.keychainItem = keychainItem
         return otp

@@ -56,7 +56,7 @@ private func algorithmFromString(string: String) -> Generator.Algorithm? {
     return nil
 }
 
-private func urlForToken(#name: String, #issuer: String, #factor: Generator.Factor, #algorithm: Generator.Algorithm, #digits: Int) -> NSURL? {
+private func urlForToken(name name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) -> NSURL? {
     let urlComponents = NSURLComponents()
     urlComponents.scheme = kOTPAuthScheme
     urlComponents.path = "/" + name
@@ -106,7 +106,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
             }
         } else if string == FactorTimerString {
             if let period: NSTimeInterval = parse(queryDictionary[kQueryPeriodKey], with: {
-                if let int = $0.toInt() {
+                if let int = Int($0) {
                     return NSTimeInterval(int)
                 }
                 return nil

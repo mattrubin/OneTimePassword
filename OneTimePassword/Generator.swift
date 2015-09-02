@@ -26,15 +26,15 @@ public struct Generator: Equatable {
     /**
     Initializes a new password generator with the given parameters, if valid.
 
-    :param: factor      The moving factor
-    :param: secret      The shared secret
-    :param: algorithm   The cryptographic hash function (defaults to SHA-1)
-    :param: digits      The number of digits in the password (defaults to 6)
+    - parameter factor:      The moving factor
+    - parameter secret:      The shared secret
+    - parameter algorithm:   The cryptographic hash function (defaults to SHA-1)
+    - parameter digits:      The number of digits in the password (defaults to 6)
 
-    :returns: A valid password generator, or `nil` if the parameters are invalid.
+    - returns: A valid password generator, or `nil` if the parameters are invalid.
     */
     public init?(factor: Factor, secret: NSData, algorithm: Algorithm = defaultAlgorithm, digits: Int = defaultDigits) {
-        if !validateGenerator(factor, secret, algorithm, digits) {
+        if !validateGenerator(factor, secret: secret, algorithm: algorithm, digits: digits) {
             return nil
         }
         self.factor = factor
@@ -96,11 +96,11 @@ public extension Generator {
 
     Note: Calling this method does *not* increment the counter of a counter-based generator.
 
-    :returns: The current password, or `nil` if a password could not be generated.
+    - returns: The current password, or `nil` if a password could not be generated.
     */
     var password: String? {
-        if !validateGenerator(factor, secret, algorithm, digits) { return nil }
+        if !validateGenerator(factor, secret: secret, algorithm: algorithm, digits: digits) { return nil }
         let counter = counterForGeneratorWithFactor(self.factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
-        return generatePassword(self.algorithm, self.digits, self.secret, counter)
+        return generatePassword(self.algorithm, digits: self.digits, secret: self.secret, counter: counter)
     }
 }

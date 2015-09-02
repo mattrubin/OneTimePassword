@@ -66,7 +66,7 @@ public func generatePassword(algorithm: Generator.Algorithm, digits: Int, secret
 
         var string = String(truncatedHash)
         // Pad the string representation with zeros, if necessary
-        while count(string) < digits {
+        while string.characters.count < digits {
             string = "0" + string
         }
         return string

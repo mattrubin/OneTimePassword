@@ -28,7 +28,7 @@ public extension Token {
                 if let string = urlString {
                     if let secret = keychainDictionary[kSecValueData as! NSCopying] as? NSData {
                         if let keychainItemRef = keychainDictionary[kSecValuePersistentRef as! NSCopying] as? NSData {
-                            if let token = Token.URLSerializer.deserialize(string as! String, secret: secret) {
+                            if let token = Token.URLSerializer.deserialize(string as String, secret: secret) {
                                 return KeychainItem(token: token, persistentRef: keychainItemRef)
                             }
                         }
@@ -97,7 +97,7 @@ func _allKeychainItems() -> NSArray? {
 
 public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     if let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding) {
-        var attributes = [
+        let attributes = [
             kSecAttrGeneric as! NSCopying: data,
             kSecValueData as! NSCopying: token.core.secret,
             kSecAttrService as! NSCopying: kOTPService,
@@ -112,9 +112,9 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
 
 public func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token) -> Token.KeychainItem? {
     if let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding) {
-        var attributes = [kSecAttrGeneric as! NSCopying: data]
+        let attributes = [kSecAttrGeneric as! NSCopying: data]
 
-        if updateKeychainItemForPersistentRefWithAttributes(keychainItem.persistentRef, attributes) {
+        if updateKeychainItemForPersistentRefWithAttributes(keychainItem.persistentRef, attributesToUpdate: attributes) {
             return Token.KeychainItem(token: token, persistentRef: keychainItem.persistentRef)
         }
     }
