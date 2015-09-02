@@ -7,10 +7,8 @@ xcode_scheme:
 
 osx_image:
  - xcode6.4
- - xcode7
 xcode_sdk:
- - iphonesimulator7.0
- - iphonesimulator7.1
+ - iphonesimulator
  - iphonesimulator8.0
  - iphonesimulator8.1
  - iphonesimulator8.2
