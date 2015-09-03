@@ -6,7 +6,8 @@ xcode_scheme:
  - OneTimePasswordLegacy
 
 osx_image: xcode6.4
-xcode_sdk: iphonesimulator8.4
+xcode_sdk:
+ - iphonesimulator8.4
 
 before_install:
  - git submodule update --init --recursive
