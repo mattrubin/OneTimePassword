@@ -1,11 +1,17 @@
 language: objective-c
 
-xcode_workspace: onetimepassword.xcworkspace
+xcode_workspace: OneTimePassword.xcworkspace
 xcode_scheme:
-- OneTimePassword
-- OneTimePasswordLegacy
-xcode_sdk:
-- iphonesimulator8.1
+ - OneTimePassword
+ - OneTimePasswordLegacy
 
+osx_image: xcode6.4
+xcode_sdk:
+ - iphonesimulator8.4
+
+# Check out nested dependencies
 before_install: git submodule update --init --recursive
-script: xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK build test
+
+# A custom test script is required because xctool cannot access the iOS keychain
+# https://github.com/facebook/xctool/issues/269
+script: xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK build test | xcpretty -c
