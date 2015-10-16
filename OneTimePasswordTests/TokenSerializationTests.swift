@@ -55,7 +55,7 @@ class TokenSerializationTests: XCTestCase {
                                     let url = token.url
 
                                     // Test scheme
-                                    XCTAssertEqual(url.scheme!, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"")
+                                    XCTAssertEqual(url.scheme, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"")
                                     // Test Factor
                                     var expectedHost: String
                                     switch factor {
@@ -68,13 +68,13 @@ class TokenSerializationTests: XCTestCase {
                                     // Test name
                                     XCTAssertEqual(url.path!.substringFromIndex(url.path!.startIndex.successor()), name, "The url path should be \"\(name)\"")
 
-                                    var urlComponents = NSURLComponents(URL:url, resolvingAgainstBaseURL:false)
-                                    var items = urlComponents?.queryItems as! [NSURLQueryItem]
+                                    let urlComponents = NSURLComponents(URL:url, resolvingAgainstBaseURL:false)
+                                    let items = urlComponents?.queryItems
                                     let expectedItemCount = 4
-                                    XCTAssertEqual(items.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
+                                    XCTAssertEqual(items?.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
 
                                     var queryArguments = Dictionary<String, String>()
-                                    for item in items {
+                                    for item in items ?? [] {
                                         queryArguments[item.name] = item.value
                                     }
                                     XCTAssertEqual(queryArguments.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
