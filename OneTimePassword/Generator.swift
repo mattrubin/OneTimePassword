@@ -100,7 +100,7 @@ public extension Generator {
     */
     var password: String? {
         if !validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) { return nil }
-        let counter = counterForGeneratorWithFactor(self.factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
-        return generatePassword(algorithm: self.algorithm, digits: self.digits, secret: self.secret, counter: counter)
+        let counter = counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
+        return generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
     }
 }
