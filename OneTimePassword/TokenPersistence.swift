@@ -69,9 +69,7 @@ func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
     }
 
     if resultCode == OSStatus(errSecSuccess) {
-        if let result = result {
-            return result as? NSDictionary
-        }
+        return result as? NSDictionary
     }
     return nil
 }
@@ -91,9 +89,7 @@ func _allKeychainItems() -> NSArray? {
     }
 
     if resultCode == OSStatus(errSecSuccess) {
-        if let result = result {
-            return result as? NSArray
-        }
+        return result as? NSArray
     }
     return nil
 }

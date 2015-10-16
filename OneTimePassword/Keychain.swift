@@ -24,9 +24,7 @@ func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
     }
 
     if resultCode == OSStatus(errSecSuccess) {
-        if let result = result {
-            return result as? NSData
-        }
+        return result as? NSData
     }
     return nil
 }
