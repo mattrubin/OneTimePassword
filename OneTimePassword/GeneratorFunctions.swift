@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal func validateGenerator(factor: Generator.Factor, secret: NSData, algorithm: Generator.Algorithm, digits: Int) -> Bool {
+internal func validateGenerator(factor factor: Generator.Factor, secret: NSData, algorithm: Generator.Algorithm, digits: Int) -> Bool {
     let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
     let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
 
@@ -29,7 +29,7 @@ public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInterv
     }
 }
 
-public func generatePassword(algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String? {
+public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String? {
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
         case .SHA1:
