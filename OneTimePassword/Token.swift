@@ -23,11 +23,11 @@ public struct Token: Equatable {
     /**
     Initializes a new token with the given parameters.
 
-    :param: name        The user name for the token (defaults to "")
-    :param: issure      The entity which issued the token (defaults to "")
-    :param: core        The password generator
+    - parameter name:        The user name for the token (defaults to "")
+    - parameter issure:      The entity which issued the token (defaults to "")
+    - parameter core:        The password generator
 
-    :returns: A new token with the given parameters.
+    - returns: A new token with the given parameters.
     */
     public init(name: String = defaultName, issuer: String = defaultIssuer, core: Generator) {
         self.name = name
@@ -46,8 +46,8 @@ public func ==(lhs: Token, rhs: Token) -> Bool {
 }
 
 /**
-:param: token   The current token
-:returns: A new token, configured to generate the next password.
+- parameter token:   The current token
+- returns: A new token, configured to generate the next password.
 */
 public func updatedToken(token: Token) -> Token? {
     switch token.core.factor {
