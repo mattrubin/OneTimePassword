@@ -450,7 +450,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					C97C82371946E51D00FD9F4C = {
@@ -642,6 +642,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = OneTimePassword/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "OneTimePassword/OneTimePassword-Bridging-Header.h";
@@ -657,6 +658,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = OneTimePassword/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "OneTimePassword/OneTimePassword-Bridging-Header.h";
@@ -668,6 +670,7 @@
 			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = OneTimePasswordTests/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -677,6 +680,7 @@
 			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = OneTimePasswordTests/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -691,6 +695,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = OneTimePasswordLegacy/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.legacy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -705,6 +710,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = OneTimePasswordLegacy/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.legacy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -714,6 +720,7 @@
 			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = OneTimePasswordLegacyTests/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.legacy.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -723,6 +730,7 @@
 			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = OneTimePasswordLegacyTests/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.legacy.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
