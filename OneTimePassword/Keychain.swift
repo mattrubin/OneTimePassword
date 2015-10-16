@@ -31,7 +31,7 @@ func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
     return nil
 }
 
-func updateKeychainItemForPersistentRefWithAttributes(persistentRef: NSData, attributesToUpdate: NSDictionary) -> Bool {
+func updateKeychainItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
     let queryDict = [
         kSecClass as! NSCopying: kSecClassGenericPassword,
         kSecValuePersistentRef as! NSCopying: persistentRef,

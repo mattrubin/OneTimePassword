@@ -125,7 +125,7 @@ public extension OTPToken {
     func saveToKeychain() -> Bool {
         if let token = token {
             if let keychainItem = self.keychainItem {
-                if let newKeychainItem = updateKeychainItemWithToken(keychainItem, token: token) {
+                if let newKeychainItem = updateKeychainItem(keychainItem, withToken: token) {
                     self.keychainItem = newKeychainItem
                     return true
                 }

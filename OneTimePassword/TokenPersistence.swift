@@ -114,11 +114,11 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     return nil
 }
 
-public func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token) -> Token.KeychainItem? {
+public func updateKeychainItem(keychainItem: Token.KeychainItem, withToken token: Token) -> Token.KeychainItem? {
     if let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding) {
         let attributes = [kSecAttrGeneric as! NSCopying: data]
 
-        if updateKeychainItemForPersistentRefWithAttributes(keychainItem.persistentRef, attributesToUpdate: attributes) {
+        if updateKeychainItemForPersistentRef(keychainItem.persistentRef, withAttributes: attributes) {
             return Token.KeychainItem(token: token, persistentRef: keychainItem.persistentRef)
         }
     }
