@@ -56,7 +56,7 @@ private func algorithmFromString(string: String) -> Generator.Algorithm? {
     return nil
 }
 
-private func urlForToken(#name: String, #issuer: String, #factor: Generator.Factor, #algorithm: Generator.Algorithm, #digits: Int) -> NSURL? {
+private func urlForToken(name name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) -> NSURL? {
     let urlComponents = NSURLComponents()
     urlComponents.scheme = kOTPAuthScheme
     urlComponents.path = "/" + name
@@ -85,7 +85,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
     if (url.scheme != kOTPAuthScheme) { return nil }
 
     var queryDictionary = Dictionary<String, String>()
-    if let queryItems = NSURLComponents(URL: url, resolvingAgainstBaseURL: false)?.queryItems as? [NSURLQueryItem] {
+    if let queryItems = NSURLComponents(URL: url, resolvingAgainstBaseURL: false)?.queryItems {
         for item in queryItems {
             queryDictionary[item.name] = item.value
         }
@@ -106,7 +106,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
             }
         } else if string == FactorTimerString {
             if let period: NSTimeInterval = parse(queryDictionary[kQueryPeriodKey], with: {
-                if let int = $0.toInt() {
+                if let int = Int($0) {
                     return NSTimeInterval(int)
                 }
                 return nil
@@ -121,12 +121,12 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
     if let factor = parse(url.host, with: factorParser, defaultTo: nil) {
         if let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, overrideWith: externalSecret) {
             if let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: Generator.defaultAlgorithm) {
-                if let digits = parse(queryDictionary[kQueryDigitsKey], with: { $0.toInt() }, defaultTo: Generator.defaultDigits) {
+                if let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Generator.defaultDigits) {
                     if let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) {
 
                         var name = Token.defaultName
                         if let path = url.path {
-                            if count(path) > 1 {
+                            if path.characters.count > 1 {
                                 name = path.substringFromIndex(path.startIndex.successor()) // Skip the leading "/"
                             }
                         }
@@ -143,7 +143,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
                         }
                         // If the name is prefixed by the issuer string, trim the name
                         if let prefixRange = name.rangeOfString(issuer) {
-                            if (prefixRange.startIndex == issuer.startIndex) && (count(issuer) < count(name)) && (name[prefixRange.endIndex] == ":") {
+                            if (prefixRange.startIndex == issuer.startIndex) && (issuer.characters.count < name.characters.count) && (name[prefixRange.endIndex] == ":") {
                                 name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                             }
                         }

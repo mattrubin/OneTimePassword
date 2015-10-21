@@ -88,7 +88,7 @@ public extension OTPToken {
     // This should be private, but is public for testing purposes
     func generatePasswordForCounter(counter: UInt64) -> String? {
         if let token = token {
-            return generatePassword(token.core.algorithm, token.core.digits, token.core.secret, counter)
+            return generatePassword(algorithm: token.core.algorithm, digits: token.core.digits, secret: token.core.secret, counter: counter)
         }
         return nil
     }
@@ -100,12 +100,10 @@ public extension OTPToken {
     }
 
     static func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
-        if let urlString = url.absoluteString {
-            if let token = Token.URLSerializer.deserialize(urlString, secret: secret) {
-                let otp = self()
-                otp.updateWithToken(token)
-                return otp
-            }
+        if let token = Token.URLSerializer.deserialize(url.absoluteString, secret: secret) {
+            let otp = self.init()
+            otp.updateWithToken(token)
+            return otp
         }
         return nil
     }
@@ -127,7 +125,7 @@ public extension OTPToken {
     func saveToKeychain() -> Bool {
         if let token = token {
             if let keychainItem = self.keychainItem {
-                if let newKeychainItem = updateKeychainItemWithToken(keychainItem, token) {
+                if let newKeychainItem = updateKeychainItem(keychainItem, withToken: token) {
                     self.keychainItem = newKeychainItem
                     return true
                 }
@@ -159,7 +157,7 @@ public extension OTPToken {
 
     // This should be private, but is public for testing purposes
     static func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
-        let otp = self()
+        let otp = self.init()
         otp.updateWithToken(keychainItem.token)
         otp.keychainItem = keychainItem
         return otp

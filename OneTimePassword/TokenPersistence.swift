@@ -28,7 +28,7 @@ public extension Token {
                 if let string = urlString {
                     if let secret = keychainDictionary[kSecValueData as! NSCopying] as? NSData {
                         if let keychainItemRef = keychainDictionary[kSecValuePersistentRef as! NSCopying] as? NSData {
-                            if let token = Token.URLSerializer.deserialize(string as! String, secret: secret) {
+                            if let token = Token.URLSerializer.deserialize(string as String, secret: secret) {
                                 return KeychainItem(token: token, persistentRef: keychainItemRef)
                             }
                         }
@@ -63,13 +63,13 @@ func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
         kSecReturnData as! NSCopying: kCFBooleanTrue,
     ]
 
-    var result: Unmanaged<AnyObject>?
-    let resultCode = SecItemCopyMatching(queryDict, &result)
+    var result: AnyObject?
+    let resultCode = withUnsafeMutablePointer(&result) {
+        SecItemCopyMatching(queryDict, $0)
+    }
 
     if resultCode == OSStatus(errSecSuccess) {
-        if let opaquePointer = result?.toOpaque() {
-            return Unmanaged<NSDictionary>.fromOpaque(opaquePointer).takeUnretainedValue()
-        }
+        return result as? NSDictionary
     }
     return nil
 }
@@ -83,13 +83,13 @@ func _allKeychainItems() -> NSArray? {
         kSecReturnData as! NSCopying: kCFBooleanTrue,
     ]
 
-    var result: Unmanaged<AnyObject>?
-    let resultCode = SecItemCopyMatching(queryDict, &result)
+    var result: AnyObject?
+    let resultCode = withUnsafeMutablePointer(&result) {
+        SecItemCopyMatching(queryDict, $0)
+    }
 
     if resultCode == OSStatus(errSecSuccess) {
-        if let opaquePointer = result?.toOpaque() {
-            return Unmanaged<NSArray>.fromOpaque(opaquePointer).takeUnretainedValue()
-        }
+        return result as? NSArray
     }
     return nil
 }
@@ -97,7 +97,7 @@ func _allKeychainItems() -> NSArray? {
 
 public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     if let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding) {
-        var attributes = [
+        let attributes = [
             kSecAttrGeneric as! NSCopying: data,
             kSecValueData as! NSCopying: token.core.secret,
             kSecAttrService as! NSCopying: kOTPService,
@@ -110,11 +110,11 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
     return nil
 }
 
-public func updateKeychainItemWithToken(keychainItem: Token.KeychainItem, token: Token) -> Token.KeychainItem? {
+public func updateKeychainItem(keychainItem: Token.KeychainItem, withToken token: Token) -> Token.KeychainItem? {
     if let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding) {
-        var attributes = [kSecAttrGeneric as! NSCopying: data]
+        let attributes = [kSecAttrGeneric as! NSCopying: data]
 
-        if updateKeychainItemForPersistentRefWithAttributes(keychainItem.persistentRef, attributes) {
+        if updateKeychainItemForPersistentRef(keychainItem.persistentRef, withAttributes: attributes) {
             return Token.KeychainItem(token: token, persistentRef: keychainItem.persistentRef)
         }
     }
