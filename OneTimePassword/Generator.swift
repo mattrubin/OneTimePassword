@@ -34,9 +34,9 @@ public struct Generator: Equatable {
     - returns: A valid password generator, or `nil` if the parameters are invalid.
     */
     public init?(factor: Factor, secret: NSData, algorithm: Algorithm = defaultAlgorithm, digits: Int = defaultDigits) {
-        if !validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) {
-            return nil
-        }
+        guard validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+            else { return nil }
+
         self.factor = factor
         self.secret = secret
         self.algorithm = algorithm
@@ -99,7 +99,9 @@ public extension Generator {
     - returns: The current password, or `nil` if a password could not be generated.
     */
     var password: String? {
-        if !validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) { return nil }
+        guard validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+            else { return nil }
+
         let counter = counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
         return generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
     }

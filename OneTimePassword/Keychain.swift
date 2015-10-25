@@ -23,10 +23,10 @@ func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
         SecItemAdd(mutableAttributes, $0)
     }
 
-    if resultCode == OSStatus(errSecSuccess) {
-        return result as? NSData
-    }
-    return nil
+    guard resultCode == OSStatus(errSecSuccess)
+        else { return nil }
+
+    return result as? NSData
 }
 
 func updateKeychainItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
