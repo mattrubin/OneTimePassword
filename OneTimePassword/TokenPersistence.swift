@@ -22,10 +22,10 @@ public extension Token {
         }
 
         public static func keychainItemWithDictionary(keychainDictionary: NSDictionary) -> KeychainItem? {
-            guard let urlData = keychainDictionary[kSecAttrGeneric as! NSCopying] as? NSData,
+            guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? NSData,
                 let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
-                let secret = keychainDictionary[kSecValueData as! NSCopying] as? NSData,
-                let keychainItemRef = keychainDictionary[kSecValuePersistentRef as! NSCopying] as? NSData,
+                let secret = keychainDictionary[kSecValueData as String] as? NSData,
+                let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
                 let token = Token.URLSerializer.deserialize(string as String, secret: secret)
                 else { return nil }
             return KeychainItem(token: token, persistentRef: keychainItemRef)
@@ -49,11 +49,11 @@ public extension Token {
 
 func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
     let queryDict = [
-        kSecClass as! NSCopying: kSecClassGenericPassword,
-        kSecValuePersistentRef as! NSCopying: persistentRef,
-        kSecReturnPersistentRef as! NSCopying: kCFBooleanTrue,
-        kSecReturnAttributes as! NSCopying: kCFBooleanTrue,
-        kSecReturnData as! NSCopying: kCFBooleanTrue,
+        kSecClass as String:                kSecClassGenericPassword,
+        kSecValuePersistentRef as String:   persistentRef,
+        kSecReturnPersistentRef as String:  kCFBooleanTrue,
+        kSecReturnAttributes as String:     kCFBooleanTrue,
+        kSecReturnData as String:           kCFBooleanTrue,
     ]
 
     var result: AnyObject?
@@ -69,11 +69,11 @@ func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
 
 func _allKeychainItems() -> NSArray? {
     let queryDict = [
-        kSecClass as! NSCopying: kSecClassGenericPassword,
-        kSecMatchLimit as! NSCopying: kSecMatchLimitAll,
-        kSecReturnPersistentRef as! NSCopying: kCFBooleanTrue,
-        kSecReturnAttributes as! NSCopying: kCFBooleanTrue,
-        kSecReturnData as! NSCopying: kCFBooleanTrue,
+        kSecClass as String:                kSecClassGenericPassword,
+        kSecMatchLimit as String:           kSecMatchLimitAll,
+        kSecReturnPersistentRef as String:  kCFBooleanTrue,
+        kSecReturnAttributes as String:     kCFBooleanTrue,
+        kSecReturnData as String:           kCFBooleanTrue,
     ]
 
     var result: AnyObject?
@@ -93,9 +93,9 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
         else { return nil }
 
     let attributes = [
-        kSecAttrGeneric as! NSCopying: data,
-        kSecValueData as! NSCopying: token.core.secret,
-        kSecAttrService as! NSCopying: kOTPService,
+        kSecAttrGeneric as String:  data,
+        kSecValueData as String:    token.core.secret,
+        kSecAttrService as String:  kOTPService,
     ]
 
     guard let persistentRef = addKeychainItemWithAttributes(attributes)
@@ -108,7 +108,9 @@ public func updateKeychainItem(keychainItem: Token.KeychainItem, withToken token
     guard let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding)
         else { return nil }
 
-    let attributes = [kSecAttrGeneric as! NSCopying: data]
+    let attributes = [
+        kSecAttrGeneric as String:  data
+    ]
 
     guard updateKeychainItemForPersistentRef(keychainItem.persistentRef, withAttributes: attributes)
         else { return nil }
