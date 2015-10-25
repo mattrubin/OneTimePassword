@@ -28,11 +28,12 @@ public extension Token {
 
         public init?(keychainDictionary: NSDictionary) {
             guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? NSData,
-                let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
-                let secret = keychainDictionary[kSecValueData as String] as? NSData,
-                let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
-                let token = Token.URLSerializer.deserialize(string as String, secret: secret)
+                string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
+                secret = keychainDictionary[kSecValueData as String] as? NSData,
+                keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
+                token = Token.URLSerializer.deserialize(string as String, secret: secret)
                 else { return nil }
+
             self.init(token: token, persistentRef: keychainItemRef)
         }
 
@@ -43,7 +44,7 @@ public extension Token {
             var items = Array<KeychainItem>()
             for item: AnyObject in keychainItems {
                 if let keychainDict = item as? NSDictionary,
-                    let keychainItem = KeychainItem(keychainDictionary: keychainDict) {
+                    keychainItem = KeychainItem(keychainDictionary: keychainDict) {
                         items.append(keychainItem)
                 }
             }

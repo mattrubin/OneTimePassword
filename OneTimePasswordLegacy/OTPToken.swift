@@ -108,7 +108,7 @@ public extension OTPToken {
 
     func url() -> NSURL? {
         guard let token = token,
-            let string = Token.URLSerializer.serialize(token)
+            string = Token.URLSerializer.serialize(token)
             else { return nil }
 
         return NSURL(string: string)
