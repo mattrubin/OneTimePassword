@@ -15,20 +15,25 @@ public extension Token {
         public let token: Token
         public let persistentRef: NSData
 
-        public static func keychainItemWithKeychainItemRef(keychainItemRef: NSData) -> KeychainItem? {
-            guard let result = keychainItemForPersistentRef(keychainItemRef)
-                else { return nil }
-            return keychainItemWithDictionary(result)
+        init(token: Token, persistentRef: NSData) {
+            self.token = token
+            self.persistentRef = persistentRef
         }
 
-        public static func keychainItemWithDictionary(keychainDictionary: NSDictionary) -> KeychainItem? {
+        public init?(keychainItemRef: NSData) {
+            guard let result = keychainItemForPersistentRef(keychainItemRef)
+                else { return nil }
+            self.init(keychainDictionary: result)
+        }
+
+        public init?(keychainDictionary: NSDictionary) {
             guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? NSData,
                 let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
                 let secret = keychainDictionary[kSecValueData as String] as? NSData,
                 let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
                 let token = Token.URLSerializer.deserialize(string as String, secret: secret)
                 else { return nil }
-            return KeychainItem(token: token, persistentRef: keychainItemRef)
+            self.init(token: token, persistentRef: keychainItemRef)
         }
 
         public static func allKeychainItems() -> Array<KeychainItem> {
@@ -38,7 +43,7 @@ public extension Token {
             var items = Array<KeychainItem>()
             for item: AnyObject in keychainItems {
                 if let keychainDict = item as? NSDictionary,
-                    let keychainItem = keychainItemWithDictionary(keychainDict) {
+                    let keychainItem = KeychainItem(keychainDictionary: keychainDict) {
                         items.append(keychainItem)
                 }
             }

@@ -163,7 +163,7 @@ public extension OTPToken {
     }
 
     static func tokenWithKeychainItemRef(keychainItemRef: NSData) -> Self? {
-        guard let keychainItem = Token.KeychainItem.keychainItemWithKeychainItemRef(keychainItemRef)
+        guard let keychainItem = Token.KeychainItem(keychainItemRef: keychainItemRef)
             else { return nil }
 
         return self.tokenWithKeychainItem(keychainItem)
@@ -171,7 +171,7 @@ public extension OTPToken {
 
     // This should be private, but is public for testing purposes
     static func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
-        guard let keychainItem = Token.KeychainItem.keychainItemWithDictionary(keychainDictionary)
+        guard let keychainItem = Token.KeychainItem(keychainDictionary: keychainDictionary)
             else { return nil }
 
         return self.tokenWithKeychainItem(keychainItem)
