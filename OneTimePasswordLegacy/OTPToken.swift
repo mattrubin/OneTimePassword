@@ -78,8 +78,9 @@ public extension OTPToken {
     }
 
     func updatePassword() {
-        if let token = token, newToken = updatedToken(token) {
-            updateWithToken(newToken)
+        if let token = token,
+            let newToken = updatedToken(token) {
+                updateWithToken(newToken)
         }
     }
 
@@ -108,7 +109,7 @@ public extension OTPToken {
 
     func url() -> NSURL? {
         guard let token = token,
-            string = Token.URLSerializer.serialize(token)
+            let string = Token.URLSerializer.serialize(token)
             else { return nil }
 
         return NSURL(string: string)
