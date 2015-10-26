@@ -119,7 +119,8 @@ public func updateKeychainItem(keychainItem: Token.KeychainItem, withToken token
         kSecAttrGeneric as String:  data
     ]
 
-    guard updateKeychainItemForPersistentRef(keychainItem.persistentRef, withAttributes: attributes)
+    let success = updateKeychainItemForPersistentRef(keychainItem.persistentRef, withAttributes: attributes)
+    guard success
         else { return nil }
 
     return Token.KeychainItem(token: token, persistentRef: keychainItem.persistentRef)
