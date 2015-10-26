@@ -31,6 +31,7 @@
 		C9B2A19C199A7F1B00BC4A8A /* EquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */; };
 		C9DC7EC4196BD5DF00B50C82 /* Token.URLSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token.URLSerializer.swift */; };
 		C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Generator.swift */; };
+		C9E639081BDDFCA0002D9231 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E639071BDDFCA0002D9231 /* CommonCrypto.framework */; };
 		C9F5981B196E3E48002E4D0E /* TokenPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */; };
 /* End PBXBuildFile section */
 
@@ -114,6 +115,7 @@
 		C9DC7EC3196BD5DF00B50C82 /* Token.URLSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.URLSerializer.swift; sourceTree = "<group>"; };
 		C9DC7EC7196BDF3B00B50C82 /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPToken.swift; sourceTree = "<group>"; };
+		C9E639071BDDFCA0002D9231 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CommonCrypto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenPersistence.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -123,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C944A55F1A7EDAE200E08B1E /* Base32.framework in Frameworks */,
+				C9E639081BDDFCA0002D9231 /* CommonCrypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				C944A55E1A7EDAE200E08B1E /* Base32.framework */,
+				C9E639071BDDFCA0002D9231 /* CommonCrypto.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
