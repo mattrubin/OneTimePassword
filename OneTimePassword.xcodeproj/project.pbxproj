@@ -187,7 +187,7 @@
 				C9A486AA196F352E00524F51 /* OneTimePasswordLegacy */,
 				C9A486B7196F352F00524F51 /* OneTimePasswordLegacyTests */,
 				746E7166AD60449882DD84C7 /* Frameworks */,
-				C996EC281A74D5830076B105 /* xcconfigs */,
+				C996EC281A74D5830076B105 /* Configuration */,
 				C97C82391946E51D00FD9F4C /* Products */,
 				C94B9BC71BD726F70073D7C5 /* Docs */,
 			);
@@ -245,14 +245,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C996EC281A74D5830076B105 /* xcconfigs */ = {
+		C996EC281A74D5830076B105 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
 				C996EC291A74D5830076B105 /* Base */,
 				C996EC341A74D5830076B105 /* iOS */,
 				C996EC391A74D5830076B105 /* Mac OS X */,
 			);
-			name = xcconfigs;
+			name = Configuration;
 			path = Carthage/Checkouts/xcconfigs;
 			sourceTree = "<group>";
 		};
