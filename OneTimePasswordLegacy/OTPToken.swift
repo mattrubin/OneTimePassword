@@ -143,12 +143,11 @@ public extension OTPToken {
         guard let keychainItem = self.keychainItem
             else { return false }
 
-        if deleteKeychainItem(keychainItem) {
+        let success = deleteKeychainItem(keychainItem)
+        if success {
             self.keychainItem = nil
-            return true
-        } else {
-            return false
         }
+        return success
     }
 
     static func allTokensInKeychain() -> Array<OTPToken> {
