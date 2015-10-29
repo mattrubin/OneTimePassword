@@ -1,2 +1,3 @@
 github "mattrubin/Base32" "27025045f72371b7a05d77f661bb99ed0f6de71c"
+github "soffes/Crypto" "v0.1.0"
 github "jspahrsummers/xcconfigs" "9f2d593d312ab18827109cabdfb73390defcce6e"

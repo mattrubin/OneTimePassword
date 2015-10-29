@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CommonCrypto
 
 internal func validateGenerator(factor factor: Generator.Factor, secret: NSData, algorithm: Generator.Algorithm, digits: Int) -> Bool {
     let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }

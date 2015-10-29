@@ -1,2 +1,3 @@
 github "mattrubin/Base32" "master"
 github "jspahrsummers/xcconfigs" "master"
+github "soffes/Crypto"
