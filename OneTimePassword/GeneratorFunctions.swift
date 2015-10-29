@@ -66,10 +66,16 @@ public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: I
     // Constrain to the right number of digits
     truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
 
-    var string = String(truncatedHash)
     // Pad the string representation with zeros, if necessary
-    while string.characters.count < digits {
-        string = "0" + string
+    return String(truncatedHash).paddedWithCharacter("0", toLength: digits)
+}
+
+extension String {
+    func paddedWithCharacter(character: Character, toLength length: Int) -> String {
+        let paddingCount = length - characters.count
+        guard paddingCount > 0 else { return self }
+
+        let padding = String(count: paddingCount, repeatedValue: character)
+        return padding + self
     }
-    return string
 }
