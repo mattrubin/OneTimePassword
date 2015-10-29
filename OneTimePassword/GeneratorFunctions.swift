@@ -49,7 +49,7 @@ public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: I
     let (hashAlgorithm, hashLength) = hashInfoForAlgorithm(algorithm)
     let hashPointer = UnsafeMutablePointer<UInt8>.alloc(hashLength)
     defer { hashPointer.dealloc(hashLength) }
-    CCHmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, 8, hashPointer)
+    CCHmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
 
     // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
     let ptr = UnsafePointer<UInt8>(hashPointer)
