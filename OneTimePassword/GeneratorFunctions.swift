@@ -47,13 +47,13 @@ public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: I
 
     // Generate an HMAC value from the key and counter
     let (hashAlgorithm, hashLength) = hashInfoForAlgorithm(algorithm)
-    guard let hash = NSMutableData(length: hashLength)
-        else { return nil }
-    CCHmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, 8, hash.mutableBytes)
+    let hashPointer = UnsafeMutablePointer<UInt8>.alloc(hashLength)
+    defer { hashPointer.dealloc(hashLength) }
+    CCHmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
 
     // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
-    let ptr = UnsafePointer<UInt8>(hash.bytes)
-    let offset = ptr[hash.length-1] & 0x0f
+    let ptr = UnsafePointer<UInt8>(hashPointer)
+    let offset = ptr[hashLength-1] & 0x0f
 
     // Take 4 bytes from the hash, starting at the given byte offset
     let truncatedHashPtr = ptr + Int(offset)
@@ -66,10 +66,16 @@ public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: I
     // Constrain to the right number of digits
     truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
 
-    var string = String(truncatedHash)
     // Pad the string representation with zeros, if necessary
-    while string.characters.count < digits {
-        string = "0" + string
+    return String(truncatedHash).paddedWithCharacter("0", toLength: digits)
+}
+
+extension String {
+    func paddedWithCharacter(character: Character, toLength length: Int) -> String {
+        let paddingCount = length - characters.count
+        guard paddingCount > 0 else { return self }
+
+        let padding = String(count: paddingCount, repeatedValue: character)
+        return padding + self
     }
-    return string
 }
