@@ -45,7 +45,7 @@ public final class OTPToken: NSObject {
     }
 
 
-    private var token: Token? {
+    private var token: Token {
         return tokenForOTPToken(self)
     }
 
@@ -68,27 +68,22 @@ public final class OTPToken: NSObject {
     }
 
     public func validate() -> Bool {
-        return token?.core.isValid ?? false
+        return token.core.isValid
     }
 }
 
 public extension OTPToken {
     var password: String? {
-        return token?.core.password
+        return token.core.password
     }
 
     func updatePassword() {
-        if let token = token {
-            let newToken = updatedToken(token)
-            updateWithToken(newToken)
-        }
+        let newToken = updatedToken(token)
+        updateWithToken(newToken)
     }
 
     // This should be private, but is public for testing purposes
     func generatePasswordForCounter(counter: UInt64) -> String? {
-        guard let token = token
-            else { return nil }
-
         return generatePassword(algorithm: token.core.algorithm, digits: token.core.digits, secret: token.core.secret, counter: counter)
     }
 }
@@ -108,8 +103,7 @@ public extension OTPToken {
     }
 
     func url() -> NSURL? {
-        guard let token = token,
-            let string = Token.URLSerializer.serialize(token)
+        guard let string = Token.URLSerializer.serialize(token)
             else { return nil }
 
         return NSURL(string: string)
@@ -121,9 +115,6 @@ public extension OTPToken {
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 
     func saveToKeychain() -> Bool {
-        guard let token = token
-            else { return false }
-
         if let keychainItem = self.keychainItem {
             guard let newKeychainItem = updateKeychainItem(keychainItem, withToken: token)
                 else { return false }
