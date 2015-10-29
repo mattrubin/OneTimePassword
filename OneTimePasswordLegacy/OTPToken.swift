@@ -78,9 +78,9 @@ public extension OTPToken {
     }
 
     func updatePassword() {
-        if let token = token,
-            let newToken = updatedToken(token) {
-                updateWithToken(newToken)
+        if let token = token {
+            let newToken = updatedToken(token)
+            updateWithToken(newToken)
         }
     }
 

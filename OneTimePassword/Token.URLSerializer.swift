@@ -19,7 +19,7 @@ extension Token {
         public static func deserialize(string: String, secret: NSData? = nil) -> Token? {
             guard let url = NSURL(string: string)
                 else { return nil }
-            
+
             return tokenFromURL(url, secret: secret)
         }
     }
@@ -118,9 +118,10 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
     guard let factor = parse(url.host, with: factorParser, defaultTo: nil),
         let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, overrideWith: externalSecret),
         let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: Generator.defaultAlgorithm),
-        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Generator.defaultDigits),
-        let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Generator.defaultDigits)
         else { return nil }
+
+    let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
 
     var name = Token.defaultName
     if let path = url.path {
