@@ -68,7 +68,7 @@ public final class OTPToken: NSObject {
     }
 
     public func validate() -> Bool {
-        return (token != nil)
+        return token?.core.isValid ?? false
     }
 }
 
