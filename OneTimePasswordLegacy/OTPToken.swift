@@ -78,19 +78,18 @@ public extension OTPToken {
     }
 
     func updatePassword() {
-        if let token = token {
-            if let newToken = updatedToken(token) {
+        if let token = token,
+            let newToken = updatedToken(token) {
                 updateWithToken(newToken)
-            }
         }
     }
 
     // This should be private, but is public for testing purposes
     func generatePasswordForCounter(counter: UInt64) -> String? {
-        if let token = token {
-            return generatePassword(algorithm: token.core.algorithm, digits: token.core.digits, secret: token.core.secret, counter: counter)
-        }
-        return nil
+        guard let token = token
+            else { return nil }
+
+        return generatePassword(algorithm: token.core.algorithm, digits: token.core.digits, secret: token.core.secret, counter: counter)
     }
 }
 
@@ -100,21 +99,20 @@ public extension OTPToken {
     }
 
     static func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
-        if let token = Token.URLSerializer.deserialize(url.absoluteString, secret: secret) {
-            let otp = self.init()
-            otp.updateWithToken(token)
-            return otp
-        }
-        return nil
+        guard let token = Token.URLSerializer.deserialize(url.absoluteString, secret: secret)
+            else { return nil }
+
+        let otp = self.init()
+        otp.updateWithToken(token)
+        return otp
     }
 
     func url() -> NSURL? {
-        if let token = token {
-            if let string = Token.URLSerializer.serialize(token) {
-                return NSURL(string: string)
-            }
-        }
-        return nil
+        guard let token = token,
+            let string = Token.URLSerializer.serialize(token)
+            else { return nil }
+
+        return NSURL(string: string)
     }
 }
 
@@ -123,32 +121,33 @@ public extension OTPToken {
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 
     func saveToKeychain() -> Bool {
-        if let token = token {
-            if let keychainItem = self.keychainItem {
-                if let newKeychainItem = updateKeychainItem(keychainItem, withToken: token) {
-                    self.keychainItem = newKeychainItem
-                    return true
-                }
-                return false
-            } else {
-                if let newKeychainItem = addTokenToKeychain(token) {
-                    self.keychainItem = newKeychainItem
-                    return true
-                }
-                return false
-            }
+        guard let token = token
+            else { return false }
+
+        if let keychainItem = self.keychainItem {
+            guard let newKeychainItem = updateKeychainItem(keychainItem, withToken: token)
+                else { return false }
+
+            self.keychainItem = newKeychainItem
+            return true
+        } else {
+            guard let newKeychainItem = addTokenToKeychain(token)
+                else { return false }
+
+            self.keychainItem = newKeychainItem
+            return true
         }
-        return false
     }
 
     func removeFromKeychain() -> Bool {
-        if let keychainItem = self.keychainItem {
-            if deleteKeychainItem(keychainItem) {
-                self.keychainItem = nil
-                return true
-            }
+        guard let keychainItem = self.keychainItem
+            else { return false }
+
+        let success = deleteKeychainItem(keychainItem)
+        if success {
+            self.keychainItem = nil
         }
-        return false
+        return success
     }
 
     static func allTokensInKeychain() -> Array<OTPToken> {
@@ -164,17 +163,17 @@ public extension OTPToken {
     }
 
     static func tokenWithKeychainItemRef(keychainItemRef: NSData) -> Self? {
-        if let keychainItem = Token.KeychainItem.keychainItemWithKeychainItemRef(keychainItemRef) {
-            return self.tokenWithKeychainItem(keychainItem)
-        }
-        return nil
+        guard let keychainItem = Token.KeychainItem(keychainItemRef: keychainItemRef)
+            else { return nil }
+
+        return self.tokenWithKeychainItem(keychainItem)
     }
 
     // This should be private, but is public for testing purposes
     static func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
-        if let keychainItem = Token.KeychainItem.keychainItemWithDictionary(keychainDictionary) {
-            return self.tokenWithKeychainItem(keychainItem)
-        }
-        return nil
+        guard let keychainItem = Token.KeychainItem(keychainDictionary: keychainDictionary)
+            else { return nil }
+
+        return self.tokenWithKeychainItem(keychainItem)
     }
 }
