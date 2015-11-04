@@ -52,7 +52,12 @@ public func ==(lhs: Token, rhs: Token) -> Bool {
 public func updatedToken(token: Token) -> Token {
     switch token.core.factor {
     case .Counter(let counter):
-        let updatedGenerator = Generator(factor: .Counter(counter + 1), secret: token.core.secret, algorithm: token.core.algorithm, digits: token.core.digits)
+        let updatedGenerator = Generator(
+            factor: .Counter(counter + 1),
+            secret: token.core.secret,
+            algorithm: token.core.algorithm,
+            digits: token.core.digits
+        )
         return Token(name: token.name, issuer: token.issuer, core: updatedGenerator)
     case .Timer:
         return token
