@@ -122,6 +122,8 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
         else { return nil }
 
     let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+    guard core.isValid
+        else { return nil }
 
     var name = Token.defaultName
     if let path = url.path {
