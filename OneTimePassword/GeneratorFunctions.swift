@@ -20,6 +20,10 @@ internal func validatePeriod(period: NSTimeInterval) -> Bool {
     return (period > 0)
 }
 
+internal func validateTime(time: NSTimeInterval) -> Bool {
+    return (time >= 0)
+}
+
 enum GenerationError: ErrorType {
     case InvalidTime
     case InvalidPeriod
@@ -31,7 +35,7 @@ public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInterv
     case .Counter(let counter):
         return counter
     case .Timer(let period):
-        guard timeInterval >= 0
+        guard validateTime(timeInterval)
             else { throw GenerationError.InvalidTime }
         guard validatePeriod(period)
             else { throw GenerationError.InvalidPeriod }
