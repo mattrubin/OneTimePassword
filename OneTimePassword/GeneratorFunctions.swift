@@ -9,15 +9,21 @@
 import Foundation
 import CommonCrypto
 
+let minimumDigits = 1 // Zero or negative digits makes no sense
+let maximumDigits = 9 // 10 digits overflows UInt32.max
+
+private func validateDigits(digits: Int) -> Bool {
+    return (minimumDigits...maximumDigits).contains(digits)
+}
+
 internal func validateGenerator(factor factor: Generator.Factor, secret: NSData, algorithm: Generator.Algorithm, digits: Int) -> Bool {
-    let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
     let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
 
     switch factor {
     case .Counter:
-        return validDigits(digits)
+        return validateDigits(digits)
     case .Timer(let period):
-        return validDigits(digits) && validPeriod(period)
+        return validateDigits(digits) && validPeriod(period)
     }
 }
 
@@ -40,13 +46,11 @@ public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInterv
     }
 }
 
-private let minimumDigits = 1 // Zero or negative digits makes no sense
-private let maximumDigits = 9 // 10 digits overflows UInt32.max
 
 public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
-    guard (minimumDigits...maximumDigits).contains(digits)
+    guard validateDigits(digits)
         else { throw GenerationError.InvalidDigits }
-    
+
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
         case .SHA1:
