@@ -109,7 +109,7 @@ class GeneratorTests: XCTestCase {
             (1, true),
             (30, true),
             (300, true),
-            (301, false),
+            (301, true),
         ]
 
         for (digits, digitsAreValid) in digitTests {

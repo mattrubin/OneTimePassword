@@ -16,14 +16,16 @@ private func validateDigits(digits: Int) -> Bool {
     return (minimumDigits...maximumDigits).contains(digits)
 }
 
-internal func validateGenerator(factor factor: Generator.Factor, secret: NSData, algorithm: Generator.Algorithm, digits: Int) -> Bool {
-    let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
+private func validatePeriod(period: NSTimeInterval) -> Bool {
+    return (period > 0)
+}
 
+internal func validateGenerator(factor factor: Generator.Factor, secret: NSData, algorithm: Generator.Algorithm, digits: Int) -> Bool {
     switch factor {
     case .Counter:
         return validateDigits(digits)
     case .Timer(let period):
-        return validateDigits(digits) && validPeriod(period)
+        return validateDigits(digits) && validatePeriod(period)
     }
 }
 
@@ -40,7 +42,7 @@ public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInterv
     case .Timer(let period):
         guard timeInterval >= 0
             else { throw GenerationError.InvalidTime }
-        guard period > 0
+        guard validatePeriod(period)
             else { throw GenerationError.InvalidPeriod }
         return UInt64(timeInterval / period)
     }
