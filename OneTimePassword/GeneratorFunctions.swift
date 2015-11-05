@@ -12,15 +12,15 @@ import CommonCrypto
 let minimumDigits = 1 // Zero or negative digits makes no sense
 let maximumDigits = 9 // 10 digits overflows UInt32.max
 
-internal func validateDigits(digits: Int) -> Bool {
+private func validateDigits(digits: Int) -> Bool {
     return (minimumDigits...maximumDigits).contains(digits)
 }
 
-internal func validatePeriod(period: NSTimeInterval) -> Bool {
+private func validatePeriod(period: NSTimeInterval) -> Bool {
     return (period > 0)
 }
 
-internal func validateTime(time: NSTimeInterval) -> Bool {
+private func validateTime(time: NSTimeInterval) -> Bool {
     return (time >= 0)
 }
 

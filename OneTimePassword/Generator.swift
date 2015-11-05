@@ -86,12 +86,15 @@ public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
 }
 
 public extension Generator {
-    var isValid: Bool {
+    var _isValid: Bool {
+        let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
+        let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
+
         switch factor {
         case .Counter:
-            return validateDigits(digits)
+            return validDigits(digits)
         case .Timer(let period):
-            return validateDigits(digits) && validatePeriod(period)
+            return validDigits(digits) && validPeriod(period)
         }
     }
 

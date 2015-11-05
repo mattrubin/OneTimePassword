@@ -115,17 +115,17 @@ class GeneratorTests: XCTestCase {
         for (digits, digitsAreValid) in digitTests {
             let generator = Generator(factor: .Counter(0), secret: NSData(), digits: digits)
             if digitsAreValid {
-                XCTAssertTrue(generator.isValid)
+                XCTAssertNotNil(generator.password)
             } else {
-                XCTAssertFalse(generator.isValid)
+                XCTAssertNil(generator.password)
             }
 
             for (period, periodIsValid) in periodTests {
                 let generator = Generator(factor: .Timer(period: period), secret: NSData(), digits: digits)
                 if (digitsAreValid && periodIsValid) {
-                    XCTAssertTrue(generator.isValid)
+                    XCTAssertNotNil(generator.password)
                 } else {
-                    XCTAssertFalse(generator.isValid)
+                    XCTAssertNil(generator.password)
                 }
             }
         }
