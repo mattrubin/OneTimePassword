@@ -68,7 +68,7 @@ public final class OTPToken: NSObject {
     }
 
     public func validate() -> Bool {
-        return token.core._isValid
+        return validateGeneratorWithGoogleRules(token.core)
     }
 }
 

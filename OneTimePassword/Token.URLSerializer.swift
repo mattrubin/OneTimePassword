@@ -81,6 +81,20 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
     return urlComponents.URL
 }
 
+// https://github.com/google/google-authenticator/blob/56ea6af49c958d4b8056e3c26b3c163841abb900/mobile/ios/Classes/OTPGenerator.m#L80
+// https://github.com/google/google-authenticator/blob/56ea6af49c958d4b8056e3c26b3c163841abb900/mobile/ios/Classes/TOTPGenerator.m#L41
+public func validateGeneratorWithGoogleRules(generator: Generator) -> Bool {
+    let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
+    let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
+
+    switch generator.factor {
+    case .Counter:
+        return validDigits(generator.digits)
+    case .Timer(let period):
+        return validDigits(generator.digits) && validPeriod(period)
+    }
+}
+
 private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
     guard url.scheme == kOTPAuthScheme
         else { return nil }
@@ -122,7 +136,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
         else { return nil }
 
     let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
-    guard core._isValid
+    guard validateGeneratorWithGoogleRules(core)
         else { return nil }
 
     var name = Token.defaultName

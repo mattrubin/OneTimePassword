@@ -86,18 +86,6 @@ public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
 }
 
 public extension Generator {
-    var _isValid: Bool {
-        let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
-        let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
-
-        switch factor {
-        case .Counter:
-            return validDigits(digits)
-        case .Timer(let period):
-            return validDigits(digits) && validPeriod(period)
-        }
-    }
-
     /**
     Calculates the current password based on the generator's configuration. The password generated
     will be consistent for a counter-based generator, but for a timer-based generator the password
