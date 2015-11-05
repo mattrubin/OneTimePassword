@@ -105,7 +105,8 @@ public extension Generator {
 
         do {
             let counter = try counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
-            return generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
+            let password = try generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
+            return password
         } catch {
             return nil
         }

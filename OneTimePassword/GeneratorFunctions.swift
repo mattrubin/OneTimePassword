@@ -24,6 +24,7 @@ internal func validateGenerator(factor factor: Generator.Factor, secret: NSData,
 enum GenerationError: ErrorType {
     case InvalidTime
     case InvalidPeriod
+    case InvalidDigits
 }
 
 public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
@@ -39,7 +40,13 @@ public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInterv
     }
 }
 
-public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String {
+private let minimumDigits = 1 // Zero or negative digits makes no sense
+private let maximumDigits = 9 // 10 digits overflows UInt32.max
+
+public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
+    guard (minimumDigits...maximumDigits).contains(digits)
+        else { throw GenerationError.InvalidDigits }
+    
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
         case .SHA1:
