@@ -12,14 +12,17 @@ import CommonCrypto
 let minimumDigits = 1 // Zero or negative digits makes no sense
 let maximumDigits = 9 // 10 digits overflows UInt32.max
 
+/// Checks the given number of digits to ensure the value can be safely used to generate a password.
 private func validateDigits(digits: Int) -> Bool {
     return (minimumDigits...maximumDigits).contains(digits)
 }
 
+/// Checks the given time period to ensure the value can be safely used to generate a password.
 private func validatePeriod(period: NSTimeInterval) -> Bool {
     return (period > 0)
 }
 
+/// Checks the given epoch time to ensure the value can be safely used to generate a password.
 private func validateTime(time: NSTimeInterval) -> Bool {
     return (time >= 0)
 }
