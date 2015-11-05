@@ -30,7 +30,7 @@ public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInterv
     }
 }
 
-public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String? {
+public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String {
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
         case .SHA1:

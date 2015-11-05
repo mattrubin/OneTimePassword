@@ -137,7 +137,7 @@ class GeneratorTests: XCTestCase {
         let expectedValues = ["755224", "287082", "359152", "969429", "338314", "254676", "287922", "162583", "399871", "520489"]
 
         for (var counter = 0; counter < expectedValues.count; counter++) {
-            XCTAssertEqual(generatePassword(algorithm: .SHA1, digits: 6, secret: secret, counter: UInt64(counter))!, expectedValues[counter])
+            XCTAssertEqual(generatePassword(algorithm: .SHA1, digits: 6, secret: secret, counter: UInt64(counter)), expectedValues[counter])
         }
     }
 
@@ -164,7 +164,7 @@ class GeneratorTests: XCTestCase {
             for (var i = 0; i < times.count; i++) {
                 if let password = expectedValues[algorithm]?[i] {
                     let counter = UInt64(times[i] / 30)
-                    XCTAssertEqual(generatePassword(algorithm: algorithm, digits: 8, secret: secret, counter: counter)!, password, "Incorrect result for \(algorithm) at \(times[i])")
+                    XCTAssertEqual(generatePassword(algorithm: algorithm, digits: 8, secret: secret, counter: counter), password, "Incorrect result for \(algorithm) at \(times[i])")
                 }
             }
         }
@@ -185,7 +185,7 @@ class GeneratorTests: XCTestCase {
         for (algorithm, values) in expectedValues {
             for (var i = 0; i < times.count; i++) {
                 let counter = UInt64(times[i] / 30)
-                XCTAssertEqual(values[i], generatePassword(algorithm: algorithm, digits: 6, secret: secret, counter: counter)!,
+                XCTAssertEqual(values[i], generatePassword(algorithm: algorithm, digits: 6, secret: secret, counter: counter),
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
         }
