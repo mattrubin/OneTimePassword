@@ -17,11 +17,6 @@ private func validateDigits(digits: Int) -> Bool {
     return (minimumDigits...maximumDigits).contains(digits)
 }
 
-/// Checks the given epoch time to ensure the value can be safely used to generate a password.
-private func validateTime(time: NSTimeInterval) -> Bool {
-    return (time >= 0)
-}
-
 enum GenerationError: ErrorType {
     case InvalidTime
     case InvalidPeriod
@@ -33,8 +28,10 @@ public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInterv
     case .Counter(let counter):
         return counter
     case .Timer(let period):
-        guard validateTime(timeInterval)
+        // The time interval must be positive to produce a valid counter value.
+        guard (timeInterval >= 0)
             else { throw GenerationError.InvalidTime }
+        // The period must be positive and non-zero to produce a valid counter value.
         guard (period > 0)
             else { throw GenerationError.InvalidPeriod }
         return UInt64(timeInterval / period)
