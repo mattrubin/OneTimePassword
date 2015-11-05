@@ -103,7 +103,11 @@ public extension Generator {
         guard validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
             else { return nil }
 
-        let counter = counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
-        return generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
+        do {
+            let counter = try counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
+            return generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
+        } catch {
+            return nil
+        }
     }
 }

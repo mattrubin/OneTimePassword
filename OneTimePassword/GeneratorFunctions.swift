@@ -21,11 +21,20 @@ internal func validateGenerator(factor factor: Generator.Factor, secret: NSData,
     }
 }
 
-public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) -> UInt64 {
+enum GenerationError: ErrorType {
+    case InvalidTime
+    case InvalidPeriod
+}
+
+public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
     switch factor {
     case .Counter(let counter):
         return counter
     case .Timer(let period):
+        guard timeInterval >= 0
+            else { throw GenerationError.InvalidTime }
+        guard period > 0
+            else { throw GenerationError.InvalidPeriod }
         return UInt64(timeInterval / period)
     }
 }
