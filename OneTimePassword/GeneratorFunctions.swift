@@ -12,21 +12,12 @@ import CommonCrypto
 let minimumDigits = 1 // Zero or negative digits makes no sense
 let maximumDigits = 9 // 10 digits overflows UInt32.max
 
-private func validateDigits(digits: Int) -> Bool {
+internal func validateDigits(digits: Int) -> Bool {
     return (minimumDigits...maximumDigits).contains(digits)
 }
 
-private func validatePeriod(period: NSTimeInterval) -> Bool {
+internal func validatePeriod(period: NSTimeInterval) -> Bool {
     return (period > 0)
-}
-
-internal func validateGenerator(factor factor: Generator.Factor, secret: NSData, algorithm: Generator.Algorithm, digits: Int) -> Bool {
-    switch factor {
-    case .Counter:
-        return validateDigits(digits)
-    case .Timer(let period):
-        return validateDigits(digits) && validatePeriod(period)
-    }
 }
 
 enum GenerationError: ErrorType {

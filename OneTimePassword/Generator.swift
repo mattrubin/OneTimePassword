@@ -87,7 +87,12 @@ public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
 
 public extension Generator {
     var isValid: Bool {
-        return validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+        switch factor {
+        case .Counter:
+            return validateDigits(digits)
+        case .Timer(let period):
+            return validateDigits(digits) && validatePeriod(period)
+        }
     }
 
     /**
@@ -100,9 +105,6 @@ public extension Generator {
     - returns: The current password, or `nil` if a password could not be generated.
     */
     var password: String? {
-        guard validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
-            else { return nil }
-
         do {
             let counter = try counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
             let password = try generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
