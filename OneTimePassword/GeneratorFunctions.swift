@@ -9,14 +9,6 @@
 import Foundation
 import CommonCrypto
 
-let minimumDigits = 1 // Zero or negative digits makes no sense
-let maximumDigits = 9 // 10 digits overflows UInt32.max
-
-/// Checks the given number of digits to ensure the value can be safely used to generate a password.
-private func validateDigits(digits: Int) -> Bool {
-    return (minimumDigits...maximumDigits).contains(digits)
-}
-
 enum GenerationError: ErrorType {
     case InvalidTime
     case InvalidPeriod
@@ -39,7 +31,9 @@ public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInterv
 }
 
 public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
-    guard validateDigits(digits)
+    let minimumDigits = 1 // Zero or negative digits makes no sense
+    let maximumDigits = 9 // 10 digits overflows UInt32.max
+    guard (minimumDigits...maximumDigits).contains(digits)
         else { throw GenerationError.InvalidDigits }
 
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
