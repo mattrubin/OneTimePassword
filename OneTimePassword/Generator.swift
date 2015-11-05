@@ -33,10 +33,7 @@ public struct Generator: Equatable {
 
     - returns: A valid password generator, or `nil` if the parameters are invalid.
     */
-    public init?(factor: Factor, secret: NSData, algorithm: Algorithm = defaultAlgorithm, digits: Int = defaultDigits) {
-        guard validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
-            else { return nil }
-
+    public init(factor: Factor, secret: NSData, algorithm: Algorithm = defaultAlgorithm, digits: Int = defaultDigits) {
         self.factor = factor
         self.secret = secret
         self.algorithm = algorithm
@@ -89,6 +86,10 @@ public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
 }
 
 public extension Generator {
+    var isValid: Bool {
+        return validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+    }
+
     /**
     Calculates the current password based on the generator's configuration. The password generated
     will be consistent for a counter-based generator, but for a timer-based generator the password

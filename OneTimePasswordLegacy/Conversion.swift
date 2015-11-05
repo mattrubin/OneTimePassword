@@ -20,20 +20,14 @@ internal extension OTPAlgorithm {
 }
 
 
-internal func tokenForOTPToken(token: OTPToken) -> Token? {
-    guard let generator = generatorForOTPToken(token)
-        else { return nil }
-
-    return Token(name: token.name, issuer: token.issuer, core: generator)
-}
-
-private func generatorForOTPToken(token: OTPToken) -> Generator? {
-    return Generator(
+internal func tokenForOTPToken(token: OTPToken) -> Token {
+    let generator = Generator(
         factor: factorForOTPToken(token),
         secret: token.secret,
         algorithm: algorithmForOTPAlgorithm(token.algorithm),
         digits: Int(token.digits)
     )
+    return Token(name: token.name, issuer: token.issuer, core: generator)
 }
 
 private func factorForOTPToken(token: OTPToken) -> Generator.Factor {

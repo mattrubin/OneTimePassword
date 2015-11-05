@@ -24,11 +24,10 @@ class GeneratorTests: XCTestCase {
             digits: digits
         )
 
-        XCTAssert(generator != nil)
-        XCTAssert(generator?.factor == factor)
-        XCTAssert(generator?.secret == secret)
-        XCTAssert(generator?.algorithm == algorithm)
-        XCTAssert(generator?.digits == digits)
+        XCTAssert(generator.factor == factor)
+        XCTAssert(generator.secret == secret)
+        XCTAssert(generator.algorithm == algorithm)
+        XCTAssert(generator.digits == digits)
 
         // Create another generator
         let other_factor = OneTimePassword.Generator.Factor.Timer(period: 123)
@@ -43,17 +42,16 @@ class GeneratorTests: XCTestCase {
             digits: other_digits
         )
 
-        XCTAssert(other_generator != nil)
-        XCTAssert(other_generator?.factor == other_factor)
-        XCTAssert(other_generator?.secret == other_secret)
-        XCTAssert(other_generator?.algorithm == other_algorithm)
-        XCTAssert(other_generator?.digits == other_digits)
+        XCTAssert(other_generator.factor == other_factor)
+        XCTAssert(other_generator.secret == other_secret)
+        XCTAssert(other_generator.algorithm == other_algorithm)
+        XCTAssert(other_generator.digits == other_digits)
 
         // Ensure the generators are different
-        XCTAssert(generator?.factor != other_generator?.factor)
-        XCTAssert(generator?.secret != other_generator?.secret)
-        XCTAssert(generator?.algorithm != other_generator?.algorithm)
-        XCTAssert(generator?.digits != other_generator?.digits)
+        XCTAssert(generator.factor != other_generator.factor)
+        XCTAssert(generator.secret != other_generator.secret)
+        XCTAssert(generator.algorithm != other_generator.algorithm)
+        XCTAssert(generator.digits != other_generator.digits)
     }
 
     func testDefaults() {
@@ -65,13 +63,13 @@ class GeneratorTests: XCTestCase {
         let generatorWithDefaultAlgorithm = Generator(factor: f, secret: s, digits: d)
         let generatorWithDefaultDigits    = Generator(factor: f, secret: s, algorithm: a)
 
-        XCTAssert(generatorWithDefaultAlgorithm?.algorithm == Generator.Algorithm.SHA1)
-        XCTAssert(generatorWithDefaultDigits?.digits == 6)
+        XCTAssert(generatorWithDefaultAlgorithm.algorithm == Generator.Algorithm.SHA1)
+        XCTAssert(generatorWithDefaultDigits.digits == 6)
 
         let generatorWithAllDefaults = Generator(factor: f, secret: s)
 
-        XCTAssert(generatorWithAllDefaults?.algorithm == Generator.Algorithm.SHA1)
-        XCTAssert(generatorWithAllDefaults?.digits == 6)
+        XCTAssert(generatorWithAllDefaults.algorithm == Generator.Algorithm.SHA1)
+        XCTAssert(generatorWithAllDefaults.digits == 6)
     }
 
     func testCounter() {
@@ -116,17 +114,17 @@ class GeneratorTests: XCTestCase {
         for (digits, digitsAreValid) in digitTests {
             let generator = Generator(factor: .Counter(0), secret: NSData(), digits: digits)
             if digitsAreValid {
-                XCTAssert(generator != nil)
+                XCTAssertTrue(generator.isValid)
             } else {
-                XCTAssert(generator == nil)
+                XCTAssertFalse(generator.isValid)
             }
 
             for (period, periodIsValid) in periodTests {
                 let generator = Generator(factor: .Timer(period: period), secret: NSData(), digits: digits)
                 if (digitsAreValid && periodIsValid) {
-                    XCTAssert(generator != nil)
+                    XCTAssertTrue(generator.isValid)
                 } else {
-                    XCTAssert(generator == nil)
+                    XCTAssertFalse(generator.isValid)
                 }
             }
         }

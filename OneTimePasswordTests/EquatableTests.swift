@@ -51,18 +51,11 @@ class EquatableTests: XCTestCase {
         let generator = Generator(factor: .Counter(0), secret: NSData())
         let other_generator = Generator(factor: .Counter(1), secret: NSData())
 
-        XCTAssert(generator != nil)
-        XCTAssert(other_generator != nil)
+        let t = Token(name: "Name", issuer: "Issuer", core: generator)
 
-        if let genA = generator {
-            if let genB = other_generator {
-                let t = Token(name: "Name", issuer: "Issuer", core: genA)
-
-                XCTAssertEqual(t, Token(name: "Name", issuer: "Issuer", core: genA))
-                XCTAssertNotEqual(t, Token(name: "", issuer: "Issuer", core: genA))
-                XCTAssertNotEqual(t, Token(name: "Name", issuer: "", core: genA))
-                XCTAssertNotEqual(t, Token(name: "Name", issuer: "Issuer", core: genB))
-            }
-        }
+        XCTAssertEqual(t, Token(name: "Name", issuer: "Issuer", core: generator))
+        XCTAssertNotEqual(t, Token(name: "", issuer: "Issuer", core: generator))
+        XCTAssertNotEqual(t, Token(name: "Name", issuer: "", core: generator))
+        XCTAssertNotEqual(t, Token(name: "Name", issuer: "Issuer", core: other_generator))
     }
 }
