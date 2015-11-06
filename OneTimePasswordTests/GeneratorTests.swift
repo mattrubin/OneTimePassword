@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import OneTimePassword
+@testable import OneTimePassword
 
 class GeneratorTests: XCTestCase {
     func testInit() {
@@ -135,38 +135,50 @@ class GeneratorTests: XCTestCase {
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
-        let expectedValues = ["755224", "287082", "359152", "969429", "338314", "254676", "287922", "162583", "399871", "520489"]
-
-        for (var counter = 0; counter < expectedValues.count; counter++) {
-            XCTAssertEqual(try! generatePassword(algorithm: .SHA1, digits: 6, secret: secret, counter: UInt64(counter)), expectedValues[counter])
+        let expectedValues: [UInt64: String] = [
+            0: "755224",
+            1: "287082",
+            2: "359152",
+            3: "969429",
+            4: "338314",
+            5: "254676",
+            6: "287922",
+            7: "162583",
+            8: "399871",
+            9: "520489",
+        ]
+        for (counter, expectedPassword) in expectedValues {
+            let generator = Generator(factor: .Counter(counter), secret: secret, algorithm: .SHA1, digits: 6)
+            XCTAssertEqual(generator.password, expectedPassword, "The generator did not produce the expected OTP.")
         }
     }
 
     // The values in this test are found in Appendix B of the TOTP RFC
     // https://tools.ietf.org/html/rfc6238#appendix-B
     func testTOTPRFCValues() {
-        let secretKeys = [
-            Generator.Algorithm.SHA1:   "12345678901234567890",
-            Generator.Algorithm.SHA256: "12345678901234567890123456789012",
-            Generator.Algorithm.SHA512: "1234567890123456789012345678901234567890123456789012345678901234",
+        let secretKeys: [Generator.Algorithm: String] = [
+            .SHA1:   "12345678901234567890",
+            .SHA256: "12345678901234567890123456789012",
+            .SHA512: "1234567890123456789012345678901234567890123456789012345678901234",
         ]
 
         let times: [NSTimeInterval] = [59, 1111111109, 1111111111, 1234567890, 2000000000, 20000000000]
 
-        let expectedValues = [
-            Generator.Algorithm.SHA1:   ["94287082", "07081804", "14050471", "89005924", "69279037", "65353130"],
-            Generator.Algorithm.SHA256: ["46119246", "68084774", "67062674", "91819424", "90698825", "77737706"],
-            Generator.Algorithm.SHA512: ["90693936", "25091201", "99943326", "93441116", "38618901", "47863826"],
+        let expectedValues: [Generator.Algorithm: [String]] = [
+            .SHA1:   ["94287082", "07081804", "14050471", "89005924", "69279037", "65353130"],
+            .SHA256: ["46119246", "68084774", "67062674", "91819424", "90698825", "77737706"],
+            .SHA512: ["90693936", "25091201", "99943326", "93441116", "38618901", "47863826"],
         ]
 
         for (algorithm, secretKey) in secretKeys {
             let secret = secretKey.dataUsingEncoding(NSASCIIStringEncoding)!
+            let generator = Generator(factor: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 8)
 
-            for (var i = 0; i < times.count; i++) {
-                if let password = expectedValues[algorithm]?[i] {
-                    let counter = UInt64(times[i] / 30)
-                    XCTAssertEqual(try! generatePassword(algorithm: algorithm, digits: 8, secret: secret, counter: counter), password, "Incorrect result for \(algorithm) at \(times[i])")
-                }
+            for i in 0..<times.count {
+                let expectedPassword = expectedValues[algorithm]?[i]
+                let password = try! generator.passwordAtTimeIntervalSince1970(times[i])
+                XCTAssertEqual(password, expectedPassword,
+                    "Incorrect result for \(algorithm) at \(times[i])")
             }
         }
     }
@@ -177,16 +189,18 @@ class GeneratorTests: XCTestCase {
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let times: [NSTimeInterval] = [1111111111, 1234567890, 2000000000]
 
-        let expectedValues = [
-            Generator.Algorithm.SHA1:   ["050471", "005924", "279037"],
-            Generator.Algorithm.SHA256: ["584430", "829826", "428693"],
-            Generator.Algorithm.SHA512: ["380122", "671578", "464532"],
+        let expectedValues: [Generator.Algorithm: [String]] = [
+            .SHA1:   ["050471", "005924", "279037"],
+            .SHA256: ["584430", "829826", "428693"],
+            .SHA512: ["380122", "671578", "464532"],
         ]
 
-        for (algorithm, values) in expectedValues {
-            for (var i = 0; i < times.count; i++) {
-                let counter = UInt64(times[i] / 30)
-                XCTAssertEqual(values[i], try! generatePassword(algorithm: algorithm, digits: 6, secret: secret, counter: counter),
+        for (algorithm, expectedPasswords) in expectedValues {
+            let generator = Generator(factor: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
+            for i in 0..<times.count {
+                let expectedPassword = expectedPasswords[i]
+                let password = try! generator.passwordAtTimeIntervalSince1970(times[i])
+                XCTAssertEqual(password, expectedPassword,
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
         }

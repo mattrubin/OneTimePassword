@@ -97,11 +97,15 @@ public extension Generator {
     */
     var password: String? {
         do {
-            let counter = try counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
-            let password = try generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
-            return password
+            return try passwordAtTimeIntervalSince1970(NSDate().timeIntervalSince1970)
         } catch {
             return nil
         }
+    }
+
+    internal func passwordAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> String {
+        let counter = try counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: timeInterval)
+        let password = try generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
+        return password
     }
 }
