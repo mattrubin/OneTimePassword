@@ -56,7 +56,12 @@ public struct Generator: Equatable {
     /// A cryptographic hash function used to calculate the HMAC from which a password is derived.
     /// The supported algorithms are SHA-1, SHA-256, and SHA-512
     public enum Algorithm: Equatable {
-        case SHA1, SHA256, SHA512
+        /// The SHA-1 hash function
+        case SHA1
+        /// The SHA-256 hash function
+        case SHA256
+        /// The SHA-512 hash function
+        case SHA512
     }
 
     public static let defaultAlgorithm: Algorithm = .SHA1
