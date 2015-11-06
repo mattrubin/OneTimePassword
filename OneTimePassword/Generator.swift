@@ -24,14 +24,12 @@ public struct Generator: Equatable {
     public let digits: Int
 
     /**
-    Initializes a new password generator with the given parameters, if valid.
+    Initializes a new password generator with the given parameters.
 
     - parameter factor:      The moving factor
     - parameter secret:      The shared secret
     - parameter algorithm:   The cryptographic hash function (defaults to SHA-1)
     - parameter digits:      The number of digits in the password (defaults to 6)
-
-    - returns: A valid password generator, or `nil` if the parameters are invalid.
     */
     public init(factor: Factor, secret: NSData, algorithm: Algorithm = defaultAlgorithm, digits: Int = defaultDigits) {
         self.factor = factor
