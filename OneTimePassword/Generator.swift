@@ -40,6 +40,33 @@ public struct Generator: Equatable {
         self.digits = digits
     }
 
+    // MARK: Password Generation
+
+    /**
+    Calculates the current password based on the generator's configuration. The password generated
+    will be consistent for a counter-based generator, but for a timer-based generator the password
+    will depend on the current time when this property is accessed.
+
+    Note: Accessing this property does *not* increment the counter of a counter-based generator.
+
+    - returns: The current password, or `nil` if a password could not be generated.
+    */
+    public var password: String? {
+        do {
+            return try passwordAtTimeIntervalSince1970(NSDate().timeIntervalSince1970)
+        } catch {
+            return nil
+        }
+    }
+
+    internal func passwordAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> String {
+        let counter = try counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: timeInterval)
+        let password = try generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
+        return password
+    }
+
+    // MARK: Nested Types
+
     /// A moving factor with which a generator produces different one-time passwords over time.
     /// The possible values are `Counter` and `Timer`, with associated values for each.
     public enum Factor: Equatable {
@@ -80,30 +107,5 @@ public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
         return l == r
     default:
         return false
-    }
-}
-
-public extension Generator {
-    /**
-    Calculates the current password based on the generator's configuration. The password generated
-    will be consistent for a counter-based generator, but for a timer-based generator the password
-    will depend on the current time when this property is accessed.
-
-    Note: Accessing this property does *not* increment the counter of a counter-based generator.
-
-    - returns: The current password, or `nil` if a password could not be generated.
-    */
-    var password: String? {
-        do {
-            return try passwordAtTimeIntervalSince1970(NSDate().timeIntervalSince1970)
-        } catch {
-            return nil
-        }
-    }
-
-    internal func passwordAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> String {
-        let counter = try counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: timeInterval)
-        let password = try generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
-        return password
     }
 }

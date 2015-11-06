@@ -35,6 +35,8 @@ public struct Token: Equatable {
         self.core = core
     }
 
+    // MARK: Defaults
+
     /// The default token name, an empty string.
     public static let defaultName: String = ""
 
