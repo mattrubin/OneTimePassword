@@ -11,6 +11,9 @@ import Base32
 
 extension Token {
     public struct URLSerializer: TokenSerializer {
+        public static let defaultAlgorithm: Generator.Algorithm = .SHA1
+        public static let defaultDigits: Int = 6
+
         public static func serialize(token: Token) -> String? {
             let url = urlForToken(name: token.name, issuer: token.issuer, factor: token.core.factor, algorithm: token.core.algorithm, digits: token.core.digits)
             return url?.absoluteString
@@ -117,8 +120,8 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
 
     guard let factor = parse(url.host, with: factorParser, defaultTo: nil),
         let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, overrideWith: externalSecret),
-        let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: Generator.defaultAlgorithm),
-        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Generator.defaultDigits)
+        let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: Token.URLSerializer.defaultAlgorithm),
+        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Token.URLSerializer.defaultDigits)
         else { return nil }
 
     let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
