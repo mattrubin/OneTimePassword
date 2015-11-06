@@ -40,16 +40,16 @@ class EquatableTests: XCTestCase {
     func testGeneratorEquality() {
         let g = Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 6)
 
-        XCTAssert(g == Generator(factor: .Counter(0), secret: NSData()))
-        XCTAssert(g != Generator(factor: .Counter(1), secret: NSData()))
-        XCTAssert(g != Generator(factor: .Counter(0), secret: "0".dataUsingEncoding(NSUTF8StringEncoding)!))
-        XCTAssert(g != Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA256))
-        XCTAssert(g != Generator(factor: .Counter(0), secret: NSData(), digits: 8))
+        XCTAssert(g == Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 6))
+        XCTAssert(g != Generator(factor: .Counter(1), secret: NSData(), algorithm: .SHA1, digits: 6))
+        XCTAssert(g != Generator(factor: .Counter(0), secret: "0".dataUsingEncoding(NSUTF8StringEncoding)!, algorithm: .SHA1, digits: 6))
+        XCTAssert(g != Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA256, digits: 6))
+        XCTAssert(g != Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 8))
     }
 
     func testTokenEquality() {
-        let generator = Generator(factor: .Counter(0), secret: NSData())
-        let other_generator = Generator(factor: .Counter(1), secret: NSData())
+        let generator = Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 6)
+        let other_generator = Generator(factor: .Counter(1), secret: NSData(), algorithm: .SHA512, digits: 8)
 
         let t = Token(name: "Name", issuer: "Issuer", core: generator)
 
