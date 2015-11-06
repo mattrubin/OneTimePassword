@@ -39,7 +39,7 @@ private func factorForOTPToken(token: OTPToken) -> Generator.Factor {
     }
 }
 
-internal func algorithmForOTPAlgorithm(algorithm: OTPAlgorithm) -> Generator.Algorithm {
+private func algorithmForOTPAlgorithm(algorithm: OTPAlgorithm) -> Generator.Algorithm {
     switch algorithm {
     case .SHA1:   return .SHA1
     case .SHA256: return .SHA256
