@@ -84,11 +84,13 @@ public extension OTPToken {
 
     // This should be private, but is public for testing purposes
     func generatePasswordForCounter(counter: UInt64) -> String? {
-        do {
-            return try generatePassword(algorithm: token.core.algorithm, digits: token.core.digits, secret: token.core.secret, counter: counter)
-        } catch {
-            return nil
-        }
+        let generator = Generator(
+            factor: .Counter(counter),
+            secret: token.core.secret,
+            algorithm: token.core.algorithm,
+            digits: token.core.digits
+        )
+        return generator.password
     }
 }
 
