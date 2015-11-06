@@ -189,16 +189,18 @@ class GeneratorTests: XCTestCase {
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
         let times: [NSTimeInterval] = [1111111111, 1234567890, 2000000000]
 
-        let expectedValues = [
-            Generator.Algorithm.SHA1:   ["050471", "005924", "279037"],
-            Generator.Algorithm.SHA256: ["584430", "829826", "428693"],
-            Generator.Algorithm.SHA512: ["380122", "671578", "464532"],
+        let expectedValues: [Generator.Algorithm: [String]] = [
+            .SHA1:   ["050471", "005924", "279037"],
+            .SHA256: ["584430", "829826", "428693"],
+            .SHA512: ["380122", "671578", "464532"],
         ]
 
-        for (algorithm, values) in expectedValues {
-            for (var i = 0; i < times.count; i++) {
-                let counter = UInt64(times[i] / 30)
-                XCTAssertEqual(values[i], try! generatePassword(algorithm: algorithm, digits: 6, secret: secret, counter: counter),
+        for (algorithm, expectedPasswords) in expectedValues {
+            let generator = Generator(factor: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
+            for i in 0..<times.count {
+                let expectedPassword = expectedPasswords[i]
+                let password = try! generator.passwordAtTimeIntervalSince1970(times[i])
+                XCTAssertEqual(password, expectedPassword,
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
         }

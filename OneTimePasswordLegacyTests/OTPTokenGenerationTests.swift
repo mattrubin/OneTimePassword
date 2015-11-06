@@ -26,37 +26,4 @@ import XCTest
 @testable import OneTimePassword
 
 class OTPTokenGenerationTests: XCTestCase {
-    // From Google Authenticator for iOS
-    // https://code.google.com/p/google-authenticator/source/browse/mobile/ios/Classes/TOTPGeneratorTest.m
-    func testTOTPGoogleValues() {
-        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
-
-        let intervals: [NSTimeInterval] = [
-            1111111111,
-            1234567890,
-            2000000000,
-        ]
-        let algorithms: [Generator.Algorithm] = [
-            .SHA1,
-            .SHA256,
-            .SHA512,
-        ]
-        let results = [
-            // SHA1    SHA256    SHA512
-            "050471", "584430", "380122", // date1
-            "005924", "829826", "671578", // date2
-            "279037", "428693", "464532", // date3
-        ]
-
-        var j = 0
-        for i in 0..<intervals.count {
-            for algorithm in algorithms {
-                let generator = Generator(factor: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
-                XCTAssertEqual(results[j],
-                               try! generator.passwordAtTimeIntervalSince1970(intervals[i]),
-                               "Invalid result \(i), \(algorithm), \(intervals[i])")
-                j++
-            }
-        }
-    }
 }
