@@ -23,7 +23,7 @@ public struct Token: Equatable {
     /**
     Initializes a new token with the given parameters.
 
-    - parameter name:        The user name for the token (defaults to "")
+    - parameter name:        The account name for the token (defaults to "")
     - parameter issure:      The entity which issued the token (defaults to "")
     - parameter core:        The password generator
 
@@ -35,7 +35,10 @@ public struct Token: Equatable {
         self.core = core
     }
 
+    /// The default token name, an empty string.
     public static let defaultName: String = ""
+
+    /// The default token issuer, an empty string.
     public static let defaultIssuer: String = ""
 }
 
