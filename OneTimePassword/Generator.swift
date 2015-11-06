@@ -85,9 +85,9 @@ public extension Generator {
     /**
     Calculates the current password based on the generator's configuration. The password generated
     will be consistent for a counter-based generator, but for a timer-based generator the password
-    will depend on the current time when this method is called.
+    will depend on the current time when this property is accessed.
 
-    Note: Calling this method does *not* increment the counter of a counter-based generator.
+    Note: Accessing this property does *not* increment the counter of a counter-based generator.
 
     - returns: The current password, or `nil` if a password could not be generated.
     */
