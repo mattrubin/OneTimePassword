@@ -24,14 +24,14 @@ public struct Generator: Equatable {
     public let digits: Int
 
     /**
-    Initializes a new password generator with the given parameters, if valid.
+    Initializes a new password generator with the given parameters.
 
     - parameter factor:      The moving factor
     - parameter secret:      The shared secret
     - parameter algorithm:   The cryptographic hash function
     - parameter digits:      The number of digits in the password
 
-    - returns: A valid password generator, or `nil` if the parameters are invalid.
+    - returns: A new password generator with the given parameters.
     */
     public init(factor: Factor, secret: NSData, algorithm: Algorithm, digits: Int) {
         self.factor = factor
@@ -40,30 +40,65 @@ public struct Generator: Equatable {
         self.digits = digits
     }
 
-    /**
-    A moving factor with which a generator produces different one-time passwords over time.
+    // MARK: Password Generation
 
-    Counter:
-        Indicates a HOTP, with an associated 8-byte counter value for the moving factor. After
-        each use of the password generator, the counter should be incremented to stay in sync with
-        the server.
-    Timer:
-        Indicates a TOTP, with an associated time interval for calculating the time-based moving
-        factor. This period value remains constant, and is used as a divisor for the number of
-        seconds since the Unix epoch.
+    /**
+    Calculates the current password based on the generator's configuration. The password generated
+    will be consistent for a counter-based generator, but for a timer-based generator the password
+    will depend on the current time when this property is accessed.
+
+    Note: Accessing this property does *not* increment the counter of a counter-based generator.
+
+    - returns: The current password, or `nil` if a password could not be generated.
     */
+    public var password: String? {
+        do {
+            return try passwordAtTimeIntervalSince1970(NSDate().timeIntervalSince1970)
+        } catch {
+            return nil
+        }
+    }
+
+    /**
+    Calculates the password for the given point in time.
+    - parameter timeInterval: the target time, as seconds since the Unix epoch.
+    - returns: The generated password, or throws an error if a password could not be generated.
+    - throws: A `GenerationError` if a valid password cannot be generated.
+    */
+    internal func passwordAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> String {
+        let counter = try counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: timeInterval)
+        let password = try generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
+        return password
+    }
+
+    // MARK: Nested Types
+
+    /// A moving factor with which a generator produces different one-time passwords over time.
+    /// The possible values are `Counter` and `Timer`, with associated values for each.
     public enum Factor: Equatable {
+        /// Indicates a HOTP, with an associated 8-byte counter value for the moving factor. After
+        /// each use of the password generator, the counter should be incremented to stay in sync
+        /// with the server.
         case Counter(UInt64)
+        /// Indicates a TOTP, with an associated time interval for calculating the time-based moving
+        /// factor. This period value remains constant, and is used as a divisor for the number of
+        /// seconds since the Unix epoch.
         case Timer(period: NSTimeInterval)
     }
 
     /// A cryptographic hash function used to calculate the HMAC from which a password is derived.
     /// The supported algorithms are SHA-1, SHA-256, and SHA-512
     public enum Algorithm: Equatable {
-        case SHA1, SHA256, SHA512
+        /// The SHA-1 hash function
+        case SHA1
+        /// The SHA-256 hash function
+        case SHA256
+        /// The SHA-512 hash function
+        case SHA512
     }
 }
 
+/// Compares two `Generator`s for equality.
 public func ==(lhs: Generator, rhs: Generator) -> Bool {
     return (lhs.factor == rhs.factor)
         && (lhs.algorithm == rhs.algorithm)
@@ -71,6 +106,7 @@ public func ==(lhs: Generator, rhs: Generator) -> Bool {
         && (lhs.digits == rhs.digits)
 }
 
+/// Compares two `Factor`s for equality.
 public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
     switch (lhs, rhs) {
     case let (.Counter(l), .Counter(r)):
@@ -79,30 +115,5 @@ public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
         return l == r
     default:
         return false
-    }
-}
-
-public extension Generator {
-    /**
-    Calculates the current password based on the generator's configuration. The password generated
-    will be consistent for a counter-based generator, but for a timer-based generator the password
-    will depend on the current time when this method is called.
-
-    Note: Calling this method does *not* increment the counter of a counter-based generator.
-
-    - returns: The current password, or `nil` if a password could not be generated.
-    */
-    var password: String? {
-        do {
-            return try passwordAtTimeIntervalSince1970(NSDate().timeIntervalSince1970)
-        } catch {
-            return nil
-        }
-    }
-
-    internal func passwordAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> String {
-        let counter = try counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: timeInterval)
-        let password = try generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
-        return password
     }
 }
