@@ -92,6 +92,7 @@ public struct Generator: Equatable {
     }
 }
 
+/// Compares two `Generator`s for equality.
 public func ==(lhs: Generator, rhs: Generator) -> Bool {
     return (lhs.factor == rhs.factor)
         && (lhs.algorithm == rhs.algorithm)
@@ -99,6 +100,7 @@ public func ==(lhs: Generator, rhs: Generator) -> Bool {
         && (lhs.digits == rhs.digits)
 }
 
+/// Compares two `Factor`s for equality.
 public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
     switch (lhs, rhs) {
     case let (.Counter(l), .Counter(r)):
