@@ -9,28 +9,33 @@
 import Foundation
 import CommonCrypto
 
-internal func validateGenerator(factor factor: Generator.Factor, secret: NSData, algorithm: Generator.Algorithm, digits: Int) -> Bool {
-    let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
-    let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
-
-    switch factor {
-    case .Counter:
-        return validDigits(digits)
-    case .Timer(let period):
-        return validDigits(digits) && validPeriod(period)
-    }
+enum GenerationError: ErrorType {
+    case InvalidTime
+    case InvalidPeriod
+    case InvalidDigits
 }
 
-public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) -> UInt64 {
+public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
     switch factor {
     case .Counter(let counter):
         return counter
     case .Timer(let period):
+        // The time interval must be positive to produce a valid counter value.
+        guard (timeInterval >= 0)
+            else { throw GenerationError.InvalidTime }
+        // The period must be positive and non-zero to produce a valid counter value.
+        guard (period > 0)
+            else { throw GenerationError.InvalidPeriod }
         return UInt64(timeInterval / period)
     }
 }
 
-public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) -> String? {
+public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
+    let minimumDigits = 1 // Zero or negative digits makes no sense
+    let maximumDigits = 9 // 10 digits overflows UInt32.max
+    guard (minimumDigits...maximumDigits).contains(digits)
+        else { throw GenerationError.InvalidDigits }
+
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
         case .SHA1:

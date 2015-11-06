@@ -86,7 +86,7 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (factor, timeInterval, counter) in factors {
-            XCTAssertEqual(counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: timeInterval), counter)
+            XCTAssertEqual(try! counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: timeInterval), counter)
         }
     }
 
@@ -94,12 +94,13 @@ class GeneratorTests: XCTestCase {
         let digitTests: [(Int, Bool)] = [
             (-6, false),
             (0, false),
-            (1, false),
-            (5, false),
+            (1, true),
+            (5, true),
             (6, true),
             (7, true),
             (8, true),
-            (9, false),
+            (9, true),
+            (10, false),
         ]
 
         let periodTests: [(NSTimeInterval, Bool)] = [
@@ -108,23 +109,23 @@ class GeneratorTests: XCTestCase {
             (1, true),
             (30, true),
             (300, true),
-            (301, false),
+            (301, true),
         ]
 
         for (digits, digitsAreValid) in digitTests {
             let generator = Generator(factor: .Counter(0), secret: NSData(), digits: digits)
             if digitsAreValid {
-                XCTAssertTrue(generator.isValid)
+                XCTAssertNotNil(generator.password)
             } else {
-                XCTAssertFalse(generator.isValid)
+                XCTAssertNil(generator.password)
             }
 
             for (period, periodIsValid) in periodTests {
                 let generator = Generator(factor: .Timer(period: period), secret: NSData(), digits: digits)
                 if (digitsAreValid && periodIsValid) {
-                    XCTAssertTrue(generator.isValid)
+                    XCTAssertNotNil(generator.password)
                 } else {
-                    XCTAssertFalse(generator.isValid)
+                    XCTAssertNil(generator.password)
                 }
             }
         }
@@ -137,7 +138,7 @@ class GeneratorTests: XCTestCase {
         let expectedValues = ["755224", "287082", "359152", "969429", "338314", "254676", "287922", "162583", "399871", "520489"]
 
         for (var counter = 0; counter < expectedValues.count; counter++) {
-            XCTAssertEqual(generatePassword(algorithm: .SHA1, digits: 6, secret: secret, counter: UInt64(counter))!, expectedValues[counter])
+            XCTAssertEqual(try! generatePassword(algorithm: .SHA1, digits: 6, secret: secret, counter: UInt64(counter)), expectedValues[counter])
         }
     }
 
@@ -164,7 +165,7 @@ class GeneratorTests: XCTestCase {
             for (var i = 0; i < times.count; i++) {
                 if let password = expectedValues[algorithm]?[i] {
                     let counter = UInt64(times[i] / 30)
-                    XCTAssertEqual(generatePassword(algorithm: algorithm, digits: 8, secret: secret, counter: counter)!, password, "Incorrect result for \(algorithm) at \(times[i])")
+                    XCTAssertEqual(try! generatePassword(algorithm: algorithm, digits: 8, secret: secret, counter: counter), password, "Incorrect result for \(algorithm) at \(times[i])")
                 }
             }
         }
@@ -185,7 +186,7 @@ class GeneratorTests: XCTestCase {
         for (algorithm, values) in expectedValues {
             for (var i = 0; i < times.count; i++) {
                 let counter = UInt64(times[i] / 30)
-                XCTAssertEqual(values[i], generatePassword(algorithm: algorithm, digits: 6, secret: secret, counter: counter)!,
+                XCTAssertEqual(values[i], try! generatePassword(algorithm: algorithm, digits: 6, secret: secret, counter: counter),
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
         }

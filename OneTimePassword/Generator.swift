@@ -86,10 +86,6 @@ public func ==(lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
 }
 
 public extension Generator {
-    var isValid: Bool {
-        return validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
-    }
-
     /**
     Calculates the current password based on the generator's configuration. The password generated
     will be consistent for a counter-based generator, but for a timer-based generator the password
@@ -100,10 +96,12 @@ public extension Generator {
     - returns: The current password, or `nil` if a password could not be generated.
     */
     var password: String? {
-        guard validateGenerator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
-            else { return nil }
-
-        let counter = counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
-        return generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
+        do {
+            let counter = try counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: NSDate().timeIntervalSince1970)
+            let password = try generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
+            return password
+        } catch {
+            return nil
+        }
     }
 }

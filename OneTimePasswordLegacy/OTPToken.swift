@@ -68,7 +68,7 @@ public final class OTPToken: NSObject {
     }
 
     public func validate() -> Bool {
-        return token.core.isValid
+        return validateGeneratorWithGoogleRules(token.core)
     }
 }
 
@@ -84,7 +84,11 @@ public extension OTPToken {
 
     // This should be private, but is public for testing purposes
     func generatePasswordForCounter(counter: UInt64) -> String? {
-        return generatePassword(algorithm: token.core.algorithm, digits: token.core.digits, secret: token.core.secret, counter: counter)
+        do {
+            return try generatePassword(algorithm: token.core.algorithm, digits: token.core.digits, secret: token.core.secret, counter: counter)
+        } catch {
+            return nil
+        }
     }
 }
 
@@ -95,6 +99,7 @@ public extension OTPToken {
 
     static func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
         guard let token = Token.URLSerializer.deserialize(url.absoluteString, secret: secret)
+            where validateGeneratorWithGoogleRules(token.core)
             else { return nil }
 
         let otp = self.init()
@@ -168,3 +173,18 @@ public extension OTPToken {
         return self.tokenWithKeychainItem(keychainItem)
     }
 }
+
+// https://github.com/google/google-authenticator/blob/56ea6af49c958d4b8056e3c26b3c163841abb900/mobile/ios/Classes/OTPGenerator.m#L80
+// https://github.com/google/google-authenticator/blob/56ea6af49c958d4b8056e3c26b3c163841abb900/mobile/ios/Classes/TOTPGenerator.m#L41
+private func validateGeneratorWithGoogleRules(generator: Generator) -> Bool {
+    let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
+    let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
+
+    switch generator.factor {
+    case .Counter:
+        return validDigits(generator.digits)
+    case .Timer(let period):
+        return validDigits(generator.digits) && validPeriod(period)
+    }
+}
+
