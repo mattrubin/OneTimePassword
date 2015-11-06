@@ -23,7 +23,21 @@
 //
 
 import XCTest
-import OneTimePasswordLegacy
+import OneTimePassword
+@testable import OneTimePasswordLegacy
+
+public extension OTPToken {
+    // This should be private, but is public for testing purposes
+    func generatePasswordForCounter(counter: UInt64) -> String? {
+        let generator = Generator(
+            factor: .Counter(counter),
+            secret: secret,
+            algorithm: algorithmForOTPAlgorithm(algorithm),
+            digits: Int(digits)
+        )
+        return generator.password
+    }
+}
 
 class OTPTokenGenerationTests: XCTestCase {
     // The values in this test are found in Appendix D of the HOTP RFC
@@ -37,8 +51,8 @@ class OTPTokenGenerationTests: XCTestCase {
         token.digits = 6
         token.counter = 0
 
-        XCTAssertEqual("755224", token.generatePasswordForCounter(0), "The 0th OTP should be the expected string.")
-        XCTAssertEqual("755224", token.generatePasswordForCounter(0), "The generatePasswordForCounter: method should be idempotent.")
+        XCTAssertEqual("755224", token.password, "The 0th OTP should be the expected string.")
+        XCTAssertEqual("755224", token.password, "The generatePasswordForCounter: method should be idempotent.")
 
         let expectedValues = [
             "287082",

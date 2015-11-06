@@ -81,17 +81,6 @@ public extension OTPToken {
         let newToken = updatedToken(token)
         updateWithToken(newToken)
     }
-
-    // This should be private, but is public for testing purposes
-    func generatePasswordForCounter(counter: UInt64) -> String? {
-        let generator = Generator(
-            factor: .Counter(counter),
-            secret: token.core.secret,
-            algorithm: token.core.algorithm,
-            digits: token.core.digits
-        )
-        return generator.password
-    }
 }
 
 public extension OTPToken {
