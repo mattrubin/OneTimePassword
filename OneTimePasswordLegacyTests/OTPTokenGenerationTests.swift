@@ -26,19 +26,6 @@ import XCTest
 @testable import OneTimePassword
 @testable import OneTimePasswordLegacy
 
-public extension OTPToken {
-    // This should be private, but is public for testing purposes
-    func generatePasswordForCounter(counter: UInt64) -> String? {
-        let generator = Generator(
-            factor: .Counter(counter),
-            secret: secret,
-            algorithm: algorithmForOTPAlgorithm(algorithm),
-            digits: Int(digits)
-        )
-        return generator.password
-    }
-}
-
 class OTPTokenGenerationTests: XCTestCase {
     // The values in this test are found in Appendix D of the HOTP RFC
     // https://tools.ietf.org/html/rfc4226#appendix-D
@@ -52,7 +39,7 @@ class OTPTokenGenerationTests: XCTestCase {
         token.counter = 0
 
         XCTAssertEqual("755224", token.password, "The 0th OTP should be the expected string.")
-        XCTAssertEqual("755224", token.password, "The generatePasswordForCounter: method should be idempotent.")
+        XCTAssertEqual("755224", token.password, "The password property should be idempotent.")
 
         let expectedValues = [
             "287082",
@@ -118,10 +105,10 @@ class OTPTokenGenerationTests: XCTestCase {
             1234567890,
             2000000000,
         ]
-        let algorithms = [
-            OTPAlgorithm.SHA1,
-            OTPAlgorithm.SHA256,
-            OTPAlgorithm.SHA512,
+        let algorithms: [Generator.Algorithm] = [
+            .SHA1,
+            .SHA256,
+            .SHA512,
         ]
         let results = [
             // SHA1    SHA256    SHA512
@@ -133,16 +120,9 @@ class OTPTokenGenerationTests: XCTestCase {
         var j = 0
         for i in 0..<intervals.count {
             for algorithm in algorithms {
-                let token = OTPToken()
-                token.type = .Timer
-                token.secret = secret
-                token.algorithm = algorithm
-                token.digits = 6
-                token.period = 30
-                token.counter = UInt64(intervals[i] / token.period)
-
+                let generator = Generator(factor: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
                 XCTAssertEqual(results[j],
-                               token.generatePasswordForCounter(token.counter),
+                               try! generator.passwordAtTimeIntervalSince1970(intervals[i]),
                                "Invalid result \(i), \(algorithm), \(intervals[i])")
                 j++
             }
