@@ -54,24 +54,6 @@ class GeneratorTests: XCTestCase {
         XCTAssert(generator.digits != other_generator.digits)
     }
 
-    func testDefaults() {
-        let f = OneTimePassword.Generator.Factor.Counter(111)
-        let s = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
-        let a = Generator.Algorithm.SHA256
-        let d = 8
-
-        let generatorWithDefaultAlgorithm = Generator(factor: f, secret: s, digits: d)
-        let generatorWithDefaultDigits    = Generator(factor: f, secret: s, algorithm: a)
-
-        XCTAssert(generatorWithDefaultAlgorithm.algorithm == Generator.Algorithm.SHA1)
-        XCTAssert(generatorWithDefaultDigits.digits == 6)
-
-        let generatorWithAllDefaults = Generator(factor: f, secret: s)
-
-        XCTAssert(generatorWithAllDefaults.algorithm == Generator.Algorithm.SHA1)
-        XCTAssert(generatorWithAllDefaults.digits == 6)
-    }
-
     func testCounter() {
         let factors: [(OneTimePassword.Generator.Factor, NSTimeInterval, UInt64)] = [
             (.Counter(0),           -1,             0),
@@ -113,7 +95,12 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (digits, digitsAreValid) in digitTests {
-            let generator = Generator(factor: .Counter(0), secret: NSData(), digits: digits)
+            let generator = Generator(
+                factor: .Counter(0),
+                secret: NSData(),
+                algorithm: .SHA1,
+                digits: digits
+            )
             if digitsAreValid {
                 XCTAssertNotNil(generator.password)
             } else {
@@ -121,7 +108,12 @@ class GeneratorTests: XCTestCase {
             }
 
             for (period, periodIsValid) in periodTests {
-                let generator = Generator(factor: .Timer(period: period), secret: NSData(), digits: digits)
+                let generator = Generator(
+                    factor: .Timer(period: period),
+                    secret: NSData(),
+                    algorithm: .SHA1,
+                    digits: digits
+                )
                 if (digitsAreValid && periodIsValid) {
                     XCTAssertNotNil(generator.password)
                 } else {

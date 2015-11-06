@@ -16,7 +16,9 @@ class TokenTests: XCTestCase {
         let issuer = "Test Issuer"
         let generator = Generator(
             factor: .Counter(111),
-            secret: "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+            secret: "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!,
+            algorithm: .SHA1,
+            digits: 6
         )
 
         let token = Token(
@@ -34,7 +36,9 @@ class TokenTests: XCTestCase {
         let other_issuer = "Other Test Issuer"
         let other_generator = Generator(
             factor: .Timer(period: 123),
-            secret: "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
+            secret: "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!,
+            algorithm: .SHA512,
+            digits: 8
         )
 
         let other_token = Token(
@@ -54,7 +58,12 @@ class TokenTests: XCTestCase {
     }
 
     func testDefaults() {
-        let generator = Generator(factor: .Counter(0), secret: NSData())
+        let generator = Generator(
+            factor: .Counter(0),
+            secret: NSData(),
+            algorithm: .SHA1,
+            digits: 6
+        )
         let n = "Test Name"
         let i = "Test Issuer"
 

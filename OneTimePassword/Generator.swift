@@ -28,12 +28,12 @@ public struct Generator: Equatable {
 
     - parameter factor:      The moving factor
     - parameter secret:      The shared secret
-    - parameter algorithm:   The cryptographic hash function (defaults to SHA-1)
-    - parameter digits:      The number of digits in the password (defaults to 6)
+    - parameter algorithm:   The cryptographic hash function
+    - parameter digits:      The number of digits in the password
 
     - returns: A valid password generator, or `nil` if the parameters are invalid.
     */
-    public init(factor: Factor, secret: NSData, algorithm: Algorithm = defaultAlgorithm, digits: Int = defaultDigits) {
+    public init(factor: Factor, secret: NSData, algorithm: Algorithm, digits: Int) {
         self.factor = factor
         self.secret = secret
         self.algorithm = algorithm
