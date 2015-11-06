@@ -29,11 +29,11 @@ public final class OTPToken: NSObject {
 
 
     public static var defaultAlgorithm: OTPAlgorithm {
-        return OTPAlgorithm(Generator.defaultAlgorithm)
+        return OTPAlgorithm.SHA1
     }
 
     public static var defaultDigits: UInt {
-        return UInt(Generator.defaultDigits)
+        return 6
     }
 
     public static var defaultInitialCounter: UInt64 {

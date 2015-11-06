@@ -28,10 +28,10 @@ public struct Generator: Equatable {
 
     - parameter factor:      The moving factor
     - parameter secret:      The shared secret
-    - parameter algorithm:   The cryptographic hash function (defaults to SHA-1)
-    - parameter digits:      The number of digits in the password (defaults to 6)
+    - parameter algorithm:   The cryptographic hash function
+    - parameter digits:      The number of digits in the password
     */
-    public init(factor: Factor, secret: NSData, algorithm: Algorithm = defaultAlgorithm, digits: Int = defaultDigits) {
+    public init(factor: Factor, secret: NSData, algorithm: Algorithm, digits: Int) {
         self.factor = factor
         self.secret = secret
         self.algorithm = algorithm
@@ -61,9 +61,6 @@ public struct Generator: Equatable {
         /// The SHA-512 hash function
         case SHA512
     }
-
-    public static let defaultAlgorithm: Algorithm = .SHA1
-    public static let defaultDigits: Int = 6
 }
 
 public func ==(lhs: Generator, rhs: Generator) -> Bool {
