@@ -26,34 +26,6 @@ import XCTest
 @testable import OneTimePassword
 
 class OTPTokenGenerationTests: XCTestCase {
-    // The values in this test are found in Appendix D of the HOTP RFC
-    // https://tools.ietf.org/html/rfc4226#appendix-D
-    func testHOTPRFCValues() {
-        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
-        let generator = Generator(factor: .Counter(0), secret: secret, algorithm: .SHA1, digits: 6)
-
-        XCTAssertEqual("755224", generator.password, "The 0th OTP should be the expected string.")
-        XCTAssertEqual("755224", generator.password, "The password property should be idempotent.")
-
-        let expectedValues = [
-            "287082",
-            "359152",
-            "969429",
-            "338314",
-            "254676",
-            "287922",
-            "162583",
-            "399871",
-            "520489",
-        ]
-
-        var token = Token(core: generator)
-        for expectedPassword in expectedValues {
-            token = updatedToken(token)
-            XCTAssertEqual(token.core.password, expectedPassword, "The generator did not produce the expected OTP.")
-        }
-    }
-
     // The values in this test are found in Appendix B of the TOTP RFC
     // https://tools.ietf.org/html/rfc6238#appendix-B
     func testTOTPRFCValues() {

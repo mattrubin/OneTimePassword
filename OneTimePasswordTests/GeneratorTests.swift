@@ -135,10 +135,21 @@ class GeneratorTests: XCTestCase {
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
-        let expectedValues = ["755224", "287082", "359152", "969429", "338314", "254676", "287922", "162583", "399871", "520489"]
-
-        for (var counter = 0; counter < expectedValues.count; counter++) {
-            XCTAssertEqual(try! generatePassword(algorithm: .SHA1, digits: 6, secret: secret, counter: UInt64(counter)), expectedValues[counter])
+        let expectedValues: [UInt64: String] = [
+            0: "755224",
+            1: "287082",
+            2: "359152",
+            3: "969429",
+            4: "338314",
+            5: "254676",
+            6: "287922",
+            7: "162583",
+            8: "399871",
+            9: "520489",
+        ]
+        for (counter, expectedPassword) in expectedValues {
+            let generator = Generator(factor: .Counter(counter), secret: secret, algorithm: .SHA1, digits: 6)
+            XCTAssertEqual(generator.password, expectedPassword, "The generator did not produce the expected OTP.")
         }
     }
 
