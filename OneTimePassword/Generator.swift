@@ -63,7 +63,9 @@ public struct Generator: Equatable {
         case SHA1, SHA256, SHA512
     }
 
+    @available(*, deprecated=2.0)
     public static let defaultAlgorithm: Algorithm = .SHA1
+    @available(*, deprecated=2.0)
     public static let defaultDigits: Int = 6
 }
 
