@@ -40,20 +40,16 @@ public struct Generator: Equatable {
         self.digits = digits
     }
 
-    /**
-    A moving factor with which a generator produces different one-time passwords over time.
-
-    Counter:
-        Indicates a HOTP, with an associated 8-byte counter value for the moving factor. After
-        each use of the password generator, the counter should be incremented to stay in sync with
-        the server.
-    Timer:
-        Indicates a TOTP, with an associated time interval for calculating the time-based moving
-        factor. This period value remains constant, and is used as a divisor for the number of
-        seconds since the Unix epoch.
-    */
+    /// A moving factor with which a generator produces different one-time passwords over time.
+    /// The possible values are `Counter` and `Timer`, with associated values for each.
     public enum Factor: Equatable {
+        /// Indicates a HOTP, with an associated 8-byte counter value for the moving factor. After
+        /// each use of the password generator, the counter should be incremented to stay in sync
+        /// with the server.
         case Counter(UInt64)
+        /// Indicates a TOTP, with an associated time interval for calculating the time-based moving
+        /// factor. This period value remains constant, and is used as a divisor for the number of
+        /// seconds since the Unix epoch.
         case Timer(period: NSTimeInterval)
     }
 
