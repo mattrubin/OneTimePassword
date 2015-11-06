@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import OneTimePassword
+@testable import OneTimePassword
 
 class GeneratorTests: XCTestCase {
     func testInit() {

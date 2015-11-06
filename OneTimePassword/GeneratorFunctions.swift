@@ -9,13 +9,13 @@
 import Foundation
 import CommonCrypto
 
-enum GenerationError: ErrorType {
+internal enum GenerationError: ErrorType {
     case InvalidTime
     case InvalidPeriod
     case InvalidDigits
 }
 
-public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
+internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
     switch factor {
     case .Counter(let counter):
         return counter
@@ -30,7 +30,7 @@ public func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInterv
     }
 }
 
-public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
+internal func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
     let minimumDigits = 1 // Zero or negative digits makes no sense
     let maximumDigits = 9 // 10 digits overflows UInt32.max
     guard (minimumDigits...maximumDigits).contains(digits)
@@ -75,7 +75,7 @@ public func generatePassword(algorithm algorithm: Generator.Algorithm, digits: I
     return String(truncatedHash).paddedWithCharacter("0", toLength: digits)
 }
 
-extension String {
+private extension String {
     func paddedWithCharacter(character: Character, toLength length: Int) -> String {
         let paddingCount = length - characters.count
         guard paddingCount > 0 else { return self }
