@@ -67,6 +67,11 @@ public final class OTPToken: NSObject {
         }
     }
 
+    convenience init(token: Token) {
+        self.init()
+        updateWithToken(token)
+    }
+
     public func validate() -> Bool {
         return validateGeneratorWithGoogleRules(token.core)
     }
@@ -93,9 +98,7 @@ public extension OTPToken {
             where validateGeneratorWithGoogleRules(token.core)
             else { return nil }
 
-        let otp = self.init()
-        otp.updateWithToken(token)
-        return otp
+        return self.init(token: token)
     }
 
     func url() -> NSURL? {
