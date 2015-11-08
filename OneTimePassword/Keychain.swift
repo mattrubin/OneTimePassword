@@ -16,7 +16,7 @@ func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
     mutableAttributes[kSecReturnPersistentRef as String] = kCFBooleanTrue
     // Set a random string for the account name.
     // We never query by or display this value, but the keychain requires it to be unique.
-    if (mutableAttributes[kSecAttrAccount as String] == nil) {
+    if mutableAttributes[kSecAttrAccount as String] == nil {
         mutableAttributes[kSecAttrAccount as String] = NSUUID().UUIDString
     }
 

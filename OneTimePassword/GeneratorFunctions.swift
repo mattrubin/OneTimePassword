@@ -21,10 +21,10 @@ internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInte
         return counter
     case .Timer(let period):
         // The time interval must be positive to produce a valid counter value.
-        guard (timeInterval >= 0)
+        guard timeInterval >= 0
             else { throw GenerationError.InvalidTime }
         // The period must be positive and non-zero to produce a valid counter value.
-        guard (period > 0)
+        guard period > 0
             else { throw GenerationError.InvalidPeriod }
         return UInt64(timeInterval / period)
     }
