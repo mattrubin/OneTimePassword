@@ -45,11 +45,11 @@ public final class OTPToken: NSObject {
     }
 
 
-    private var token: Token {
+    public var token: Token {
         return tokenForOTPToken(self)
     }
 
-    private func updateWithToken(token: Token) {
+    public func updateWithToken(token: Token) {
         self.name = token.name
         self.issuer = token.issuer
 
@@ -65,6 +65,11 @@ public final class OTPToken: NSObject {
             self.type = .Timer
             self.period = period
         }
+    }
+
+    convenience init(token: Token) {
+        self.init()
+        updateWithToken(token)
     }
 
     public func validate() -> Bool {
@@ -93,9 +98,7 @@ public extension OTPToken {
             where validateGeneratorWithGoogleRules(token.core)
             else { return nil }
 
-        let otp = self.init()
-        otp.updateWithToken(token)
-        return otp
+        return self.init(token: token)
     }
 
     func url() -> NSURL? {
