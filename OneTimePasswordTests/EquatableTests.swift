@@ -51,11 +51,11 @@ class EquatableTests: XCTestCase {
         let generator = Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 6)
         let other_generator = Generator(factor: .Counter(1), secret: NSData(), algorithm: .SHA512, digits: 8)
 
-        let t = Token(name: "Name", issuer: "Issuer", core: generator)
+        let t = Token(name: "Name", issuer: "Issuer", generator: generator)
 
-        XCTAssertEqual(t, Token(name: "Name", issuer: "Issuer", core: generator))
-        XCTAssertNotEqual(t, Token(name: "", issuer: "Issuer", core: generator))
-        XCTAssertNotEqual(t, Token(name: "Name", issuer: "", core: generator))
-        XCTAssertNotEqual(t, Token(name: "Name", issuer: "Issuer", core: other_generator))
+        XCTAssertEqual(t, Token(name: "Name", issuer: "Issuer", generator: generator))
+        XCTAssertNotEqual(t, Token(name: "", issuer: "Issuer", generator: generator))
+        XCTAssertNotEqual(t, Token(name: "Name", issuer: "", generator: generator))
+        XCTAssertNotEqual(t, Token(name: "Name", issuer: "Issuer", generator: other_generator))
     }
 }
