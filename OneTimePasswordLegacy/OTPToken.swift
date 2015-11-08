@@ -45,11 +45,11 @@ public final class OTPToken: NSObject {
     }
 
 
-    private var token: Token {
+    public var token: Token {
         return tokenForOTPToken(self)
     }
 
-    private func updateWithToken(token: Token) {
+    public func updateWithToken(token: Token) {
         self.name = token.name
         self.issuer = token.issuer
 
