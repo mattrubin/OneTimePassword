@@ -102,9 +102,9 @@ class GeneratorTests: XCTestCase {
                 digits: digits
             )
             if digitsAreValid {
-                XCTAssertNotNil(generator.password)
+                XCTAssertNotNil(generator.currentPassword)
             } else {
-                XCTAssertNil(generator.password)
+                XCTAssertNil(generator.currentPassword)
             }
 
             for (period, periodIsValid) in periodTests {
@@ -115,9 +115,9 @@ class GeneratorTests: XCTestCase {
                     digits: digits
                 )
                 if (digitsAreValid && periodIsValid) {
-                    XCTAssertNotNil(generator.password)
+                    XCTAssertNotNil(generator.currentPassword)
                 } else {
-                    XCTAssertNil(generator.password)
+                    XCTAssertNil(generator.currentPassword)
                 }
             }
         }
@@ -141,7 +141,7 @@ class GeneratorTests: XCTestCase {
         ]
         for (counter, expectedPassword) in expectedValues {
             let generator = Generator(factor: .Counter(counter), secret: secret, algorithm: .SHA1, digits: 6)
-            XCTAssertEqual(generator.password, expectedPassword, "The generator did not produce the expected OTP.")
+            XCTAssertEqual(generator.currentPassword, expectedPassword, "The generator did not produce the expected OTP.")
         }
     }
 
