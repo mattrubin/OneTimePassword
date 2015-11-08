@@ -97,8 +97,10 @@ func _allKeychainItems() -> NSArray? {
 
 
 public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
-    guard let data = Token.URLSerializer.serialize(token)?.absoluteString.dataUsingEncoding(NSUTF8StringEncoding)
-        else { return nil }
+    guard let url = Token.URLSerializer.serialize(token),
+        let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
+            return nil
+    }
 
     let attributes = [
         kSecAttrGeneric as String:  data,
@@ -113,8 +115,10 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
 }
 
 public func updateKeychainItem(keychainItem: Token.KeychainItem, withToken token: Token) -> Token.KeychainItem? {
-    guard let data = Token.URLSerializer.serialize(token)?.absoluteString.dataUsingEncoding(NSUTF8StringEncoding)
-        else { return nil }
+    guard let url = Token.URLSerializer.serialize(token),
+        let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
+            return nil
+    }
 
     let attributes = [
         kSecAttrGeneric as String:  data
