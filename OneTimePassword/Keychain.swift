@@ -9,7 +9,9 @@
 import Foundation
 
 func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
-    let mutableAttributes = attributes.mutableCopy() as! NSMutableDictionary
+    guard let mutableAttributes = attributes.mutableCopy() as? NSMutableDictionary else {
+        return nil
+    }
     mutableAttributes[kSecClass as String] = kSecClassGenericPassword
     mutableAttributes[kSecReturnPersistentRef as String] = kCFBooleanTrue
     // Set a random string for the account name.
