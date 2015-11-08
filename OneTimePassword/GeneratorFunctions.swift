@@ -33,9 +33,9 @@ internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInte
 }
 
 internal func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
-    let minimumDigits = 1 // Zero or negative digits makes no sense
-    let maximumDigits = 9 // 10 digits overflows UInt32.max
-    guard (minimumDigits...maximumDigits).contains(digits) else {
+    // Zero or negative digits makes no sense, 10 digits overflows UInt32.max
+    let acceptableDigits = 1...9
+    guard acceptableDigits.contains(digits) else {
         throw GenerationError.InvalidDigits
     }
 
