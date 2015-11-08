@@ -39,8 +39,8 @@ private let kQueryDigitsKey = "digits"
 private let kQueryPeriodKey = "period"
 private let kQueryIssuerKey = "issuer"
 
-private let FactorCounterString = "hotp"
-private let FactorTimerString = "totp"
+private let kFactorCounterKey = "hotp"
+private let kFactorTimerKey = "totp"
 
 private let kAlgorithmSHA1   = "SHA1"
 private let kAlgorithmSHA256 = "SHA256"
@@ -74,10 +74,10 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
 
     switch factor {
     case .Timer(let period):
-        urlComponents.host = FactorTimerString
+        urlComponents.host = kFactorTimerKey
         queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
     case .Counter(let counter):
-        urlComponents.host = FactorCounterString
+        urlComponents.host = kFactorCounterKey
         queryItems.append(NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
     }
 
@@ -96,7 +96,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
     }
 
     let factorParser: (string: String) -> Generator.Factor? = { string in
-        if string == FactorCounterString {
+        if string == kFactorCounterKey {
             if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey], with: {
                 errno = 0
                 let counterValue = strtoull(($0 as NSString).UTF8String, nil, 10)
@@ -107,7 +107,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
             {
                 return .Counter(counter)
             }
-        } else if string == FactorTimerString {
+        } else if string == kFactorTimerKey {
             if let period: NSTimeInterval = parse(queryDictionary[kQueryPeriodKey], with: {
                 guard let int = Int($0)
                     else { return nil }
