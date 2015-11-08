@@ -24,12 +24,12 @@ class TokenTests: XCTestCase {
         let token = Token(
             name: name,
             issuer: issuer,
-            core: generator
+            generator: generator
         )
 
         XCTAssertEqual(token.name, name)
         XCTAssertEqual(token.issuer, issuer)
-        XCTAssertEqual(token.core, generator)
+        XCTAssertEqual(token.generator, generator)
 
         // Create another token
         let other_name = "Other Test Name"
@@ -44,17 +44,17 @@ class TokenTests: XCTestCase {
         let other_token = Token(
             name: other_name,
             issuer: other_issuer,
-            core: other_generator
+            generator: other_generator
         )
 
         XCTAssertEqual(other_token.name, other_name)
         XCTAssertEqual(other_token.issuer, other_issuer)
-        XCTAssertEqual(other_token.core, other_generator)
+        XCTAssertEqual(other_token.generator, other_generator)
 
         // Ensure the tokens are different
         XCTAssertNotEqual(token.name, other_token.name)
         XCTAssertNotEqual(token.issuer, other_token.issuer)
-        XCTAssertNotEqual(token.core, other_token.core)
+        XCTAssertNotEqual(token.generator, other_token.generator)
     }
 
     func testDefaults() {
@@ -67,15 +67,15 @@ class TokenTests: XCTestCase {
         let n = "Test Name"
         let i = "Test Issuer"
 
-        let tokenWithDefaultName = Token(issuer: i, core: generator)
+        let tokenWithDefaultName = Token(issuer: i, generator: generator)
         XCTAssertEqual(tokenWithDefaultName.name, "")
         XCTAssertEqual(tokenWithDefaultName.issuer, i)
 
-        let tokenWithDefaultIssuer = Token(name: n, core: generator)
+        let tokenWithDefaultIssuer = Token(name: n, generator: generator)
         XCTAssertEqual(tokenWithDefaultIssuer.name, n)
         XCTAssertEqual(tokenWithDefaultIssuer.issuer, "")
 
-        let tokenWithAllDefaults = Token(core: generator)
+        let tokenWithAllDefaults = Token(generator: generator)
         XCTAssertEqual(tokenWithAllDefaults.name, "")
         XCTAssertEqual(tokenWithAllDefaults.issuer, "")
     }

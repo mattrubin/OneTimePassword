@@ -102,7 +102,7 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
 
     let attributes = [
         kSecAttrGeneric as String:  data,
-        kSecValueData as String:    token.core.secret,
+        kSecValueData as String:    token.generator.secret,
         kSecAttrService as String:  kOTPService,
     ]
 

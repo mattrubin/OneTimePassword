@@ -15,7 +15,13 @@ extension Token {
         public static let defaultDigits: Int = 6
 
         public static func serialize(token: Token) -> NSURL? {
-            return urlForToken(name: token.name, issuer: token.issuer, factor: token.core.factor, algorithm: token.core.algorithm, digits: token.core.digits)
+            return urlForToken(
+                name: token.name,
+                issuer: token.issuer,
+                factor: token.generator.factor,
+                algorithm: token.generator.algorithm,
+                digits: token.generator.digits
+            )
         }
 
         public static func deserialize(url: NSURL, secret: NSData? = nil) -> Token? {
@@ -120,7 +126,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
         let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Token.URLSerializer.defaultDigits)
         else { return nil }
 
-    let core = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+    let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
 
     var name = Token.defaultName
     if let path = url.path {
@@ -146,7 +152,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
         }
     }
 
-    return Token(name: name, issuer: issuer, core: core)
+    return Token(name: name, issuer: issuer, generator: generator)
 }
 
 private func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {

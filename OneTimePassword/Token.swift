@@ -18,21 +18,21 @@ public struct Token: Equatable {
     public let issuer: String
 
     /// A password generator containing this token's secret, algorithm, etc.
-    public let core: Generator
+    public let generator: Generator
 
     /**
     Initializes a new token with the given parameters.
 
-    - parameter name:        The account name for the token (defaults to "")
-    - parameter issure:      The entity which issued the token (defaults to "")
-    - parameter core:        The password generator
+    - parameter name:       The account name for the token (defaults to "")
+    - parameter issure:     The entity which issued the token (defaults to "")
+    - parameter generator:  The password generator
 
     - returns: A new token with the given parameters.
     */
-    public init(name: String = defaultName, issuer: String = defaultIssuer, core: Generator) {
+    public init(name: String = defaultName, issuer: String = defaultIssuer, generator: Generator) {
         self.name = name
         self.issuer = issuer
-        self.core = core
+        self.generator = generator
     }
 
     // MARK: Defaults
@@ -48,7 +48,7 @@ public struct Token: Equatable {
 public func ==(lhs: Token, rhs: Token) -> Bool {
     return (lhs.name == rhs.name)
         && (lhs.issuer == rhs.issuer)
-        && (lhs.core == rhs.core)
+        && (lhs.generator == rhs.generator)
 }
 
 /**
@@ -56,15 +56,15 @@ public func ==(lhs: Token, rhs: Token) -> Bool {
 - returns: A new token, configured to generate the next password.
 */
 public func updatedToken(token: Token) -> Token {
-    switch token.core.factor {
+    switch token.generator.factor {
     case .Counter(let counter):
         let updatedGenerator = Generator(
             factor: .Counter(counter + 1),
-            secret: token.core.secret,
-            algorithm: token.core.algorithm,
-            digits: token.core.digits
+            secret: token.generator.secret,
+            algorithm: token.generator.algorithm,
+            digits: token.generator.digits
         )
-        return Token(name: token.name, issuer: token.issuer, core: updatedGenerator)
+        return Token(name: token.name, issuer: token.issuer, generator: updatedGenerator)
     case .Timer:
         return token
     }

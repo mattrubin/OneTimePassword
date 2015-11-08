@@ -46,7 +46,7 @@ class TokenSerializationTests: XCTestCase {
                                 let token = Token(
                                     name: name,
                                     issuer: issuer,
-                                    core: generator
+                                    generator: generator
                                 )
 
                                 // Serialize

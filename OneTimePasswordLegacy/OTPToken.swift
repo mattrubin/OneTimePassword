@@ -53,11 +53,11 @@ public final class OTPToken: NSObject {
         self.name = token.name
         self.issuer = token.issuer
 
-        self.secret = token.core.secret
-        self.algorithm = OTPAlgorithm(token.core.algorithm)
-        self.digits = UInt(token.core.digits)
+        self.secret = token.generator.secret
+        self.algorithm = OTPAlgorithm(token.generator.algorithm)
+        self.digits = UInt(token.generator.digits)
 
-        switch token.core.factor {
+        switch token.generator.factor {
         case let .Counter(counter):
             self.type = .Counter
             self.counter = counter
@@ -73,13 +73,13 @@ public final class OTPToken: NSObject {
     }
 
     public func validate() -> Bool {
-        return validateGeneratorWithGoogleRules(token.core)
+        return validateGeneratorWithGoogleRules(token.generator)
     }
 }
 
 public extension OTPToken {
     var password: String? {
-        return token.core.password
+        return token.generator.password
     }
 
     func updatePassword() {
@@ -95,7 +95,7 @@ public extension OTPToken {
 
     static func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
         guard let token = Token.URLSerializer.deserialize(url, secret: secret)
-            where validateGeneratorWithGoogleRules(token.core)
+            where validateGeneratorWithGoogleRules(token.generator)
             else { return nil }
 
         return self.init(token: token)
