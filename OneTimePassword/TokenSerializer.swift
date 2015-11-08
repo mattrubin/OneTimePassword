@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol TokenSerializer {
-    static func serialize(token: Token) -> String?
-    static func deserialize(string: String, secret: NSData?) -> Token?
+    typealias SerializedToken
+    static func serialize(token: Token) -> SerializedToken?
+    static func deserialize(serializedToken: SerializedToken, secret: NSData?) -> Token?
 }
