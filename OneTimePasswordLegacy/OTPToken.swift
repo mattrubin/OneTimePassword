@@ -178,4 +178,3 @@ private func validateGeneratorWithGoogleRules(generator: Generator) -> Bool {
         return validDigits(generator.digits) && validPeriod(period)
     }
 }
-
