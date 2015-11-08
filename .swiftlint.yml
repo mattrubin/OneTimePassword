@@ -4,4 +4,3 @@ disabled_rules:
  - function_body_length
  - line_length
  - nesting
-fail_on_violations: true

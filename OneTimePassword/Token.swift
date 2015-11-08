@@ -8,8 +8,6 @@
 
 import Foundation
 
-let Z = "Z"
-
 /// A `Token` contains a password generator and information identifying the corresponding account.
 public struct Token: Equatable {
 
