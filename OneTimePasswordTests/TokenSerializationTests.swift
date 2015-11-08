@@ -11,7 +11,7 @@ import OneTimePassword
 
 extension Token {
     var url: NSURL {
-        return NSURL(string: URLSerializer.serialize(self)!)!
+        return URLSerializer.serialize(self)!
     }
 }
 

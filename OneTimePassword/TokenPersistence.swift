@@ -32,7 +32,8 @@ public extension Token {
                 let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
                 let secret = keychainDictionary[kSecValueData as String] as? NSData,
                 let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
-                let token = Token.URLSerializer.deserialize(string as String, secret: secret)
+                let url = NSURL(string: string as String),
+                let token = Token.URLSerializer.deserialize(url, secret: secret)
                 else { return nil }
 
             self.init(token: token, persistentRef: keychainItemRef)
@@ -96,7 +97,7 @@ func _allKeychainItems() -> NSArray? {
 
 
 public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
-    guard let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding)
+    guard let data = Token.URLSerializer.serialize(token)?.absoluteString.dataUsingEncoding(NSUTF8StringEncoding)
         else { return nil }
 
     let attributes = [
@@ -112,7 +113,7 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
 }
 
 public func updateKeychainItem(keychainItem: Token.KeychainItem, withToken token: Token) -> Token.KeychainItem? {
-    guard let data = Token.URLSerializer.serialize(token)?.dataUsingEncoding(NSUTF8StringEncoding)
+    guard let data = Token.URLSerializer.serialize(token)?.absoluteString.dataUsingEncoding(NSUTF8StringEncoding)
         else { return nil }
 
     let attributes = [

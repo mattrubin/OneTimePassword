@@ -14,15 +14,11 @@ extension Token {
         public static let defaultAlgorithm: Generator.Algorithm = .SHA1
         public static let defaultDigits: Int = 6
 
-        public static func serialize(token: Token) -> String? {
-            let url = urlForToken(name: token.name, issuer: token.issuer, factor: token.core.factor, algorithm: token.core.algorithm, digits: token.core.digits)
-            return url?.absoluteString
+        public static func serialize(token: Token) -> NSURL? {
+            return urlForToken(name: token.name, issuer: token.issuer, factor: token.core.factor, algorithm: token.core.algorithm, digits: token.core.digits)
         }
 
-        public static func deserialize(string: String, secret: NSData? = nil) -> Token? {
-            guard let url = NSURL(string: string)
-                else { return nil }
-
+        public static func deserialize(url: NSURL, secret: NSData? = nil) -> Token? {
             return tokenFromURL(url, secret: secret)
         }
     }
