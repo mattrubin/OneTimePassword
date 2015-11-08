@@ -97,23 +97,25 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
 
     let factorParser: (string: String) -> Generator.Factor? = { string in
         if string == kFactorCounterKey {
-            if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey], with: {
-                errno = 0
-                let counterValue = strtoull(($0 as NSString).UTF8String, nil, 10)
-                guard errno == 0
-                    else { return nil }
-                return counterValue
-                }, defaultTo: 0)
-            {
-                return .Counter(counter)
+            if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey],
+                with: {
+                    errno = 0
+                    let counterValue = strtoull(($0 as NSString).UTF8String, nil, 10)
+                    guard errno == 0
+                        else { return nil }
+                    return counterValue
+                },
+                defaultTo: 0) {
+                    return .Counter(counter)
             }
         } else if string == kFactorTimerKey {
-            if let period: NSTimeInterval = parse(queryDictionary[kQueryPeriodKey], with: {
-                guard let int = Int($0)
-                    else { return nil }
-                return NSTimeInterval(int)
-                }, defaultTo: 30)
-            {
+            if let period: NSTimeInterval = parse(queryDictionary[kQueryPeriodKey],
+                with: {
+                    guard let int = Int($0)
+                        else { return nil }
+                    return NSTimeInterval(int)
+                },
+                defaultTo: 30) {
                 return .Timer(period: period)
             }
         }
