@@ -94,7 +94,7 @@ public extension OTPToken {
     }
 
     static func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
-        guard let token = Token.URLSerializer.deserialize(url.absoluteString, secret: secret)
+        guard let token = Token.URLSerializer.deserialize(url, secret: secret)
             where validateGeneratorWithGoogleRules(token.core)
             else { return nil }
 
@@ -102,10 +102,7 @@ public extension OTPToken {
     }
 
     func url() -> NSURL? {
-        guard let string = Token.URLSerializer.serialize(token)
-            else { return nil }
-
-        return NSURL(string: string)
+        return Token.URLSerializer.serialize(token)
     }
 }
 
