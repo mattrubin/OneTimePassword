@@ -21,9 +21,9 @@ public extension Token {
         }
 
         public init?(keychainItemRef: NSData) {
-            guard let result = keychainItemForPersistentRef(keychainItemRef)
-                else { return nil }
-
+            guard let result = keychainItemForPersistentRef(keychainItemRef) else {
+                return nil
+            }
             self.init(keychainDictionary: result)
         }
 
@@ -40,9 +40,9 @@ public extension Token {
         }
 
         public static func allKeychainItems() -> Array<KeychainItem> {
-            guard let keychainItems = _allKeychainItems()
-                else { return [] }
-
+            guard let keychainItems = _allKeychainItems() else {
+                return []
+            }
             var items = Array<KeychainItem>()
             for item: AnyObject in keychainItems {
                 if let keychainDict = item as? NSDictionary,
@@ -69,9 +69,9 @@ func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
         SecItemCopyMatching(queryDict, $0)
     }
 
-    guard resultCode == OSStatus(errSecSuccess)
-        else { return nil }
-
+    guard resultCode == OSStatus(errSecSuccess) else {
+        return nil
+    }
     return result as? NSDictionary
 }
 
@@ -89,9 +89,9 @@ func _allKeychainItems() -> NSArray? {
         SecItemCopyMatching(queryDict, $0)
     }
 
-    guard resultCode == OSStatus(errSecSuccess)
-        else { return nil }
-
+    guard resultCode == OSStatus(errSecSuccess) else {
+        return nil
+    }
     return result as? NSArray
 }
 
@@ -106,9 +106,9 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
         kSecAttrService as String:  kOTPService,
     ]
 
-    guard let persistentRef = addKeychainItemWithAttributes(attributes)
-        else { return nil }
-
+    guard let persistentRef = addKeychainItemWithAttributes(attributes) else {
+        return nil
+    }
     return Token.KeychainItem(token: token, persistentRef: persistentRef)
 }
 
@@ -121,9 +121,9 @@ public func updateKeychainItem(keychainItem: Token.KeychainItem, withToken token
     ]
 
     let success = updateKeychainItemForPersistentRef(keychainItem.persistentRef, withAttributes: attributes)
-    guard success
-        else { return nil }
-
+    guard success else {
+        return nil
+    }
     return Token.KeychainItem(token: token, persistentRef: keychainItem.persistentRef)
 }
 

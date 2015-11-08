@@ -87,8 +87,9 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
 }
 
 private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
-    guard url.scheme == kOTPAuthScheme
-        else { return nil }
+    guard url.scheme == kOTPAuthScheme else {
+        return nil
+    }
 
     var queryDictionary = Dictionary<String, String>()
     NSURLComponents(URL: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach { item in
@@ -101,8 +102,9 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
                 with: {
                     errno = 0
                     let counterValue = strtoull(($0 as NSString).UTF8String, nil, 10)
-                    guard errno == 0
-                        else { return nil }
+                    guard errno == 0 else {
+                        return nil
+                    }
                     return counterValue
                 },
                 defaultTo: 0) {
@@ -111,12 +113,13 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
         } else if string == kFactorTimerKey {
             if let period: NSTimeInterval = parse(queryDictionary[kQueryPeriodKey],
                 with: {
-                    guard let int = Int($0)
-                        else { return nil }
+                    guard let int = Int($0) else {
+                        return nil
+                    }
                     return NSTimeInterval(int)
                 },
                 defaultTo: 30) {
-                return .Timer(period: period)
+                    return .Timer(period: period)
             }
         }
         return nil
@@ -163,9 +166,9 @@ private func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo defaultValu
     }
 
     if let concrete = item {
-        guard let value = parser(concrete)
-            else { return nil }
-
+        guard let value = parser(concrete) else {
+            return nil
+        }
         return value
     }
     return defaultValue

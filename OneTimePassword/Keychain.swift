@@ -25,9 +25,9 @@ func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
         SecItemAdd(mutableAttributes, $0)
     }
 
-    guard resultCode == OSStatus(errSecSuccess)
-        else { return nil }
-
+    guard resultCode == OSStatus(errSecSuccess) else {
+        return nil
+    }
     return result as? NSData
 }
 
