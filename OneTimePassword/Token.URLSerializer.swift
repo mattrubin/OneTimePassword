@@ -151,9 +151,11 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
         }
     }
     // If the name is prefixed by the issuer string, trim the name
-    if let prefixRange = name.rangeOfString(issuer) {
-        if (prefixRange.startIndex == issuer.startIndex) && (issuer.characters.count < name.characters.count) && (name[prefixRange.endIndex] == ":") {
-            name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+    if !issuer.isEmpty {
+        let prefix = issuer + ":"
+        if name.hasPrefix(prefix), let prefixRange = name.rangeOfString(prefix) {
+            name = name.substringFromIndex(prefixRange.endIndex)
+            name = name.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         }
     }
 
