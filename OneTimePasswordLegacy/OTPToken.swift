@@ -95,9 +95,9 @@ public extension OTPToken {
 
     static func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
         guard let token = Token.URLSerializer.deserialize(url, secret: secret)
-            where validateGeneratorWithGoogleRules(token.generator)
-            else { return nil }
-
+            where validateGeneratorWithGoogleRules(token.generator) else {
+                return nil
+        }
         return self.init(token: token)
     }
 
@@ -112,24 +112,24 @@ public extension OTPToken {
 
     func saveToKeychain() -> Bool {
         if let keychainItem = self.keychainItem {
-            guard let newKeychainItem = updateKeychainItem(keychainItem, withToken: token)
-                else { return false }
-
+            guard let newKeychainItem = updateKeychainItem(keychainItem, withToken: token) else {
+                return false
+            }
             self.keychainItem = newKeychainItem
             return true
         } else {
-            guard let newKeychainItem = addTokenToKeychain(token)
-                else { return false }
-
+            guard let newKeychainItem = addTokenToKeychain(token) else {
+                return false
+            }
             self.keychainItem = newKeychainItem
             return true
         }
     }
 
     func removeFromKeychain() -> Bool {
-        guard let keychainItem = self.keychainItem
-            else { return false }
-
+        guard let keychainItem = self.keychainItem else {
+            return false
+        }
         let success = deleteKeychainItem(keychainItem)
         if success {
             self.keychainItem = nil
@@ -150,17 +150,17 @@ public extension OTPToken {
     }
 
     static func tokenWithKeychainItemRef(keychainItemRef: NSData) -> Self? {
-        guard let keychainItem = Token.KeychainItem(keychainItemRef: keychainItemRef)
-            else { return nil }
-
+        guard let keychainItem = Token.KeychainItem(keychainItemRef: keychainItemRef) else {
+            return nil
+        }
         return self.tokenWithKeychainItem(keychainItem)
     }
 
     // This should be private, but is public for testing purposes
     static func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
-        guard let keychainItem = Token.KeychainItem(keychainDictionary: keychainDictionary)
-            else { return nil }
-
+        guard let keychainItem = Token.KeychainItem(keychainDictionary: keychainDictionary) else {
+            return nil
+        }
         return self.tokenWithKeychainItem(keychainItem)
     }
 }
@@ -178,4 +178,3 @@ private func validateGeneratorWithGoogleRules(generator: Generator) -> Bool {
         return validDigits(generator.digits) && validPeriod(period)
     }
 }
-

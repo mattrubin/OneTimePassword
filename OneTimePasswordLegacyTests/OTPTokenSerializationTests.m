@@ -359,6 +359,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     XCTAssertEqualObjects(simpleToken.name, @"name");
     XCTAssertEqualObjects(simpleToken.issuer, @"issuer");
 
+    // TODO: test this more thoroughly, including the override case with "otpauth://totp/_issuer:name?secret=A&isser=issuer"
 
     NSArray *urlStrings = @[@"otpauth://totp/issu%C3%A9r%20!:name?secret=A",
                             @"otpauth://totp/issu%C3%A9r%20!:%20name?secret=A",

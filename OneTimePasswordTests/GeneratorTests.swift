@@ -114,7 +114,7 @@ class GeneratorTests: XCTestCase {
                     algorithm: .SHA1,
                     digits: digits
                 )
-                if (digitsAreValid && periodIsValid) {
+                if digitsAreValid && periodIsValid {
                     XCTAssertNotNil(generator.currentPassword)
                 } else {
                     XCTAssertNil(generator.currentPassword)

@@ -9,12 +9,14 @@
 import Foundation
 
 func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
-    let mutableAttributes = attributes.mutableCopy() as! NSMutableDictionary
+    guard let mutableAttributes = attributes.mutableCopy() as? NSMutableDictionary else {
+        return nil
+    }
     mutableAttributes[kSecClass as String] = kSecClassGenericPassword
     mutableAttributes[kSecReturnPersistentRef as String] = kCFBooleanTrue
     // Set a random string for the account name.
     // We never query by or display this value, but the keychain requires it to be unique.
-    if (mutableAttributes[kSecAttrAccount as String] == nil) {
+    if mutableAttributes[kSecAttrAccount as String] == nil {
         mutableAttributes[kSecAttrAccount as String] = NSUUID().UUIDString
     }
 
@@ -23,9 +25,9 @@ func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
         SecItemAdd(mutableAttributes, $0)
     }
 
-    guard resultCode == OSStatus(errSecSuccess)
-        else { return nil }
-
+    guard resultCode == OSStatus(errSecSuccess) else {
+        return nil
+    }
     return result as? NSData
 }
 

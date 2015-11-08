@@ -39,8 +39,8 @@ private let kQueryDigitsKey = "digits"
 private let kQueryPeriodKey = "period"
 private let kQueryIssuerKey = "issuer"
 
-private let FactorCounterString = "hotp"
-private let FactorTimerString = "totp"
+private let kFactorCounterKey = "hotp"
+private let kFactorTimerKey = "totp"
 
 private let kAlgorithmSHA1   = "SHA1"
 private let kAlgorithmSHA256 = "SHA256"
@@ -55,9 +55,9 @@ private func stringForAlgorithm(algorithm: Generator.Algorithm) -> String {
 }
 
 private func algorithmFromString(string: String) -> Generator.Algorithm? {
-    if (string == kAlgorithmSHA1) { return .SHA1 }
-    if (string == kAlgorithmSHA256) { return .SHA256 }
-    if (string == kAlgorithmSHA512) { return .SHA512 }
+    if string == kAlgorithmSHA1 { return .SHA1 }
+    if string == kAlgorithmSHA256 { return .SHA256 }
+    if string == kAlgorithmSHA512 { return .SHA512 }
     return nil
 }
 
@@ -74,10 +74,10 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
 
     switch factor {
     case .Timer(let period):
-        urlComponents.host = FactorTimerString
+        urlComponents.host = kFactorTimerKey
         queryItems.append(NSURLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
     case .Counter(let counter):
-        urlComponents.host = FactorCounterString
+        urlComponents.host = kFactorCounterKey
         queryItems.append(NSURLQueryItem(name:kQueryCounterKey, value:String(counter)))
     }
 
@@ -87,8 +87,9 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
 }
 
 private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
-    guard url.scheme == kOTPAuthScheme
-        else { return nil }
+    guard url.scheme == kOTPAuthScheme else {
+        return nil
+    }
 
     var queryDictionary = Dictionary<String, String>()
     NSURLComponents(URL: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach { item in
@@ -96,25 +97,29 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
     }
 
     let factorParser: (string: String) -> Generator.Factor? = { string in
-        if string == FactorCounterString {
-            if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey], with: {
-                errno = 0
-                let counterValue = strtoull(($0 as NSString).UTF8String, nil, 10)
-                guard errno == 0
-                    else { return nil }
-                return counterValue
-                }, defaultTo: 0)
-            {
-                return .Counter(counter)
+        if string == kFactorCounterKey {
+            if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey],
+                with: {
+                    errno = 0
+                    let counterValue = strtoull(($0 as NSString).UTF8String, nil, 10)
+                    guard errno == 0 else {
+                        return nil
+                    }
+                    return counterValue
+                },
+                defaultTo: 0) {
+                    return .Counter(counter)
             }
-        } else if string == FactorTimerString {
-            if let period: NSTimeInterval = parse(queryDictionary[kQueryPeriodKey], with: {
-                guard let int = Int($0)
-                    else { return nil }
-                return NSTimeInterval(int)
-                }, defaultTo: 30)
-            {
-                return .Timer(period: period)
+        } else if string == kFactorTimerKey {
+            if let period: NSTimeInterval = parse(queryDictionary[kQueryPeriodKey],
+                with: {
+                    guard let int = Int($0) else {
+                        return nil
+                    }
+                    return NSTimeInterval(int)
+                },
+                defaultTo: 30) {
+                    return .Timer(period: period)
             }
         }
         return nil
@@ -123,8 +128,9 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
     guard let factor = parse(url.host, with: factorParser, defaultTo: nil),
         let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, overrideWith: externalSecret),
         let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: Token.URLSerializer.defaultAlgorithm),
-        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Token.URLSerializer.defaultDigits)
-        else { return nil }
+        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Token.URLSerializer.defaultDigits) else {
+            return nil
+    }
 
     let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
 
@@ -146,9 +152,11 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
         }
     }
     // If the name is prefixed by the issuer string, trim the name
-    if let prefixRange = name.rangeOfString(issuer) {
-        if (prefixRange.startIndex == issuer.startIndex) && (issuer.characters.count < name.characters.count) && (name[prefixRange.endIndex] == ":") {
-            name = name.substringFromIndex(prefixRange.endIndex.successor()).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+    if !issuer.isEmpty {
+        let prefix = issuer + ":"
+        if name.hasPrefix(prefix), let prefixRange = name.rangeOfString(prefix) {
+            name = name.substringFromIndex(prefixRange.endIndex)
+            name = name.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         }
     }
 
@@ -161,9 +169,9 @@ private func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo defaultValu
     }
 
     if let concrete = item {
-        guard let value = parser(concrete)
-            else { return nil }
-
+        guard let value = parser(concrete) else {
+            return nil
+        }
         return value
     }
     return defaultValue

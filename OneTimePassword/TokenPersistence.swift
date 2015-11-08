@@ -21,9 +21,9 @@ public extension Token {
         }
 
         public init?(keychainItemRef: NSData) {
-            guard let result = keychainItemForPersistentRef(keychainItemRef)
-                else { return nil }
-
+            guard let result = keychainItemForPersistentRef(keychainItemRef) else {
+                return nil
+            }
             self.init(keychainDictionary: result)
         }
 
@@ -33,16 +33,16 @@ public extension Token {
                 let secret = keychainDictionary[kSecValueData as String] as? NSData,
                 let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
                 let url = NSURL(string: string as String),
-                let token = Token.URLSerializer.deserialize(url, secret: secret)
-                else { return nil }
-
+                let token = Token.URLSerializer.deserialize(url, secret: secret) else {
+                    return nil
+            }
             self.init(token: token, persistentRef: keychainItemRef)
         }
 
         public static func allKeychainItems() -> Array<KeychainItem> {
-            guard let keychainItems = _allKeychainItems()
-                else { return [] }
-
+            guard let keychainItems = _allKeychainItems() else {
+                return []
+            }
             var items = Array<KeychainItem>()
             for item: AnyObject in keychainItems {
                 if let keychainDict = item as? NSDictionary,
@@ -69,9 +69,9 @@ func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
         SecItemCopyMatching(queryDict, $0)
     }
 
-    guard resultCode == OSStatus(errSecSuccess)
-        else { return nil }
-
+    guard resultCode == OSStatus(errSecSuccess) else {
+        return nil
+    }
     return result as? NSDictionary
 }
 
@@ -89,16 +89,18 @@ func _allKeychainItems() -> NSArray? {
         SecItemCopyMatching(queryDict, $0)
     }
 
-    guard resultCode == OSStatus(errSecSuccess)
-        else { return nil }
-
+    guard resultCode == OSStatus(errSecSuccess) else {
+        return nil
+    }
     return result as? NSArray
 }
 
 
 public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
-    guard let data = Token.URLSerializer.serialize(token)?.absoluteString.dataUsingEncoding(NSUTF8StringEncoding)
-        else { return nil }
+    guard let url = Token.URLSerializer.serialize(token),
+        let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
+            return nil
+    }
 
     let attributes = [
         kSecAttrGeneric as String:  data,
@@ -106,24 +108,26 @@ public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
         kSecAttrService as String:  kOTPService,
     ]
 
-    guard let persistentRef = addKeychainItemWithAttributes(attributes)
-        else { return nil }
-
+    guard let persistentRef = addKeychainItemWithAttributes(attributes) else {
+        return nil
+    }
     return Token.KeychainItem(token: token, persistentRef: persistentRef)
 }
 
 public func updateKeychainItem(keychainItem: Token.KeychainItem, withToken token: Token) -> Token.KeychainItem? {
-    guard let data = Token.URLSerializer.serialize(token)?.absoluteString.dataUsingEncoding(NSUTF8StringEncoding)
-        else { return nil }
+    guard let url = Token.URLSerializer.serialize(token),
+        let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
+            return nil
+    }
 
     let attributes = [
         kSecAttrGeneric as String:  data
     ]
 
     let success = updateKeychainItemForPersistentRef(keychainItem.persistentRef, withAttributes: attributes)
-    guard success
-        else { return nil }
-
+    guard success else {
+        return nil
+    }
     return Token.KeychainItem(token: token, persistentRef: keychainItem.persistentRef)
 }
 

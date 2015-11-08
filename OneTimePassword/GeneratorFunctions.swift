@@ -21,20 +21,23 @@ internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInte
         return counter
     case .Timer(let period):
         // The time interval must be positive to produce a valid counter value.
-        guard (timeInterval >= 0)
-            else { throw GenerationError.InvalidTime }
+        guard timeInterval >= 0 else {
+            throw GenerationError.InvalidTime
+        }
         // The period must be positive and non-zero to produce a valid counter value.
-        guard (period > 0)
-            else { throw GenerationError.InvalidPeriod }
+        guard period > 0 else {
+            throw GenerationError.InvalidPeriod
+        }
         return UInt64(timeInterval / period)
     }
 }
 
 internal func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
-    let minimumDigits = 1 // Zero or negative digits makes no sense
-    let maximumDigits = 9 // 10 digits overflows UInt32.max
-    guard (minimumDigits...maximumDigits).contains(digits)
-        else { throw GenerationError.InvalidDigits }
+    // Zero or negative digits makes no sense, 10 digits overflows UInt32.max
+    let acceptableDigits = 1...9
+    guard acceptableDigits.contains(digits) else {
+        throw GenerationError.InvalidDigits
+    }
 
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
