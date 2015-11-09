@@ -389,8 +389,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword" */;
 			buildPhases = (
-				C97CDF2E1BEFB20000D64406 /* Lint */,
 				C97C82331946E51D00FD9F4C /* Sources */,
+				C97CDF2E1BEFB20000D64406 /* Lint */,
 				C97C82341946E51D00FD9F4C /* Frameworks */,
 				C97C82351946E51D00FD9F4C /* Headers */,
 				C97C82361946E51D00FD9F4C /* Resources */,
