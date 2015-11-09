@@ -51,6 +51,7 @@ public struct Generator: Equatable {
 
     - returns: The current password, or `nil` if a password could not be generated.
     */
+    @available(*, deprecated=2)
     public var currentPassword: String? {
         do {
             return try passwordAtTimeIntervalSince1970(NSDate().timeIntervalSince1970)

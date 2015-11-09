@@ -101,10 +101,13 @@ class GeneratorTests: XCTestCase {
                 algorithm: .SHA1,
                 digits: digits
             )
-            if digitsAreValid {
-                XCTAssertNotNil(generator.currentPassword)
-            } else {
-                XCTAssertNil(generator.currentPassword)
+            // If the digits are invalid, password generation should throw an error
+            let generatorIsValid = digitsAreValid
+            do {
+                try generator.passwordAtTimeIntervalSince1970(0)
+                XCTAssertTrue(generatorIsValid)
+            } catch {
+                XCTAssertFalse(generatorIsValid)
             }
 
             for (period, periodIsValid) in periodTests {
@@ -114,10 +117,13 @@ class GeneratorTests: XCTestCase {
                     algorithm: .SHA1,
                     digits: digits
                 )
-                if digitsAreValid && periodIsValid {
-                    XCTAssertNotNil(generator.currentPassword)
-                } else {
-                    XCTAssertNil(generator.currentPassword)
+                // If the digits or period are invalid, password generation should throw an error
+                let generatorIsValid = digitsAreValid && periodIsValid
+                do {
+                    try generator.passwordAtTimeIntervalSince1970(0)
+                    XCTAssertTrue(generatorIsValid)
+                } catch {
+                    XCTAssertFalse(generatorIsValid)
                 }
             }
         }
@@ -141,7 +147,8 @@ class GeneratorTests: XCTestCase {
         ]
         for (counter, expectedPassword) in expectedValues {
             let generator = Generator(factor: .Counter(counter), secret: secret, algorithm: .SHA1, digits: 6)
-            XCTAssertEqual(generator.currentPassword, expectedPassword, "The generator did not produce the expected OTP.")
+            XCTAssertEqual(expectedPassword, try! generator.passwordAtTimeIntervalSince1970(0),
+                "The generator did not produce the expected OTP.")
         }
     }
 
