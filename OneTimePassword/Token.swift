@@ -84,7 +84,10 @@ public func updatedToken(token: Token) -> Token {
             algorithm: token.generator.algorithm,
             digits: token.generator.digits
         )
-        return Token(name: token.name, issuer: token.issuer, generator: updatedGenerator)
+        var updatedToken = Token(name: token.name, issuer: token.issuer, generator: updatedGenerator)
+        // Preserve the token's identity
+        updatedToken.identity = token.identity
+        return updatedToken
     case .Timer:
         return token
     }
