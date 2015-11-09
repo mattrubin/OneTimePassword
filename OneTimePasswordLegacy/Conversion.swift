@@ -30,12 +30,12 @@ internal func tokenForOTPToken(otpToken: OTPToken) -> Token {
     return Token(name: otpToken.name, issuer: otpToken.issuer, generator: generator)
 }
 
-private func factorForOTPToken(token: OTPToken) -> Generator.Factor {
-    switch token.type {
+private func factorForOTPToken(otpToken: OTPToken) -> Generator.Factor {
+    switch otpToken.type {
     case .Counter:
-        return .Counter(token.counter)
+        return .Counter(otpToken.counter)
     case .Timer:
-        return .Timer(period: token.period)
+        return .Timer(period: otpToken.period)
     }
 }
 
