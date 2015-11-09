@@ -20,9 +20,6 @@ public struct Token: Equatable {
     /// A password generator containing this token's secret, algorithm, etc.
     public let generator: Generator
 
-    /// A reference to link the token to some persistent identity
-    public var identity: Any?
-
     /**
     Initializes a new token with the given parameters.
 
@@ -84,10 +81,7 @@ public func updatedToken(token: Token) -> Token {
             algorithm: token.generator.algorithm,
             digits: token.generator.digits
         )
-        var updatedToken = Token(name: token.name, issuer: token.issuer, generator: updatedGenerator)
-        // Preserve the token's identity
-        updatedToken.identity = token.identity
-        return updatedToken
+        return Token(name: token.name, issuer: token.issuer, generator: updatedGenerator)
     case .Timer:
         return token
     }

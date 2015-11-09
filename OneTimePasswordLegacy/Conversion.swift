@@ -27,9 +27,7 @@ internal func tokenForOTPToken(otpToken: OTPToken) -> Token {
         algorithm: algorithmForOTPAlgorithm(otpToken.algorithm),
         digits: Int(otpToken.digits)
     )
-    var token = Token(name: otpToken.name, issuer: otpToken.issuer, generator: generator)
-    token.identity = otpToken.keychainItem
-    return token
+    return Token(name: otpToken.name, issuer: otpToken.issuer, generator: generator)
 }
 
 private func factorForOTPToken(token: OTPToken) -> Generator.Factor {
