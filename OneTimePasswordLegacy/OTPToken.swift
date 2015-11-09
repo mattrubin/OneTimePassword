@@ -46,7 +46,9 @@ public final class OTPToken: NSObject {
 
 
     public var token: Token {
-        return tokenForOTPToken(self)
+        var token = tokenForOTPToken(self)
+        token.identity = self
+        return token
     }
 
     public func updateWithToken(token: Token) {

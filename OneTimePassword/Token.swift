@@ -20,6 +20,9 @@ public struct Token: Equatable {
     /// A password generator containing this token's secret, algorithm, etc.
     public let generator: Generator
 
+    /// A reference to link the token to some persistent identity
+    public var identity: Any?
+
     /**
     Initializes a new token with the given parameters.
 
