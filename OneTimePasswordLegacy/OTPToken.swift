@@ -25,7 +25,7 @@ public final class OTPToken: NSObject {
     public var period: NSTimeInterval = OTPToken.defaultPeriod
     public var counter: UInt64 = OTPToken.defaultInitialCounter
 
-    internal var keychainItem: Token.KeychainItem?
+    private var keychainItem: Token.KeychainItem?
 
 
     public static var defaultAlgorithm: OTPAlgorithm {
