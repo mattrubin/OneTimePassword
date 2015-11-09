@@ -42,6 +42,23 @@ public struct Token: Equatable {
 
     /// The default token issuer, an empty string.
     public static let defaultIssuer: String = ""
+
+    // MARK: Password Generation
+
+    /**
+    Calculates the current password based on the token's generator. The password generated
+    will be consistent for a counter-based token, but for a timer-based token the password
+    will depend on the current time when this property is accessed.
+
+    - returns: The current password, or `nil` if a password could not be generated.
+    */
+    public var currentPassword: String? {
+        do {
+            return try generator.passwordAtTimeIntervalSince1970(NSDate().timeIntervalSince1970)
+        } catch {
+            return nil
+        }
+    }
 }
 
 /// Compares two `Token`s for equality.

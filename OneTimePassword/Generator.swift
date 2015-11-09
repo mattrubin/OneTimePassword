@@ -43,24 +43,6 @@ public struct Generator: Equatable {
     // MARK: Password Generation
 
     /**
-    Calculates the current password based on the generator's configuration. The password generated
-    will be consistent for a counter-based generator, but for a timer-based generator the password
-    will depend on the current time when this property is accessed.
-
-    Note: Accessing this property does *not* increment the counter of a counter-based generator.
-
-    - returns: The current password, or `nil` if a password could not be generated.
-    */
-    @available(*, deprecated=2)
-    public var currentPassword: String? {
-        do {
-            return try passwordAtTimeIntervalSince1970(NSDate().timeIntervalSince1970)
-        } catch {
-            return nil
-        }
-    }
-
-    /**
     Calculates the password for the given point in time.
     - parameter timeInterval: the target time, as seconds since the Unix epoch.
     - returns: The generated password, or throws an error if a password could not be generated.

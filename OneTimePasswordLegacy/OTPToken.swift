@@ -79,7 +79,7 @@ public final class OTPToken: NSObject {
 
 public extension OTPToken {
     var password: String? {
-        return token.generator.currentPassword
+        return token.currentPassword
     }
 
     func updatePassword() {
