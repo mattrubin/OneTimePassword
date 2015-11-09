@@ -28,7 +28,7 @@ internal func tokenForOTPToken(otpToken: OTPToken) -> Token {
         digits: Int(otpToken.digits)
     )
     var token = Token(name: otpToken.name, issuer: otpToken.issuer, generator: generator)
-    token.identity = otpToken
+    token.identity = otpToken.keychainItem
     return token
 }
 
