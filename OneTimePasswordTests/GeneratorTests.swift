@@ -76,12 +76,12 @@ class GeneratorTests: XCTestCase {
         let digitTests: [(Int, Bool)] = [
             (-6, false),
             (0, false),
-            (1, true),
-            (5, true),
+            (1, false),
+            (5, false),
             (6, true),
             (7, true),
             (8, true),
-            (9, true),
+            (9, false),
             (10, false),
         ]
 

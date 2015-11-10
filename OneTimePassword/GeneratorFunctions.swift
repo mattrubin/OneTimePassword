@@ -15,6 +15,15 @@ internal enum GenerationError: ErrorType {
     case InvalidDigits
 }
 
+func validateDigits(digits: Int) throws {
+    // https://tools.ietf.org/html/rfc4226#section-5.3
+    // "Implementations MUST extract a 6-digit code at a minimum and possibly 7 and 8-digit codes."
+    let acceptableDigits = 6...8
+    guard acceptableDigits.contains(digits) else {
+        throw GenerationError.InvalidDigits
+    }
+}
+
 internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
     switch factor {
     case .Counter(let counter):
@@ -33,11 +42,7 @@ internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInte
 }
 
 internal func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
-    // Zero or negative digits makes no sense, 10 digits overflows UInt32.max
-    let acceptableDigits = 1...9
-    guard acceptableDigits.contains(digits) else {
-        throw GenerationError.InvalidDigits
-    }
+    try validateDigits(digits)
 
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
