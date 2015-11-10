@@ -15,27 +15,30 @@ internal enum GenerationError: ErrorType {
     case InvalidDigits
 }
 
-func validateDigits(digits: Int) throws {
+func validateDigits(digits: Int) throws -> Int {
     // https://tools.ietf.org/html/rfc4226#section-5.3
     // "Implementations MUST extract a 6-digit code at a minimum and possibly 7 and 8-digit codes."
     let acceptableDigits = 6...8
     guard acceptableDigits.contains(digits) else {
         throw GenerationError.InvalidDigits
     }
+    return digits
 }
 
-func validatePeriod(period: NSTimeInterval) throws {
+func validatePeriod(period: NSTimeInterval) throws -> NSTimeInterval {
     // The period must be positive and non-zero to produce a valid counter value.
     guard period > 0 else {
         throw GenerationError.InvalidPeriod
     }
+    return period
 }
 
-func validateTime(timeIntervalSince1970: NSTimeInterval) throws {
+func validateTime(timeInterval: NSTimeInterval) throws -> NSTimeInterval {
     // The time interval must be positive to produce a valid counter value.
-    guard timeIntervalSince1970 >= 0 else {
+    guard timeInterval >= 0 else {
         throw GenerationError.InvalidTime
     }
+    return timeInterval
 }
 
 internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
