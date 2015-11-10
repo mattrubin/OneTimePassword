@@ -96,9 +96,8 @@ public extension OTPToken {
     }
 
     static func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
-        guard let token = Token.URLSerializer.deserialize(url, secret: secret)
-            where validateGeneratorWithGoogleRules(token.generator) else {
-                return nil
+        guard let token = Token.URLSerializer.deserialize(url, secret: secret) else {
+            return nil
         }
         return self.init(token: token)
     }
@@ -170,19 +169,5 @@ public extension OTPToken {
             return nil
         }
         return self.tokenWithKeychainItem(keychainItem)
-    }
-}
-
-// https://github.com/google/google-authenticator/blob/56ea6af49c958d4b8056e3c26b3c163841abb900/mobile/ios/Classes/OTPGenerator.m#L80
-// https://github.com/google/google-authenticator/blob/56ea6af49c958d4b8056e3c26b3c163841abb900/mobile/ios/Classes/TOTPGenerator.m#L41
-private func validateGeneratorWithGoogleRules(generator: Generator) -> Bool {
-    let validDigits: (Int) -> Bool = { (6 <= $0) && ($0 <= 8) }
-    let validPeriod: (NSTimeInterval) -> Bool = { (0 < $0) && ($0 <= 300) }
-
-    switch generator.factor {
-    case .Counter:
-        return validDigits(generator.digits)
-    case .Timer(let period):
-        return validDigits(generator.digits) && validPeriod(period)
     }
 }
