@@ -33,7 +33,7 @@ public struct Generator: Equatable {
 
     - returns: A new password generator with the given parameters.
     */
-    public init(factor: Factor, secret: NSData, algorithm: Algorithm, digits: Int) {
+    public init?(factor: Factor, secret: NSData, algorithm: Algorithm, digits: Int) {
         self.factor = factor
         self.secret = secret
         self.algorithm = algorithm

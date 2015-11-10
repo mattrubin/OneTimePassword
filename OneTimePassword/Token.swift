@@ -72,15 +72,17 @@ public func == (lhs: Token, rhs: Token) -> Bool {
 - parameter token:   The current token
 - returns: A new token, configured to generate the next password.
 */
-public func updatedToken(token: Token) -> Token {
+public func updatedToken(token: Token) -> Token? {
     switch token.generator.factor {
     case .Counter(let counter):
-        let updatedGenerator = Generator(
+        guard let updatedGenerator = Generator(
             factor: .Counter(counter + 1),
             secret: token.generator.secret,
             algorithm: token.generator.algorithm,
             digits: token.generator.digits
-        )
+        ) else {
+            return nil
+        }
         return Token(name: token.name, issuer: token.issuer, generator: updatedGenerator)
     case .Timer:
         return token
