@@ -59,6 +59,14 @@ public struct Token: Equatable {
             return nil
         }
     }
+
+    // MARK: Update
+
+    /// - returns: A new `Token`, configured to generate the next password.
+    @warn_unused_result
+    public func updatedToken() -> Token {
+        return Token(name: name, issuer: issuer, generator: generator.successor())
+    }
 }
 
 /// Compares two `Token`s for equality.
@@ -66,25 +74,4 @@ public func == (lhs: Token, rhs: Token) -> Bool {
     return (lhs.name == rhs.name)
         && (lhs.issuer == rhs.issuer)
         && (lhs.generator == rhs.generator)
-}
-
-/**
-- parameter token:   The current token
-- returns: A new token, configured to generate the next password.
-*/
-public func updatedToken(token: Token) -> Token? {
-    switch token.generator.factor {
-    case .Counter(let counter):
-        guard let updatedGenerator = Generator(
-            factor: .Counter(counter + 1),
-            secret: token.generator.secret,
-            algorithm: token.generator.algorithm,
-            digits: token.generator.digits
-        ) else {
-            return nil
-        }
-        return Token(name: token.name, issuer: token.issuer, generator: updatedGenerator)
-    case .Timer:
-        return token
-    }
 }
