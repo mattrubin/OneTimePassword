@@ -45,7 +45,7 @@ public final class OTPToken: NSObject {
     }
 
 
-    public var token: Token {
+    public var token: Token? {
         return tokenForOTPToken(self)
     }
 
@@ -73,18 +73,20 @@ public final class OTPToken: NSObject {
     }
 
     public func validate() -> Bool {
-        return validateGeneratorWithGoogleRules(token.generator)
+        return (token != nil)
     }
 }
 
 public extension OTPToken {
     var password: String? {
-        return token.currentPassword
+        return token?.currentPassword
     }
 
     func updatePassword() {
-        let newToken = updatedToken(token)
-        updateWithToken(newToken)
+        if let token = token,
+            let newToken = updatedToken(token) {
+                updateWithToken(newToken)
+        }
     }
 }
 
@@ -102,6 +104,9 @@ public extension OTPToken {
     }
 
     func url() -> NSURL? {
+        guard let token = token else {
+            return nil
+        }
         return Token.URLSerializer.serialize(token)
     }
 }
@@ -111,6 +116,9 @@ public extension OTPToken {
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 
     func saveToKeychain() -> Bool {
+        guard let token = token else {
+            return false
+        }
         if let keychainItem = self.keychainItem {
             guard let newKeychainItem = updateKeychainItem(keychainItem, withToken: token) else {
                 return false
