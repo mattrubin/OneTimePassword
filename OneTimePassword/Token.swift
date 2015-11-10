@@ -74,15 +74,8 @@ public func == (lhs: Token, rhs: Token) -> Bool {
 */
 public func updatedToken(token: Token) -> Token? {
     switch token.generator.factor {
-    case .Counter(let counter):
-        guard let updatedGenerator = Generator(
-            factor: .Counter(counter + 1),
-            secret: token.generator.secret,
-            algorithm: token.generator.algorithm,
-            digits: token.generator.digits
-        ) else {
-            return nil
-        }
+    case .Counter:
+        let updatedGenerator = token.generator.successor()
         return Token(name: token.name, issuer: token.issuer, generator: updatedGenerator)
     case .Timer:
         return token
