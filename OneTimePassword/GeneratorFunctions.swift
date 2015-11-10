@@ -22,6 +22,15 @@ func validateDigits(digits: Int) -> Bool {
     return acceptableDigits.contains(digits)
 }
 
+func validateFactor(factor: Generator.Factor) -> Bool {
+    switch factor {
+    case .Counter:
+        return true
+    case .Timer(let period):
+        return validatePeriod(period)
+    }
+}
+
 func validatePeriod(period: NSTimeInterval) -> Bool {
     // The period must be positive and non-zero to produce a valid counter value.
     return (period > 0)
