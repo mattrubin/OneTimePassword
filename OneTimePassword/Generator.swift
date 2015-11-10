@@ -67,8 +67,8 @@ public struct Generator: Equatable {
     public func successor() -> Generator {
         switch factor {
         case .Counter(let counter):
-            // Update a counter-based generator by incrementing the counter
-            // Force-unwrapping should be safe here
+            // Update a counter-based generator by incrementing the counter. Force-unwrapping should
+            // be safe here, since any valid generator should have a valid successor.
             let nextGenerator = Generator(
                 factor: .Counter(counter.successor()),
                 secret: secret,
@@ -77,7 +77,7 @@ public struct Generator: Equatable {
             )
             return nextGenerator!
         case .Timer:
-            // A timer-based generator does not need to be updated
+            // A timer-based generator does not need to be updated.
             return self
         }
     }
