@@ -24,19 +24,27 @@ func validateDigits(digits: Int) throws {
     }
 }
 
+func validatePeriod(period: NSTimeInterval) throws {
+    // The period must be positive and non-zero to produce a valid counter value.
+    guard period > 0 else {
+        throw GenerationError.InvalidPeriod
+    }
+}
+
+func validateTime(timeIntervalSince1970: NSTimeInterval) throws {
+    // The time interval must be positive to produce a valid counter value.
+    guard timeIntervalSince1970 >= 0 else {
+        throw GenerationError.InvalidTime
+    }
+}
+
 internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
     switch factor {
     case .Counter(let counter):
         return counter
     case .Timer(let period):
-        // The time interval must be positive to produce a valid counter value.
-        guard timeInterval >= 0 else {
-            throw GenerationError.InvalidTime
-        }
-        // The period must be positive and non-zero to produce a valid counter value.
-        guard period > 0 else {
-            throw GenerationError.InvalidPeriod
-        }
+        try validateTime(timeInterval)
+        try validatePeriod(period)
         return UInt64(timeInterval / period)
     }
 }
