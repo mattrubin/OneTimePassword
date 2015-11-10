@@ -48,8 +48,11 @@ class EquatableTests: XCTestCase {
     }
 
     func testTokenEquality() {
-        let generator = Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 6)
-        let other_generator = Generator(factor: .Counter(1), secret: NSData(), algorithm: .SHA512, digits: 8)
+        guard let generator = Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 6),
+            let other_generator = Generator(factor: .Counter(1), secret: NSData(), algorithm: .SHA512, digits: 8) else {
+                XCTFail()
+                return
+        }
 
         let t = Token(name: "Name", issuer: "Issuer", generator: generator)
 

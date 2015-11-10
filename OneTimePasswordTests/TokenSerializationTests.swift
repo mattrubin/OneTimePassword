@@ -36,12 +36,15 @@ class TokenSerializationTests: XCTestCase {
                         for algorithm in algorithms {
                             for digitNumber in digits {
                                 // Create the token
-                                let generator = Generator(
+                                guard let generator = Generator(
                                     factor: factor,
                                     secret: secretString.dataUsingEncoding(NSASCIIStringEncoding)!,
                                     algorithm: algorithm,
                                     digits: digitNumber
-                                )
+                                ) else {
+                                    XCTFail()
+                                    continue
+                                }
 
                                 let token = Token(
                                     name: name,

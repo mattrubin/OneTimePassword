@@ -24,10 +24,10 @@ class GeneratorTests: XCTestCase {
             digits: digits
         )
 
-        XCTAssert(generator.factor == factor)
-        XCTAssert(generator.secret == secret)
-        XCTAssert(generator.algorithm == algorithm)
-        XCTAssert(generator.digits == digits)
+        XCTAssertEqual(generator?.factor, factor)
+        XCTAssertEqual(generator?.secret, secret)
+        XCTAssertEqual(generator?.algorithm, algorithm)
+        XCTAssertEqual(generator?.digits, digits)
 
         // Create another generator
         let other_factor = OneTimePassword.Generator.Factor.Timer(period: 123)
@@ -42,16 +42,16 @@ class GeneratorTests: XCTestCase {
             digits: other_digits
         )
 
-        XCTAssert(other_generator.factor == other_factor)
-        XCTAssert(other_generator.secret == other_secret)
-        XCTAssert(other_generator.algorithm == other_algorithm)
-        XCTAssert(other_generator.digits == other_digits)
+        XCTAssertEqual(other_generator?.factor, other_factor)
+        XCTAssertEqual(other_generator?.secret, other_secret)
+        XCTAssertEqual(other_generator?.algorithm, other_algorithm)
+        XCTAssertEqual(other_generator?.digits, other_digits)
 
         // Ensure the generators are different
-        XCTAssert(generator.factor != other_generator.factor)
-        XCTAssert(generator.secret != other_generator.secret)
-        XCTAssert(generator.algorithm != other_generator.algorithm)
-        XCTAssert(generator.digits != other_generator.digits)
+        XCTAssertNotEqual(generator?.factor, other_generator?.factor)
+        XCTAssertNotEqual(generator?.secret, other_generator?.secret)
+        XCTAssertNotEqual(generator?.algorithm, other_generator?.algorithm)
+        XCTAssertNotEqual(generator?.digits, other_generator?.digits)
     }
 
     func testCounter() {
@@ -103,11 +103,10 @@ class GeneratorTests: XCTestCase {
             )
             // If the digits are invalid, password generation should throw an error
             let generatorIsValid = digitsAreValid
-            do {
-                try generator.passwordAtTimeIntervalSince1970(0)
-                XCTAssertTrue(generatorIsValid)
-            } catch {
-                XCTAssertFalse(generatorIsValid)
+            if generatorIsValid {
+                XCTAssertNotNil(generator)
+            } else {
+                XCTAssertNil(generator)
             }
 
             for (period, periodIsValid) in periodTests {
@@ -119,11 +118,10 @@ class GeneratorTests: XCTestCase {
                 )
                 // If the digits or period are invalid, password generation should throw an error
                 let generatorIsValid = digitsAreValid && periodIsValid
-                do {
-                    try generator.passwordAtTimeIntervalSince1970(0)
-                    XCTAssertTrue(generatorIsValid)
-                } catch {
-                    XCTAssertFalse(generatorIsValid)
+                if generatorIsValid {
+                    XCTAssertNotNil(generator)
+                } else {
+                    XCTAssertNil(generator)
                 }
             }
         }
@@ -147,7 +145,7 @@ class GeneratorTests: XCTestCase {
         ]
         for (counter, expectedPassword) in expectedValues {
             let generator = Generator(factor: .Counter(counter), secret: secret, algorithm: .SHA1, digits: 6)
-            XCTAssertEqual(expectedPassword, try! generator.passwordAtTimeIntervalSince1970(0),
+            XCTAssertEqual(expectedPassword, try! generator!.passwordAtTimeIntervalSince1970(0),
                 "The generator did not produce the expected OTP.")
         }
     }
@@ -175,7 +173,7 @@ class GeneratorTests: XCTestCase {
 
             for i in 0..<times.count {
                 let expectedPassword = expectedValues[algorithm]?[i]
-                let password = try! generator.passwordAtTimeIntervalSince1970(times[i])
+                let password = try! generator!.passwordAtTimeIntervalSince1970(times[i])
                 XCTAssertEqual(password, expectedPassword,
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
@@ -198,7 +196,7 @@ class GeneratorTests: XCTestCase {
             let generator = Generator(factor: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
             for i in 0..<times.count {
                 let expectedPassword = expectedPasswords[i]
-                let password = try! generator.passwordAtTimeIntervalSince1970(times[i])
+                let password = try! generator!.passwordAtTimeIntervalSince1970(times[i])
                 XCTAssertEqual(password, expectedPassword,
                     "Incorrect result for \(algorithm) at \(times[i])")
             }

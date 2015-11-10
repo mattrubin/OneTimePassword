@@ -14,12 +14,15 @@ class TokenTests: XCTestCase {
         // Create a token
         let name = "Test Name"
         let issuer = "Test Issuer"
-        let generator = Generator(
+        guard let generator = Generator(
             factor: .Counter(111),
             secret: "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!,
             algorithm: .SHA1,
             digits: 6
-        )
+        ) else {
+            XCTFail()
+            return
+        }
 
         let token = Token(
             name: name,
@@ -34,12 +37,15 @@ class TokenTests: XCTestCase {
         // Create another token
         let other_name = "Other Test Name"
         let other_issuer = "Other Test Issuer"
-        let other_generator = Generator(
+        guard let other_generator = Generator(
             factor: .Timer(period: 123),
             secret: "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!,
             algorithm: .SHA512,
             digits: 8
-        )
+        ) else {
+            XCTFail()
+            return
+        }
 
         let other_token = Token(
             name: other_name,
@@ -58,12 +64,15 @@ class TokenTests: XCTestCase {
     }
 
     func testDefaults() {
-        let generator = Generator(
+        guard let generator = Generator(
             factor: .Counter(0),
             secret: NSData(),
             algorithm: .SHA1,
             digits: 6
-        )
+        ) else {
+            XCTFail()
+            return
+        }
         let n = "Test Name"
         let i = "Test Issuer"
 
