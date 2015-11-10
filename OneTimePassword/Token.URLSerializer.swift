@@ -128,11 +128,10 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
     guard let factor = parse(url.host, with: factorParser, defaultTo: nil),
         let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, overrideWith: externalSecret),
         let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: Token.URLSerializer.defaultAlgorithm),
-        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Token.URLSerializer.defaultDigits) else {
+        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Token.URLSerializer.defaultDigits),
+        let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
             return nil
     }
-
-    let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
 
     var name = Token.defaultName
     if let path = url.path {

@@ -15,17 +15,41 @@ internal enum GenerationError: ErrorType {
     case InvalidDigits
 }
 
+func validateDigits(digits: Int) -> Bool {
+    // https://tools.ietf.org/html/rfc4226#section-5.3
+    // "Implementations MUST extract a 6-digit code at a minimum and possibly 7 and 8-digit codes."
+    let acceptableDigits = 6...8
+    return acceptableDigits.contains(digits)
+}
+
+func validateFactor(factor: Generator.Factor) -> Bool {
+    switch factor {
+    case .Counter:
+        return true
+    case .Timer(let period):
+        return validatePeriod(period)
+    }
+}
+
+func validatePeriod(period: NSTimeInterval) -> Bool {
+    // The period must be positive and non-zero to produce a valid counter value.
+    return (period > 0)
+}
+
+func validateTime(timeInterval: NSTimeInterval) -> Bool {
+    // The time interval must be positive to produce a valid counter value.
+    return (timeInterval >= 0)
+}
+
 internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
     switch factor {
     case .Counter(let counter):
         return counter
     case .Timer(let period):
-        // The time interval must be positive to produce a valid counter value.
-        guard timeInterval >= 0 else {
+        guard validateTime(timeInterval) else {
             throw GenerationError.InvalidTime
         }
-        // The period must be positive and non-zero to produce a valid counter value.
-        guard period > 0 else {
+        guard validatePeriod(period) else {
             throw GenerationError.InvalidPeriod
         }
         return UInt64(timeInterval / period)
@@ -33,9 +57,7 @@ internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInte
 }
 
 internal func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
-    // Zero or negative digits makes no sense, 10 digits overflows UInt32.max
-    let acceptableDigits = 1...9
-    guard acceptableDigits.contains(digits) else {
+    guard validateDigits(digits) else {
         throw GenerationError.InvalidDigits
     }
 
