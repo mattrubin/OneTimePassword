@@ -15,30 +15,21 @@ internal enum GenerationError: ErrorType {
     case InvalidDigits
 }
 
-func validateDigits(digits: Int) throws -> Int {
+func validateDigits(digits: Int) -> Bool {
     // https://tools.ietf.org/html/rfc4226#section-5.3
     // "Implementations MUST extract a 6-digit code at a minimum and possibly 7 and 8-digit codes."
     let acceptableDigits = 6...8
-    guard acceptableDigits.contains(digits) else {
-        throw GenerationError.InvalidDigits
-    }
-    return digits
+    return acceptableDigits.contains(digits)
 }
 
-func validatePeriod(period: NSTimeInterval) throws -> NSTimeInterval {
+func validatePeriod(period: NSTimeInterval) -> Bool {
     // The period must be positive and non-zero to produce a valid counter value.
-    guard period > 0 else {
-        throw GenerationError.InvalidPeriod
-    }
-    return period
+    return (period > 0)
 }
 
-func validateTime(timeInterval: NSTimeInterval) throws -> NSTimeInterval {
+func validateTime(timeInterval: NSTimeInterval) -> Bool {
     // The time interval must be positive to produce a valid counter value.
-    guard timeInterval >= 0 else {
-        throw GenerationError.InvalidTime
-    }
-    return timeInterval
+    return (timeInterval >= 0)
 }
 
 internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
@@ -46,14 +37,20 @@ internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInte
     case .Counter(let counter):
         return counter
     case .Timer(let period):
-        try validateTime(timeInterval)
-        try validatePeriod(period)
+        guard validateTime(timeInterval) else {
+            throw GenerationError.InvalidTime
+        }
+        guard validatePeriod(period) else {
+            throw GenerationError.InvalidPeriod
+        }
         return UInt64(timeInterval / period)
     }
 }
 
 internal func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
-    try validateDigits(digits)
+    guard validateDigits(digits) else {
+        throw GenerationError.InvalidDigits
+    }
 
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
