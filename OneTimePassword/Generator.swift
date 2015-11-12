@@ -138,6 +138,17 @@ public struct Generator: Equatable {
         /// The SHA-512 hash function
         case SHA512
     }
+
+    /// An error type enum representing the various errors a `Generator` can throw when computing a
+    /// password.
+    public enum Error: ErrorType {
+        /// The requested time is before the epoch date.
+        case InvalidTime
+        /// The requested period is not a positive number of seconds
+        case InvalidPeriod
+        /// The number of digits is either too short to be secure, or too long to compute.
+        case InvalidDigits
+    }
 }
 
 /// Compares two `Generator`s for equality.

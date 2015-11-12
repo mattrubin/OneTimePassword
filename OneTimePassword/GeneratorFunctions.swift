@@ -9,22 +9,16 @@
 import Foundation
 import CommonCrypto
 
-internal enum GenerationError: ErrorType {
-    case InvalidTime
-    case InvalidPeriod
-    case InvalidDigits
-}
-
 internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
     switch factor {
     case .Counter(let counter):
         return counter
     case .Timer(let period):
         guard Generator.validateTime(timeInterval) else {
-            throw GenerationError.InvalidTime
+            throw Generator.Error.InvalidTime
         }
         guard Generator.validatePeriod(period) else {
-            throw GenerationError.InvalidPeriod
+            throw Generator.Error.InvalidPeriod
         }
         return UInt64(timeInterval / period)
     }
@@ -32,7 +26,7 @@ internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeInte
 
 internal func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
     guard Generator.validateDigits(digits) else {
-        throw GenerationError.InvalidDigits
+        throw Generator.Error.InvalidDigits
     }
 
     func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
