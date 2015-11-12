@@ -34,13 +34,45 @@ public struct Generator: Equatable {
     - returns: A new password generator with the given parameters.
     */
     public init?(factor: Factor, secret: NSData, algorithm: Algorithm, digits: Int) {
-        guard validateFactor(factor) && validateDigits(digits) else {
+        guard Generator.validateFactor(factor) && Generator.validateDigits(digits) else {
             return nil
         }
         self.factor = factor
         self.secret = secret
         self.algorithm = algorithm
         self.digits = digits
+    }
+
+    // MARK: Validation
+
+    @warn_unused_result
+    internal static func validateDigits(digits: Int) -> Bool {
+        // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
+        // 6-digit code at a minimum and possibly 7 and 8-digit codes."
+        let acceptableDigits = 6...8
+        return acceptableDigits.contains(digits)
+    }
+
+    @warn_unused_result
+    internal static func validateFactor(factor: Generator.Factor) -> Bool {
+        switch factor {
+        case .Counter:
+            return true
+        case .Timer(let period):
+            return validatePeriod(period)
+        }
+    }
+
+    @warn_unused_result
+    internal static func validatePeriod(period: NSTimeInterval) -> Bool {
+        // The period must be positive and non-zero to produce a valid counter value.
+        return (period > 0)
+    }
+
+    @warn_unused_result
+    internal static func validateTime(timeInterval: NSTimeInterval) -> Bool {
+        // The time interval must be positive to produce a valid counter value.
+        return (timeInterval >= 0)
     }
 
     // MARK: Password Generation
