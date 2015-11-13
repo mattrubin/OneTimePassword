@@ -9,21 +9,6 @@
 import Foundation
 import CommonCrypto
 
-internal func counterForGeneratorWithFactor(factor: Generator.Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
-    switch factor {
-    case .Counter(let counter):
-        return counter
-    case .Timer(let period):
-        guard Generator.validateTime(timeInterval) else {
-            throw Generator.Error.InvalidTime
-        }
-        guard Generator.validatePeriod(period) else {
-            throw Generator.Error.InvalidPeriod
-        }
-        return UInt64(timeInterval / period)
-    }
-}
-
 internal func generatePassword(algorithm algorithm: Generator.Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
     guard Generator.validateDigits(digits) else {
         throw Generator.Error.InvalidDigits

@@ -83,9 +83,31 @@ public struct Generator: Equatable {
     /// - throws: A `GenerationError` if a valid password cannot be generated.
     @warn_unused_result
     public func passwordAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> String {
-        let counter = try counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: timeInterval)
+        let counter = try Generator.counterWithFactor(factor, atTimeIntervalSince1970: timeInterval)
         let password = try generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
         return password
+    }
+
+    /// From a moving factor, calculates the counter value needed to generate the password for the
+    /// target time.
+    /// - parameter factor:         A generator's moving factor
+    /// - parameter timeInterval:   The target time, as seconds since the Unix epoch.
+    /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
+    /// - returns: The counter value needed to generate the password for the target time.
+    @warn_unused_result
+    internal static func counterWithFactor(factor: Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
+        switch factor {
+        case .Counter(let counter):
+            return counter
+        case .Timer(let period):
+            guard Generator.validateTime(timeInterval) else {
+                throw Generator.Error.InvalidTime
+            }
+            guard Generator.validatePeriod(period) else {
+                throw Generator.Error.InvalidPeriod
+            }
+            return UInt64(timeInterval / period)
+        }
     }
 
     // MARK: Update

@@ -68,7 +68,7 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (factor, timeInterval, counter) in factors {
-            XCTAssertEqual(try! counterForGeneratorWithFactor(factor, atTimeIntervalSince1970: timeInterval), counter)
+            XCTAssertEqual(try! Generator.counterWithFactor(factor, atTimeIntervalSince1970: timeInterval), counter)
         }
     }
 
