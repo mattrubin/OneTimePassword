@@ -100,11 +100,11 @@ public struct Generator: Equatable {
         case .Counter(let counter):
             return counter
         case .Timer(let period):
-            guard Generator.validateTime(timeInterval) else {
-                throw Generator.Error.InvalidTime
+            guard validateTime(timeInterval) else {
+                throw Error.InvalidTime
             }
-            guard Generator.validatePeriod(period) else {
-                throw Generator.Error.InvalidPeriod
+            guard validatePeriod(period) else {
+                throw Error.InvalidPeriod
             }
             return UInt64(timeInterval / period)
         }
