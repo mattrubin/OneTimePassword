@@ -44,38 +44,6 @@ public struct Generator: Equatable {
         self.digits = digits
     }
 
-    // MARK: Validation
-
-    @warn_unused_result
-    private static func validateDigits(digits: Int) -> Bool {
-        // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
-        // 6-digit code at a minimum and possibly 7 and 8-digit codes."
-        let acceptableDigits = 6...8
-        return acceptableDigits.contains(digits)
-    }
-
-    @warn_unused_result
-    private static func validateFactor(factor: Factor) -> Bool {
-        switch factor {
-        case .Counter:
-            return true
-        case .Timer(let period):
-            return validatePeriod(period)
-        }
-    }
-
-    @warn_unused_result
-    private static func validatePeriod(period: NSTimeInterval) -> Bool {
-        // The period must be positive and non-zero to produce a valid counter value.
-        return (period > 0)
-    }
-
-    @warn_unused_result
-    private static func validateTime(timeInterval: NSTimeInterval) -> Bool {
-        // The time interval must be positive to produce a valid counter value.
-        return (timeInterval >= 0)
-    }
-
     // MARK: Password Generation
 
     /// Generates the password for the given point in time.
@@ -241,6 +209,42 @@ public func == (lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
         return l == r
     default:
         return false
+    }
+}
+
+// MARK: - Private
+
+private extension Generator {
+    // MARK: Validation
+
+    @warn_unused_result
+    private static func validateDigits(digits: Int) -> Bool {
+        // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
+        // 6-digit code at a minimum and possibly 7 and 8-digit codes."
+        let acceptableDigits = 6...8
+        return acceptableDigits.contains(digits)
+    }
+
+    @warn_unused_result
+    private static func validateFactor(factor: Factor) -> Bool {
+        switch factor {
+        case .Counter:
+            return true
+        case .Timer(let period):
+            return validatePeriod(period)
+        }
+    }
+
+    @warn_unused_result
+    private static func validatePeriod(period: NSTimeInterval) -> Bool {
+        // The period must be positive and non-zero to produce a valid counter value.
+        return (period > 0)
+    }
+
+    @warn_unused_result
+    private static func validateTime(timeInterval: NSTimeInterval) -> Bool {
+        // The time interval must be positive to produce a valid counter value.
+        return (timeInterval >= 0)
     }
 }
 
