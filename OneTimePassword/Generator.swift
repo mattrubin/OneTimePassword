@@ -85,7 +85,7 @@ public struct Generator: Equatable {
     @warn_unused_result
     public func passwordAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> String {
         let counter = try Generator.counterWithFactor(factor, atTimeIntervalSince1970: timeInterval)
-        let password = try generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
+        let password = try Generator.generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
         return password
     }
 
@@ -125,6 +125,41 @@ public struct Generator: Equatable {
         case .SHA512:
             return (CCHmacAlgorithm(kCCHmacAlgSHA512), Int(CC_SHA512_DIGEST_LENGTH))
         }
+    }
+
+    /// Generates a one-time password using the HOTP algorithm.
+    // https://tools.ietf.org/html/rfc4226#section-5
+    internal static func generatePassword(algorithm algorithm: Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
+        guard validateDigits(digits) else {
+            throw Error.InvalidDigits
+        }
+
+        // Ensure the counter value is big-endian
+        var bigCounter = counter.bigEndian
+
+        // Generate an HMAC value from the key and counter
+        let (hashAlgorithm, hashLength) = hashInfoForAlgorithm(algorithm)
+        let hashPointer = UnsafeMutablePointer<UInt8>.alloc(hashLength)
+        defer { hashPointer.dealloc(hashLength) }
+        CCHmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
+
+        // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
+        let ptr = UnsafePointer<UInt8>(hashPointer)
+        let offset = ptr[hashLength-1] & 0x0f
+
+        // Take 4 bytes from the hash, starting at the given byte offset
+        let truncatedHashPtr = ptr + Int(offset)
+        var truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).memory
+
+        // Ensure the four bytes taken from the hash match the current endian format
+        truncatedHash = UInt32(bigEndian: truncatedHash)
+        // Discard the most significant bit
+        truncatedHash &= 0x7fffffff
+        // Constrain to the right number of digits
+        truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
+
+        // Pad the string representation with zeros, if necessary
+        return String(truncatedHash).paddedWithCharacter("0", toLength: digits)
     }
 
     // MARK: Update
@@ -207,5 +242,16 @@ public func == (lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
         return l == r
     default:
         return false
+    }
+}
+
+private extension String {
+    /// Prepends the given character to the beginning of `self` until it matches the given length.
+    func paddedWithCharacter(character: Character, toLength length: Int) -> String {
+        let paddingCount = length - characters.count
+        guard paddingCount > 0 else { return self }
+
+        let padding = String(count: paddingCount, repeatedValue: character)
+        return padding + self
     }
 }
