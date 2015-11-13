@@ -57,43 +57,6 @@ public struct Generator: Equatable {
         return password
     }
 
-
-    /// Generates a one-time password using the HOTP algorithm.
-    // https://tools.ietf.org/html/rfc4226#section-5
-    @warn_unused_result
-    private static func generatePassword(algorithm algorithm: Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
-        guard validateDigits(digits) else {
-            throw Error.InvalidDigits
-        }
-
-        // Ensure the counter value is big-endian
-        var bigCounter = counter.bigEndian
-
-        // Generate an HMAC value from the key and counter
-        let (hashAlgorithm, hashLength) = algorithm.hashInfo
-        let hashPointer = UnsafeMutablePointer<UInt8>.alloc(hashLength)
-        defer { hashPointer.dealloc(hashLength) }
-        CCHmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
-
-        // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
-        let ptr = UnsafePointer<UInt8>(hashPointer)
-        let offset = ptr[hashLength-1] & 0x0f
-
-        // Take 4 bytes from the hash, starting at the given byte offset
-        let truncatedHashPtr = ptr + Int(offset)
-        var truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).memory
-
-        // Ensure the four bytes taken from the hash match the current endian format
-        truncatedHash = UInt32(bigEndian: truncatedHash)
-        // Discard the most significant bit
-        truncatedHash &= 0x7fffffff
-        // Constrain to the right number of digits
-        truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
-
-        // Pad the string representation with zeros, if necessary
-        return String(truncatedHash).paddedWithCharacter("0", toLength: digits)
-    }
-
     // MARK: Update
 
     /// Returns a `Generator` configured to generate the *next* password, which follows the password
@@ -245,6 +208,44 @@ private extension Generator {
     private static func validateTime(timeInterval: NSTimeInterval) -> Bool {
         // The time interval must be positive to produce a valid counter value.
         return (timeInterval >= 0)
+    }
+
+    // MARK: Password Generation
+
+    /// Generates a one-time password using the HOTP algorithm.
+    // https://tools.ietf.org/html/rfc4226#section-5
+    @warn_unused_result
+    private static func generatePassword(algorithm algorithm: Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
+        guard validateDigits(digits) else {
+            throw Error.InvalidDigits
+        }
+
+        // Ensure the counter value is big-endian
+        var bigCounter = counter.bigEndian
+
+        // Generate an HMAC value from the key and counter
+        let (hashAlgorithm, hashLength) = algorithm.hashInfo
+        let hashPointer = UnsafeMutablePointer<UInt8>.alloc(hashLength)
+        defer { hashPointer.dealloc(hashLength) }
+        CCHmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
+
+        // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
+        let ptr = UnsafePointer<UInt8>(hashPointer)
+        let offset = ptr[hashLength-1] & 0x0f
+
+        // Take 4 bytes from the hash, starting at the given byte offset
+        let truncatedHashPtr = ptr + Int(offset)
+        var truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).memory
+
+        // Ensure the four bytes taken from the hash match the current endian format
+        truncatedHash = UInt32(bigEndian: truncatedHash)
+        // Discard the most significant bit
+        truncatedHash &= 0x7fffffff
+        // Constrain to the right number of digits
+        truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
+
+        // Pad the string representation with zeros, if necessary
+        return String(truncatedHash).paddedWithCharacter("0", toLength: digits)
     }
 }
 
