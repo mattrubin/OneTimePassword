@@ -84,32 +84,11 @@ public struct Generator: Equatable {
     /// - returns: The generated password, or throws an error if a password could not be generated.
     @warn_unused_result
     public func passwordAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> String {
-        let counter = try Generator.counterWithFactor(factor, atTimeIntervalSince1970: timeInterval)
+        let counter = try factor.counterAtTimeIntervalSince1970(timeInterval)
         let password = try Generator.generatePassword(algorithm: algorithm, digits: digits, secret: secret, counter: counter)
         return password
     }
 
-    /// From a moving factor, calculates the counter value needed to generate the password for the
-    /// target time.
-    /// - parameter factor:         A generator's moving factor.
-    /// - parameter timeInterval:   The target time, as seconds since the Unix epoch.
-    /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
-    /// - returns: The counter value needed to generate the password for the target time.
-    @warn_unused_result
-    private static func counterWithFactor(factor: Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
-        switch factor {
-        case .Counter(let counter):
-            return counter
-        case .Timer(let period):
-            guard validateTime(timeInterval) else {
-                throw Error.InvalidTime
-            }
-            guard validatePeriod(period) else {
-                throw Error.InvalidPeriod
-            }
-            return UInt64(timeInterval / period)
-        }
-    }
 
     /// Generates a one-time password using the HOTP algorithm.
     // https://tools.ietf.org/html/rfc4226#section-5
@@ -185,6 +164,29 @@ public struct Generator: Equatable {
         /// factor. This period value remains constant, and is used as a divisor for the number of
         /// seconds since the Unix epoch.
         case Timer(period: NSTimeInterval)
+
+        /// Calculates the counter value for the moving factor at the target time. For a counter-
+        /// based factor, this will be the associated counter value, but for a timer-based factor,
+        /// it will be the number of time steps since the Unix epoch, based on the associated
+        /// period value.
+        /// - parameter timeInterval: The target time, as seconds since the Unix epoch.
+        /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
+        /// - returns: The counter value needed to generate the password for the target time.
+        @warn_unused_result
+        private func counterAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> UInt64 {
+            switch self {
+            case .Counter(let counter):
+                return counter
+            case .Timer(let period):
+                guard Generator.validateTime(timeInterval) else {
+                    throw Error.InvalidTime
+                }
+                guard Generator.validatePeriod(period) else {
+                    throw Error.InvalidPeriod
+                }
+                return UInt64(timeInterval / period)
+            }
+        }
     }
 
     /// A cryptographic hash function used to calculate the HMAC from which a password is derived.

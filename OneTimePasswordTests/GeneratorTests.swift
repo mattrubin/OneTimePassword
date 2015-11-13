@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import OneTimePassword
+import OneTimePassword
 
 class GeneratorTests: XCTestCase {
     func testInit() {
@@ -55,20 +55,31 @@ class GeneratorTests: XCTestCase {
     }
 
     func testCounter() {
-        let factors: [(OneTimePassword.Generator.Factor, NSTimeInterval, UInt64)] = [
-            (.Counter(0),           -1,             0),
-            (.Counter(1),           -1,             1),
-            (.Counter(123),         -1,             123),
-            (.Counter(99999),       -1,             99999),
-            (.Timer(period: 30),    100,            3),
-            (.Timer(period: 30),    10000,          333),
-            (.Timer(period: 30),    1000000,        33333),
-            (.Timer(period: 60),    100000000,      1666666),
-            (.Timer(period: 90),    10000000000,    111111111),
+        let factors: [(NSTimeInterval, NSTimeInterval, UInt64)] = [
+            (30,    100,            3),
+            (30,    10000,          333),
+            (30,    1000000,        33333),
+            (60,    100000000,      1666666),
+            (90,    10000000000,    111111111),
         ]
 
-        for (factor, timeInterval, counter) in factors {
-            XCTAssertEqual(try! Generator.counterWithFactor(factor, atTimeIntervalSince1970: timeInterval), counter)
+        for (period, timeInterval, counter) in factors {
+            let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+            let counterPassword = Generator(
+                factor: .Counter(counter),
+                secret: secret,
+                algorithm: .SHA1,
+                digits: 6)
+                .flatMap { try? $0.passwordAtTimeIntervalSince1970(timeInterval) }
+            let timerPassword = Generator(
+                factor: .Timer(period: period),
+                secret: secret,
+                algorithm: .SHA1,
+                digits: 6
+                )
+                .flatMap { try? $0.passwordAtTimeIntervalSince1970(timeInterval) }
+            XCTAssertEqual(counterPassword, timerPassword, "TOTP with period \(period) should " +
+                "match HOTP with counter \(counter) at time \(timeInterval).")
         }
     }
 
