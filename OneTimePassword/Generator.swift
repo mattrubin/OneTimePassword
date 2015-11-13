@@ -47,7 +47,7 @@ public struct Generator: Equatable {
     // MARK: Validation
 
     @warn_unused_result
-    internal static func validateDigits(digits: Int) -> Bool {
+    private static func validateDigits(digits: Int) -> Bool {
         // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
         // 6-digit code at a minimum and possibly 7 and 8-digit codes."
         let acceptableDigits = 6...8
@@ -55,7 +55,7 @@ public struct Generator: Equatable {
     }
 
     @warn_unused_result
-    internal static func validateFactor(factor: Generator.Factor) -> Bool {
+    private static func validateFactor(factor: Factor) -> Bool {
         switch factor {
         case .Counter:
             return true
@@ -65,13 +65,13 @@ public struct Generator: Equatable {
     }
 
     @warn_unused_result
-    internal static func validatePeriod(period: NSTimeInterval) -> Bool {
+    private static func validatePeriod(period: NSTimeInterval) -> Bool {
         // The period must be positive and non-zero to produce a valid counter value.
         return (period > 0)
     }
 
     @warn_unused_result
-    internal static func validateTime(timeInterval: NSTimeInterval) -> Bool {
+    private static func validateTime(timeInterval: NSTimeInterval) -> Bool {
         // The time interval must be positive to produce a valid counter value.
         return (timeInterval >= 0)
     }
@@ -96,7 +96,7 @@ public struct Generator: Equatable {
     /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
     /// - returns: The counter value needed to generate the password for the target time.
     @warn_unused_result
-    internal static func counterWithFactor(factor: Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
+    private static func counterWithFactor(factor: Factor, atTimeIntervalSince1970 timeInterval: NSTimeInterval) throws -> UInt64 {
         switch factor {
         case .Counter(let counter):
             return counter
@@ -116,7 +116,7 @@ public struct Generator: Equatable {
     /// - parameter algorithm:  A generator's algorithm.
     /// - returns: A tuple of a CommonCrypto hash algorithm and the corresponding hash length.
     @warn_unused_result
-    internal static func hashInfoForAlgorithm(algorithm: Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
+    private static func hashInfoForAlgorithm(algorithm: Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
         switch algorithm {
         case .SHA1:
             return (CCHmacAlgorithm(kCCHmacAlgSHA1), Int(CC_SHA1_DIGEST_LENGTH))
@@ -129,7 +129,8 @@ public struct Generator: Equatable {
 
     /// Generates a one-time password using the HOTP algorithm.
     // https://tools.ietf.org/html/rfc4226#section-5
-    internal static func generatePassword(algorithm algorithm: Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
+    @warn_unused_result
+    private static func generatePassword(algorithm algorithm: Algorithm, digits: Int, secret: NSData, counter: UInt64) throws -> String {
         guard validateDigits(digits) else {
             throw Error.InvalidDigits
         }
