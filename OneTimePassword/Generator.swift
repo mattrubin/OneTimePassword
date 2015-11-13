@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CommonCrypto
 
 /// A `Generator` contains all of the parameters needed to generate a one-time password.
 public struct Generator: Equatable {
@@ -90,7 +91,7 @@ public struct Generator: Equatable {
 
     /// From a moving factor, calculates the counter value needed to generate the password for the
     /// target time.
-    /// - parameter factor:         A generator's moving factor
+    /// - parameter factor:         A generator's moving factor.
     /// - parameter timeInterval:   The target time, as seconds since the Unix epoch.
     /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
     /// - returns: The counter value needed to generate the password for the target time.
@@ -107,6 +108,22 @@ public struct Generator: Equatable {
                 throw Error.InvalidPeriod
             }
             return UInt64(timeInterval / period)
+        }
+    }
+
+    /// Given a `Generator.Algorithm`, returns the corresponding CommonCrypto hash algorithm and
+    /// length.
+    /// - parameter algorithm:  A generator's algorithm.
+    /// - returns: A tuple of a CommonCrypto hash algorithm and the corresponding hash length.
+    @warn_unused_result
+    internal static func hashInfoForAlgorithm(algorithm: Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
+        switch algorithm {
+        case .SHA1:
+            return (CCHmacAlgorithm(kCCHmacAlgSHA1), Int(CC_SHA1_DIGEST_LENGTH))
+        case .SHA256:
+            return (CCHmacAlgorithm(kCCHmacAlgSHA256), Int(CC_SHA256_DIGEST_LENGTH))
+        case .SHA512:
+            return (CCHmacAlgorithm(kCCHmacAlgSHA512), Int(CC_SHA512_DIGEST_LENGTH))
         }
     }
 

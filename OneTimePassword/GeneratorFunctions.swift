@@ -14,22 +14,11 @@ internal func generatePassword(algorithm algorithm: Generator.Algorithm, digits:
         throw Generator.Error.InvalidDigits
     }
 
-    func hashInfoForAlgorithm(algorithm: Generator.Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
-        switch algorithm {
-        case .SHA1:
-            return (CCHmacAlgorithm(kCCHmacAlgSHA1), Int(CC_SHA1_DIGEST_LENGTH))
-        case .SHA256:
-            return (CCHmacAlgorithm(kCCHmacAlgSHA256), Int(CC_SHA256_DIGEST_LENGTH))
-        case .SHA512:
-            return (CCHmacAlgorithm(kCCHmacAlgSHA512), Int(CC_SHA512_DIGEST_LENGTH))
-        }
-    }
-
     // Ensure the counter value is big-endian
     var bigCounter = counter.bigEndian
 
     // Generate an HMAC value from the key and counter
-    let (hashAlgorithm, hashLength) = hashInfoForAlgorithm(algorithm)
+    let (hashAlgorithm, hashLength) = Generator.hashInfoForAlgorithm(algorithm)
     let hashPointer = UnsafeMutablePointer<UInt8>.alloc(hashLength)
     defer { hashPointer.dealloc(hashLength) }
     CCHmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
