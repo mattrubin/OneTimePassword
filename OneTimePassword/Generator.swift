@@ -111,22 +111,6 @@ public struct Generator: Equatable {
         }
     }
 
-    /// Given a `Generator.Algorithm`, returns the corresponding CommonCrypto hash algorithm and
-    /// length.
-    /// - parameter algorithm:  A generator's algorithm.
-    /// - returns: A tuple of a CommonCrypto hash algorithm and the corresponding hash length.
-    @warn_unused_result
-    private static func hashInfoForAlgorithm(algorithm: Algorithm) -> (algorithm: CCHmacAlgorithm, length: Int) {
-        switch algorithm {
-        case .SHA1:
-            return (CCHmacAlgorithm(kCCHmacAlgSHA1), Int(CC_SHA1_DIGEST_LENGTH))
-        case .SHA256:
-            return (CCHmacAlgorithm(kCCHmacAlgSHA256), Int(CC_SHA256_DIGEST_LENGTH))
-        case .SHA512:
-            return (CCHmacAlgorithm(kCCHmacAlgSHA512), Int(CC_SHA512_DIGEST_LENGTH))
-        }
-    }
-
     /// Generates a one-time password using the HOTP algorithm.
     // https://tools.ietf.org/html/rfc4226#section-5
     @warn_unused_result
@@ -139,7 +123,7 @@ public struct Generator: Equatable {
         var bigCounter = counter.bigEndian
 
         // Generate an HMAC value from the key and counter
-        let (hashAlgorithm, hashLength) = hashInfoForAlgorithm(algorithm)
+        let (hashAlgorithm, hashLength) = algorithm.hashInfo
         let hashPointer = UnsafeMutablePointer<UInt8>.alloc(hashLength)
         defer { hashPointer.dealloc(hashLength) }
         CCHmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
@@ -212,6 +196,18 @@ public struct Generator: Equatable {
         case SHA256
         /// The SHA-512 hash function
         case SHA512
+
+        /// The corresponding CommonCrypto hash algorithm and hash length.
+        private var hashInfo: (algorithm: CCHmacAlgorithm, length: Int) {
+            switch self {
+            case .SHA1:
+                return (CCHmacAlgorithm(kCCHmacAlgSHA1), Int(CC_SHA1_DIGEST_LENGTH))
+            case .SHA256:
+                return (CCHmacAlgorithm(kCCHmacAlgSHA256), Int(CC_SHA256_DIGEST_LENGTH))
+            case .SHA512:
+                return (CCHmacAlgorithm(kCCHmacAlgSHA512), Int(CC_SHA512_DIGEST_LENGTH))
+            }
+        }
     }
 
     /// An error type enum representing the various errors a `Generator` can throw when computing a
