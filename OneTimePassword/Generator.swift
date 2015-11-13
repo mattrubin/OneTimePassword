@@ -78,9 +78,9 @@ public struct Generator: Equatable {
     // MARK: Password Generation
 
     /// Generates the password for the given point in time.
-    /// - parameter timeInterval: the target time, as seconds since the Unix epoch.
+    /// - parameter timeInterval: The target time, as seconds since the Unix epoch.
+    /// - throws: A `Generator.Error` if a valid password cannot be generated.
     /// - returns: The generated password, or throws an error if a password could not be generated.
-    /// - throws: A `GenerationError` if a valid password cannot be generated.
     @warn_unused_result
     public func passwordAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> String {
         let counter = try Generator.counterWithFactor(factor, atTimeIntervalSince1970: timeInterval)
