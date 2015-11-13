@@ -209,7 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				C93A2519196B1BA400F86892 /* Token.swift */,
-				C9A9B0991A81EF3100F3C4DC /* Generation */,
+				C9DC7EC7196BDF3B00B50C82 /* Generator.swift */,
 				C9307A8619A8522F00609B02 /* Serialization */,
 				C9A9B09A1A81EF4B00F3C4DC /* Persistence */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
@@ -327,14 +327,6 @@
 				C9A486B9196F352F00524F51 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		C9A9B0991A81EF3100F3C4DC /* Generation */ = {
-			isa = PBXGroup;
-			children = (
-				C9DC7EC7196BDF3B00B50C82 /* Generator.swift */,
-			);
-			name = Generation;
 			sourceTree = "<group>";
 		};
 		C9A9B09A1A81EF4B00F3C4DC /* Persistence */ = {
