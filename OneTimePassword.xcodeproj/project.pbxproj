@@ -13,7 +13,6 @@
 		C93A251A196B1BA400F86892 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2519196B1BA400F86892 /* Token.swift */; };
 		C944A55F1A7EDAE200E08B1E /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C944A55E1A7EDAE200E08B1E /* Base32.framework */; };
 		C944A5951A809CC000E08B1E /* OTPTokenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C944A5941A809CC000E08B1E /* OTPTokenTests.m */; };
-		C94599CB19AB906300A77558 /* GeneratorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94599CA19AB906300A77558 /* GeneratorFunctions.swift */; };
 		C94B2007197774A20014A202 /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94B2006197774A20014A202 /* TokenTests.swift */; };
 		C95B10CC196D22B9000840AA /* GeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B10CB196D22B9000840AA /* GeneratorTests.swift */; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
@@ -77,7 +76,6 @@
 		C93A2519196B1BA400F86892 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		C944A55E1A7EDAE200E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5941A809CC000E08B1E /* OTPTokenTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenTests.m; sourceTree = "<group>"; };
-		C94599CA19AB906300A77558 /* GeneratorFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratorFunctions.swift; sourceTree = "<group>"; };
 		C94B2006197774A20014A202 /* TokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
 		C94B9BC81BD7270E0073D7C5 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		C94B9BC91BD727150073D7C5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -211,7 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				C93A2519196B1BA400F86892 /* Token.swift */,
-				C9A9B0991A81EF3100F3C4DC /* Generation */,
+				C9DC7EC7196BDF3B00B50C82 /* Generator.swift */,
 				C9307A8619A8522F00609B02 /* Serialization */,
 				C9A9B09A1A81EF4B00F3C4DC /* Persistence */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
@@ -329,15 +327,6 @@
 				C9A486B9196F352F00524F51 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		C9A9B0991A81EF3100F3C4DC /* Generation */ = {
-			isa = PBXGroup;
-			children = (
-				C9DC7EC7196BDF3B00B50C82 /* Generator.swift */,
-				C94599CA19AB906300A77558 /* GeneratorFunctions.swift */,
-			);
-			name = Generation;
 			sourceTree = "<group>";
 		};
 		C9A9B09A1A81EF4B00F3C4DC /* Persistence */ = {
@@ -563,7 +552,6 @@
 				C93A251A196B1BA400F86892 /* Token.swift in Sources */,
 				C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */,
 				C9307A8519A8515300609B02 /* TokenSerializer.swift in Sources */,
-				C94599CB19AB906300A77558 /* GeneratorFunctions.swift in Sources */,
 				C9F5981B196E3E48002E4D0E /* TokenPersistence.swift in Sources */,
 				C9003418196F7046009733E8 /* Keychain.swift in Sources */,
 				C9DC7EC4196BD5DF00B50C82 /* Token.URLSerializer.swift in Sources */,
