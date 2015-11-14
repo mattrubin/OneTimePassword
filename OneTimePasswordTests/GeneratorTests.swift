@@ -63,23 +63,23 @@ class GeneratorTests: XCTestCase {
             (90,    10000000000,    111111111),
         ]
 
-        for (period, timeInterval, counter) in factors {
+        for (period, time, counter) in factors {
             let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
             let counterPassword = Generator(
                 factor: .Counter(counter),
                 secret: secret,
                 algorithm: .SHA1,
                 digits: 6)
-                .flatMap { try? $0.passwordAtTime(timeInterval) }
+                .flatMap { try? $0.passwordAtTime(time) }
             let timerPassword = Generator(
                 factor: .Timer(period: period),
                 secret: secret,
                 algorithm: .SHA1,
                 digits: 6
                 )
-                .flatMap { try? $0.passwordAtTime(timeInterval) }
+                .flatMap { try? $0.passwordAtTime(time) }
             XCTAssertEqual(counterPassword, timerPassword, "TOTP with period \(period) should " +
-                "match HOTP with counter \(counter) at time \(timeInterval).")
+                "match HOTP with counter \(counter) at time \(time).")
         }
     }
 
