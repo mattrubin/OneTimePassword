@@ -26,10 +26,10 @@ public struct Generator: Equatable {
 
     /// Initializes a new password generator with the given parameters.
     ///
-    /// - parameter factor:      The moving factor
-    /// - parameter secret:      The shared secret
-    /// - parameter algorithm:   The cryptographic hash function
-    /// - parameter digits:      The number of digits in the password
+    /// - parameter factor:    The moving factor
+    /// - parameter secret:    The shared secret
+    /// - parameter algorithm: The cryptographic hash function
+    /// - parameter digits:    The number of digits in the password
     ///
     /// - returns: A new password generator with the given parameters.
     public init?(factor: Factor, secret: NSData, algorithm: Algorithm, digits: Int) {
