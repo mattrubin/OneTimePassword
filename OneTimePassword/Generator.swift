@@ -56,7 +56,7 @@ public struct Generator: Equatable {
             throw Error.InvalidDigits
         }
 
-        let counter = try factor.counterAtTimeIntervalSince1970(timeInterval)
+        let counter = try factor.counterAtTime(timeInterval)
         // Ensure the counter value is big-endian
         var bigCounter = counter.bigEndian
 
@@ -129,23 +129,23 @@ public struct Generator: Equatable {
         /// it will be the number of time steps since the Unix epoch, based on the associated
         /// period value.
         ///
-        /// - parameter timeInterval: The target time, as seconds since the Unix epoch.
+        /// - parameter time: The target time, as seconds since the Unix epoch.
         ///
         /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
         /// - returns: The counter value needed to generate the password for the target time.
         @warn_unused_result
-        private func counterAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> UInt64 {
+        private func counterAtTime(time: NSTimeInterval) throws -> UInt64 {
             switch self {
             case .Counter(let counter):
                 return counter
             case .Timer(let period):
-                guard Generator.validateTime(timeInterval) else {
+                guard Generator.validateTime(time) else {
                     throw Error.InvalidTime
                 }
                 guard Generator.validatePeriod(period) else {
                     throw Error.InvalidPeriod
                 }
-                return UInt64(timeInterval / period)
+                return UInt64(time / period)
             }
         }
     }
