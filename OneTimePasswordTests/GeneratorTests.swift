@@ -70,14 +70,14 @@ class GeneratorTests: XCTestCase {
                 secret: secret,
                 algorithm: .SHA1,
                 digits: 6)
-                .flatMap { try? $0.passwordAtTimeIntervalSince1970(timeInterval) }
+                .flatMap { try? $0.passwordAtTime(timeInterval) }
             let timerPassword = Generator(
                 factor: .Timer(period: period),
                 secret: secret,
                 algorithm: .SHA1,
                 digits: 6
                 )
-                .flatMap { try? $0.passwordAtTimeIntervalSince1970(timeInterval) }
+                .flatMap { try? $0.passwordAtTime(timeInterval) }
             XCTAssertEqual(counterPassword, timerPassword, "TOTP with period \(period) should " +
                 "match HOTP with counter \(counter) at time \(timeInterval).")
         }
@@ -156,7 +156,7 @@ class GeneratorTests: XCTestCase {
         ]
         for (counter, expectedPassword) in expectedValues {
             let generator = Generator(factor: .Counter(counter), secret: secret, algorithm: .SHA1, digits: 6)
-            let password = generator.flatMap { try? $0.passwordAtTimeIntervalSince1970(0) }
+            let password = generator.flatMap { try? $0.passwordAtTime(0) }
             XCTAssertEqual(password, expectedPassword,
                 "The generator did not produce the expected OTP.")
         }
@@ -186,7 +186,7 @@ class GeneratorTests: XCTestCase {
             for i in 0..<times.count {
                 let expectedPassword = expectedValues[algorithm]?[i]
                 let time = times[i]
-                let password = generator.flatMap { try? $0.passwordAtTimeIntervalSince1970(time) }
+                let password = generator.flatMap { try? $0.passwordAtTime(time) }
                 XCTAssertEqual(password, expectedPassword,
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
@@ -210,7 +210,7 @@ class GeneratorTests: XCTestCase {
             for i in 0..<times.count {
                 let expectedPassword = expectedPasswords[i]
                 let time = times[i]
-                let password = generator.flatMap { try? $0.passwordAtTimeIntervalSince1970(time) }
+                let password = generator.flatMap { try? $0.passwordAtTime(time) }
                 XCTAssertEqual(password, expectedPassword,
                     "Incorrect result for \(algorithm) at \(times[i])")
             }

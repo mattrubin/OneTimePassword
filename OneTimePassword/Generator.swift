@@ -46,17 +46,17 @@ public struct Generator: Equatable {
 
     /// Generates the password for the given point in time.
     ///
-    /// - parameter timeInterval: The target time, as seconds since the Unix epoch.
+    /// - parameter time: The target time, as seconds since the Unix epoch.
     ///
     /// - throws: A `Generator.Error` if a valid password cannot be generated.
     /// - returns: The generated password, or throws an error if a password could not be generated.
     @warn_unused_result
-    public func passwordAtTimeIntervalSince1970(timeInterval: NSTimeInterval) throws -> String {
+    public func passwordAtTime(time: NSTimeInterval) throws -> String {
         guard Generator.validateDigits(digits) else {
             throw Error.InvalidDigits
         }
 
-        let counter = try factor.counterAtTime(timeInterval)
+        let counter = try factor.counterAtTime(time)
         // Ensure the counter value is big-endian
         var bigCounter = counter.bigEndian
 
@@ -235,9 +235,9 @@ private extension Generator {
     }
 
     @warn_unused_result
-    private static func validateTime(timeInterval: NSTimeInterval) -> Bool {
-        // The time interval must be positive to produce a valid counter value.
-        return (timeInterval >= 0)
+    private static func validateTime(time: NSTimeInterval) -> Bool {
+        // The time must be positive to produce a valid counter value.
+        return (time >= 0)
     }
 }
 
