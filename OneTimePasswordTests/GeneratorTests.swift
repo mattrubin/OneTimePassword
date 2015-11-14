@@ -56,30 +56,23 @@ class GeneratorTests: XCTestCase {
 
     func testCounter() {
         let factors: [(NSTimeInterval, NSTimeInterval, UInt64)] = [
-            (30,    100,            3),
-            (30,    10000,          333),
-            (30,    1000000,        33333),
-            (60,    100000000,      1666666),
-            (90,    10000000000,    111111111),
+            (100,         30, 3),
+            (10000,       30, 333),
+            (1000000,     30, 33333),
+            (100000000,   60, 1666666),
+            (10000000000, 90, 111111111),
         ]
 
-        for (period, time, counter) in factors {
+        for (time, period, count) in factors {
+            let timer = Generator.Factor.Timer(period: period)
+            let counter = Generator.Factor.Counter(count)
             let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
-            let counterPassword = Generator(
-                factor: .Counter(counter),
-                secret: secret,
-                algorithm: .SHA1,
-                digits: 6)
+            let hotp = Generator(factor: counter, secret: secret, algorithm: .SHA1, digits: 6)
                 .flatMap { try? $0.passwordAtTime(time) }
-            let timerPassword = Generator(
-                factor: .Timer(period: period),
-                secret: secret,
-                algorithm: .SHA1,
-                digits: 6
-                )
+            let totp = Generator(factor: timer, secret: secret, algorithm: .SHA1, digits: 6)
                 .flatMap { try? $0.passwordAtTime(time) }
-            XCTAssertEqual(counterPassword, timerPassword, "TOTP with period \(period) should " +
-                "match HOTP with counter \(counter) at time \(time).")
+            XCTAssertEqual(hotp, totp,
+                "TOTP with \(timer) should match HOTP with counter \(counter) at time \(time).")
         }
     }
 
