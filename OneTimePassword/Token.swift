@@ -53,7 +53,8 @@ public struct Token: Equatable {
     - returns: The current password, or `nil` if a password could not be generated.
     */
     public var currentPassword: String? {
-        return try? generator.passwordAtTime(NSDate().timeIntervalSince1970)
+        let currentTime = NSDate().timeIntervalSince1970
+        return try? generator.passwordAtTime(currentTime)
     }
 
     // MARK: Update
