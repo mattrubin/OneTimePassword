@@ -178,8 +178,7 @@ class GeneratorTests: XCTestCase {
 
             for i in 0..<times.count {
                 let expectedPassword = expectedValues[algorithm]?[i]
-                let time = times[i]
-                let password = generator.flatMap { try? $0.passwordAtTime(time) }
+                let password = generator.flatMap { try? $0.passwordAtTime(times[i]) }
                 XCTAssertEqual(password, expectedPassword,
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
@@ -202,8 +201,7 @@ class GeneratorTests: XCTestCase {
             let generator = Generator(factor: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
             for i in 0..<times.count {
                 let expectedPassword = expectedPasswords[i]
-                let time = times[i]
-                let password = generator.flatMap { try? $0.passwordAtTime(time) }
+                let password = generator.flatMap { try? $0.passwordAtTime(times[i]) }
                 XCTAssertEqual(password, expectedPassword,
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
