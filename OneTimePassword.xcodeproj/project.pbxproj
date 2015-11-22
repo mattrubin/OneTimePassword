@@ -103,6 +103,10 @@
 		C9A486B9196F352F00524F51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9A9B0971A81CE5D00F3C4DC /* Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversion.swift; sourceTree = "<group>"; };
 		C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EquatableTests.swift; sourceTree = "<group>"; };
+		C9B84D1C1C015EC0002EE631 /* .hound.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .hound.yml; sourceTree = "<group>"; };
+		C9B84D1D1C015EC0002EE631 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
+		C9B84D1E1C015EC0002EE631 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		C9B84D1F1C015EC8002EE631 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		C9C9FE1D196D175B00C7ACEE /* NSString+PercentEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PercentEncoding.h"; sourceTree = "<group>"; };
 		C9C9FE1E196D175B00C7ACEE /* NSString+PercentEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PercentEncoding.m"; sourceTree = "<group>"; };
 		C9C9FE1F196D175B00C7ACEE /* NSDictionary+QueryString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+QueryString.h"; sourceTree = "<group>"; };
@@ -190,6 +194,7 @@
 				746E7166AD60449882DD84C7 /* Frameworks */,
 				C996EC281A74D5830076B105 /* Configuration */,
 				C97C82391946E51D00FD9F4C /* Products */,
+				C9B84D1B1C015EA2002EE631 /* Tools */,
 				C94B9BC71BD726F70073D7C5 /* Docs */,
 			);
 			sourceTree = "<group>";
@@ -336,6 +341,17 @@
 				C9003417196F7046009733E8 /* Keychain.swift */,
 			);
 			name = Persistence;
+			sourceTree = "<group>";
+		};
+		C9B84D1B1C015EA2002EE631 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				C9B84D1C1C015EC0002EE631 /* .hound.yml */,
+				C9B84D1D1C015EC0002EE631 /* .swiftlint.yml */,
+				C9B84D1E1C015EC0002EE631 /* .travis.yml */,
+				C9B84D1F1C015EC8002EE631 /* Cartfile */,
+			);
+			name = Tools;
 			sourceTree = "<group>";
 		};
 		C9C9FE23196D176300C7ACEE /* Helpers */ = {
