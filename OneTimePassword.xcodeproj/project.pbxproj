@@ -12,7 +12,7 @@
 		C9307A8519A8515300609B02 /* TokenSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9307A8419A8515300609B02 /* TokenSerializer.swift */; };
 		C93A251A196B1BA400F86892 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2519196B1BA400F86892 /* Token.swift */; };
 		C944A55F1A7EDAE200E08B1E /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C944A55E1A7EDAE200E08B1E /* Base32.framework */; };
-		C944A5951A809CC000E08B1E /* OTPTokenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C944A5941A809CC000E08B1E /* OTPTokenTests.m */; };
+		C944A5951A809CC000E08B1E /* OTPTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944A5941A809CC000E08B1E /* OTPTokenTests.swift */; };
 		C94B2007197774A20014A202 /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94B2006197774A20014A202 /* TokenTests.swift */; };
 		C95B10CC196D22B9000840AA /* GeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B10CB196D22B9000840AA /* GeneratorTests.swift */; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
@@ -73,7 +73,7 @@
 		C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenSerializationTests.m; sourceTree = "<group>"; };
 		C93A2519196B1BA400F86892 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		C944A55E1A7EDAE200E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C944A5941A809CC000E08B1E /* OTPTokenTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenTests.m; sourceTree = "<group>"; };
+		C944A5941A809CC000E08B1E /* OTPTokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTokenTests.swift; sourceTree = "<group>"; };
 		C94B2006197774A20014A202 /* TokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
 		C94B9BC81BD7270E0073D7C5 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		C94B9BC91BD727150073D7C5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -311,7 +311,7 @@
 		C9A486B7196F352F00524F51 /* OneTimePasswordLegacyTests */ = {
 			isa = PBXGroup;
 			children = (
-				C944A5941A809CC000E08B1E /* OTPTokenTests.m */,
+				C944A5941A809CC000E08B1E /* OTPTokenTests.swift */,
 				C93A2514196AFE1100F86892 /* OTPTokenPersistenceTests.swift */,
 				C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */,
 				C9C9FE23196D176300C7ACEE /* Helpers */,
@@ -590,7 +590,7 @@
 			files = (
 				C9A486C8196F38C800524F51 /* OTPTokenSerializationTests.m in Sources */,
 				C9A486C9196F38CD00524F51 /* OTPTypeStrings.m in Sources */,
-				C944A5951A809CC000E08B1E /* OTPTokenTests.m in Sources */,
+				C944A5951A809CC000E08B1E /* OTPTokenTests.swift in Sources */,
 				C9A486C7196F38C400524F51 /* OTPTokenPersistenceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
