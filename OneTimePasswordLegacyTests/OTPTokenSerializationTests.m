@@ -26,7 +26,6 @@
 @import Base32;
 @import OneTimePasswordLegacy;
 #import "OTPTypeStrings.h"
-#import "NSDictionary+QueryString.h"
 
 
 static NSString * const kOTPScheme = @"otpauth";
@@ -94,7 +93,26 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     urlComponents.scheme = kOTPScheme;
                                     urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                     urlComponents.path = [@"/" stringByAppendingString:name];
-                                    urlComponents.percentEncodedQuery = [query queryString];
+
+                                    // TODO: build query items directly, instead of converting a dictionary
+                                    NSMutableArray *queryItems = [NSMutableArray arrayWithCapacity:query.count];
+                                    for (NSString *key in query) {
+                                        id value = query[key];
+                                        NSString *valueString = nil;
+                                        if ([value isKindOfClass:[NSString class]]) {
+                                            valueString = value;
+                                        } else if ([value isKindOfClass:[NSNumber class]]) {
+
+                                            valueString = [((NSNumber *)value) stringValue];
+                                        } else {
+                                            XCTAssertFalse(NO, @"Unexpected type");
+                                            valueString = [value description];
+                                        }
+                                        NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key
+                                                                                                value:valueString];
+                                        [queryItems addObject:queryItem];
+                                    }
+                                    urlComponents.queryItems = queryItems;
 
                                     // Create the token
                                     OTPToken *token = [OTPToken tokenWithURL:[urlComponents URL]];
@@ -158,7 +176,26 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     urlComponents.scheme = kOTPScheme;
                                     urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                     urlComponents.path = [@"/" stringByAppendingString:name];
-                                    urlComponents.percentEncodedQuery = [query queryString];
+
+                                    // TODO: build query items directly, instead of converting a dictionary
+                                    NSMutableArray *queryItems = [NSMutableArray arrayWithCapacity:query.count];
+                                    for (NSString *key in query) {
+                                        id value = query[key];
+                                        NSString *valueString = nil;
+                                        if ([value isKindOfClass:[NSString class]]) {
+                                            valueString = value;
+                                        } else if ([value isKindOfClass:[NSNumber class]]) {
+
+                                            valueString = [((NSNumber *)value) stringValue];
+                                        } else {
+                                            XCTAssertFalse(NO, @"Unexpected type");
+                                            valueString = [value description];
+                                        }
+                                        NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key
+                                                                                                value:valueString];
+                                        [queryItems addObject:queryItem];
+                                    }
+                                    urlComponents.queryItems = queryItems;
 
                                     // Create the token
                                     NSData *secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
