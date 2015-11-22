@@ -32,28 +32,6 @@
 
 @implementation NSDictionary (QueryString)
 
-// This method parses the arguments of a query string and returns a dictionary containing the
-// key-value pairs. All keys and values are returned as percent-decoded strings, and nested arguments
-// are not supported. Keys without arguments will not be included in the dictionary, and duplicate
-// keys will have their values overwritten.
-
-+ (instancetype)dictionaryWithQueryString:(NSString *)queryString
-{
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    NSArray *pairs = [queryString componentsSeparatedByString:@"&"];
-
-    for (NSString *pair in pairs) {
-        NSArray *elements = [pair componentsSeparatedByString:@"="];
-        if (elements.count == 2) {
-            NSString *key = [elements[0] percentDecodedString];
-            NSString *value = [elements[1] percentDecodedString];
-            dictionary[key] = value;
-        }
-    }
-
-    return dictionary;
-}
-
 // This method returns a simple query-string-style representation of the dictionary.
 // All keys and values are expected to be strings, and if they are not then this method will attempt
 // to serialize them using the -description method. Keys and values are percent-encoded before being

@@ -27,8 +27,6 @@
 
 @interface NSDictionary (QueryString)
 
-+ (instancetype)dictionaryWithQueryString:(NSString *)queryString;
-
 - (NSString *)queryString;
 
 @end

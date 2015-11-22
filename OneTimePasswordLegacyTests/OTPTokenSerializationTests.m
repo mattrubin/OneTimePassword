@@ -260,7 +260,14 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         XCTAssertEqualObjects(url.path, @"", @"The url path should be empty");
                                     }
 
-                                    NSDictionary *queryArguments = [NSDictionary dictionaryWithQueryString:url.query];
+                                    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url
+                                                                                resolvingAgainstBaseURL:NO];
+                                    NSArray<NSURLQueryItem *> *queryItems = urlComponents.queryItems;
+                                    NSMutableDictionary *queryArguments = [NSMutableDictionary dictionaryWithCapacity:queryItems.count];
+                                    for (NSURLQueryItem *queryItem in queryItems) {
+                                        XCTAssertNil([queryArguments objectForKey:queryItem.name]);
+                                        [queryArguments setObject:queryItem.value forKey:queryItem.name];
+                                    }
 
                                     // Test algorithm
                                     NSString *expectedAlgorithmString = [NSString stringForAlgorithm:[algorithmNumber unsignedIntValue]];
@@ -413,11 +420,13 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     XCTAssertEqualObjects(url.host, @"totp");
     XCTAssertEqualObjects([url.path substringFromIndex:1], @"Léon");
 
-    NSDictionary *expectedQueryString = @{@"algorithm": @"SHA256",
-                                          @"digits": @"8",
-                                          @"issuer": @"",
-                                          @"period": @"45"};
-    XCTAssertEqualObjects([NSDictionary dictionaryWithQueryString:url.query], expectedQueryString);
+    NSArray *expectedQueryItems = @[[NSURLQueryItem queryItemWithName:@"algorithm" value:@"SHA256"],
+                                    [NSURLQueryItem queryItemWithName:@"digits" value:@"8"],
+                                    [NSURLQueryItem queryItemWithName:@"issuer" value:@""],
+                                    [NSURLQueryItem queryItemWithName:@"period" value:@"45"]];
+    NSArray *queryItems = [NSURLComponents componentsWithURL:url
+                                     resolvingAgainstBaseURL:NO].queryItems;
+    XCTAssertEqualObjects(queryItems, expectedQueryItems);
 }
 
 - (void)testHOTPURL
@@ -429,11 +438,13 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     XCTAssertEqualObjects(url.host, @"hotp");
     XCTAssertEqualObjects([url.path substringFromIndex:1], @"Léon");
 
-    NSDictionary *expectedQueryString = @{@"algorithm": @"SHA256",
-                                          @"digits": @"8",
-                                          @"issuer": @"",
-                                          @"counter": @"18446744073709551615"};
-    XCTAssertEqualObjects([NSDictionary dictionaryWithQueryString:url.query], expectedQueryString);
+    NSArray *expectedQueryItems = @[[NSURLQueryItem queryItemWithName:@"algorithm" value:@"SHA256"],
+                                    [NSURLQueryItem queryItemWithName:@"digits" value:@"8"],
+                                    [NSURLQueryItem queryItemWithName:@"issuer" value:@""],
+                                    [NSURLQueryItem queryItemWithName:@"counter" value:@"18446744073709551615"]];
+    NSArray *queryItems = [NSURLComponents componentsWithURL:url
+                                     resolvingAgainstBaseURL:NO].queryItems;
+    XCTAssertEqualObjects(queryItems, expectedQueryItems);
 }
 
 @end
