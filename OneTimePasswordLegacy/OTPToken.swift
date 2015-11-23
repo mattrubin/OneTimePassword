@@ -148,8 +148,7 @@ public extension OTPToken {
         return Keychain.sharedInstance.allTokenItems().map(self.tokenWithKeychainItem)
     }
 
-    // FIXME: This should be private, but is public for testing purposes
-    static func tokenWithKeychainItem(keychainItem: Keychain.TokenItem) -> Self {
+    private static func tokenWithKeychainItem(keychainItem: Keychain.TokenItem) -> Self {
         let otp = self.init()
         otp.updateWithToken(keychainItem.token)
         otp.keychainItem = keychainItem
