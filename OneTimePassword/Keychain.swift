@@ -31,6 +31,26 @@ internal func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData?
     return result as? NSData
 }
 
+internal func updateKeychainItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
+    let queryDict = [
+        kSecClass as String:               kSecClassGenericPassword,
+        kSecValuePersistentRef as String:  persistentRef,
+    ]
+
+    let resultCode = SecItemUpdate(queryDict, attributesToUpdate)
+    return (resultCode == OSStatus(errSecSuccess))
+}
+
+internal func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
+    let queryDict = [
+        kSecClass as String:               kSecClassGenericPassword,
+        kSecValuePersistentRef as String:  persistentRef,
+    ]
+
+    let resultCode = SecItemDelete(queryDict)
+    return (resultCode == OSStatus(errSecSuccess))
+}
+
 internal func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
     let queryDict = [
         kSecClass as String:                kSecClassGenericPassword,
@@ -69,24 +89,4 @@ internal func allKeychainItems() -> NSArray? {
         return nil
     }
     return result as? NSArray
-}
-
-internal func updateKeychainItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
-    let queryDict = [
-        kSecClass as String:               kSecClassGenericPassword,
-        kSecValuePersistentRef as String:  persistentRef,
-    ]
-
-    let resultCode = SecItemUpdate(queryDict, attributesToUpdate)
-    return (resultCode == OSStatus(errSecSuccess))
-}
-
-internal func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
-    let queryDict = [
-        kSecClass as String:               kSecClassGenericPassword,
-        kSecValuePersistentRef as String:  persistentRef,
-    ]
-
-    let resultCode = SecItemDelete(queryDict)
-    return (resultCode == OSStatus(errSecSuccess))
 }
