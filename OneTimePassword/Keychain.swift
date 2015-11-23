@@ -11,7 +11,7 @@ import Foundation
 public class Keychain {
     public static let sharedInstance = Keychain()
 
-    internal func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
+    internal func addItemWithAttributes(attributes: NSDictionary) -> NSData? {
         guard let mutableAttributes = attributes.mutableCopy() as? NSMutableDictionary else {
             return nil
         }
@@ -34,7 +34,7 @@ public class Keychain {
         return result as? NSData
     }
 
-    internal func updateKeychainItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
+    internal func updateItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
         let queryDict = [
             kSecClass as String:               kSecClassGenericPassword,
             kSecValuePersistentRef as String:  persistentRef,
@@ -44,7 +44,7 @@ public class Keychain {
         return (resultCode == OSStatus(errSecSuccess))
     }
 
-    internal func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
+    internal func deleteItemForPersistentRef(persistentRef: NSData) -> Bool {
         let queryDict = [
             kSecClass as String:               kSecClassGenericPassword,
             kSecValuePersistentRef as String:  persistentRef,

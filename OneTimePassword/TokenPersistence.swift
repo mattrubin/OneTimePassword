@@ -21,7 +21,7 @@ public extension Token {
         }
 
         public init?(keychainItemRef: NSData) {
-            guard let result = Keychain.sharedInstance.keychainItemForPersistentRef(keychainItemRef) else {
+            guard let result = Keychain.sharedInstance.itemForPersistentRef(keychainItemRef) else {
                 return nil
             }
             self.init(keychainDictionary: result)
@@ -62,7 +62,7 @@ public func == (lhs: Token.KeychainItem, rhs: Token.KeychainItem) -> Bool {
 }
 
 public extension Keychain {
-    private func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
+    private func itemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
         let queryDict = [
             kSecClass as String:                kSecClassGenericPassword,
             kSecValuePersistentRef as String:   persistentRef,
@@ -102,7 +102,7 @@ public extension Keychain {
         return result as? NSArray
     }
 
-    public func addTokenToKeychain(token: Token) -> Token.KeychainItem? {
+    public func addToken(token: Token) -> Token.KeychainItem? {
         guard let url = Token.URLSerializer.serialize(token),
             let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
                 return nil
@@ -114,7 +114,7 @@ public extension Keychain {
             kSecAttrService as String:  kOTPService,
         ]
 
-        guard let persistentRef = addKeychainItemWithAttributes(attributes) else {
+        guard let persistentRef = addItemWithAttributes(attributes) else {
             return nil
         }
         return Token.KeychainItem(token: token, persistentRef: persistentRef)
@@ -130,7 +130,8 @@ public extension Keychain {
             kSecAttrGeneric as String:  data
         ]
 
-        let success = updateKeychainItemForPersistentRef(keychainItem.persistentRef, withAttributes: attributes)
+        let success = updateItemForPersistentRef(keychainItem.persistentRef,
+            withAttributes: attributes)
         guard success else {
             return nil
         }
@@ -139,6 +140,6 @@ public extension Keychain {
 
     // After calling deleteKeychainItem(), the KeychainItem's keychainItemRef is no longer valid, and the keychain item should be discarded
     public func deleteKeychainItem(keychainItem: Token.KeychainItem) -> Bool {
-        return deleteKeychainItemForPersistentRef(keychainItem.persistentRef)
+        return deleteItemForPersistentRef(keychainItem.persistentRef)
     }
 }

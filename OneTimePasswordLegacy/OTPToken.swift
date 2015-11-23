@@ -125,7 +125,7 @@ public extension OTPToken {
             self.keychainItem = newKeychainItem
             return true
         } else {
-            guard let newKeychainItem = Keychain.sharedInstance.addTokenToKeychain(token) else {
+            guard let newKeychainItem = Keychain.sharedInstance.addToken(token) else {
                 return false
             }
             self.keychainItem = newKeychainItem
