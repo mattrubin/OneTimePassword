@@ -14,32 +14,18 @@ public class Keychain {
     public static let sharedInstance = Keychain()
 }
 
-    public struct PersistentToken {
-        public let token: Token
-        public let persistentRef: NSData
-
-        private init(token: Token, persistentRef: NSData) {
-            self.token = token
-            self.persistentRef = persistentRef
+private extension PersistentToken {
+    private init?(keychainDictionary: NSDictionary) {
+        guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? NSData,
+            let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
+            let secret = keychainDictionary[kSecValueData as String] as? NSData,
+            let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
+            let url = NSURL(string: string as String),
+            let token = Token.URLSerializer.deserialize(url, secret: secret) else {
+                return nil
         }
-
-        private init?(keychainDictionary: NSDictionary) {
-            guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? NSData,
-                let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
-                let secret = keychainDictionary[kSecValueData as String] as? NSData,
-                let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
-                let url = NSURL(string: string as String),
-                let token = Token.URLSerializer.deserialize(url, secret: secret) else {
-                    return nil
-            }
-            self.init(token: token, persistentRef: keychainItemRef)
-        }
+        self.init(token: token, persistentRef: keychainItemRef)
     }
-
-extension PersistentToken: Equatable {}
-public func == (lhs: PersistentToken, rhs: PersistentToken) -> Bool {
-    return lhs.persistentRef.isEqualToData(rhs.persistentRef)
-        && (lhs.token == rhs.token)
 }
 
 public extension Keychain {
