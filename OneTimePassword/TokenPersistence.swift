@@ -20,8 +20,7 @@ public extension Keychain {
             self.persistentRef = persistentRef
         }
 
-        // FIXME: This should be private, but is public for testing purposes
-        public init?(keychainDictionary: NSDictionary) {
+        private init?(keychainDictionary: NSDictionary) {
             guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? NSData,
                 let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
                 let secret = keychainDictionary[kSecValueData as String] as? NSData,

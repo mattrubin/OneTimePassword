@@ -32,42 +32,6 @@ let kValidSecret: [UInt8] = [ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 let kValidTokenURL = NSURL(string: "otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4")!
 
 class OTPTokenPersistenceTests: XCTestCase {
-    func testTokenWithKeychainDictionary() {
-        let secret = NSData(bytes: kValidSecret, length: kValidSecret.count)
-        let urlStringWithoutSecret = "otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45"
-        guard let urlData = urlStringWithoutSecret.dataUsingEncoding(NSUTF8StringEncoding),
-            let keychainItemRef = NSData(base64EncodedString: "Z2VucAAAAAAAAAAQ",
-                options: [.IgnoreUnknownCharacters]) else {
-                    XCTFail("Failed to construct keychain data")
-                    return
-        }
-
-        let keychainDictionary = [
-            kSecAttrGeneric as String: urlData,
-            kSecValueData as String: secret,
-            kSecValuePersistentRef as String: keychainItemRef,
-        ]
-        guard let token = OTPToken.tokenWithKeychainDictionary(keychainDictionary) else {
-                XCTFail("Failed to construct token from keychain dictionary")
-                return
-        }
-
-        XCTAssertEqual(token.type, OTPTokenType.Timer)
-        XCTAssertEqual(token.name, "Léon")
-        XCTAssertEqual(token.algorithm, OTPAlgorithm.SHA256)
-        XCTAssertEqualWithAccuracy(token.period, 45, accuracy: DBL_EPSILON)
-        XCTAssertEqual(token.digits, 8)
-
-        XCTAssertEqual(token.secret, secret)
-
-        XCTAssertEqual(token.keychainItemRef, keychainItemRef)
-        XCTAssertTrue(token.isInKeychain)
-
-        // Test failure case
-        let noToken = OTPToken.tokenWithKeychainDictionary([:])
-        XCTAssertNil(noToken, "Token should be nil: \(noToken)")
-    }
-
     func testTokenWithKeychainItemRef() {
         // Create a token
         guard let token = OTPToken.tokenWithURL(kValidTokenURL) else {

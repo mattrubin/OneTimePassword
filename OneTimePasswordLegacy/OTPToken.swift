@@ -163,12 +163,4 @@ public extension OTPToken {
         }
         return self.tokenWithKeychainItem(keychainItem)
     }
-
-    // FIXME: Remove this function
-    static func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
-        guard let keychainItem = Keychain.TokenItem(keychainDictionary: keychainDictionary) else {
-            return nil
-        }
-        return self.tokenWithKeychainItem(keychainItem)
-    }
 }
