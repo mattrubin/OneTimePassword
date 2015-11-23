@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal func addItemWithAttributes(attributes: NSDictionary) -> NSData? {
+internal func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
     guard let mutableAttributes = attributes.mutableCopy() as? NSMutableDictionary else {
         return nil
     }
@@ -31,7 +31,7 @@ internal func addItemWithAttributes(attributes: NSDictionary) -> NSData? {
     return result as? NSData
 }
 
-internal func itemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
+internal func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
     let queryDict = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecValuePersistentRef as String:   persistentRef,
@@ -51,7 +51,7 @@ internal func itemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
     return result as? NSDictionary
 }
 
-internal func allItems() -> NSArray? {
+internal func allKeychainItems() -> NSArray? {
     let queryDict = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecMatchLimit as String:           kSecMatchLimitAll,
@@ -71,7 +71,7 @@ internal func allItems() -> NSArray? {
     return result as? NSArray
 }
 
-internal func updateItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
+internal func updateKeychainItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
     let queryDict = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef,
@@ -81,7 +81,7 @@ internal func updateItemForPersistentRef(persistentRef: NSData, withAttributes a
     return (resultCode == OSStatus(errSecSuccess))
 }
 
-internal func deleteItemForPersistentRef(persistentRef: NSData) -> Bool {
+internal func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
     let queryDict = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef,
