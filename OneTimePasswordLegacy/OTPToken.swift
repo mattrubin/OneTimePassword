@@ -157,7 +157,7 @@ public extension OTPToken {
     }
 
     static func tokenWithKeychainItemRef(keychainItemRef: NSData) -> Self? {
-        guard let keychainItem = Token.KeychainItem(keychainItemRef: keychainItemRef) else {
+        guard let keychainItem = Keychain.sharedInstance.keychainItemForPersistentRef(keychainItemRef) else {
             return nil
         }
         return self.tokenWithKeychainItem(keychainItem)

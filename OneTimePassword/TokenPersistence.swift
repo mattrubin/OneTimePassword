@@ -15,16 +15,9 @@ public extension Token {
         public let token: Token
         public let persistentRef: NSData
 
-        init(token: Token, persistentRef: NSData) {
+        private init(token: Token, persistentRef: NSData) {
             self.token = token
             self.persistentRef = persistentRef
-        }
-
-        public init?(keychainItemRef: NSData) {
-            guard let result = Keychain.sharedInstance.itemForPersistentRef(keychainItemRef) else {
-                return nil
-            }
-            self.init(keychainDictionary: result)
         }
 
         public init?(keychainDictionary: NSDictionary) {
@@ -80,6 +73,13 @@ public extension Keychain {
             return nil
         }
         return result as? NSDictionary
+    }
+
+    public func keychainItemForPersistentRef(persistentRef: NSData) -> Token.KeychainItem? {
+        guard let result = itemForPersistentRef(persistentRef) else {
+            return nil
+        }
+        return Token.KeychainItem(keychainDictionary: result)
     }
 
     private func _allKeychainItems() -> NSArray? {
