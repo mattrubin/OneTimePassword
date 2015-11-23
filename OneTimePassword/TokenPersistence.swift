@@ -49,7 +49,7 @@ public extension Keychain {
     }
 
     public func allTokenItems() -> [TokenItem] {
-        guard let keychainItems = Keychain.sharedInstance.allItems() else {
+        guard let keychainItems = allItems() else {
             return []
         }
         var items: [TokenItem] = []
