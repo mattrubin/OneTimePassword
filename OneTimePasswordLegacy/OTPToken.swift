@@ -25,7 +25,7 @@ public final class OTPToken: NSObject {
     public var period: NSTimeInterval = OTPToken.defaultPeriod
     public var counter: UInt64 = OTPToken.defaultInitialCounter
 
-    private var keychainItem: Token.KeychainItem?
+    private var keychainItem: Keychain.TokenItem?
 
 
     public static var defaultAlgorithm: OTPAlgorithm {
@@ -119,7 +119,7 @@ public extension OTPToken {
             return false
         }
         if let keychainItem = self.keychainItem {
-            guard let newKeychainItem = Keychain.sharedInstance.updateKeychainItem(keychainItem, withToken: token) else {
+            guard let newKeychainItem = Keychain.sharedInstance.updateTokenItem(keychainItem, withToken: token) else {
                 return false
             }
             self.keychainItem = newKeychainItem
@@ -137,7 +137,7 @@ public extension OTPToken {
         guard let keychainItem = self.keychainItem else {
             return false
         }
-        let success = Keychain.sharedInstance.deleteKeychainItem(keychainItem)
+        let success = Keychain.sharedInstance.deleteTokenItem(keychainItem)
         if success {
             self.keychainItem = nil
         }
@@ -145,27 +145,28 @@ public extension OTPToken {
     }
 
     static func allTokensInKeychain() -> Array<OTPToken> {
-        return Keychain.sharedInstance.allKeychainItems().map(self.tokenWithKeychainItem)
+        return Keychain.sharedInstance.allTokenItems().map(self.tokenWithKeychainItem)
     }
 
-    // This should be private, but is public for testing purposes
-    static func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
+    // FIXME: This should be private, but is public for testing purposes
+    static func tokenWithKeychainItem(keychainItem: Keychain.TokenItem) -> Self {
         let otp = self.init()
         otp.updateWithToken(keychainItem.token)
         otp.keychainItem = keychainItem
         return otp
     }
 
+    // FIXME: Remove this function
     static func tokenWithKeychainItemRef(keychainItemRef: NSData) -> Self? {
-        guard let keychainItem = Keychain.sharedInstance.keychainItemForPersistentRef(keychainItemRef) else {
+        guard let keychainItem = Keychain.sharedInstance.tokenItemForPersistentRef(keychainItemRef) else {
             return nil
         }
         return self.tokenWithKeychainItem(keychainItem)
     }
 
-    // This should be private, but is public for testing purposes
+    // FIXME: Remove this function
     static func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
-        guard let keychainItem = Token.KeychainItem(keychainDictionary: keychainDictionary) else {
+        guard let keychainItem = Keychain.TokenItem(keychainDictionary: keychainDictionary) else {
             return nil
         }
         return self.tokenWithKeychainItem(keychainItem)

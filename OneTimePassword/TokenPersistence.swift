@@ -10,8 +10,8 @@ import Foundation
 
 let kOTPService = "me.mattrubin.onetimepassword.token"
 
-public extension Token {
-    public struct KeychainItem {
+public extension Keychain {
+    public struct TokenItem {
         public let token: Token
         public let persistentRef: NSData
 
@@ -35,35 +35,36 @@ public extension Token {
     }
 }
 
-extension Token.KeychainItem: Equatable {}
-public func == (lhs: Token.KeychainItem, rhs: Token.KeychainItem) -> Bool {
+extension Keychain.TokenItem: Equatable {}
+public func == (lhs: Keychain.TokenItem, rhs: Keychain.TokenItem) -> Bool {
     return lhs.persistentRef.isEqualToData(rhs.persistentRef)
         && (lhs.token == rhs.token)
 }
 
 public extension Keychain {
-    public func keychainItemForPersistentRef(persistentRef: NSData) -> Token.KeychainItem? {
+    // FIXME: remove this function
+    public func tokenItemForPersistentRef(persistentRef: NSData) -> TokenItem? {
         guard let result = itemForPersistentRef(persistentRef) else {
             return nil
         }
-        return Token.KeychainItem(keychainDictionary: result)
+        return TokenItem(keychainDictionary: result)
     }
 
-    public func allKeychainItems() -> [Token.KeychainItem] {
+    public func allTokenItems() -> [TokenItem] {
         guard let keychainItems = Keychain.sharedInstance.allItems() else {
             return []
         }
-        var items: [Token.KeychainItem] = []
+        var items: [TokenItem] = []
         for item: AnyObject in keychainItems {
             if let keychainDict = item as? NSDictionary,
-                let keychainItem = Token.KeychainItem(keychainDictionary: keychainDict) {
-                    items.append(keychainItem)
+                let tokenItem = TokenItem(keychainDictionary: keychainDict) {
+                    items.append(tokenItem)
             }
         }
         return items
     }
 
-    public func addToken(token: Token) -> Token.KeychainItem? {
+    public func addToken(token: Token) -> TokenItem? {
         guard let url = Token.URLSerializer.serialize(token),
             let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
                 return nil
@@ -78,10 +79,10 @@ public extension Keychain {
         guard let persistentRef = addItemWithAttributes(attributes) else {
             return nil
         }
-        return Token.KeychainItem(token: token, persistentRef: persistentRef)
+        return TokenItem(token: token, persistentRef: persistentRef)
     }
 
-    public func updateKeychainItem(keychainItem: Token.KeychainItem, withToken token: Token) -> Token.KeychainItem? {
+    public func updateTokenItem(tokenItem: TokenItem, withToken token: Token) -> TokenItem? {
         guard let url = Token.URLSerializer.serialize(token),
             let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
                 return nil
@@ -91,16 +92,16 @@ public extension Keychain {
             kSecAttrGeneric as String:  data
         ]
 
-        let success = updateItemForPersistentRef(keychainItem.persistentRef,
+        let success = updateItemForPersistentRef(tokenItem.persistentRef,
             withAttributes: attributes)
         guard success else {
             return nil
         }
-        return Token.KeychainItem(token: token, persistentRef: keychainItem.persistentRef)
+        return TokenItem(token: token, persistentRef: tokenItem.persistentRef)
     }
 
-    // After calling deleteKeychainItem(), the KeychainItem's keychainItemRef is no longer valid, and the keychain item should be discarded
-    public func deleteKeychainItem(keychainItem: Token.KeychainItem) -> Bool {
-        return deleteItemForPersistentRef(keychainItem.persistentRef)
+    // After calling deleteTokenItem(), the TokenItem's persistentRef is no longer valid, and the token item should be discarded
+    public func deleteTokenItem(tokenItem: TokenItem) -> Bool {
+        return deleteItemForPersistentRef(tokenItem.persistentRef)
     }
 }
