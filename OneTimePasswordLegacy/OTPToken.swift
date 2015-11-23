@@ -145,7 +145,7 @@ public extension OTPToken {
     }
 
     static func allTokensInKeychain() -> Array<OTPToken> {
-        return Token.KeychainItem.allKeychainItems().map(self.tokenWithKeychainItem)
+        return Keychain.sharedInstance.allKeychainItems().map(self.tokenWithKeychainItem)
     }
 
     // This should be private, but is public for testing purposes

@@ -32,20 +32,6 @@ public extension Token {
             }
             self.init(token: token, persistentRef: keychainItemRef)
         }
-
-        public static func allKeychainItems() -> Array<KeychainItem> {
-            guard let keychainItems = Keychain.sharedInstance._allKeychainItems() else {
-                return []
-            }
-            var items = Array<KeychainItem>()
-            for item: AnyObject in keychainItems {
-                if let keychainDict = item as? NSDictionary,
-                    let keychainItem = KeychainItem(keychainDictionary: keychainDict) {
-                        items.append(keychainItem)
-                }
-            }
-            return items
-        }
     }
 }
 
@@ -101,6 +87,20 @@ public extension Keychain {
             return nil
         }
         return result as? NSArray
+    }
+
+    public func allKeychainItems() -> [Token.KeychainItem] {
+        guard let keychainItems = Keychain.sharedInstance._allKeychainItems() else {
+            return []
+        }
+        var items: [Token.KeychainItem] = []
+        for item: AnyObject in keychainItems {
+            if let keychainDict = item as? NSDictionary,
+                let keychainItem = Token.KeychainItem(keychainDictionary: keychainDict) {
+                    items.append(keychainItem)
+            }
+        }
+        return items
     }
 
     public func addToken(token: Token) -> Token.KeychainItem? {
