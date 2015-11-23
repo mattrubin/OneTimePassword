@@ -41,7 +41,6 @@ public func == (lhs: Keychain.TokenItem, rhs: Keychain.TokenItem) -> Bool {
 }
 
 public extension Keychain {
-    // FIXME: remove this function
     public func tokenItemForPersistentRef(persistentRef: NSData) -> TokenItem? {
         guard let result = itemForPersistentRef(persistentRef) else {
             return nil

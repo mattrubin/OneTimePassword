@@ -155,12 +155,4 @@ public extension OTPToken {
         otp.keychainItem = keychainItem
         return otp
     }
-
-    // FIXME: Remove this function
-    static func tokenWithKeychainItemRef(keychainItemRef: NSData) -> Self? {
-        guard let keychainItem = Keychain.sharedInstance.tokenItemForPersistentRef(keychainItemRef) else {
-            return nil
-        }
-        return self.tokenWithKeychainItem(keychainItem)
-    }
 }

@@ -24,6 +24,7 @@
 
 import XCTest
 import Security.SecItem
+import OneTimePassword
 import OneTimePasswordLegacy
 
 let kValidSecret: [UInt8] = [ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
@@ -34,79 +35,58 @@ let kValidTokenURL = NSURL(string: "otpauth://totp/L%C3%A9on?algorithm=SHA256&di
 class OTPTokenPersistenceTests: XCTestCase {
     func testTokenWithKeychainItemRef() {
         // Create a token
-        guard let token = OTPToken.tokenWithURL(kValidTokenURL) else {
+        guard let token = Token.URLSerializer.deserialize(kValidTokenURL) else {
             XCTFail("Failed to construct token from url")
             return
         }
 
-        XCTAssertEqual(token.type, OTPTokenType.Timer)
         XCTAssertEqual(token.name, "Léon")
-        XCTAssertEqual(token.algorithm, OTPAlgorithm.SHA256)
-        XCTAssertEqualWithAccuracy(token.period, 45, accuracy: DBL_EPSILON)
-        XCTAssertEqual(token.digits, 8)
-
-        XCTAssertEqual(token.secret, NSData(bytes: kValidSecret, length: kValidSecret.count))
+        XCTAssertEqual(token.issuer, "")
+        XCTAssertEqual(token.generator.factor, Generator.Factor.Timer(period: 45))
+        XCTAssertEqual(token.generator.algorithm, Generator.Algorithm.SHA256)
+        XCTAssertEqual(token.generator.digits, 8)
+        XCTAssertEqual(token.generator.secret, NSData(bytes: kValidSecret, length: kValidSecret.count))
 
         // Save the token
-        XCTAssertFalse(token.isInKeychain)
-        XCTAssertNil(token.keychainItemRef)
-
-        XCTAssertTrue(token.saveToKeychain())
-
-        XCTAssertTrue(token.isInKeychain)
-        XCTAssertNotNil(token.keychainItemRef)
-
-        // Restore the token
-        guard let keychainItemRef = token.keychainItemRef,
-            let secondToken = OTPToken.tokenWithKeychainItemRef(keychainItemRef) else {
-                XCTFail("Failed to construct token from keychain item ref")
-                return
-        }
-
-
-        XCTAssertEqual(secondToken.type, OTPTokenType.Timer)
-        XCTAssertEqual(secondToken.name, "Léon")
-        XCTAssertEqual(secondToken.algorithm, OTPAlgorithm.SHA256)
-        XCTAssertEqualWithAccuracy(secondToken.period, 45, accuracy: DBL_EPSILON)
-        XCTAssertEqual(secondToken.digits, 8)
-
-        XCTAssertEqual(secondToken.secret, NSData(bytes: kValidSecret, length: kValidSecret.count))
-
-        XCTAssertEqual(secondToken.keychainItemRef, token.keychainItemRef)
-        XCTAssertTrue(secondToken.isInKeychain)
-
-        // Modify the token
-        token.type = OTPTokenType.Counter
-        token.name = "???"
-        token.digits = 6
-
-        XCTAssertTrue(token.saveToKeychain())
-
-        // Fetch the token again
-        guard let thirdToken = OTPToken.tokenWithKeychainItemRef(keychainItemRef) else {
-            XCTFail("Failed to construct token from keychain item ref")
+        guard let keychainItem = Keychain.sharedInstance.addToken(token) else {
+            XCTFail("Failed to save token to keychain")
             return
         }
 
-        XCTAssertEqual(thirdToken.type, OTPTokenType.Counter)
-        XCTAssertEqual(thirdToken.name, "???")
-        XCTAssertEqual(thirdToken.digits, 6)
+        // Restore the token
+        guard let secondKeychainItem = Keychain.sharedInstance.tokenItemForPersistentRef(keychainItem.persistentRef) else {
+                XCTFail("Failed to recover keychain item for persistent ref")
+                return
+        }
+        XCTAssertEqual(secondKeychainItem.token, keychainItem.token)
+        XCTAssertEqual(secondKeychainItem.persistentRef, keychainItem.persistentRef)
 
-        XCTAssertEqual(thirdToken.keychainItemRef, token.keychainItemRef)
-        XCTAssertTrue(thirdToken.isInKeychain)
+        // Modify the token
+        let modifiedToken = Token(name: "???", issuer: "!", generator: token.generator.successor())
+
+        guard let modifiedKeychainItem = Keychain.sharedInstance.updateTokenItem(keychainItem,
+            withToken: modifiedToken) else {
+                XCTFail("Failed to update keychain with modified token")
+                return
+        }
+        XCTAssertEqual(modifiedKeychainItem.persistentRef, keychainItem.persistentRef)
+        XCTAssertEqual(modifiedKeychainItem.token, modifiedToken)
+
+        // Fetch the token again
+        guard let thirdKeychainItem = Keychain.sharedInstance.tokenItemForPersistentRef(keychainItem.persistentRef) else {
+            XCTFail("Failed to recover keychain item for persistent ref")
+            return
+        }
+        XCTAssertEqual(thirdKeychainItem.token, modifiedToken);
+        XCTAssertEqual(thirdKeychainItem.persistentRef, keychainItem.persistentRef)
 
         // Remove the token
-        XCTAssertTrue(token.isInKeychain)
-        XCTAssertNotNil(token.keychainItemRef)
-
-        XCTAssertTrue(token.removeFromKeychain())
-
-        XCTAssertFalse(token.isInKeychain)
-        XCTAssertNil(token.keychainItemRef)
+        let success = Keychain.sharedInstance.deleteTokenItem(keychainItem)
+        XCTAssertTrue(success)
 
         // Attempt to restore the deleted token
-        let fourthToken = OTPToken.tokenWithKeychainItemRef(keychainItemRef)
-        XCTAssertNil(fourthToken)
+        let fourthKeychainItem = Keychain.sharedInstance.tokenItemForPersistentRef(keychainItem.persistentRef)
+        XCTAssertNil(fourthKeychainItem)
     }
 
     func testDuplicateURLs() {
