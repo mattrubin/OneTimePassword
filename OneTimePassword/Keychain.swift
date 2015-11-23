@@ -34,6 +34,46 @@ public class Keychain {
         return result as? NSData
     }
 
+    internal func itemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
+        let queryDict = [
+            kSecClass as String:                kSecClassGenericPassword,
+            kSecValuePersistentRef as String:   persistentRef,
+            kSecReturnPersistentRef as String:  kCFBooleanTrue,
+            kSecReturnAttributes as String:     kCFBooleanTrue,
+            kSecReturnData as String:           kCFBooleanTrue,
+        ]
+
+        var result: AnyObject?
+        let resultCode = withUnsafeMutablePointer(&result) {
+            SecItemCopyMatching(queryDict, $0)
+        }
+
+        guard resultCode == OSStatus(errSecSuccess) else {
+            return nil
+        }
+        return result as? NSDictionary
+    }
+
+    internal func allItems() -> NSArray? {
+        let queryDict = [
+            kSecClass as String:                kSecClassGenericPassword,
+            kSecMatchLimit as String:           kSecMatchLimitAll,
+            kSecReturnPersistentRef as String:  kCFBooleanTrue,
+            kSecReturnAttributes as String:     kCFBooleanTrue,
+            kSecReturnData as String:           kCFBooleanTrue,
+        ]
+
+        var result: AnyObject?
+        let resultCode = withUnsafeMutablePointer(&result) {
+            SecItemCopyMatching(queryDict, $0)
+        }
+
+        guard resultCode == OSStatus(errSecSuccess) else {
+            return nil
+        }
+        return result as? NSArray
+    }
+
     internal func updateItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
         let queryDict = [
             kSecClass as String:               kSecClassGenericPassword,
