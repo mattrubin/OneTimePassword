@@ -10,10 +10,6 @@ import Foundation
 
 let kOTPService = "me.mattrubin.onetimepassword.token"
 
-public class Keychain {
-    public static let sharedInstance = Keychain()
-}
-
 private extension PersistentToken {
     private init?(keychainDictionary: NSDictionary) {
         guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? NSData,
@@ -28,7 +24,9 @@ private extension PersistentToken {
     }
 }
 
-public extension Keychain {
+public class Keychain {
+    public static let sharedInstance = Keychain()
+
     public func persistentTokenWithIdentifier(identifier: NSData) -> PersistentToken? {
         guard let result = keychainItemForPersistentRef(identifier) else {
             return nil
