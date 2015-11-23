@@ -31,7 +31,9 @@ let kValidSecret: [UInt8] = [ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 
 let kValidTokenURL = NSURL(string: "otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4")!
 
-class OTPTokenPersistenceTests: XCTestCase {
+class TokenPersistenceTests: XCTestCase {
+    let keychain = Keychain.sharedInstance
+
     func testTokenWithKeychainItemRef() {
         // Create a token
         guard let token = Token.URLSerializer.deserialize(kValidTokenURL) else {
@@ -47,13 +49,13 @@ class OTPTokenPersistenceTests: XCTestCase {
         XCTAssertEqual(token.generator.secret, NSData(bytes: kValidSecret, length: kValidSecret.count))
 
         // Save the token
-        guard let keychainItem = Keychain.sharedInstance.addToken(token) else {
+        guard let keychainItem = keychain.addToken(token) else {
             XCTFail("Failed to save token to keychain")
             return
         }
 
         // Restore the token
-        guard let secondKeychainItem = Keychain.sharedInstance.tokenItemForPersistentRef(keychainItem.persistentRef) else {
+        guard let secondKeychainItem = keychain.tokenItemForPersistentRef(keychainItem.persistentRef) else {
                 XCTFail("Failed to recover keychain item for persistent ref")
                 return
         }
@@ -63,7 +65,7 @@ class OTPTokenPersistenceTests: XCTestCase {
         // Modify the token
         let modifiedToken = Token(name: "???", issuer: "!", generator: token.generator.successor())
 
-        guard let modifiedKeychainItem = Keychain.sharedInstance.updateTokenItem(keychainItem,
+        guard let modifiedKeychainItem = keychain.updateTokenItem(keychainItem,
             withToken: modifiedToken) else {
                 XCTFail("Failed to update keychain with modified token")
                 return
@@ -72,7 +74,7 @@ class OTPTokenPersistenceTests: XCTestCase {
         XCTAssertEqual(modifiedKeychainItem.token, modifiedToken)
 
         // Fetch the token again
-        guard let thirdKeychainItem = Keychain.sharedInstance.tokenItemForPersistentRef(keychainItem.persistentRef) else {
+        guard let thirdKeychainItem = keychain.tokenItemForPersistentRef(keychainItem.persistentRef) else {
             XCTFail("Failed to recover keychain item for persistent ref")
             return
         }
@@ -80,11 +82,11 @@ class OTPTokenPersistenceTests: XCTestCase {
         XCTAssertEqual(thirdKeychainItem.persistentRef, keychainItem.persistentRef)
 
         // Remove the token
-        let success = Keychain.sharedInstance.deleteTokenItem(keychainItem)
+        let success = keychain.deleteTokenItem(keychainItem)
         XCTAssertTrue(success)
 
         // Attempt to restore the deleted token
-        let fourthKeychainItem = Keychain.sharedInstance.tokenItemForPersistentRef(keychainItem.persistentRef)
+        let fourthKeychainItem = keychain.tokenItemForPersistentRef(keychainItem.persistentRef)
         XCTAssertNil(fourthKeychainItem)
     }
 
@@ -96,11 +98,11 @@ class OTPTokenPersistenceTests: XCTestCase {
         }
 
         // Add both tokens to the keychain
-        guard let savedItem1 = Keychain.sharedInstance.addToken(token1) else {
+        guard let savedItem1 = keychain.addToken(token1) else {
             XCTFail("Failed to save to keychain: \(token1)")
             return
         }
-        guard let savedItem2 = Keychain.sharedInstance.addToken(token2) else {
+        guard let savedItem2 = keychain.addToken(token2) else {
             XCTFail("Failed to save to keychain: \(token2)")
             return
         }
@@ -108,11 +110,11 @@ class OTPTokenPersistenceTests: XCTestCase {
         XCTAssertEqual(savedItem2.token, token2)
 
         // Fetch both tokens from the keychain
-        guard let fetchedItem1 = Keychain.sharedInstance.tokenItemForPersistentRef(savedItem1.persistentRef) else {
+        guard let fetchedItem1 = keychain.tokenItemForPersistentRef(savedItem1.persistentRef) else {
             XCTFail("Token should be in keychain: \(token1)")
             return
         }
-        guard let fetchedItem2 = Keychain.sharedInstance.tokenItemForPersistentRef(savedItem2.persistentRef) else {
+        guard let fetchedItem2 = keychain.tokenItemForPersistentRef(savedItem2.persistentRef) else {
             XCTFail("Token should be in keychain: \(token2)")
             return
         }
@@ -120,27 +122,27 @@ class OTPTokenPersistenceTests: XCTestCase {
         XCTAssertEqual(savedItem2, fetchedItem2)
 
         // Remove the first token from the keychain
-        let delete1success = Keychain.sharedInstance.deleteTokenItem(savedItem1)
+        let delete1success = keychain.deleteTokenItem(savedItem1)
         XCTAssertTrue(delete1success, "Failed to remove from keychain: \(token1)")
 
-        let checkItem1 = Keychain.sharedInstance.tokenItemForPersistentRef(savedItem1.persistentRef)
+        let checkItem1 = keychain.tokenItemForPersistentRef(savedItem1.persistentRef)
         XCTAssertNil(checkItem1, "Token should not be in keychain: \(token1)")
-        let checkItem2 = Keychain.sharedInstance.tokenItemForPersistentRef(savedItem2.persistentRef)
+        let checkItem2 = keychain.tokenItemForPersistentRef(savedItem2.persistentRef)
         XCTAssertNotNil(checkItem2, "Token should be in keychain: \(token2)")
 
         // Remove the second token from the keychain
-        let delete2success = Keychain.sharedInstance.deleteTokenItem(savedItem2)
+        let delete2success = keychain.deleteTokenItem(savedItem2)
         XCTAssertTrue(delete2success, "Failed to remove from keychain: \(token2)")
 
-        let recheckItem1 = Keychain.sharedInstance.tokenItemForPersistentRef(savedItem1.persistentRef)
+        let recheckItem1 = keychain.tokenItemForPersistentRef(savedItem1.persistentRef)
         XCTAssertNil(recheckItem1, "Token should not be in keychain: \(token1)")
-        let recheckItem2 = Keychain.sharedInstance.tokenItemForPersistentRef(savedItem2.persistentRef)
+        let recheckItem2 = keychain.tokenItemForPersistentRef(savedItem2.persistentRef)
         XCTAssertNil(recheckItem2, "Token should not be in keychain: \(token2)")
 
         // Try to remove both tokens from the keychain again
-        let redelete1success = Keychain.sharedInstance.deleteTokenItem(savedItem1)
+        let redelete1success = keychain.deleteTokenItem(savedItem1)
         XCTAssertFalse(redelete1success, "Removing again should fail: \(token1)")
-        let redelete2success = Keychain.sharedInstance.deleteTokenItem(savedItem2)
+        let redelete2success = keychain.deleteTokenItem(savedItem2)
         XCTAssertFalse(redelete2success, "Removing again should fail: \(token2)")
     }
 
@@ -159,14 +161,14 @@ class OTPTokenPersistenceTests: XCTestCase {
                 return
         }
 
-        guard let savedItem1 = Keychain.sharedInstance.addToken(token1),
-            let savedItem2 = Keychain.sharedInstance.addToken(token2),
-            let savedItem3 = Keychain.sharedInstance.addToken(token3) else {
+        guard let savedItem1 = keychain.addToken(token1),
+            let savedItem2 = keychain.addToken(token2),
+            let savedItem3 = keychain.addToken(token3) else {
                 XCTFail("Failed to save tokens")
                 return
         }
 
-        let allItems = Keychain.sharedInstance.allTokenItems()
+        let allItems = keychain.allTokenItems()
 
         XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem1.persistentRef),
             "Token not recovered from keychain: \(token1)")
@@ -175,14 +177,14 @@ class OTPTokenPersistenceTests: XCTestCase {
         XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem3.persistentRef),
             "Token not recovered from keychain: \(token3)")
 
-        guard Keychain.sharedInstance.deleteTokenItem(savedItem1) &&
-            Keychain.sharedInstance.deleteTokenItem(savedItem2) &&
-            Keychain.sharedInstance.deleteTokenItem(savedItem3) else {
+        guard keychain.deleteTokenItem(savedItem1) &&
+            keychain.deleteTokenItem(savedItem2) &&
+            keychain.deleteTokenItem(savedItem3) else {
                 XCTFail("Failed to delete tokens")
                 return
         }
 
-        let itemsRemaining = Keychain.sharedInstance.allTokenItems()
+        let itemsRemaining = keychain.allTokenItems()
 
         XCTAssertNil(itemFromArray(itemsRemaining, withPersistentRef: savedItem1.persistentRef),
             "Token not removed from keychain: \(token1)")
