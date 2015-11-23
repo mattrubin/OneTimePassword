@@ -46,14 +46,14 @@ public func == (lhs: Keychain.TokenItem, rhs: Keychain.TokenItem) -> Bool {
 
 public extension Keychain {
     public func tokenItemForPersistentRef(persistentRef: NSData) -> TokenItem? {
-        guard let result = itemForPersistentRef(persistentRef) else {
+        guard let result = keychainItemForPersistentRef(persistentRef) else {
             return nil
         }
         return TokenItem(keychainDictionary: result)
     }
 
     public func allTokenItems() -> [TokenItem] {
-        guard let keychainItems = allItems() else {
+        guard let keychainItems = allKeychainItems() else {
             return []
         }
         var items: [TokenItem] = []
@@ -78,7 +78,7 @@ public extension Keychain {
             kSecAttrService as String:  kOTPService,
         ]
 
-        guard let persistentRef = addItemWithAttributes(attributes) else {
+        guard let persistentRef = addKeychainItemWithAttributes(attributes) else {
             return nil
         }
         return TokenItem(token: token, persistentRef: persistentRef)
@@ -94,7 +94,7 @@ public extension Keychain {
             kSecAttrGeneric as String:  data
         ]
 
-        let success = updateItemForPersistentRef(tokenItem.persistentRef,
+        let success = updateKeychainItemForPersistentRef(tokenItem.persistentRef,
             withAttributes: attributes)
         guard success else {
             return nil
@@ -102,8 +102,8 @@ public extension Keychain {
         return TokenItem(token: token, persistentRef: tokenItem.persistentRef)
     }
 
-    // After calling deleteTokenItem(), the TokenItem's persistentRef is no longer valid, and the token item should be discarded
+    // After calling deleteTokenItem(_:), the TokenItem's persistentRef is no longer valid, and the token item should be discarded
     public func deleteTokenItem(tokenItem: TokenItem) -> Bool {
-        return deleteItemForPersistentRef(tokenItem.persistentRef)
+        return deleteKeychainItemForPersistentRef(tokenItem.persistentRef)
     }
 }
