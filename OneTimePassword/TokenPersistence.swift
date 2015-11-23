@@ -36,18 +36,18 @@ public extension Keychain {
         return PersistentToken(keychainDictionary: result)
     }
 
-    public func allTokenItems() -> [PersistentToken] {
+    public func allPersistentTokens() -> [PersistentToken] {
         guard let keychainItems = allKeychainItems() else {
             return []
         }
-        var items: [PersistentToken] = []
+        var tokens: [PersistentToken] = []
         for item: AnyObject in keychainItems {
             if let keychainDict = item as? NSDictionary,
-                let tokenItem = PersistentToken(keychainDictionary: keychainDict) {
-                    items.append(tokenItem)
+                let persistentToken = PersistentToken(keychainDictionary: keychainDict) {
+                    tokens.append(persistentToken)
             }
         }
-        return items
+        return tokens
     }
 
     public func addToken(token: Token) -> PersistentToken? {
