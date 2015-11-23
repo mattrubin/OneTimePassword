@@ -137,7 +137,7 @@ public extension OTPToken {
         guard let keychainItem = self.keychainItem else {
             return false
         }
-        let success = Keychain.sharedInstance.deleteTokenItem(keychainItem)
+        let success = Keychain.sharedInstance.deletePersistentToken(keychainItem)
         if success {
             self.keychainItem = nil
         }

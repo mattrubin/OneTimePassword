@@ -86,8 +86,8 @@ public extension Keychain {
         return PersistentToken(token: token, identifier: persistentToken.identifier)
     }
 
-    // After calling deleteTokenItem(_:), the PersistentToken's persistentRef is no longer valid, and the token item should be discarded
-    public func deleteTokenItem(tokenItem: PersistentToken) -> Bool {
-        return deleteKeychainItemForPersistentRef(tokenItem.identifier)
+    // After calling deletePersistentToken(_:), the PersistentToken's identifier is no longer valid, and the token should be discarded
+    public func deletePersistentToken(persistentToken: PersistentToken) -> Bool {
+        return deleteKeychainItemForPersistentRef(persistentToken.identifier)
     }
 }
