@@ -8,10 +8,6 @@
 
 import Foundation
 
-public class Keychain {
-    public static let sharedInstance = Keychain()
-}
-
 internal func addItemWithAttributes(attributes: NSDictionary) -> NSData? {
     guard let mutableAttributes = attributes.mutableCopy() as? NSMutableDictionary else {
         return nil

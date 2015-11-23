@@ -10,6 +10,10 @@ import Foundation
 
 let kOTPService = "me.mattrubin.onetimepassword.token"
 
+public class Keychain {
+    public static let sharedInstance = Keychain()
+}
+
 public extension Keychain {
     public struct TokenItem {
         public let token: Token
