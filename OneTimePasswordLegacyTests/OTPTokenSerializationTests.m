@@ -26,7 +26,6 @@
 @import Base32;
 @import OneTimePasswordLegacy;
 #import "OTPTypeStrings.h"
-#import "NSDictionary+QueryString.h"
 
 
 static NSString * const kOTPScheme = @"otpauth";
@@ -82,19 +81,29 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                             for (NSNumber *periodNumber in periodNumbers) {
                                 for (NSNumber *counterNumber in counterNumbers) {
                                     // Construct the URL
-                                    NSMutableDictionary *query = [NSMutableDictionary dictionary];
-                                    query[@"algorithm"] = [NSString stringForAlgorithm:[algorithmNumber unsignedIntValue]];
-                                    query[@"digits"] = digitNumber;
-                                    query[@"secret"] = [[[secretString dataUsingEncoding:NSASCIIStringEncoding] base32String] stringByReplacingOccurrencesOfString:@"=" withString:@""];
-                                    query[@"period"] = [periodNumber isEqual:kRandomKey] ? @(arc4random()%299 + 1) : periodNumber;
-                                    query[@"counter"] = [counterNumber isEqual:kRandomKey] ? @(arc4random() + ((uint64_t)arc4random() << 32)) : counterNumber;
-                                    query[@"issuer"] = issuer;
-
                                     NSURLComponents *urlComponents = [NSURLComponents new];
                                     urlComponents.scheme = kOTPScheme;
                                     urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                     urlComponents.path = [@"/" stringByAppendingString:name];
-                                    urlComponents.percentEncodedQuery = [query queryString];
+
+                                    NSMutableArray *queryItems = [NSMutableArray array];
+                                    NSString *algorithmValue = [NSString stringForAlgorithm:[algorithmNumber unsignedIntValue]];
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"algorithm"
+                                                                                      value:algorithmValue]];
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"digits"
+                                                                                      value:[digitNumber stringValue]]];
+                                    NSString *secretValue = [[[secretString dataUsingEncoding:NSASCIIStringEncoding] base32String] stringByReplacingOccurrencesOfString:@"=" withString:@""];
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"secret"
+                                                                                      value:secretValue]];
+                                    NSNumber *periodValue = [periodNumber isEqual:kRandomKey] ? @(arc4random()%299 + 1) : periodNumber;
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"period"
+                                                                                      value:[periodValue stringValue]]];
+                                    NSNumber *counterValue = [counterNumber isEqual:kRandomKey] ? @(arc4random() + ((uint64_t)arc4random() << 32)) : counterNumber;
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"counter"
+                                                                                      value:[counterValue stringValue]]];
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"issuer"
+                                                                                      value:issuer]];
+                                    urlComponents.queryItems = queryItems;
 
                                     // Create the token
                                     OTPToken *token = [OTPToken tokenWithURL:[urlComponents URL]];
@@ -108,9 +117,9 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         XCTAssertEqual(token.algorithm, [algorithmNumber unsignedIntValue], @"Incorrect token algorithm");
                                         XCTAssertEqual(token.digits, [digitNumber unsignedIntegerValue], @"Incorrect token digits");
                                         if (token.type == OTPTokenTypeTimer)
-                                            XCTAssertTrue(ABS(token.period - [query[@"period"] doubleValue]) < DBL_EPSILON, @"Incorrect token period");
+                                            XCTAssertTrue(ABS(token.period - [periodValue doubleValue]) < DBL_EPSILON, @"Incorrect token period");
                                         if (token.type == OTPTokenTypeCounter)
-                                            XCTAssertEqual(token.counter, [query[@"counter"] unsignedLongLongValue], @"Incorrect token counter");
+                                            XCTAssertEqual(token.counter, [counterValue unsignedLongLongValue], @"Incorrect token counter");
                                     } else {
                                         // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
                                         OTPToken *invalidToken = [OTPToken new];
@@ -120,8 +129,8 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         invalidToken.secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
                                         invalidToken.algorithm = [algorithmNumber unsignedIntValue];
                                         invalidToken.digits = [digitNumber unsignedIntegerValue];
-                                        invalidToken.period = [query[@"period"] doubleValue];
-                                        invalidToken.counter = [query[@"counter"] unsignedLongLongValue];
+                                        invalidToken.period = [periodValue doubleValue];
+                                        invalidToken.counter = [counterValue unsignedLongLongValue];
 
                                         XCTAssertFalse([invalidToken validate], @"The token should be invalid");
                                     }
@@ -146,19 +155,28 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                             for (NSNumber *periodNumber in periodNumbers) {
                                 for (NSNumber *counterNumber in counterNumbers) {
                                     // Construct the URL
-                                    NSMutableDictionary *query = [NSMutableDictionary dictionary];
-                                    query[@"algorithm"] = [NSString stringForAlgorithm:[algorithmNumber unsignedIntValue]];
-                                    query[@"digits"] = digitNumber;
-                                    query[@"secret"] = @"A";
-                                    query[@"period"] = [periodNumber isEqual:kRandomKey] ? @(arc4random()%299 + 1) : periodNumber;
-                                    query[@"counter"] = [counterNumber isEqual:kRandomKey] ? @(arc4random() + ((uint64_t)arc4random() << 32)) : counterNumber;
-                                    query[@"issuer"] = issuer;
-
                                     NSURLComponents *urlComponents = [NSURLComponents new];
                                     urlComponents.scheme = kOTPScheme;
                                     urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                     urlComponents.path = [@"/" stringByAppendingString:name];
-                                    urlComponents.percentEncodedQuery = [query queryString];
+
+                                    NSMutableArray *queryItems = [NSMutableArray array];
+                                    NSString *algorithmValue = [NSString stringForAlgorithm:[algorithmNumber unsignedIntValue]];
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"algorithm"
+                                                                                      value:algorithmValue]];
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"digits"
+                                                                                      value:[digitNumber stringValue]]];
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"secret"
+                                                                                      value:@"A"]];
+                                    NSNumber *periodValue = [periodNumber isEqual:kRandomKey] ? @(arc4random()%299 + 1) : periodNumber;
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"period"
+                                                                                      value:[periodValue stringValue]]];
+                                    NSNumber *counterValue = [counterNumber isEqual:kRandomKey] ? @(arc4random() + ((uint64_t)arc4random() << 32)) : counterNumber;
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"counter"
+                                                                                      value:[counterValue stringValue]]];
+                                    [queryItems addObject:[NSURLQueryItem queryItemWithName:@"issuer"
+                                                                                      value:issuer]];
+                                    urlComponents.queryItems = queryItems;
 
                                     // Create the token
                                     NSData *secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
@@ -173,9 +191,9 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         XCTAssertEqual(token.algorithm, [algorithmNumber unsignedIntValue], @"Incorrect token algorithm");
                                         XCTAssertEqual(token.digits, [digitNumber unsignedIntegerValue], @"Incorrect token digits");
                                         if (token.type == OTPTokenTypeTimer)
-                                            XCTAssertTrue(ABS(token.period - [query[@"period"] doubleValue]) < DBL_EPSILON, @"Incorrect token period");
+                                            XCTAssertTrue(ABS(token.period - [periodValue doubleValue]) < DBL_EPSILON, @"Incorrect token period");
                                         if (token.type == OTPTokenTypeCounter)
-                                            XCTAssertEqual(token.counter, [query[@"counter"] unsignedLongLongValue], @"Incorrect token counter");
+                                            XCTAssertEqual(token.counter, [counterValue unsignedLongLongValue], @"Incorrect token counter");
                                     } else {
                                         // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
                                         OTPToken *invalidToken = [OTPToken new];
@@ -185,8 +203,8 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         invalidToken.secret = secret;
                                         invalidToken.algorithm = [algorithmNumber unsignedIntValue];
                                         invalidToken.digits = [digitNumber unsignedIntegerValue];
-                                        invalidToken.period = [query[@"period"] doubleValue];
-                                        invalidToken.counter = [query[@"counter"] unsignedLongLongValue];
+                                        invalidToken.period = [periodValue doubleValue];
+                                        invalidToken.counter = [counterValue unsignedLongLongValue];
 
                                         XCTAssertFalse([invalidToken validate], @"The token should be invalid");
                                     }
@@ -260,7 +278,14 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         XCTAssertEqualObjects(url.path, @"", @"The url path should be empty");
                                     }
 
-                                    NSDictionary *queryArguments = [NSDictionary dictionaryWithQueryString:url.query];
+                                    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url
+                                                                                resolvingAgainstBaseURL:NO];
+                                    NSArray<NSURLQueryItem *> *queryItems = urlComponents.queryItems;
+                                    NSMutableDictionary *queryArguments = [NSMutableDictionary dictionaryWithCapacity:queryItems.count];
+                                    for (NSURLQueryItem *queryItem in queryItems) {
+                                        XCTAssertNil([queryArguments objectForKey:queryItem.name]);
+                                        [queryArguments setObject:queryItem.value forKey:queryItem.name];
+                                    }
 
                                     // Test algorithm
                                     NSString *expectedAlgorithmString = [NSString stringForAlgorithm:[algorithmNumber unsignedIntValue]];
@@ -413,11 +438,13 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     XCTAssertEqualObjects(url.host, @"totp");
     XCTAssertEqualObjects([url.path substringFromIndex:1], @"Léon");
 
-    NSDictionary *expectedQueryString = @{@"algorithm": @"SHA256",
-                                          @"digits": @"8",
-                                          @"issuer": @"",
-                                          @"period": @"45"};
-    XCTAssertEqualObjects([NSDictionary dictionaryWithQueryString:url.query], expectedQueryString);
+    NSArray *expectedQueryItems = @[[NSURLQueryItem queryItemWithName:@"algorithm" value:@"SHA256"],
+                                    [NSURLQueryItem queryItemWithName:@"digits" value:@"8"],
+                                    [NSURLQueryItem queryItemWithName:@"issuer" value:@""],
+                                    [NSURLQueryItem queryItemWithName:@"period" value:@"45"]];
+    NSArray *queryItems = [NSURLComponents componentsWithURL:url
+                                     resolvingAgainstBaseURL:NO].queryItems;
+    XCTAssertEqualObjects(queryItems, expectedQueryItems);
 }
 
 - (void)testHOTPURL
@@ -429,11 +456,13 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     XCTAssertEqualObjects(url.host, @"hotp");
     XCTAssertEqualObjects([url.path substringFromIndex:1], @"Léon");
 
-    NSDictionary *expectedQueryString = @{@"algorithm": @"SHA256",
-                                          @"digits": @"8",
-                                          @"issuer": @"",
-                                          @"counter": @"18446744073709551615"};
-    XCTAssertEqualObjects([NSDictionary dictionaryWithQueryString:url.query], expectedQueryString);
+    NSArray *expectedQueryItems = @[[NSURLQueryItem queryItemWithName:@"algorithm" value:@"SHA256"],
+                                    [NSURLQueryItem queryItemWithName:@"digits" value:@"8"],
+                                    [NSURLQueryItem queryItemWithName:@"issuer" value:@""],
+                                    [NSURLQueryItem queryItemWithName:@"counter" value:@"18446744073709551615"]];
+    NSArray *queryItems = [NSURLComponents componentsWithURL:url
+                                     resolvingAgainstBaseURL:NO].queryItems;
+    XCTAssertEqualObjects(queryItems, expectedQueryItems);
 }
 
 @end
