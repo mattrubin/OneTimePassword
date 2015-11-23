@@ -29,8 +29,8 @@ private extension PersistentToken {
 }
 
 public extension Keychain {
-    public func tokenItemForPersistentRef(persistentRef: NSData) -> PersistentToken? {
-        guard let result = keychainItemForPersistentRef(persistentRef) else {
+    public func persistentTokenWithIdentifier(identifier: NSData) -> PersistentToken? {
+        guard let result = keychainItemForPersistentRef(identifier) else {
             return nil
         }
         return PersistentToken(keychainDictionary: result)
