@@ -146,7 +146,7 @@ class TokenPersistenceTests: XCTestCase {
         XCTAssertFalse(redelete2success, "Removing again should fail: \(token2)")
     }
 
-    func itemFromArray(items: [Keychain.TokenItem], withPersistentRef persistentRef: NSData) -> Keychain.TokenItem? {
+    func itemFromArray(items: [PersistentToken], withPersistentRef persistentRef: NSData) -> PersistentToken? {
         let matchingItems = items.filter({ $0.persistentRef == persistentRef })
         XCTAssert((matchingItems.count <= 1),
             "Found more than one matching token: \(matchingItems)")

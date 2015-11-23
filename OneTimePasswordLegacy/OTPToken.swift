@@ -25,7 +25,7 @@ public final class OTPToken: NSObject {
     public var period: NSTimeInterval = OTPToken.defaultPeriod
     public var counter: UInt64 = OTPToken.defaultInitialCounter
 
-    private var keychainItem: Keychain.TokenItem?
+    private var keychainItem: PersistentToken?
 
 
     public static var defaultAlgorithm: OTPAlgorithm {
@@ -148,7 +148,7 @@ public extension OTPToken {
         return Keychain.sharedInstance.allTokenItems().map(self.tokenWithKeychainItem)
     }
 
-    private static func tokenWithKeychainItem(keychainItem: Keychain.TokenItem) -> Self {
+    private static func tokenWithKeychainItem(keychainItem: PersistentToken) -> Self {
         let otp = self.init()
         otp.updateWithToken(keychainItem.token)
         otp.keychainItem = keychainItem
