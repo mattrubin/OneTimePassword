@@ -55,6 +55,12 @@ public extension Token {
     }
 }
 
+extension Token.KeychainItem: Equatable {}
+public func == (lhs: Token.KeychainItem, rhs: Token.KeychainItem) -> Bool {
+    return lhs.persistentRef.isEqualToData(rhs.persistentRef)
+        && (lhs.token == rhs.token)
+}
+
 func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
     let queryDict = [
         kSecClass as String:                kSecClassGenericPassword,
