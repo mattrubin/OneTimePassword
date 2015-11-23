@@ -20,6 +20,7 @@ public extension Token {
             self.persistentRef = persistentRef
         }
 
+        // FIXME: This should be private, but is public for testing purposes
         public init?(keychainDictionary: NSDictionary) {
             guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? NSData,
                 let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
