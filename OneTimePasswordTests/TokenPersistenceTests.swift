@@ -65,7 +65,7 @@ class TokenPersistenceTests: XCTestCase {
         // Modify the token
         let modifiedToken = Token(name: "???", issuer: "!", generator: token.generator.successor())
 
-        guard let modifiedKeychainItem = keychain.updateTokenItem(keychainItem,
+        guard let modifiedKeychainItem = keychain.updatePersistentToken(keychainItem,
             withToken: modifiedToken) else {
                 XCTFail("Failed to update keychain with modified token")
                 return

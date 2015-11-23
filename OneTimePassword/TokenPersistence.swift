@@ -68,7 +68,7 @@ public extension Keychain {
         return PersistentToken(token: token, identifier: persistentRef)
     }
 
-    public func updateTokenItem(tokenItem: PersistentToken, withToken token: Token) -> PersistentToken? {
+    public func updatePersistentToken(persistentToken: PersistentToken, withToken token: Token) -> PersistentToken? {
         guard let url = Token.URLSerializer.serialize(token),
             let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
                 return nil
@@ -78,12 +78,12 @@ public extension Keychain {
             kSecAttrGeneric as String:  data
         ]
 
-        let success = updateKeychainItemForPersistentRef(tokenItem.identifier,
+        let success = updateKeychainItemForPersistentRef(persistentToken.identifier,
             withAttributes: attributes)
         guard success else {
             return nil
         }
-        return PersistentToken(token: token, identifier: tokenItem.identifier)
+        return PersistentToken(token: token, identifier: persistentToken.identifier)
     }
 
     // After calling deleteTokenItem(_:), the PersistentToken's persistentRef is no longer valid, and the token item should be discarded

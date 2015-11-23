@@ -119,7 +119,7 @@ public extension OTPToken {
             return false
         }
         if let keychainItem = self.keychainItem {
-            guard let newKeychainItem = Keychain.sharedInstance.updateTokenItem(keychainItem, withToken: token) else {
+            guard let newKeychainItem = Keychain.sharedInstance.updatePersistentToken(keychainItem, withToken: token) else {
                 return false
             }
             self.keychainItem = newKeychainItem
