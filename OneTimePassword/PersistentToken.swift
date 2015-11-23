@@ -27,15 +27,15 @@ import Foundation
 
 public struct PersistentToken: Equatable {
     public let token: Token
-    public let persistentRef: NSData
+    public let identifier: NSData
 
-    internal init(token: Token, persistentRef: NSData) {
+    internal init(token: Token, identifier: NSData) {
         self.token = token
-        self.persistentRef = persistentRef
+        self.identifier = identifier
     }
 }
 
 public func == (lhs: PersistentToken, rhs: PersistentToken) -> Bool {
-    return lhs.persistentRef.isEqualToData(rhs.persistentRef)
+    return lhs.identifier.isEqualToData(rhs.identifier)
         && (lhs.token == rhs.token)
 }
