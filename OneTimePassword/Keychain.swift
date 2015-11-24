@@ -55,7 +55,7 @@ private extension PersistentToken {
     }
 }
 
-public class Keychain {
+public final class Keychain {
     public static let sharedInstance = Keychain()
 
     public func persistentTokenWithIdentifier(identifier: NSData) -> PersistentToken? {
