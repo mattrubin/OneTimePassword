@@ -80,7 +80,9 @@ public final class Keychain {
         return PersistentToken(token: token, identifier: persistentRef)
     }
 
-    public func updatePersistentToken(persistentToken: PersistentToken, withToken token: Token) -> PersistentToken? {
+    public func updatePersistentToken(persistentToken: PersistentToken,
+        withToken token: Token) -> PersistentToken?
+    {
         guard let attributes = token.keychainAttributes else {
             return nil
         }
@@ -92,7 +94,8 @@ public final class Keychain {
         return PersistentToken(token: token, identifier: persistentToken.identifier)
     }
 
-    // After calling deletePersistentToken(_:), the PersistentToken's identifier is no longer valid, and the token should be discarded
+    // After calling deletePersistentToken(_:), the PersistentToken's identifier is no longer valid,
+    // and the token should be discarded
     public func deletePersistentToken(persistentToken: PersistentToken) -> Bool {
         return deleteKeychainItemForPersistentRef(persistentToken.identifier)
     }
@@ -121,7 +124,9 @@ private func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? 
     return result as? NSData
 }
 
-private func updateKeychainItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
+private func updateKeychainItemForPersistentRef(persistentRef: NSData,
+    withAttributes attributesToUpdate: NSDictionary) -> Bool
+{
     let queryDict = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef,
