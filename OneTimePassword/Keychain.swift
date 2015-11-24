@@ -25,10 +25,10 @@
 
 import Foundation
 
-let kOTPService = "me.mattrubin.onetimepassword.token"
+private let kOTPService = "me.mattrubin.onetimepassword.token"
 
 private extension Token {
-    var keychainAttributes: [String: AnyObject]? {
+    private var keychainAttributes: [String: AnyObject]? {
         guard let url = Token.URLSerializer.serialize(self),
             let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
                 return nil
@@ -98,7 +98,7 @@ public class Keychain {
     }
 }
 
-internal func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
+private func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
     guard let mutableAttributes = attributes.mutableCopy() as? NSMutableDictionary else {
         return nil
     }
@@ -121,7 +121,7 @@ internal func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData?
     return result as? NSData
 }
 
-internal func updateKeychainItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
+private func updateKeychainItemForPersistentRef(persistentRef: NSData, withAttributes attributesToUpdate: NSDictionary) -> Bool {
     let queryDict = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef,
@@ -131,7 +131,7 @@ internal func updateKeychainItemForPersistentRef(persistentRef: NSData, withAttr
     return (resultCode == OSStatus(errSecSuccess))
 }
 
-internal func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
+private func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
     let queryDict = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef,
@@ -141,7 +141,7 @@ internal func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool 
     return (resultCode == OSStatus(errSecSuccess))
 }
 
-internal func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
+private func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
     let queryDict = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecValuePersistentRef as String:   persistentRef,
@@ -161,7 +161,7 @@ internal func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionar
     return result as? NSDictionary
 }
 
-internal func allKeychainItems() -> NSArray? {
+private func allKeychainItems() -> NSArray? {
     let queryDict = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecMatchLimit as String:           kSecMatchLimitAll,
