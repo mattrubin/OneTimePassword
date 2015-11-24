@@ -30,7 +30,6 @@
 		C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Generator.swift */; };
 		C9E639081BDDFCA0002D9231 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E639071BDDFCA0002D9231 /* CommonCrypto.framework */; };
 		C9E639091BDDFF6B002D9231 /* OneTimePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = C9377D40196B93F900D6C67E /* OneTimePassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9F5981B196E3E48002E4D0E /* TokenPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,7 +112,6 @@
 		C9DC7EC7196BDF3B00B50C82 /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPToken.swift; sourceTree = "<group>"; };
 		C9E639071BDDFCA0002D9231 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CommonCrypto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenPersistence.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,7 +332,6 @@
 			isa = PBXGroup;
 			children = (
 				C95F9FB81C03D6BC00CEA286 /* PersistentToken.swift */,
-				C9F5981A196E3E48002E4D0E /* TokenPersistence.swift */,
 				C9003417196F7046009733E8 /* Keychain.swift */,
 			);
 			name = Persistence;
@@ -562,7 +559,6 @@
 				C95F9FB91C03D6BC00CEA286 /* PersistentToken.swift in Sources */,
 				C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */,
 				C9307A8519A8515300609B02 /* TokenSerializer.swift in Sources */,
-				C9F5981B196E3E48002E4D0E /* TokenPersistence.swift in Sources */,
 				C9003418196F7046009733E8 /* Keychain.swift in Sources */,
 				C9DC7EC4196BD5DF00B50C82 /* Token.URLSerializer.swift in Sources */,
 			);
