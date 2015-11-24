@@ -161,6 +161,12 @@ class TokenPersistenceTests: XCTestCase {
                 return
         }
 
+        guard let noItems = keychain.allPersistentTokens() else {
+            XCTFail("Failed to recover tokens from keychain")
+            return
+        }
+        XCTAssert(noItems.isEmpty)
+
         guard let savedItem1 = keychain.addToken(token1),
             let savedItem2 = keychain.addToken(token2),
             let savedItem3 = keychain.addToken(token3) else {

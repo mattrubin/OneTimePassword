@@ -175,6 +175,10 @@ private func allKeychainItems() -> NSArray? {
         SecItemCopyMatching(queryDict, $0)
     }
 
+    if resultCode == OSStatus(errSecItemNotFound) {
+        // Not finding any keychain items is not an error in this case. Return an empty array.
+        return NSArray()
+    }
     guard resultCode == OSStatus(errSecSuccess) else {
         return nil
     }
