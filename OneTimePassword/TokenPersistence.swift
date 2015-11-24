@@ -11,7 +11,7 @@ import Foundation
 let kOTPService = "me.mattrubin.onetimepassword.token"
 
 private extension Token {
-    var keychainAttributes: NSDictionary? {
+    var keychainAttributes: [String: AnyObject]? {
         guard let url = Token.URLSerializer.serialize(self),
             let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
                 return nil
@@ -56,8 +56,7 @@ public class Keychain {
     }
 
     public func addToken(token: Token) -> PersistentToken? {
-        guard let
-            attributes = token.keychainAttributes,
+        guard let attributes = token.keychainAttributes,
             persistentRef = addKeychainItemWithAttributes(attributes) else {
                 return nil
         }
@@ -68,7 +67,6 @@ public class Keychain {
         guard let attributes = token.keychainAttributes else {
             return nil
         }
-
         let success = updateKeychainItemForPersistentRef(persistentToken.identifier,
             withAttributes: attributes)
         guard success else {
