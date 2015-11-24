@@ -48,27 +48,18 @@ public class Keychain {
         return PersistentToken(keychainDictionary: result)
     }
 
-    public func allPersistentTokens() -> [PersistentToken] {
-        guard let keychainItems = allKeychainItems() else {
-            return []
+    public func allPersistentTokens() -> [PersistentToken]? {
+        guard let keychainItems = allKeychainItems() as? [NSDictionary] else {
+            return nil
         }
-        var tokens: [PersistentToken] = []
-        for item: AnyObject in keychainItems {
-            if let keychainDict = item as? NSDictionary,
-                let persistentToken = PersistentToken(keychainDictionary: keychainDict) {
-                    tokens.append(persistentToken)
-            }
-        }
-        return tokens
+        return keychainItems.flatMap({ PersistentToken(keychainDictionary: $0) })
     }
 
     public func addToken(token: Token) -> PersistentToken? {
-        guard let attributes = token.keychainAttributes else {
-            return nil
-        }
-
-        guard let persistentRef = addKeychainItemWithAttributes(attributes) else {
-            return nil
+        guard let
+            attributes = token.keychainAttributes,
+            persistentRef = addKeychainItemWithAttributes(attributes) else {
+                return nil
         }
         return PersistentToken(token: token, identifier: persistentRef)
     }

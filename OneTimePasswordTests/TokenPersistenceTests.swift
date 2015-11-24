@@ -168,7 +168,10 @@ class TokenPersistenceTests: XCTestCase {
                 return
         }
 
-        let allItems = keychain.allPersistentTokens()
+        guard let allItems = keychain.allPersistentTokens() else {
+            XCTFail("Failed to recover tokens from keychain")
+            return
+        }
 
         XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem1.identifier),
             "Token not recovered from keychain: \(token1)")
@@ -184,7 +187,10 @@ class TokenPersistenceTests: XCTestCase {
                 return
         }
 
-        let itemsRemaining = keychain.allPersistentTokens()
+        guard let itemsRemaining = keychain.allPersistentTokens() else {
+            XCTFail("Failed to recover tokens from keychain")
+            return
+        }
 
         XCTAssertNil(itemFromArray(itemsRemaining, withPersistentRef: savedItem1.identifier),
             "Token not removed from keychain: \(token1)")
