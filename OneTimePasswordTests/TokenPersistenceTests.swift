@@ -78,7 +78,7 @@ class TokenPersistenceTests: XCTestCase {
             XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
             return
         }
-        XCTAssertEqual(thirdKeychainItem.token, modifiedToken);
+        XCTAssertEqual(thirdKeychainItem.token, modifiedToken)
         XCTAssertEqual(thirdKeychainItem.identifier, keychainItem.identifier)
 
         // Remove the token
