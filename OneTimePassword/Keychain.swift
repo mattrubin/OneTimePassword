@@ -46,7 +46,7 @@ public final class Keychain {
     /// Returns an array of all persistent tokens found in the keychain.
     public func allPersistentTokens() throws -> [PersistentToken] {
         guard let keychainItems = try allKeychainItems() as? [NSDictionary] else {
-            throw Keychain.Error.IncorrectReturnType
+            throw Error.IncorrectReturnType
         }
         return keychainItems.flatMap({ PersistentToken(keychainDictionary: $0) })
     }
@@ -73,16 +73,13 @@ public final class Keychain {
     ///
     /// - returns: The updated persistent token, or `nil` if an error has occured.
     public func updatePersistentToken(persistentToken: PersistentToken,
-        withToken token: Token) -> PersistentToken?
+        withToken token: Token) throws -> PersistentToken
     {
         guard let attributes = token.keychainAttributes else {
-            return nil
+            throw Error.TokenSerializationFailure
         }
-        let success = updateKeychainItemForPersistentRef(persistentToken.identifier,
+        try updateKeychainItemForPersistentRef(persistentToken.identifier,
             withAttributes: attributes)
-        guard success else {
-            return nil
-        }
         return PersistentToken(token: token, identifier: persistentToken.identifier)
     }
 
@@ -103,6 +100,7 @@ public final class Keychain {
     public enum Error: ErrorType {
         case SystemError(OSStatus)
         case IncorrectReturnType
+        case TokenSerializationFailure
     }
 }
 
@@ -162,7 +160,7 @@ private func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? 
 }
 
 private func updateKeychainItemForPersistentRef(persistentRef: NSData,
-    withAttributes attributesToUpdate: NSDictionary) -> Bool
+    withAttributes attributesToUpdate: NSDictionary) throws
 {
     let queryDict = [
         kSecClass as String:               kSecClassGenericPassword,
@@ -170,7 +168,10 @@ private func updateKeychainItemForPersistentRef(persistentRef: NSData,
     ]
 
     let resultCode = SecItemUpdate(queryDict, attributesToUpdate)
-    return (resultCode == OSStatus(errSecSuccess))
+
+    guard resultCode == errSecSuccess else {
+        throw Keychain.Error.SystemError(resultCode)
+    }
 }
 
 private func deleteKeychainItemForPersistentRef(persistentRef: NSData) throws {
