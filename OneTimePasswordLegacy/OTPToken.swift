@@ -138,11 +138,13 @@ public extension OTPToken {
         guard let keychainItem = self.keychainItem else {
             return false
         }
-        let success = Keychain.sharedInstance.deletePersistentToken(keychainItem)
-        if success {
+        do {
+            try Keychain.sharedInstance.deletePersistentToken(keychainItem)
             self.keychainItem = nil
+            return true
+        } catch {
+            return false
         }
-        return success
     }
 
     static func allTokensInKeychain() -> Array<OTPToken> {

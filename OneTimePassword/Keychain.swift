@@ -94,8 +94,8 @@ public final class Keychain {
     /// - parameter persistentToken: The persistent token to delete.
     ///
     /// - returns: A boolean indicating whether the token was successfully deleted.
-    public func deletePersistentToken(persistentToken: PersistentToken) -> Bool {
-        return deleteKeychainItemForPersistentRef(persistentToken.identifier)
+    public func deletePersistentToken(persistentToken: PersistentToken) throws {
+        try deleteKeychainItemForPersistentRef(persistentToken.identifier)
     }
 
     // MARK: Errors
@@ -173,14 +173,17 @@ private func updateKeychainItemForPersistentRef(persistentRef: NSData,
     return (resultCode == OSStatus(errSecSuccess))
 }
 
-private func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
+private func deleteKeychainItemForPersistentRef(persistentRef: NSData) throws {
     let queryDict = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef,
     ]
 
     let resultCode = SecItemDelete(queryDict)
-    return (resultCode == OSStatus(errSecSuccess))
+
+    guard resultCode == errSecSuccess else {
+        throw Keychain.Error.SystemError(resultCode)
+    }
 }
 
 private func keychainItemForPersistentRef(persistentRef: NSData) throws -> NSDictionary? {
