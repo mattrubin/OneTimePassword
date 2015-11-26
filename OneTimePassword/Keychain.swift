@@ -47,7 +47,7 @@ public final class Keychain {
 
     /// Returns an array of all persistent tokens found in the keychain.
     public func allPersistentTokens() -> [PersistentToken]? {
-        guard let keychainItems = allKeychainItems() as? [NSDictionary] else {
+        guard let keychainItems = (try? allKeychainItems()) as? [NSDictionary] else {
             return nil
         }
         return keychainItems.flatMap({ PersistentToken(keychainDictionary: $0) })
@@ -98,6 +98,13 @@ public final class Keychain {
     /// - returns: A boolean indicating whether the token was successfully deleted.
     public func deletePersistentToken(persistentToken: PersistentToken) -> Bool {
         return deleteKeychainItemForPersistentRef(persistentToken.identifier)
+    }
+
+    // MARK: Errors
+
+    public enum Error: ErrorType {
+        case SystemError(OSStatus)
+        case IncorrectReturnType
     }
 }
 
@@ -198,7 +205,7 @@ private func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary
     return result as? NSDictionary
 }
 
-private func allKeychainItems() -> NSArray? {
+private func allKeychainItems() throws -> NSArray {
     let queryDict = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecMatchLimit as String:           kSecMatchLimitAll,
@@ -212,12 +219,15 @@ private func allKeychainItems() -> NSArray? {
         SecItemCopyMatching(queryDict, $0)
     }
 
-    if resultCode == OSStatus(errSecItemNotFound) {
+    if resultCode == errSecItemNotFound {
         // Not finding any keychain items is not an error in this case. Return an empty array.
-        return NSArray()
+        return []
     }
-    guard resultCode == OSStatus(errSecSuccess) else {
-        return nil
+    guard resultCode == errSecSuccess else {
+        throw Keychain.Error.SystemError(resultCode)
     }
-    return result as? NSArray
+    guard let keychainItems = result as? NSArray else {
+        throw Keychain.Error.IncorrectReturnType
+    }
+    return keychainItems
 }
