@@ -111,7 +111,6 @@ class TokenPersistenceTests: XCTestCase {
     }
 
     func testDuplicateURLs() {
-    do {
         guard let token1 = Token.URLSerializer.deserialize(kValidTokenURL),
             let token2 = Token.URLSerializer.deserialize(kValidTokenURL) else {
                 XCTFail("Failed to construct tokens from url.")
@@ -119,22 +118,33 @@ class TokenPersistenceTests: XCTestCase {
         }
 
         // Add both tokens to the keychain
-        let savedItem1 = try keychain.addToken(token1)
-        let savedItem2 = try keychain.addToken(token2)
+        guard let savedItem1 = try? keychain.addToken(token1) else {
+            XCTFail("Failed to save to keychain: \(token1)")
+            return
+        }
+        guard let savedItem2 = try? keychain.addToken(token2) else {
+            XCTFail("Failed to save to keychain: \(token2)")
+            return
+        }
         XCTAssertEqual(savedItem1.token, token1)
         XCTAssertEqual(savedItem2.token, token2)
 
         // Fetch both tokens from the keychain
-        guard let fetchedItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier) else {
-            XCTFail("Token should be in keychain: \(token1)")
+        do {
+            guard let fetchedItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier) else {
+                XCTFail("Token should be in keychain: \(token1)")
+                return
+            }
+            guard let fetchedItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier) else {
+                XCTFail("Token should be in keychain: \(token2)")
+                return
+            }
+            XCTAssertEqual(savedItem1, fetchedItem1)
+            XCTAssertEqual(savedItem2, fetchedItem2)
+        } catch {
+            XCTFail("Error thrown from keychain: \(error)")
             return
         }
-        guard let fetchedItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier) else {
-            XCTFail("Token should be in keychain: \(token2)")
-            return
-        }
-        XCTAssertEqual(savedItem1, fetchedItem1)
-        XCTAssertEqual(savedItem2, fetchedItem2)
 
         // Remove the first token from the keychain
         do {
@@ -143,10 +153,15 @@ class TokenPersistenceTests: XCTestCase {
             XCTFail("deletePersistentToken(_:) failed with error: \(error)")
         }
 
-        let checkItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
-        XCTAssertNil(checkItem1, "Token should not be in keychain: \(token1)")
-        let checkItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
-        XCTAssertNotNil(checkItem2, "Token should be in keychain: \(token2)")
+        do {
+            let checkItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
+            XCTAssertNil(checkItem1, "Token should not be in keychain: \(token1)")
+            let checkItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
+            XCTAssertNotNil(checkItem2, "Token should be in keychain: \(token2)")
+        } catch {
+            XCTFail("Error thrown from keychain: \(error)")
+            return
+        }
 
         // Remove the second token from the keychain
         do {
@@ -155,10 +170,15 @@ class TokenPersistenceTests: XCTestCase {
             XCTFail("deletePersistentToken(_:) failed with error: \(error)")
         }
 
-        let recheckItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
-        XCTAssertNil(recheckItem1, "Token should not be in keychain: \(token1)")
-        let recheckItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
-        XCTAssertNil(recheckItem2, "Token should not be in keychain: \(token2)")
+        do {
+            let recheckItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
+            XCTAssertNil(recheckItem1, "Token should not be in keychain: \(token1)")
+            let recheckItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
+            XCTAssertNil(recheckItem2, "Token should not be in keychain: \(token2)")
+        } catch {
+            XCTFail("Error thrown from keychain: \(error)")
+            return
+        }
 
         // Try to remove both tokens from the keychain again
         do {
@@ -175,11 +195,6 @@ class TokenPersistenceTests: XCTestCase {
         } catch {
             // TODO: Assert the expected error type
         }
-
-    } catch {
-        XCTFail("Error thrown from keychain: \(error)")
-        return
-    }
     }
 
     func itemFromArray(items: [PersistentToken], withPersistentRef persistentRef: NSData) -> PersistentToken? {
