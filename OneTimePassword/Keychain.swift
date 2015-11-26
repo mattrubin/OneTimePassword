@@ -37,6 +37,7 @@ public final class Keychain {
     ///
     /// - parameter token: The persistent identifier for the desired token.
     ///
+    /// - throws: A `Keychain.Error` if an error occurred.
     /// - returns: The persistent token, or `nil` if no token matched the given identifier.
     public func persistentTokenWithIdentifier(identifier: NSData) throws -> PersistentToken? {
         return try keychainItemForPersistentRef(identifier)
@@ -44,6 +45,8 @@ public final class Keychain {
     }
 
     /// Returns an array of all persistent tokens found in the keychain.
+    ///
+    /// - throws: A `Keychain.Error` if an error occurred.
     public func allPersistentTokens() throws -> [PersistentToken] {
         guard let keychainItems = try allKeychainItems() as? [NSDictionary] else {
             throw Error.IncorrectReturnType
@@ -57,7 +60,8 @@ public final class Keychain {
     ///
     /// - parameter token: The token to save to the keychain.
     ///
-    /// - returns: The new persistent token, or `nil` if an error has occured.
+    /// - throws: A `Keychain.Error` if the token was not added successfully.
+    /// - returns: The new persistent token.
     public func addToken(token: Token) throws -> PersistentToken {
         guard let attributes = token.keychainAttributes else {
             throw Error.TokenSerializationFailure
@@ -71,7 +75,8 @@ public final class Keychain {
     /// - parameter persistentToken: The persistent token to update.
     /// - parameter token: The new token value.
     ///
-    /// - returns: The updated persistent token, or `nil` if an error has occured.
+    /// - throws: A `Keychain.Error` if the update did not succeed.
+    /// - returns: The updated persistent token.
     public func updatePersistentToken(persistentToken: PersistentToken,
         withToken token: Token) throws -> PersistentToken
     {
@@ -90,7 +95,7 @@ public final class Keychain {
     ///
     /// - parameter persistentToken: The persistent token to delete.
     ///
-    /// - returns: A boolean indicating whether the token was successfully deleted.
+    /// - throws: A `Keychain.Error` if the deletion did not succeed.
     public func deletePersistentToken(persistentToken: PersistentToken) throws {
         try deleteKeychainItemForPersistentRef(persistentToken.identifier)
     }
