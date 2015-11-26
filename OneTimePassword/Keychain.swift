@@ -48,10 +48,7 @@ public final class Keychain {
     ///
     /// - throws: A `Keychain.Error` if an error occurred.
     public func allPersistentTokens() throws -> [PersistentToken] {
-        guard let keychainItems = try allKeychainItems() as? [NSDictionary] else {
-            throw Error.IncorrectReturnType
-        }
-        return keychainItems.flatMap({ PersistentToken(keychainDictionary: $0) })
+        return try allKeychainItems().flatMap({ PersistentToken(keychainDictionary: $0) })
     }
 
     // MARK: Write
@@ -219,7 +216,7 @@ private func keychainItemForPersistentRef(persistentRef: NSData) throws -> NSDic
     return keychainItem
 }
 
-private func allKeychainItems() throws -> NSArray {
+private func allKeychainItems() throws -> [NSDictionary] {
     let queryDict = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecMatchLimit as String:           kSecMatchLimitAll,
@@ -240,7 +237,7 @@ private func allKeychainItems() throws -> NSArray {
     guard resultCode == errSecSuccess else {
         throw Keychain.Error.SystemError(resultCode)
     }
-    guard let keychainItems = result as? NSArray else {
+    guard let keychainItems = result as? [NSDictionary] else {
         throw Keychain.Error.IncorrectReturnType
     }
     return keychainItems
