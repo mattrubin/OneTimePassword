@@ -58,11 +58,11 @@ public final class Keychain {
     /// - parameter token: The token to save to the keychain.
     ///
     /// - returns: The new persistent token, or `nil` if an error has occured.
-    public func addToken(token: Token) -> PersistentToken? {
-        guard let attributes = token.keychainAttributes,
-            persistentRef = addKeychainItemWithAttributes(attributes) else {
-                return nil
+    public func addToken(token: Token) throws -> PersistentToken {
+        guard let attributes = token.keychainAttributes else {
+            throw Error.TokenSerializationFailure
         }
+        let persistentRef = try addKeychainItemWithAttributes(attributes)
         return PersistentToken(token: token, identifier: persistentRef)
     }
 
@@ -136,9 +136,10 @@ private extension PersistentToken {
     }
 }
 
-private func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? {
+private func addKeychainItemWithAttributes(attributes: NSDictionary) throws -> NSData {
     guard let mutableAttributes = attributes.mutableCopy() as? NSMutableDictionary else {
-        return nil
+        // Not quite the correct error to throw here, but this should truly never fail...
+        throw Keychain.Error.IncorrectReturnType
     }
     mutableAttributes[kSecClass as String] = kSecClassGenericPassword
     mutableAttributes[kSecReturnPersistentRef as String] = kCFBooleanTrue
@@ -153,10 +154,13 @@ private func addKeychainItemWithAttributes(attributes: NSDictionary) -> NSData? 
         SecItemAdd(mutableAttributes, $0)
     }
 
-    guard resultCode == OSStatus(errSecSuccess) else {
-        return nil
+    guard resultCode == errSecSuccess else {
+        throw Keychain.Error.SystemError(resultCode)
     }
-    return result as? NSData
+    guard let persistentRef = result as? NSData else {
+        throw Keychain.Error.IncorrectReturnType
+    }
+    return persistentRef
 }
 
 private func updateKeychainItemForPersistentRef(persistentRef: NSData,

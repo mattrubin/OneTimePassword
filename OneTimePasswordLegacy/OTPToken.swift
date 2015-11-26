@@ -127,11 +127,13 @@ public extension OTPToken {
                 return false
             }
         } else {
-            guard let newKeychainItem = Keychain.sharedInstance.addToken(token) else {
+            do {
+                let newKeychainItem = try Keychain.sharedInstance.addToken(token)
+                self.keychainItem = newKeychainItem
+                return true
+            } catch {
                 return false
             }
-            self.keychainItem = newKeychainItem
-            return true
         }
     }
 

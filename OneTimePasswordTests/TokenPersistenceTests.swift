@@ -50,10 +50,7 @@ class TokenPersistenceTests: XCTestCase {
         XCTAssertEqual(token.generator.secret, NSData(bytes: kValidSecret, length: kValidSecret.count))
 
         // Save the token
-        guard let keychainItem = keychain.addToken(token) else {
-            XCTFail("Failed to save token to keychain")
-            return
-        }
+        let keychainItem = try keychain.addToken(token)
 
         // Restore the token
         guard let secondKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
@@ -109,14 +106,8 @@ class TokenPersistenceTests: XCTestCase {
         }
 
         // Add both tokens to the keychain
-        guard let savedItem1 = keychain.addToken(token1) else {
-            XCTFail("Failed to save to keychain: \(token1)")
-            return
-        }
-        guard let savedItem2 = keychain.addToken(token2) else {
-            XCTFail("Failed to save to keychain: \(token2)")
-            return
-        }
+        let savedItem1 = try keychain.addToken(token1)
+        let savedItem2 = try keychain.addToken(token2)
         XCTAssertEqual(savedItem1.token, token1)
         XCTAssertEqual(savedItem2.token, token2)
 
@@ -197,12 +188,9 @@ class TokenPersistenceTests: XCTestCase {
         let noItems = try keychain.allPersistentTokens()
         XCTAssert(noItems.isEmpty, "Array should be empty: \(noItems)")
 
-        guard let savedItem1 = keychain.addToken(token1),
-            let savedItem2 = keychain.addToken(token2),
-            let savedItem3 = keychain.addToken(token3) else {
-                XCTFail("Failed to save tokens")
-                return
-        }
+        let savedItem1 = try keychain.addToken(token1)
+        let savedItem2 = try keychain.addToken(token2)
+        let savedItem3 = try keychain.addToken(token3)
 
         let allItems = try keychain.allPersistentTokens()
 
