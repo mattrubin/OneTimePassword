@@ -25,7 +25,7 @@ public final class OTPToken: NSObject {
     public var period: NSTimeInterval = OTPToken.defaultPeriod
     public var counter: UInt64 = OTPToken.defaultInitialCounter
 
-    private var keychainItem: Token.KeychainItem?
+    private var keychainItem: PersistentToken?
 
 
     public static var defaultAlgorithm: OTPAlgorithm {
@@ -111,7 +111,7 @@ public extension OTPToken {
 }
 
 public extension OTPToken {
-    var keychainItemRef: NSData? {return self.keychainItem?.persistentRef }
+    var keychainItemRef: NSData? {return self.keychainItem?.identifier }
     var isInKeychain: Bool { return (keychainItemRef != nil) }
 
     func saveToKeychain() -> Bool {
@@ -119,13 +119,14 @@ public extension OTPToken {
             return false
         }
         if let keychainItem = self.keychainItem {
-            guard let newKeychainItem = updateKeychainItem(keychainItem, withToken: token) else {
-                return false
+            guard let newKeychainItem = Keychain.sharedInstance.updatePersistentToken(keychainItem,
+                withToken: token) else {
+                    return false
             }
             self.keychainItem = newKeychainItem
             return true
         } else {
-            guard let newKeychainItem = addTokenToKeychain(token) else {
+            guard let newKeychainItem = Keychain.sharedInstance.addToken(token) else {
                 return false
             }
             self.keychainItem = newKeychainItem
@@ -137,7 +138,7 @@ public extension OTPToken {
         guard let keychainItem = self.keychainItem else {
             return false
         }
-        let success = deleteKeychainItem(keychainItem)
+        let success = Keychain.sharedInstance.deletePersistentToken(keychainItem)
         if success {
             self.keychainItem = nil
         }
@@ -145,29 +146,13 @@ public extension OTPToken {
     }
 
     static func allTokensInKeychain() -> Array<OTPToken> {
-        return Token.KeychainItem.allKeychainItems().map(self.tokenWithKeychainItem)
+        return Keychain.sharedInstance.allPersistentTokens()?.map(self.tokenWithKeychainItem) ?? []
     }
 
-    // This should be private, but is public for testing purposes
-    static func tokenWithKeychainItem(keychainItem: Token.KeychainItem) -> Self {
+    private static func tokenWithKeychainItem(keychainItem: PersistentToken) -> Self {
         let otp = self.init()
         otp.updateWithToken(keychainItem.token)
         otp.keychainItem = keychainItem
         return otp
-    }
-
-    static func tokenWithKeychainItemRef(keychainItemRef: NSData) -> Self? {
-        guard let keychainItem = Token.KeychainItem(keychainItemRef: keychainItemRef) else {
-            return nil
-        }
-        return self.tokenWithKeychainItem(keychainItem)
-    }
-
-    // This should be private, but is public for testing purposes
-    static func tokenWithKeychainDictionary(keychainDictionary: NSDictionary) -> Self? {
-        guard let keychainItem = Token.KeychainItem(keychainDictionary: keychainDictionary) else {
-            return nil
-        }
-        return self.tokenWithKeychainItem(keychainItem)
     }
 }

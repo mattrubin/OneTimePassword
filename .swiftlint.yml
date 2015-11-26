@@ -5,4 +5,4 @@ excluded:
 disabled_rules:
  - function_body_length
  - line_length
- - nesting
+ - opening_brace
