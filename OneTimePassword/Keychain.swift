@@ -25,36 +25,6 @@
 
 import Foundation
 
-private let kOTPService = "me.mattrubin.onetimepassword.token"
-
-private extension Token {
-    private var keychainAttributes: [String: AnyObject]? {
-        guard let url = Token.URLSerializer.serialize(self),
-            let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
-                return nil
-        }
-        return [
-            kSecAttrGeneric as String:  data,
-            kSecValueData as String:    generator.secret,
-            kSecAttrService as String:  kOTPService,
-        ]
-    }
-}
-
-private extension PersistentToken {
-    private init?(keychainDictionary: NSDictionary) {
-        guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? NSData,
-            let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
-            let secret = keychainDictionary[kSecValueData as String] as? NSData,
-            let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
-            let url = NSURL(string: string as String),
-            let token = Token.URLSerializer.deserialize(url, secret: secret) else {
-                return nil
-        }
-        self.init(token: token, identifier: keychainItemRef)
-    }
-}
-
 public final class Keychain {
     public static let sharedInstance = Keychain()
 
@@ -98,6 +68,38 @@ public final class Keychain {
     // and the token should be discarded
     public func deletePersistentToken(persistentToken: PersistentToken) -> Bool {
         return deleteKeychainItemForPersistentRef(persistentToken.identifier)
+    }
+}
+
+// MARK: - Private
+
+private let kOTPService = "me.mattrubin.onetimepassword.token"
+
+private extension Token {
+    private var keychainAttributes: [String: AnyObject]? {
+        guard let url = Token.URLSerializer.serialize(self),
+            let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
+                return nil
+        }
+        return [
+            kSecAttrGeneric as String:  data,
+            kSecValueData as String:    generator.secret,
+            kSecAttrService as String:  kOTPService,
+        ]
+    }
+}
+
+private extension PersistentToken {
+    private init?(keychainDictionary: NSDictionary) {
+        guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? NSData,
+            let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
+            let secret = keychainDictionary[kSecValueData as String] as? NSData,
+            let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
+            let url = NSURL(string: string as String),
+            let token = Token.URLSerializer.deserialize(url, secret: secret) else {
+                return nil
+        }
+        self.init(token: token, identifier: keychainItemRef)
     }
 }
 
