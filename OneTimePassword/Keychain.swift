@@ -134,11 +134,8 @@ private extension PersistentToken {
     }
 }
 
-private func addKeychainItemWithAttributes(attributes: NSDictionary) throws -> NSData {
-    guard let mutableAttributes = attributes.mutableCopy() as? NSMutableDictionary else {
-        // Not quite the correct error to throw here, but this should truly never fail...
-        throw Keychain.Error.IncorrectReturnType
-    }
+private func addKeychainItemWithAttributes(attributes: [String: AnyObject]) throws -> NSData {
+    var mutableAttributes = attributes
     mutableAttributes[kSecClass as String] = kSecClassGenericPassword
     mutableAttributes[kSecReturnPersistentRef as String] = kCFBooleanTrue
     // Set a random string for the account name.
@@ -162,7 +159,7 @@ private func addKeychainItemWithAttributes(attributes: NSDictionary) throws -> N
 }
 
 private func updateKeychainItemForPersistentRef(persistentRef: NSData,
-    withAttributes attributesToUpdate: NSDictionary) throws
+    withAttributes attributesToUpdate: [String: AnyObject]) throws
 {
     let queryDict = [
         kSecClass as String:               kSecClassGenericPassword,
