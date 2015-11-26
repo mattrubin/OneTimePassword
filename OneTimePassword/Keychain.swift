@@ -39,7 +39,7 @@ public final class Keychain {
     ///
     /// - returns: The persistent token, or `nil` if no token matched the given identifier.
     public func persistentTokenWithIdentifier(identifier: NSData) -> PersistentToken? {
-        guard let result = keychainItemForPersistentRef(identifier) else {
+        guard let result = try? keychainItemForPersistentRef(identifier) else {
             return nil
         }
         return PersistentToken(keychainDictionary: result)
@@ -185,7 +185,7 @@ private func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
     return (resultCode == OSStatus(errSecSuccess))
 }
 
-private func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary? {
+private func keychainItemForPersistentRef(persistentRef: NSData) throws -> NSDictionary {
     let queryDict = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecValuePersistentRef as String:   persistentRef,
@@ -199,10 +199,13 @@ private func keychainItemForPersistentRef(persistentRef: NSData) -> NSDictionary
         SecItemCopyMatching(queryDict, $0)
     }
 
-    guard resultCode == OSStatus(errSecSuccess) else {
-        return nil
+    guard resultCode == errSecSuccess else {
+        throw Keychain.Error.SystemError(resultCode)
     }
-    return result as? NSDictionary
+    guard let keychainItem = result as? NSDictionary else {
+        throw Keychain.Error.IncorrectReturnType
+    }
+    return keychainItem
 }
 
 private func allKeychainItems() throws -> NSArray {
