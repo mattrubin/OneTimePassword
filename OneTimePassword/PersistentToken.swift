@@ -25,16 +25,23 @@
 
 import Foundation
 
+/// A `PersistentToken` represents a `Token` stored in the `Keychain`. The keychain assigns each
+/// saved `token` a unique `identifier` which can be used to recover the token from the keychain at
+/// a later time.
 public struct PersistentToken: Equatable {
+    /// A `Token` stored in the keychain.
     public let token: Token
+    /// The keychain's persistent identifier for the saved token.
     public let identifier: NSData
 
+    /// Initializes a new `PersistentToken` with the given properties.
     internal init(token: Token, identifier: NSData) {
         self.token = token
         self.identifier = identifier
     }
 }
 
+/// Compares two `PersistentToken`s for equality.
 public func == (lhs: PersistentToken, rhs: PersistentToken) -> Bool {
     return lhs.identifier.isEqualToData(rhs.identifier)
         && (lhs.token == rhs.token)
