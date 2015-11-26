@@ -185,7 +185,7 @@ private func deleteKeychainItemForPersistentRef(persistentRef: NSData) -> Bool {
     return (resultCode == OSStatus(errSecSuccess))
 }
 
-private func keychainItemForPersistentRef(persistentRef: NSData) throws -> NSDictionary {
+private func keychainItemForPersistentRef(persistentRef: NSData) throws -> NSDictionary? {
     let queryDict = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecValuePersistentRef as String:   persistentRef,
@@ -199,6 +199,10 @@ private func keychainItemForPersistentRef(persistentRef: NSData) throws -> NSDic
         SecItemCopyMatching(queryDict, $0)
     }
 
+    if resultCode == errSecItemNotFound {
+        // Not finding any keychain items is not an error in this case. Return nil.
+        return nil
+    }
     guard resultCode == errSecSuccess else {
         throw Keychain.Error.SystemError(resultCode)
     }
