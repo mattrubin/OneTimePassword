@@ -63,9 +63,7 @@ public final class Keychain {
     /// - throws: A `Keychain.Error` if the token was not added successfully.
     /// - returns: The new persistent token.
     public func addToken(token: Token) throws -> PersistentToken {
-        guard let attributes = token.keychainAttributes else {
-            throw Error.TokenSerializationFailure
-        }
+        let attributes = try token.keychainAttributes()
         let persistentRef = try addKeychainItemWithAttributes(attributes)
         return PersistentToken(token: token, identifier: persistentRef)
     }
@@ -80,9 +78,7 @@ public final class Keychain {
     public func updatePersistentToken(persistentToken: PersistentToken,
         withToken token: Token) throws -> PersistentToken
     {
-        guard let attributes = token.keychainAttributes else {
-            throw Error.TokenSerializationFailure
-        }
+        let attributes = try token.keychainAttributes()
         try updateKeychainItemForPersistentRef(persistentToken.identifier,
             withAttributes: attributes)
         return PersistentToken(token: token, identifier: persistentToken.identifier)
@@ -114,10 +110,10 @@ public final class Keychain {
 private let kOTPService = "me.mattrubin.onetimepassword.token"
 
 private extension Token {
-    private var keychainAttributes: [String: AnyObject]? {
+    private func keychainAttributes() throws -> [String: AnyObject] {
         guard let url = Token.URLSerializer.serialize(self),
             let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
-                return nil
+                throw Keychain.Error.TokenSerializationFailure
         }
         return [
             kSecAttrGeneric as String:  data,
