@@ -146,7 +146,11 @@ public extension OTPToken {
     }
 
     static func allTokensInKeychain() -> Array<OTPToken> {
-        return Keychain.sharedInstance.allPersistentTokens()?.map(self.tokenWithKeychainItem) ?? []
+        do {
+            return try Keychain.sharedInstance.allPersistentTokens().map(self.tokenWithKeychainItem)
+        } catch {
+            return []
+        }
     }
 
     private static func tokenWithKeychainItem(keychainItem: PersistentToken) -> Self {

@@ -38,17 +38,15 @@ public final class Keychain {
     /// - parameter token: The persistent identifier for the desired token.
     ///
     /// - returns: The persistent token, or `nil` if no token matched the given identifier.
-    public func persistentTokenWithIdentifier(identifier: NSData) -> PersistentToken? {
-        guard let result = try? keychainItemForPersistentRef(identifier) else {
-            return nil
-        }
-        return PersistentToken(keychainDictionary: result)
+    public func persistentTokenWithIdentifier(identifier: NSData) throws -> PersistentToken? {
+        return try keychainItemForPersistentRef(identifier)
+            .flatMap({ PersistentToken(keychainDictionary: $0) })
     }
 
     /// Returns an array of all persistent tokens found in the keychain.
-    public func allPersistentTokens() -> [PersistentToken]? {
-        guard let keychainItems = (try? allKeychainItems()) as? [NSDictionary] else {
-            return nil
+    public func allPersistentTokens() throws -> [PersistentToken] {
+        guard let keychainItems = try allKeychainItems() as? [NSDictionary] else {
+            throw Keychain.Error.IncorrectReturnType
         }
         return keychainItems.flatMap({ PersistentToken(keychainDictionary: $0) })
     }

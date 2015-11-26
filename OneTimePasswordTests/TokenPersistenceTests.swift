@@ -35,6 +35,7 @@ class TokenPersistenceTests: XCTestCase {
     let keychain = Keychain.sharedInstance
 
     func testTokenWithKeychainItemRef() {
+    do {
         // Create a token
         guard let token = Token.URLSerializer.deserialize(kValidTokenURL) else {
             XCTFail("Failed to construct token from url")
@@ -55,7 +56,7 @@ class TokenPersistenceTests: XCTestCase {
         }
 
         // Restore the token
-        guard let secondKeychainItem = keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
+        guard let secondKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
             XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
             return
         }
@@ -74,7 +75,7 @@ class TokenPersistenceTests: XCTestCase {
         XCTAssertEqual(modifiedKeychainItem.token, modifiedToken)
 
         // Fetch the token again
-        guard let thirdKeychainItem = keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
+        guard let thirdKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
             XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
             return
         }
@@ -86,11 +87,16 @@ class TokenPersistenceTests: XCTestCase {
         XCTAssertTrue(success)
 
         // Attempt to restore the deleted token
-        let fourthKeychainItem = keychain.persistentTokenWithIdentifier(keychainItem.identifier)
+        let fourthKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier)
         XCTAssertNil(fourthKeychainItem)
+    } catch {
+        XCTFail("Error thrown from keychain: \(error)")
+        return
+    }
     }
 
     func testDuplicateURLs() {
+    do {
         guard let token1 = Token.URLSerializer.deserialize(kValidTokenURL),
             let token2 = Token.URLSerializer.deserialize(kValidTokenURL) else {
                 XCTFail("Failed to construct tokens from url.")
@@ -110,11 +116,11 @@ class TokenPersistenceTests: XCTestCase {
         XCTAssertEqual(savedItem2.token, token2)
 
         // Fetch both tokens from the keychain
-        guard let fetchedItem1 = keychain.persistentTokenWithIdentifier(savedItem1.identifier) else {
+        guard let fetchedItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier) else {
             XCTFail("Token should be in keychain: \(token1)")
             return
         }
-        guard let fetchedItem2 = keychain.persistentTokenWithIdentifier(savedItem2.identifier) else {
+        guard let fetchedItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier) else {
             XCTFail("Token should be in keychain: \(token2)")
             return
         }
@@ -125,18 +131,18 @@ class TokenPersistenceTests: XCTestCase {
         let delete1success = keychain.deletePersistentToken(savedItem1)
         XCTAssertTrue(delete1success, "Failed to remove from keychain: \(token1)")
 
-        let checkItem1 = keychain.persistentTokenWithIdentifier(savedItem1.identifier)
+        let checkItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
         XCTAssertNil(checkItem1, "Token should not be in keychain: \(token1)")
-        let checkItem2 = keychain.persistentTokenWithIdentifier(savedItem2.identifier)
+        let checkItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
         XCTAssertNotNil(checkItem2, "Token should be in keychain: \(token2)")
 
         // Remove the second token from the keychain
         let delete2success = keychain.deletePersistentToken(savedItem2)
         XCTAssertTrue(delete2success, "Failed to remove from keychain: \(token2)")
 
-        let recheckItem1 = keychain.persistentTokenWithIdentifier(savedItem1.identifier)
+        let recheckItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
         XCTAssertNil(recheckItem1, "Token should not be in keychain: \(token1)")
-        let recheckItem2 = keychain.persistentTokenWithIdentifier(savedItem2.identifier)
+        let recheckItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
         XCTAssertNil(recheckItem2, "Token should not be in keychain: \(token2)")
 
         // Try to remove both tokens from the keychain again
@@ -144,6 +150,10 @@ class TokenPersistenceTests: XCTestCase {
         XCTAssertFalse(redelete1success, "Removing again should fail: \(token1)")
         let redelete2success = keychain.deletePersistentToken(savedItem2)
         XCTAssertFalse(redelete2success, "Removing again should fail: \(token2)")
+    } catch {
+        XCTFail("Error thrown from keychain: \(error)")
+        return
+    }
     }
 
     func itemFromArray(items: [PersistentToken], withPersistentRef persistentRef: NSData) -> PersistentToken? {
@@ -154,6 +164,7 @@ class TokenPersistenceTests: XCTestCase {
     }
 
     func testAllTokensInKeychain() {
+    do {
         guard let token1 = Token.URLSerializer.deserialize(kValidTokenURL),
             let token2 = Token.URLSerializer.deserialize(kValidTokenURL),
             let token3 = Token.URLSerializer.deserialize(kValidTokenURL) else {
@@ -161,11 +172,8 @@ class TokenPersistenceTests: XCTestCase {
                 return
         }
 
-        guard let noItems = keychain.allPersistentTokens() else {
-            XCTFail("Failed to recover tokens from keychain")
-            return
-        }
-        XCTAssert(noItems.isEmpty)
+        let noItems = try keychain.allPersistentTokens()
+        XCTAssert(noItems.isEmpty, "Array should be empty: \(noItems)")
 
         guard let savedItem1 = keychain.addToken(token1),
             let savedItem2 = keychain.addToken(token2),
@@ -174,10 +182,7 @@ class TokenPersistenceTests: XCTestCase {
                 return
         }
 
-        guard let allItems = keychain.allPersistentTokens() else {
-            XCTFail("Failed to recover tokens from keychain")
-            return
-        }
+        let allItems = try keychain.allPersistentTokens()
 
         XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem1.identifier),
             "Token not recovered from keychain: \(token1)")
@@ -193,10 +198,7 @@ class TokenPersistenceTests: XCTestCase {
                 return
         }
 
-        guard let itemsRemaining = keychain.allPersistentTokens() else {
-            XCTFail("Failed to recover tokens from keychain")
-            return
-        }
+        let itemsRemaining = try keychain.allPersistentTokens()
 
         XCTAssertNil(itemFromArray(itemsRemaining, withPersistentRef: savedItem1.identifier),
             "Token not removed from keychain: \(token1)")
@@ -204,5 +206,9 @@ class TokenPersistenceTests: XCTestCase {
             "Token not removed from keychain: \(token2)")
         XCTAssertNil(itemFromArray(itemsRemaining, withPersistentRef: savedItem3.identifier),
             "Token not removed from keychain: \(token3)")
+    } catch {
+        XCTFail("Error thrown from keychain: \(error)")
+        return
+    }
     }
 }
