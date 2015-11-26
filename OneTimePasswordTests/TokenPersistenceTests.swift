@@ -35,7 +35,6 @@ class TokenPersistenceTests: XCTestCase {
     let keychain = Keychain.sharedInstance
 
     func testTokenWithKeychainItemRef() {
-    do {
         // Create a token
         guard let token = Token.URLSerializer.deserialize(kValidTokenURL) else {
             XCTFail("Failed to construct token from url")
@@ -50,15 +49,23 @@ class TokenPersistenceTests: XCTestCase {
         XCTAssertEqual(token.generator.secret, NSData(bytes: kValidSecret, length: kValidSecret.count))
 
         // Save the token
-        let keychainItem = try keychain.addToken(token)
-
-        // Restore the token
-        guard let secondKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
-            XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
+        guard let keychainItem = try? keychain.addToken(token) else {
+            XCTFail("Failed to save token to keychain")
             return
         }
-        XCTAssertEqual(secondKeychainItem.token, keychainItem.token)
-        XCTAssertEqual(secondKeychainItem.identifier, keychainItem.identifier)
+
+        // Restore the token
+        do {
+            guard let secondKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
+                XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
+                return
+            }
+            XCTAssertEqual(secondKeychainItem.token, keychainItem.token)
+            XCTAssertEqual(secondKeychainItem.identifier, keychainItem.identifier)
+        } catch {
+            XCTFail("Error thrown from keychain: \(error)")
+            return
+        }
 
         // Modify the token
         let modifiedToken = Token(name: "???", issuer: "!", generator: token.generator.successor())
@@ -74,12 +81,17 @@ class TokenPersistenceTests: XCTestCase {
         }
 
         // Fetch the token again
-        guard let thirdKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
-            XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
+        do {
+            guard let thirdKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
+                XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
+                return
+            }
+            XCTAssertEqual(thirdKeychainItem.token, modifiedToken)
+            XCTAssertEqual(thirdKeychainItem.identifier, keychainItem.identifier)
+        } catch {
+            XCTFail("Error thrown from keychain: \(error)")
             return
         }
-        XCTAssertEqual(thirdKeychainItem.token, modifiedToken)
-        XCTAssertEqual(thirdKeychainItem.identifier, keychainItem.identifier)
 
         // Remove the token
         do {
@@ -89,12 +101,13 @@ class TokenPersistenceTests: XCTestCase {
         }
 
         // Attempt to restore the deleted token
-        let fourthKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier)
-        XCTAssertNil(fourthKeychainItem)
-    } catch {
-        XCTFail("Error thrown from keychain: \(error)")
-        return
-    }
+        do {
+            let fourthKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier)
+            XCTAssertNil(fourthKeychainItem)
+        } catch {
+            XCTFail("Error thrown from keychain: \(error)")
+            return
+        }
     }
 
     func testDuplicateURLs() {
