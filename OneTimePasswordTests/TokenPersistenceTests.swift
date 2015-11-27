@@ -49,45 +49,66 @@ class TokenPersistenceTests: XCTestCase {
         XCTAssertEqual(token.generator.secret, NSData(bytes: kValidSecret, length: kValidSecret.count))
 
         // Save the token
-        guard let keychainItem = keychain.addToken(token) else {
+        guard let keychainItem = try? keychain.addToken(token) else {
             XCTFail("Failed to save token to keychain")
             return
         }
 
         // Restore the token
-        guard let secondKeychainItem = keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
-            XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
+        do {
+            guard let secondKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
+                XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
+                return
+            }
+            XCTAssertEqual(secondKeychainItem.token, keychainItem.token)
+            XCTAssertEqual(secondKeychainItem.identifier, keychainItem.identifier)
+        } catch {
+            XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
             return
         }
-        XCTAssertEqual(secondKeychainItem.token, keychainItem.token)
-        XCTAssertEqual(secondKeychainItem.identifier, keychainItem.identifier)
 
         // Modify the token
         let modifiedToken = Token(name: "???", issuer: "!", generator: token.generator.successor())
 
-        guard let modifiedKeychainItem = keychain.updatePersistentToken(keychainItem,
-            withToken: modifiedToken) else {
-                XCTFail("Failed to update keychain with modified token")
-                return
-        }
-        XCTAssertEqual(modifiedKeychainItem.identifier, keychainItem.identifier)
-        XCTAssertEqual(modifiedKeychainItem.token, modifiedToken)
-
-        // Fetch the token again
-        guard let thirdKeychainItem = keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
-            XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
+        do {
+            let modifiedKeychainItem = try keychain.updatePersistentToken(keychainItem,
+                withToken: modifiedToken)
+            XCTAssertEqual(modifiedKeychainItem.identifier, keychainItem.identifier)
+            XCTAssertEqual(modifiedKeychainItem.token, modifiedToken)
+        } catch {
+            XCTFail("updatePersistentToken(_:withToken:) failed with error: \(error)")
             return
         }
-        XCTAssertEqual(thirdKeychainItem.token, modifiedToken)
-        XCTAssertEqual(thirdKeychainItem.identifier, keychainItem.identifier)
+
+        // Fetch the token again
+        do {
+            guard let thirdKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier) else {
+                XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
+                return
+            }
+            XCTAssertEqual(thirdKeychainItem.token, modifiedToken)
+            XCTAssertEqual(thirdKeychainItem.identifier, keychainItem.identifier)
+        } catch {
+            XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
+            return
+        }
 
         // Remove the token
-        let success = keychain.deletePersistentToken(keychainItem)
-        XCTAssertTrue(success)
+        do {
+            try keychain.deletePersistentToken(keychainItem)
+        } catch {
+            XCTFail("deletePersistentToken(_:) failed with error: \(error)")
+            return
+        }
 
         // Attempt to restore the deleted token
-        let fourthKeychainItem = keychain.persistentTokenWithIdentifier(keychainItem.identifier)
-        XCTAssertNil(fourthKeychainItem)
+        do {
+            let fourthKeychainItem = try keychain.persistentTokenWithIdentifier(keychainItem.identifier)
+            XCTAssertNil(fourthKeychainItem)
+        } catch {
+            XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
+            return
+        }
     }
 
     func testDuplicateURLs() {
@@ -98,11 +119,11 @@ class TokenPersistenceTests: XCTestCase {
         }
 
         // Add both tokens to the keychain
-        guard let savedItem1 = keychain.addToken(token1) else {
+        guard let savedItem1 = try? keychain.addToken(token1) else {
             XCTFail("Failed to save to keychain: \(token1)")
             return
         }
-        guard let savedItem2 = keychain.addToken(token2) else {
+        guard let savedItem2 = try? keychain.addToken(token2) else {
             XCTFail("Failed to save to keychain: \(token2)")
             return
         }
@@ -110,40 +131,75 @@ class TokenPersistenceTests: XCTestCase {
         XCTAssertEqual(savedItem2.token, token2)
 
         // Fetch both tokens from the keychain
-        guard let fetchedItem1 = keychain.persistentTokenWithIdentifier(savedItem1.identifier) else {
-            XCTFail("Token should be in keychain: \(token1)")
+        do {
+            guard let fetchedItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier) else {
+                XCTFail("Token should be in keychain: \(token1)")
+                return
+            }
+            guard let fetchedItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier) else {
+                XCTFail("Token should be in keychain: \(token2)")
+                return
+            }
+            XCTAssertEqual(savedItem1, fetchedItem1)
+            XCTAssertEqual(savedItem2, fetchedItem2)
+        } catch {
+            XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
             return
         }
-        guard let fetchedItem2 = keychain.persistentTokenWithIdentifier(savedItem2.identifier) else {
-            XCTFail("Token should be in keychain: \(token2)")
-            return
-        }
-        XCTAssertEqual(savedItem1, fetchedItem1)
-        XCTAssertEqual(savedItem2, fetchedItem2)
 
         // Remove the first token from the keychain
-        let delete1success = keychain.deletePersistentToken(savedItem1)
-        XCTAssertTrue(delete1success, "Failed to remove from keychain: \(token1)")
+        do {
+            try keychain.deletePersistentToken(savedItem1)
+        } catch {
+            XCTFail("deletePersistentToken(_:) failed with error: \(error)")
+            return
+        }
 
-        let checkItem1 = keychain.persistentTokenWithIdentifier(savedItem1.identifier)
-        XCTAssertNil(checkItem1, "Token should not be in keychain: \(token1)")
-        let checkItem2 = keychain.persistentTokenWithIdentifier(savedItem2.identifier)
-        XCTAssertNotNil(checkItem2, "Token should be in keychain: \(token2)")
+        do {
+            let checkItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
+            XCTAssertNil(checkItem1, "Token should not be in keychain: \(token1)")
+            let checkItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
+            XCTAssertNotNil(checkItem2, "Token should be in keychain: \(token2)")
+        } catch {
+            XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
+            return
+        }
 
         // Remove the second token from the keychain
-        let delete2success = keychain.deletePersistentToken(savedItem2)
-        XCTAssertTrue(delete2success, "Failed to remove from keychain: \(token2)")
+        do {
+            try keychain.deletePersistentToken(savedItem2)
+        } catch {
+            XCTFail("deletePersistentToken(_:) failed with error: \(error)")
+            return
+        }
 
-        let recheckItem1 = keychain.persistentTokenWithIdentifier(savedItem1.identifier)
-        XCTAssertNil(recheckItem1, "Token should not be in keychain: \(token1)")
-        let recheckItem2 = keychain.persistentTokenWithIdentifier(savedItem2.identifier)
-        XCTAssertNil(recheckItem2, "Token should not be in keychain: \(token2)")
+        do {
+            let recheckItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
+            XCTAssertNil(recheckItem1, "Token should not be in keychain: \(token1)")
+            let recheckItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
+            XCTAssertNil(recheckItem2, "Token should not be in keychain: \(token2)")
+        } catch {
+            XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
+            return
+        }
 
         // Try to remove both tokens from the keychain again
-        let redelete1success = keychain.deletePersistentToken(savedItem1)
-        XCTAssertFalse(redelete1success, "Removing again should fail: \(token1)")
-        let redelete2success = keychain.deletePersistentToken(savedItem2)
-        XCTAssertFalse(redelete2success, "Removing again should fail: \(token2)")
+        do {
+            try keychain.deletePersistentToken(savedItem1)
+            // The deletion should throw and this line should never be reached.
+            XCTFail("Removing again should fail: \(token1)")
+        } catch {
+            // This is the expected outcome
+            // TODO: Assert the expected error type
+        }
+        do {
+            try keychain.deletePersistentToken(savedItem2)
+            // The deletion should throw and this line should never be reached.
+            XCTFail("Removing again should fail: \(token2)")
+        } catch {
+            // This is the expected outcome
+            // TODO: Assert the expected error type
+        }
     }
 
     func itemFromArray(items: [PersistentToken], withPersistentRef persistentRef: NSData) -> PersistentToken? {
@@ -161,48 +217,49 @@ class TokenPersistenceTests: XCTestCase {
                 return
         }
 
-        guard let noItems = keychain.allPersistentTokens() else {
-            XCTFail("Failed to recover tokens from keychain")
+        do {
+            let noItems = try keychain.allPersistentTokens()
+            XCTAssert(noItems.isEmpty, "Array should be empty: \(noItems)")
+        } catch {
+            XCTFail("allPersistentTokens() failed with error: \(error)")
             return
         }
-        XCTAssert(noItems.isEmpty)
 
-        guard let savedItem1 = keychain.addToken(token1),
-            let savedItem2 = keychain.addToken(token2),
-            let savedItem3 = keychain.addToken(token3) else {
+        guard let savedItem1 = try? keychain.addToken(token1),
+            let savedItem2 = try? keychain.addToken(token2),
+            let savedItem3 = try? keychain.addToken(token3) else {
                 XCTFail("Failed to save tokens")
                 return
         }
 
-        guard let allItems = keychain.allPersistentTokens() else {
-            XCTFail("Failed to recover tokens from keychain")
+        do {
+            let allItems = try keychain.allPersistentTokens()
+            XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem1.identifier),
+                "Token not recovered from keychain: \(token1)")
+            XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem2.identifier),
+                "Token not recovered from keychain: \(token2)")
+            XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem3.identifier),
+                "Token not recovered from keychain: \(token3)")
+        } catch {
+            XCTFail("allPersistentTokens() failed with error: \(error)")
             return
         }
 
-        XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem1.identifier),
-            "Token not recovered from keychain: \(token1)")
-        XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem2.identifier),
-            "Token not recovered from keychain: \(token2)")
-        XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem3.identifier),
-            "Token not recovered from keychain: \(token3)")
-
-        guard keychain.deletePersistentToken(savedItem1) &&
-            keychain.deletePersistentToken(savedItem2) &&
-            keychain.deletePersistentToken(savedItem3) else {
-                XCTFail("Failed to delete tokens")
-                return
-        }
-
-        guard let itemsRemaining = keychain.allPersistentTokens() else {
-            XCTFail("Failed to recover tokens from keychain")
+        do {
+            try keychain.deletePersistentToken(savedItem1)
+            try keychain.deletePersistentToken(savedItem2)
+            try keychain.deletePersistentToken(savedItem3)
+        } catch {
+            XCTFail("deletePersistentToken(_:) failed with error: \(error)")
             return
         }
 
-        XCTAssertNil(itemFromArray(itemsRemaining, withPersistentRef: savedItem1.identifier),
-            "Token not removed from keychain: \(token1)")
-        XCTAssertNil(itemFromArray(itemsRemaining, withPersistentRef: savedItem2.identifier),
-            "Token not removed from keychain: \(token2)")
-        XCTAssertNil(itemFromArray(itemsRemaining, withPersistentRef: savedItem3.identifier),
-            "Token not removed from keychain: \(token3)")
+        do {
+            let itemsRemaining = try keychain.allPersistentTokens()
+            XCTAssert(itemsRemaining.isEmpty, "Array should be empty: \(itemsRemaining)")
+        } catch {
+            XCTFail("allPersistentTokens() failed with error: \(error)")
+            return
+        }
     }
 }

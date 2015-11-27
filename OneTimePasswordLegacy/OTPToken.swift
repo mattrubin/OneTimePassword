@@ -119,18 +119,22 @@ public extension OTPToken {
             return false
         }
         if let keychainItem = self.keychainItem {
-            guard let newKeychainItem = Keychain.sharedInstance.updatePersistentToken(keychainItem,
-                withToken: token) else {
-                    return false
-            }
-            self.keychainItem = newKeychainItem
-            return true
-        } else {
-            guard let newKeychainItem = Keychain.sharedInstance.addToken(token) else {
+            do {
+                let newKeychainItem = try Keychain.sharedInstance
+                    .updatePersistentToken(keychainItem, withToken: token)
+                self.keychainItem = newKeychainItem
+                return true
+            } catch {
                 return false
             }
-            self.keychainItem = newKeychainItem
-            return true
+        } else {
+            do {
+                let newKeychainItem = try Keychain.sharedInstance.addToken(token)
+                self.keychainItem = newKeychainItem
+                return true
+            } catch {
+                return false
+            }
         }
     }
 
@@ -138,15 +142,21 @@ public extension OTPToken {
         guard let keychainItem = self.keychainItem else {
             return false
         }
-        let success = Keychain.sharedInstance.deletePersistentToken(keychainItem)
-        if success {
+        do {
+            try Keychain.sharedInstance.deletePersistentToken(keychainItem)
             self.keychainItem = nil
+            return true
+        } catch {
+            return false
         }
-        return success
     }
 
     static func allTokensInKeychain() -> Array<OTPToken> {
-        return Keychain.sharedInstance.allPersistentTokens()?.map(self.tokenWithKeychainItem) ?? []
+        do {
+            return try Keychain.sharedInstance.allPersistentTokens().map(self.tokenWithKeychainItem)
+        } catch {
+            return []
+        }
     }
 
     private static func tokenWithKeychainItem(keychainItem: PersistentToken) -> Self {
