@@ -46,8 +46,8 @@ public final class Keychain {
     /// Returns an array of all persistent tokens found in the keychain.
     ///
     /// - throws: A `Keychain.Error` if an error occurred.
-    public func allPersistentTokens() throws -> [PersistentToken] {
-        return try allKeychainItems().flatMap(PersistentToken.init)
+    public func allPersistentTokens() throws -> Set<PersistentToken> {
+        return Set(try allKeychainItems().flatMap(PersistentToken.init))
     }
 
     // MARK: Write
