@@ -120,7 +120,8 @@ public extension OTPToken {
         }
         if let keychainItem = self.keychainItem {
             do {
-                let newKeychainItem = try Keychain.sharedInstance.updatePersistentToken(keychainItem, withToken: token)
+                let newKeychainItem = try Keychain.sharedInstance
+                    .updatePersistentToken(keychainItem, withToken: token)
                 self.keychainItem = newKeychainItem
                 return true
             } catch {
