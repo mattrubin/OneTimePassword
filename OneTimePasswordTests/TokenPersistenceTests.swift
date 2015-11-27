@@ -202,13 +202,6 @@ class TokenPersistenceTests: XCTestCase {
         }
     }
 
-    func itemFromArray(items: [PersistentToken], withPersistentRef persistentRef: NSData) -> PersistentToken? {
-        let matchingItems = items.filter({ $0.identifier == persistentRef })
-        XCTAssert((matchingItems.count <= 1),
-            "Found more than one matching token: \(matchingItems)")
-        return matchingItems.first
-    }
-
     func testAllTokensInKeychain() {
         guard let token1 = Token.URLSerializer.deserialize(kValidTokenURL),
             let token2 = Token.URLSerializer.deserialize(kValidTokenURL),
@@ -219,7 +212,7 @@ class TokenPersistenceTests: XCTestCase {
 
         do {
             let noItems = try keychain.allPersistentTokens()
-            XCTAssert(noItems.isEmpty, "Array should be empty: \(noItems)")
+            XCTAssert(noItems.isEmpty, "Expected no tokens in keychain: \(noItems)")
         } catch {
             XCTFail("allPersistentTokens() failed with error: \(error)")
             return
@@ -234,12 +227,8 @@ class TokenPersistenceTests: XCTestCase {
 
         do {
             let allItems = try keychain.allPersistentTokens()
-            XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem1.identifier),
-                "Token not recovered from keychain: \(token1)")
-            XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem2.identifier),
-                "Token not recovered from keychain: \(token2)")
-            XCTAssertNotNil(itemFromArray(allItems, withPersistentRef: savedItem3.identifier),
-                "Token not recovered from keychain: \(token3)")
+            XCTAssertEqual(allItems, [savedItem1, savedItem2, savedItem3],
+                "Tokens not correctly recovered from keychain")
         } catch {
             XCTFail("allPersistentTokens() failed with error: \(error)")
             return
@@ -256,7 +245,7 @@ class TokenPersistenceTests: XCTestCase {
 
         do {
             let itemsRemaining = try keychain.allPersistentTokens()
-            XCTAssert(itemsRemaining.isEmpty, "Array should be empty: \(itemsRemaining)")
+            XCTAssert(itemsRemaining.isEmpty, "Expected no tokens in keychain: \(itemsRemaining)")
         } catch {
             XCTFail("allPersistentTokens() failed with error: \(error)")
             return
