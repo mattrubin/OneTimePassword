@@ -251,12 +251,7 @@ class TokenPersistenceTests: XCTestCase {
 
         do {
             let itemsRemaining = try keychain.allPersistentTokens()
-            XCTAssertNil(itemFromArray(itemsRemaining, withPersistentRef: savedItem1.identifier),
-                "Token not removed from keychain: \(token1)")
-            XCTAssertNil(itemFromArray(itemsRemaining, withPersistentRef: savedItem2.identifier),
-                "Token not removed from keychain: \(token2)")
-            XCTAssertNil(itemFromArray(itemsRemaining, withPersistentRef: savedItem3.identifier),
-                "Token not removed from keychain: \(token3)")
+            XCTAssert(itemsRemaining.isEmpty, "Array should be empty: \(itemsRemaining)")
         } catch {
             XCTFail("Error thrown from keychain: \(error)")
             return
