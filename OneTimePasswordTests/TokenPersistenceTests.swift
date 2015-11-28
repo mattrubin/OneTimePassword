@@ -57,7 +57,11 @@ class TokenPersistenceTests: XCTestCase {
             }
 
             // Modify the token
-            let modifiedToken = Token(name: "???", issuer: "!", generator: token.generator.successor())
+            let modifiedToken = Token(
+                name: "New Name",
+                issuer: "New Issuer",
+                generator: token.generator.successor()
+            )
             do {
                 let modifiedKeychainItem = try keychain.updatePersistentToken(savedToken,
                     withToken: modifiedToken)
