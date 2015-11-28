@@ -26,18 +26,23 @@
 import XCTest
 import OneTimePassword
 
-let kValidSecret: [UInt8] = [ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-    0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f ]
-
-let kValidTokenURL = NSURL(string: "otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4")!
-let kToken = Token.URLSerializer.deserialize(kValidTokenURL)!
+let testToken = Token(
+    name: "Name",
+    issuer: "Issuer",
+    generator: Generator(
+        factor: .Timer(period: 45),
+        secret: NSData(base32String: "AAAQEAYEAUDAOCAJBIFQYDIOB4"),
+        algorithm: .SHA256,
+        digits: 8
+    )!
+)
 
 class TokenPersistenceTests: XCTestCase {
     let keychain = Keychain.sharedInstance
 
     func testPersistentTokenWithIdentifier() {
         // Create a token
-        let token = kToken
+        let token = testToken
 
         do {
             // Save the token
@@ -91,7 +96,7 @@ class TokenPersistenceTests: XCTestCase {
     }
 
     func testDuplicateTokens() {
-        let token1 = kToken, token2 = kToken
+        let token1 = testToken, token2 = testToken
 
         do {
             // Add both tokens to the keychain
@@ -163,7 +168,7 @@ class TokenPersistenceTests: XCTestCase {
     }
 
     func testAllPersistentTokens() {
-        let token1 = kToken, token2 = kToken, token3 = kToken
+        let token1 = testToken, token2 = testToken, token3 = testToken
 
         do {
             let noTokens = try keychain.allPersistentTokens()
