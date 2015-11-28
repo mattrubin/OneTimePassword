@@ -45,11 +45,8 @@ class TokenPersistenceTests: XCTestCase {
 
             // Restore the token
             do {
-                guard let secondKeychainItem = try keychain.persistentTokenWithIdentifier(savedToken.identifier) else {
-                    XCTFail("Failed to recover persistent token with identifier: \(savedToken.identifier)")
-                    return
-                }
-                XCTAssertEqual(secondKeychainItem, savedToken)
+                let fetchedToken = try keychain.persistentTokenWithIdentifier(savedToken.identifier)
+                XCTAssertEqual(fetchedToken, savedToken, "Token should have been saved to keychain")
             } catch {
                 XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
                 return
@@ -69,12 +66,9 @@ class TokenPersistenceTests: XCTestCase {
 
             // Fetch the token again
             do {
-                guard let thirdKeychainItem = try keychain.persistentTokenWithIdentifier(savedToken.identifier) else {
-                    XCTFail("Failed to recover persistent token with identifier: \(savedToken.identifier)")
-                    return
-                }
-                XCTAssertEqual(thirdKeychainItem.token, modifiedToken)
-                XCTAssertEqual(thirdKeychainItem.identifier, savedToken.identifier)
+                let fetchedToken = try keychain.persistentTokenWithIdentifier(savedToken.identifier)
+                XCTAssertEqual(fetchedToken?.token, modifiedToken)
+                XCTAssertEqual(fetchedToken?.identifier, savedToken.identifier)
             } catch {
                 XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
                 return
@@ -90,8 +84,8 @@ class TokenPersistenceTests: XCTestCase {
 
             // Attempt to restore the deleted token
             do {
-                let fourthKeychainItem = try keychain.persistentTokenWithIdentifier(savedToken.identifier)
-                XCTAssertNil(fourthKeychainItem)
+                let fetchedToken = try keychain.persistentTokenWithIdentifier(savedToken.identifier)
+                XCTAssertNil(fetchedToken, "Token should have been removed from keychain")
             } catch {
                 XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
                 return
