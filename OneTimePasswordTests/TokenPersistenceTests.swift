@@ -185,27 +185,27 @@ class TokenPersistenceTests: XCTestCase {
         }
     }
 
-    func testAllTokensInKeychain() {
+    func testAllPersistentTokens() {
         let token1 = kToken, token2 = kToken, token3 = kToken
 
         do {
-            let noItems = try keychain.allPersistentTokens()
-            XCTAssert(noItems.isEmpty, "Expected no tokens in keychain: \(noItems)")
+            let noTokens = try keychain.allPersistentTokens()
+            XCTAssert(noTokens.isEmpty, "Expected no tokens in keychain: \(noTokens)")
         } catch {
             XCTFail("allPersistentTokens() failed with error: \(error)")
             return
         }
 
-        guard let savedItem1 = try? keychain.addToken(token1),
-            let savedItem2 = try? keychain.addToken(token2),
-            let savedItem3 = try? keychain.addToken(token3) else {
+        guard let persistentToken1 = try? keychain.addToken(token1),
+            let persistentToken2 = try? keychain.addToken(token2),
+            let persistentToken3 = try? keychain.addToken(token3) else {
                 XCTFail("Failed to save tokens")
                 return
         }
 
         do {
-            let allItems = try keychain.allPersistentTokens()
-            XCTAssertEqual(allItems, [savedItem1, savedItem2, savedItem3],
+            let allTokens = try keychain.allPersistentTokens()
+            XCTAssertEqual(allTokens, [persistentToken1, persistentToken2, persistentToken3],
                 "Tokens not correctly recovered from keychain")
         } catch {
             XCTFail("allPersistentTokens() failed with error: \(error)")
@@ -213,17 +213,17 @@ class TokenPersistenceTests: XCTestCase {
         }
 
         do {
-            try keychain.deletePersistentToken(savedItem1)
-            try keychain.deletePersistentToken(savedItem2)
-            try keychain.deletePersistentToken(savedItem3)
+            try keychain.deletePersistentToken(persistentToken1)
+            try keychain.deletePersistentToken(persistentToken2)
+            try keychain.deletePersistentToken(persistentToken3)
         } catch {
             XCTFail("deletePersistentToken(_:) failed with error: \(error)")
             return
         }
 
         do {
-            let itemsRemaining = try keychain.allPersistentTokens()
-            XCTAssert(itemsRemaining.isEmpty, "Expected no tokens in keychain: \(itemsRemaining)")
+            let tokensRemaining = try keychain.allPersistentTokens()
+            XCTAssert(tokensRemaining.isEmpty, "Expected no tokens in keychain: \(tokensRemaining)")
         } catch {
             XCTFail("allPersistentTokens() failed with error: \(error)")
             return
