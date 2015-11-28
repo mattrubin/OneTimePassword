@@ -1,5 +1,5 @@
 //
-//  TokenPersistenceTests.swift
+//  KeychainTests.swift
 //  OneTimePassword
 //
 //  Copyright (c) 2013-2015 OneTimePassword authors
@@ -37,7 +37,7 @@ let testToken = Token(
     )!
 )
 
-class TokenPersistenceTests: XCTestCase {
+class KeychainTests: XCTestCase {
     let keychain = Keychain.sharedInstance
 
     func testPersistentTokenWithIdentifier() {
