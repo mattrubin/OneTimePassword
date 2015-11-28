@@ -63,10 +63,10 @@ class TokenPersistenceTests: XCTestCase {
                 generator: token.generator.successor()
             )
             do {
-                let modifiedKeychainItem = try keychain.updatePersistentToken(savedToken,
+                let updatedToken = try keychain.updatePersistentToken(savedToken,
                     withToken: modifiedToken)
-                XCTAssertEqual(modifiedKeychainItem.identifier, savedToken.identifier)
-                XCTAssertEqual(modifiedKeychainItem.token, modifiedToken)
+                XCTAssertEqual(updatedToken.identifier, savedToken.identifier)
+                XCTAssertEqual(updatedToken.token, modifiedToken)
             } catch {
                 XCTFail("updatePersistentToken(_:withToken:) failed with error: \(error)")
             }
