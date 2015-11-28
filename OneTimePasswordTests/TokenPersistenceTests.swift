@@ -49,7 +49,6 @@ class TokenPersistenceTests: XCTestCase {
                 XCTAssertEqual(fetchedToken, savedToken, "Token should have been saved to keychain")
             } catch {
                 XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
-                return
             }
 
             // Modify the token
@@ -61,7 +60,6 @@ class TokenPersistenceTests: XCTestCase {
                 XCTAssertEqual(modifiedKeychainItem.token, modifiedToken)
             } catch {
                 XCTFail("updatePersistentToken(_:withToken:) failed with error: \(error)")
-                return
             }
 
             // Fetch the token again
@@ -71,7 +69,6 @@ class TokenPersistenceTests: XCTestCase {
                 XCTAssertEqual(fetchedToken?.identifier, savedToken.identifier)
             } catch {
                 XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
-                return
             }
 
             // Remove the token
@@ -79,7 +76,6 @@ class TokenPersistenceTests: XCTestCase {
                 try keychain.deletePersistentToken(savedToken)
             } catch {
                 XCTFail("deletePersistentToken(_:) failed with error: \(error)")
-                return
             }
 
             // Attempt to restore the deleted token
@@ -88,11 +84,9 @@ class TokenPersistenceTests: XCTestCase {
                 XCTAssertNil(fetchedToken, "Token should have been removed from keychain")
             } catch {
                 XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
-                return
             }
         } catch {
             XCTFail("addToken(_:) failed with error: \(error)")
-            return
         }
     }
 
@@ -114,7 +108,6 @@ class TokenPersistenceTests: XCTestCase {
                 XCTAssertEqual(fetchedItem2, savedItem2, "Saved token not found in keychain")
             } catch {
                 XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
-                return
             }
 
             // Remove the first token from the keychain
@@ -122,7 +115,6 @@ class TokenPersistenceTests: XCTestCase {
                 try keychain.deletePersistentToken(savedItem1)
             } catch {
                 XCTFail("deletePersistentToken(_:) failed with error: \(error)")
-                return
             }
 
             do {
@@ -132,7 +124,6 @@ class TokenPersistenceTests: XCTestCase {
                 XCTAssertNotNil(checkItem2, "Token should be in keychain: \(token2)")
             } catch {
                 XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
-                return
             }
 
             // Remove the second token from the keychain
@@ -140,7 +131,6 @@ class TokenPersistenceTests: XCTestCase {
                 try keychain.deletePersistentToken(savedItem2)
             } catch {
                 XCTFail("deletePersistentToken(_:) failed with error: \(error)")
-                return
             }
 
             do {
@@ -150,7 +140,6 @@ class TokenPersistenceTests: XCTestCase {
                 XCTAssertNil(recheckItem2, "Token should not be in keychain: \(token2)")
             } catch {
                 XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
-                return
             }
 
             // Try to remove both tokens from the keychain again
@@ -170,7 +159,6 @@ class TokenPersistenceTests: XCTestCase {
             }
         } catch {
             XCTFail("addToken(_:) failed with error: \(error)")
-            return
         }
     }
 
@@ -182,7 +170,6 @@ class TokenPersistenceTests: XCTestCase {
             XCTAssert(noTokens.isEmpty, "Expected no tokens in keychain: \(noTokens)")
         } catch {
             XCTFail("allPersistentTokens() failed with error: \(error)")
-            return
         }
 
         do {
@@ -196,7 +183,6 @@ class TokenPersistenceTests: XCTestCase {
                     "Tokens not correctly recovered from keychain")
             } catch {
                 XCTFail("allPersistentTokens() failed with error: \(error)")
-                return
             }
 
             do {
@@ -205,7 +191,6 @@ class TokenPersistenceTests: XCTestCase {
                 try keychain.deletePersistentToken(persistentToken3)
             } catch {
                 XCTFail("deletePersistentToken(_:) failed with error: \(error)")
-                return
             }
 
             do {
@@ -213,11 +198,9 @@ class TokenPersistenceTests: XCTestCase {
                 XCTAssert(noTokens.isEmpty, "Expected no tokens in keychain: \(noTokens)")
             } catch {
                 XCTFail("allPersistentTokens() failed with error: \(error)")
-                return
             }
         } catch {
             XCTFail("addToken(_:) failed with error: \(error)")
-            return
         }
     }
 }
