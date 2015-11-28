@@ -100,88 +100,81 @@ class TokenPersistenceTests: XCTestCase {
         }
     }
 
-    func testDuplicateURLs() {
+    func testDuplicateTokens() {
         let token1 = kToken, token2 = kToken
 
-        // Add both tokens to the keychain
-        guard let savedItem1 = try? keychain.addToken(token1) else {
-            XCTFail("Failed to save to keychain: \(token1)")
-            return
-        }
-        guard let savedItem2 = try? keychain.addToken(token2) else {
-            XCTFail("Failed to save to keychain: \(token2)")
-            return
-        }
-        XCTAssertEqual(savedItem1.token, token1)
-        XCTAssertEqual(savedItem2.token, token2)
-
-        // Fetch both tokens from the keychain
         do {
-            guard let fetchedItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier) else {
-                XCTFail("Token should be in keychain: \(token1)")
+            // Add both tokens to the keychain
+            let savedItem1 = try keychain.addToken(token1)
+            let savedItem2 = try keychain.addToken(token2)
+            XCTAssertEqual(savedItem1.token, token1)
+            XCTAssertEqual(savedItem2.token, token2)
+
+            // Fetch both tokens from the keychain
+            do {
+                let fetchedItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
+                let fetchedItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
+                XCTAssertEqual(fetchedItem1, savedItem1, "Saved token not found in keychain")
+                XCTAssertEqual(fetchedItem2, savedItem2, "Saved token not found in keychain")
+            } catch {
+                XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
                 return
             }
-            guard let fetchedItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier) else {
-                XCTFail("Token should be in keychain: \(token2)")
+
+            // Remove the first token from the keychain
+            do {
+                try keychain.deletePersistentToken(savedItem1)
+            } catch {
+                XCTFail("deletePersistentToken(_:) failed with error: \(error)")
                 return
             }
-            XCTAssertEqual(savedItem1, fetchedItem1)
-            XCTAssertEqual(savedItem2, fetchedItem2)
-        } catch {
-            XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
-            return
-        }
 
-        // Remove the first token from the keychain
-        do {
-            try keychain.deletePersistentToken(savedItem1)
-        } catch {
-            XCTFail("deletePersistentToken(_:) failed with error: \(error)")
-            return
-        }
+            do {
+                let checkItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
+                let checkItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
+                XCTAssertNil(checkItem1, "Token should not be in keychain: \(token1)")
+                XCTAssertNotNil(checkItem2, "Token should be in keychain: \(token2)")
+            } catch {
+                XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
+                return
+            }
 
-        do {
-            let checkItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
-            XCTAssertNil(checkItem1, "Token should not be in keychain: \(token1)")
-            let checkItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
-            XCTAssertNotNil(checkItem2, "Token should be in keychain: \(token2)")
-        } catch {
-            XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
-            return
-        }
+            // Remove the second token from the keychain
+            do {
+                try keychain.deletePersistentToken(savedItem2)
+            } catch {
+                XCTFail("deletePersistentToken(_:) failed with error: \(error)")
+                return
+            }
 
-        // Remove the second token from the keychain
-        do {
-            try keychain.deletePersistentToken(savedItem2)
-        } catch {
-            XCTFail("deletePersistentToken(_:) failed with error: \(error)")
-            return
-        }
+            do {
+                let recheckItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
+                let recheckItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
+                XCTAssertNil(recheckItem1, "Token should not be in keychain: \(token1)")
+                XCTAssertNil(recheckItem2, "Token should not be in keychain: \(token2)")
+            } catch {
+                XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
+                return
+            }
 
-        do {
-            let recheckItem1 = try keychain.persistentTokenWithIdentifier(savedItem1.identifier)
-            XCTAssertNil(recheckItem1, "Token should not be in keychain: \(token1)")
-            let recheckItem2 = try keychain.persistentTokenWithIdentifier(savedItem2.identifier)
-            XCTAssertNil(recheckItem2, "Token should not be in keychain: \(token2)")
+            // Try to remove both tokens from the keychain again
+            do {
+                try keychain.deletePersistentToken(savedItem1)
+                // The deletion should throw and this line should never be reached.
+                XCTFail("Removing again should fail: \(token1)")
+            } catch {
+                // An error thrown is the expected outcome
+            }
+            do {
+                try keychain.deletePersistentToken(savedItem2)
+                // The deletion should throw and this line should never be reached.
+                XCTFail("Removing again should fail: \(token2)")
+            } catch {
+                // An error thrown is the expected outcome
+            }
         } catch {
-            XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
+            XCTFail("addToken(_:) failed with error: \(error)")
             return
-        }
-
-        // Try to remove both tokens from the keychain again
-        do {
-            try keychain.deletePersistentToken(savedItem1)
-            // The deletion should throw and this line should never be reached.
-            XCTFail("Removing again should fail: \(token1)")
-        } catch {
-            // An error thrown is the expected outcome
-        }
-        do {
-            try keychain.deletePersistentToken(savedItem2)
-            // The deletion should throw and this line should never be reached.
-            XCTFail("Removing again should fail: \(token2)")
-        } catch {
-            // An error thrown is the expected outcome
         }
     }
 
