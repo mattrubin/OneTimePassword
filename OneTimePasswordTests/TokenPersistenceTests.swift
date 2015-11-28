@@ -30,23 +30,14 @@ let kValidSecret: [UInt8] = [ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
     0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f ]
 
 let kValidTokenURL = NSURL(string: "otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4")!
+let kToken = Token.URLSerializer.deserialize(kValidTokenURL)!
 
 class TokenPersistenceTests: XCTestCase {
     let keychain = Keychain.sharedInstance
 
     func testTokenWithKeychainItemRef() {
         // Create a token
-        guard let token = Token.URLSerializer.deserialize(kValidTokenURL) else {
-            XCTFail("Failed to construct token from url")
-            return
-        }
-
-        XCTAssertEqual(token.name, "Léon")
-        XCTAssertEqual(token.issuer, "")
-        XCTAssertEqual(token.generator.factor, Generator.Factor.Timer(period: 45))
-        XCTAssertEqual(token.generator.algorithm, Generator.Algorithm.SHA256)
-        XCTAssertEqual(token.generator.digits, 8)
-        XCTAssertEqual(token.generator.secret, NSData(bytes: kValidSecret, length: kValidSecret.count))
+        let token = kToken
 
         // Save the token
         guard let keychainItem = try? keychain.addToken(token) else {
@@ -60,8 +51,7 @@ class TokenPersistenceTests: XCTestCase {
                 XCTFail("Failed to recover persistent token with identifier: \(keychainItem.identifier)")
                 return
             }
-            XCTAssertEqual(secondKeychainItem.token, keychainItem.token)
-            XCTAssertEqual(secondKeychainItem.identifier, keychainItem.identifier)
+            XCTAssertEqual(secondKeychainItem, keychainItem)
         } catch {
             XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
             return
@@ -69,7 +59,6 @@ class TokenPersistenceTests: XCTestCase {
 
         // Modify the token
         let modifiedToken = Token(name: "???", issuer: "!", generator: token.generator.successor())
-
         do {
             let modifiedKeychainItem = try keychain.updatePersistentToken(keychainItem,
                 withToken: modifiedToken)
@@ -112,11 +101,7 @@ class TokenPersistenceTests: XCTestCase {
     }
 
     func testDuplicateURLs() {
-        guard let token1 = Token.URLSerializer.deserialize(kValidTokenURL),
-            let token2 = Token.URLSerializer.deserialize(kValidTokenURL) else {
-                XCTFail("Failed to construct tokens from url.")
-                return
-        }
+        let token1 = kToken, token2 = kToken
 
         // Add both tokens to the keychain
         guard let savedItem1 = try? keychain.addToken(token1) else {
@@ -189,26 +174,19 @@ class TokenPersistenceTests: XCTestCase {
             // The deletion should throw and this line should never be reached.
             XCTFail("Removing again should fail: \(token1)")
         } catch {
-            // This is the expected outcome
-            // TODO: Assert the expected error type
+            // An error thrown is the expected outcome
         }
         do {
             try keychain.deletePersistentToken(savedItem2)
             // The deletion should throw and this line should never be reached.
             XCTFail("Removing again should fail: \(token2)")
         } catch {
-            // This is the expected outcome
-            // TODO: Assert the expected error type
+            // An error thrown is the expected outcome
         }
     }
 
     func testAllTokensInKeychain() {
-        guard let token1 = Token.URLSerializer.deserialize(kValidTokenURL),
-            let token2 = Token.URLSerializer.deserialize(kValidTokenURL),
-            let token3 = Token.URLSerializer.deserialize(kValidTokenURL) else {
-                XCTFail("Failed to construct tokens from URL")
-                return
-        }
+        let token1 = kToken, token2 = kToken, token3 = kToken
 
         do {
             let noItems = try keychain.allPersistentTokens()
