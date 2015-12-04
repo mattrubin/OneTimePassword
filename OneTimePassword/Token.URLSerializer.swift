@@ -27,19 +27,19 @@ import Foundation
 import Base32
 
 extension Token {
+    public func toURL() throws -> NSURL {
+        return try urlForToken(
+            name: name,
+            issuer: issuer,
+            factor: generator.factor,
+            algorithm: generator.algorithm,
+            digits: generator.digits
+        )
+    }
+
     public struct URLSerializer {
         public static let defaultAlgorithm: Generator.Algorithm = .SHA1
         public static let defaultDigits: Int = 6
-
-        public static func serialize(token: Token) -> NSURL? {
-            return urlForToken(
-                name: token.name,
-                issuer: token.issuer,
-                factor: token.generator.factor,
-                algorithm: token.generator.algorithm,
-                digits: token.generator.digits
-            )
-        }
 
         public static func deserialize(url: NSURL, secret: NSData? = nil) -> Token? {
             return tokenFromURL(url, secret: secret)
@@ -47,6 +47,9 @@ extension Token {
     }
 }
 
+enum SerializationError: ErrorType {
+    case URLGenerationFailure
+}
 
 private let kOTPAuthScheme = "otpauth"
 private let kQueryAlgorithmKey = "algorithm"
@@ -78,7 +81,7 @@ private func algorithmFromString(string: String) -> Generator.Algorithm? {
     return nil
 }
 
-private func urlForToken(name name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) -> NSURL? {
+private func urlForToken(name name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) throws -> NSURL {
     let urlComponents = NSURLComponents()
     urlComponents.scheme = kOTPAuthScheme
     urlComponents.path = "/" + name
@@ -100,7 +103,10 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
 
     urlComponents.queryItems = queryItems
 
-    return urlComponents.URL
+    guard let url = urlComponents.URL else {
+        throw SerializationError.URLGenerationFailure
+    }
+    return url
 }
 
 private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
