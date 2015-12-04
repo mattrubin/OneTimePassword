@@ -48,7 +48,7 @@ extension Token {
     }
 }
 
-enum SerializationError: ErrorType {
+internal enum SerializationError: ErrorType {
     case URLGenerationFailure
 }
 
