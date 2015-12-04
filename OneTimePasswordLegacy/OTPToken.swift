@@ -2,8 +2,25 @@
 //  OTPToken.swift
 //  OneTimePassword
 //
-//  Created by Matt Rubin on 7/8/14.
-//  Copyright (c) 2014 Matt Rubin. All rights reserved.
+//  Copyright (c) 2014-2015 OneTimePassword authors
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
 //
 
 import OneTimePassword
@@ -75,5 +92,46 @@ public extension OTPToken {
             return nil
         }
         return Token.URLSerializer.serialize(token)
+    }
+}
+
+// MARK: Conversion
+
+private extension OTPAlgorithm {
+    init(_ generatorAlgorithm: Generator.Algorithm) {
+        switch generatorAlgorithm {
+        case .SHA1:   self = .SHA1
+        case .SHA256: self = .SHA256
+        case .SHA512: self = .SHA512
+        }
+    }
+}
+
+private func tokenForOTPToken(otpToken: OTPToken) -> Token? {
+    guard let generator = Generator(
+        factor: factorForOTPToken(otpToken),
+        secret: otpToken.secret,
+        algorithm: algorithmForOTPAlgorithm(otpToken.algorithm),
+        digits: Int(otpToken.digits)
+        ) else {
+            return nil
+    }
+    return Token(name: otpToken.name, issuer: otpToken.issuer, generator: generator)
+}
+
+private func factorForOTPToken(otpToken: OTPToken) -> Generator.Factor {
+    switch otpToken.type {
+    case .Counter:
+        return .Counter(otpToken.counter)
+    case .Timer:
+        return .Timer(period: otpToken.period)
+    }
+}
+
+private func algorithmForOTPAlgorithm(algorithm: OTPAlgorithm) -> Generator.Algorithm {
+    switch algorithm {
+    case .SHA1:   return .SHA1
+    case .SHA256: return .SHA256
+    case .SHA512: return .SHA512
     }
 }
