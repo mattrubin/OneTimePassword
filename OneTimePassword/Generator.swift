@@ -67,7 +67,6 @@ public struct Generator: Equatable {
     ///
     /// - throws: A `Generator.Error` if a valid password cannot be generated.
     /// - returns: The generated password, or throws an error if a password could not be generated.
-    @warn_unused_result
     public func passwordAtTime(time: NSTimeInterval) throws -> String {
         guard Generator.validateDigits(digits) else {
             throw Error.InvalidDigits
@@ -150,7 +149,6 @@ public struct Generator: Equatable {
         ///
         /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
         /// - returns: The counter value needed to generate the password for the target time.
-        @warn_unused_result
         private func counterAtTime(time: NSTimeInterval) throws -> UInt64 {
             switch self {
             case .Counter(let counter):
@@ -195,7 +193,7 @@ public struct Generator: Equatable {
     public enum Error: ErrorType {
         /// The requested time is before the epoch date.
         case InvalidTime
-        /// The requested period is not a positive number of seconds
+        /// The timer period is not a positive number of seconds
         case InvalidPeriod
         /// The number of digits is either too short to be secure, or too long to compute.
         case InvalidDigits
