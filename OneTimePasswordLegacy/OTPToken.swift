@@ -25,8 +25,6 @@ public final class OTPToken: NSObject {
     public var period: NSTimeInterval = OTPToken.defaultPeriod
     public var counter: UInt64 = OTPToken.defaultInitialCounter
 
-    private var keychainItem: PersistentToken?
-
 
     public static var defaultAlgorithm: OTPAlgorithm {
         return OTPAlgorithm.SHA1
@@ -107,62 +105,5 @@ public extension OTPToken {
             return nil
         }
         return Token.URLSerializer.serialize(token)
-    }
-}
-
-public extension OTPToken {
-    var keychainItemRef: NSData? {return self.keychainItem?.identifier }
-    var isInKeychain: Bool { return (keychainItemRef != nil) }
-
-    func saveToKeychain() -> Bool {
-        guard let token = token else {
-            return false
-        }
-        if let keychainItem = self.keychainItem {
-            do {
-                let newKeychainItem = try Keychain.sharedInstance
-                    .updatePersistentToken(keychainItem, withToken: token)
-                self.keychainItem = newKeychainItem
-                return true
-            } catch {
-                return false
-            }
-        } else {
-            do {
-                let newKeychainItem = try Keychain.sharedInstance.addToken(token)
-                self.keychainItem = newKeychainItem
-                return true
-            } catch {
-                return false
-            }
-        }
-    }
-
-    func removeFromKeychain() -> Bool {
-        guard let keychainItem = self.keychainItem else {
-            return false
-        }
-        do {
-            try Keychain.sharedInstance.deletePersistentToken(keychainItem)
-            self.keychainItem = nil
-            return true
-        } catch {
-            return false
-        }
-    }
-
-    static func allTokensInKeychain() -> Array<OTPToken> {
-        do {
-            return try Keychain.sharedInstance.allPersistentTokens().map(self.tokenWithKeychainItem)
-        } catch {
-            return []
-        }
-    }
-
-    private static func tokenWithKeychainItem(keychainItem: PersistentToken) -> Self {
-        let otp = self.init()
-        otp.updateWithToken(keychainItem.token)
-        otp.keychainItem = keychainItem
-        return otp
     }
 }
