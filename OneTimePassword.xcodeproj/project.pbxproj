@@ -16,14 +16,11 @@
 		C94B2007197774A20014A202 /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94B2006197774A20014A202 /* TokenTests.swift */; };
 		C95B10CC196D22B9000840AA /* GeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B10CB196D22B9000840AA /* GeneratorTests.swift */; };
 		C95F9FB91C03D6BC00CEA286 /* PersistentToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F9FB81C03D6BC00CEA286 /* PersistentToken.swift */; };
+		C97142361C1155FC0063B37E /* OTPToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */; };
+		C97142371C1156DB0063B37E /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
-		C9A486AE196F352E00524F51 /* OneTimePasswordLegacy.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A486B4196F352F00524F51 /* OneTimePasswordLegacy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A486A9196F352E00524F51 /* OneTimePasswordLegacy.framework */; };
-		C9A486C4196F36E100524F51 /* OTPToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */; };
 		C9A486C8196F38C800524F51 /* OTPTokenSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */; };
 		C9A486C9196F38CD00524F51 /* OTPTypeStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C9FE25196D181800C7ACEE /* OTPTypeStrings.m */; };
-		C9A486CC196F4BD100524F51 /* OTPTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24FC196AF8E900F86892 /* OTPTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A9B0981A81CE5D00F3C4DC /* Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A9B0971A81CE5D00F3C4DC /* Conversion.swift */; };
 		C9B2A19C199A7F1B00BC4A8A /* EquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */; };
 		C9B77D771C03078B00BAF6BF /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2514196AFE1100F86892 /* KeychainTests.swift */; };
 		C9DC7EC4196BD5DF00B50C82 /* Token.URLSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token.URLSerializer.swift */; };
@@ -33,7 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C9003415196F6C83009733E8 /* PBXContainerItemProxy */ = {
+		C97142381C1157FC0063B37E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
 			proxyType = 1;
@@ -47,20 +44,6 @@
 			remoteGlobalIDString = C97C82371946E51D00FD9F4C;
 			remoteInfo = OneTimePassword;
 		};
-		C9A486B5196F352F00524F51 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C9A486A8196F352E00524F51;
-			remoteInfo = OneTimePasswordLegacy;
-		};
-		C9A486C2196F353000524F51 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C9A486A8196F352E00524F51;
-			remoteInfo = OneTimePasswordLegacy;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -68,7 +51,6 @@
 		C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializationTests.swift; sourceTree = "<group>"; };
 		C9307A8419A8515300609B02 /* TokenSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializer.swift; sourceTree = "<group>"; };
 		C9377D40196B93F900D6C67E /* OneTimePassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneTimePassword.h; sourceTree = "<group>"; };
-		C93A24FC196AF8E900F86892 /* OTPTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTypes.h; sourceTree = "<group>"; };
 		C93A2514196AFE1100F86892 /* KeychainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenSerializationTests.m; sourceTree = "<group>"; };
 		C93A2519196B1BA400F86892 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -95,12 +77,8 @@
 		C996EC3C1A74D5830076B105 /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
 		C996EC3D1A74D5830076B105 /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
 		C996EC3E1A74D5830076B105 /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
-		C9A486A9196F352E00524F51 /* OneTimePasswordLegacy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePasswordLegacy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9A486AC196F352E00524F51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneTimePasswordLegacy.h; sourceTree = "<group>"; };
 		C9A486B3196F352E00524F51 /* OneTimePasswordLegacyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordLegacyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A486B9196F352F00524F51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C9A9B0971A81CE5D00F3C4DC /* Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversion.swift; sourceTree = "<group>"; };
 		C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EquatableTests.swift; sourceTree = "<group>"; };
 		C9B84D1C1C015EC0002EE631 /* .hound.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .hound.yml; sourceTree = "<group>"; };
 		C9B84D1D1C015EC0002EE631 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -132,18 +110,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9A486A5196F352E00524F51 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C9A486B0196F352E00524F51 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A486B4196F352F00524F51 /* OneTimePasswordLegacy.framework in Frameworks */,
+				C97142371C1156DB0063B37E /* OneTimePassword.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,7 +154,6 @@
 			children = (
 				C97C823A1946E51D00FD9F4C /* OneTimePassword */,
 				C97C82471946E51D00FD9F4C /* OneTimePasswordTests */,
-				C9A486AA196F352E00524F51 /* OneTimePasswordLegacy */,
 				C9A486B7196F352F00524F51 /* OneTimePasswordLegacyTests */,
 				746E7166AD60449882DD84C7 /* Frameworks */,
 				C996EC281A74D5830076B105 /* Configuration */,
@@ -198,7 +168,6 @@
 			children = (
 				C97C82381946E51D00FD9F4C /* OneTimePassword.framework */,
 				C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */,
-				C9A486A9196F352E00524F51 /* OneTimePasswordLegacy.framework */,
 				C9A486B3196F352E00524F51 /* OneTimePasswordLegacyTests.xctest */,
 			);
 			name = Products;
@@ -289,29 +258,10 @@
 			path = "Mac OS X";
 			sourceTree = "<group>";
 		};
-		C9A486AA196F352E00524F51 /* OneTimePasswordLegacy */ = {
-			isa = PBXGroup;
-			children = (
-				C9A486AD196F352E00524F51 /* OneTimePasswordLegacy.h */,
-				C93A24FC196AF8E900F86892 /* OTPTypes.h */,
-				C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */,
-				C9A9B0971A81CE5D00F3C4DC /* Conversion.swift */,
-				C9A486AB196F352E00524F51 /* Supporting Files */,
-			);
-			path = OneTimePasswordLegacy;
-			sourceTree = "<group>";
-		};
-		C9A486AB196F352E00524F51 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C9A486AC196F352E00524F51 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		C9A486B7196F352F00524F51 /* OneTimePasswordLegacyTests */ = {
 			isa = PBXGroup;
 			children = (
+				C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */,
 				C944A5941A809CC000E08B1E /* OTPTokenTests.swift */,
 				C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */,
 				C9C9FE23196D176300C7ACEE /* Helpers */,
@@ -368,15 +318,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9A486A6196F352E00524F51 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C9A486CC196F4BD100524F51 /* OTPTypes.h in Headers */,
-				C9A486AE196F352E00524F51 /* OneTimePasswordLegacy.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -417,25 +358,6 @@
 			productReference = C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		C9A486A8196F352E00524F51 /* OneTimePasswordLegacy */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C9A486C0196F352F00524F51 /* Build configuration list for PBXNativeTarget "OneTimePasswordLegacy" */;
-			buildPhases = (
-				C9A486A4196F352E00524F51 /* Sources */,
-				C9A486A5196F352E00524F51 /* Frameworks */,
-				C9A486A6196F352E00524F51 /* Headers */,
-				C9A486A7196F352E00524F51 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C9003416196F6C83009733E8 /* PBXTargetDependency */,
-			);
-			name = OneTimePasswordLegacy;
-			productName = OneTimePasswordLegacy;
-			productReference = C9A486A9196F352E00524F51 /* OneTimePasswordLegacy.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		C9A486B2196F352E00524F51 /* OneTimePasswordLegacyTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9A486C1196F352F00524F51 /* Build configuration list for PBXNativeTarget "OneTimePasswordLegacyTests" */;
@@ -447,8 +369,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				C9A486B6196F352F00524F51 /* PBXTargetDependency */,
-				C9A486C3196F353000524F51 /* PBXTargetDependency */,
+				C97142391C1157FC0063B37E /* PBXTargetDependency */,
 			);
 			name = OneTimePasswordLegacyTests;
 			productName = OneTimePasswordLegacyTests;
@@ -473,9 +394,6 @@
 						CreatedOnToolsVersion = 6.0;
 						TestTargetID = C97C82371946E51D00FD9F4C;
 					};
-					C9A486A8196F352E00524F51 = {
-						CreatedOnToolsVersion = 6.0;
-					};
 					C9A486B2196F352E00524F51 = {
 						CreatedOnToolsVersion = 6.0;
 						TestTargetID = C9A486A8196F352E00524F51;
@@ -496,7 +414,6 @@
 			targets = (
 				C97C82371946E51D00FD9F4C /* OneTimePassword */,
 				C97C82421946E51D00FD9F4C /* OneTimePasswordTests */,
-				C9A486A8196F352E00524F51 /* OneTimePasswordLegacy */,
 				C9A486B2196F352E00524F51 /* OneTimePasswordLegacyTests */,
 			);
 		};
@@ -511,13 +428,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C97C82411946E51D00FD9F4C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9A486A7196F352E00524F51 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -576,20 +486,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9A486A4196F352E00524F51 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C9A486C4196F36E100524F51 /* OTPToken.swift in Sources */,
-				C9A9B0981A81CE5D00F3C4DC /* Conversion.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C9A486AF196F352E00524F51 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				C9A486C8196F38C800524F51 /* OTPTokenSerializationTests.m in Sources */,
+				C97142361C1155FC0063B37E /* OTPToken.swift in Sources */,
 				C9A486C9196F38CD00524F51 /* OTPTypeStrings.m in Sources */,
 				C944A5951A809CC000E08B1E /* OTPTokenTests.swift in Sources */,
 			);
@@ -598,25 +500,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C9003416196F6C83009733E8 /* PBXTargetDependency */ = {
+		C97142391C1157FC0063B37E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C97C82371946E51D00FD9F4C /* OneTimePassword */;
-			targetProxy = C9003415196F6C83009733E8 /* PBXContainerItemProxy */;
+			targetProxy = C97142381C1157FC0063B37E /* PBXContainerItemProxy */;
 		};
 		C97C82461946E51D00FD9F4C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C97C82371946E51D00FD9F4C /* OneTimePassword */;
 			targetProxy = C97C82451946E51D00FD9F4C /* PBXContainerItemProxy */;
-		};
-		C9A486B6196F352F00524F51 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C9A486A8196F352E00524F51 /* OneTimePasswordLegacy */;
-			targetProxy = C9A486B5196F352F00524F51 /* PBXContainerItemProxy */;
-		};
-		C9A486C3196F353000524F51 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C9A486A8196F352E00524F51 /* OneTimePasswordLegacy */;
-			targetProxy = C9A486C2196F353000524F51 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -693,32 +585,6 @@
 			};
 			name = Release;
 		};
-		C9A486BC196F352F00524F51 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C996EC371A74D5830076B105 /* iOS-Framework.xcconfig */;
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				INFOPLIST_FILE = OneTimePasswordLegacy/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.legacy;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		C9A486BD196F352F00524F51 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C996EC371A74D5830076B105 /* iOS-Framework.xcconfig */;
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				INFOPLIST_FILE = OneTimePasswordLegacy/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.legacy;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		C9A486BE196F352F00524F51 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
@@ -765,15 +631,6 @@
 			buildConfigurations = (
 				C97C82521946E51D00FD9F4C /* Debug */,
 				C97C82531946E51D00FD9F4C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C9A486C0196F352F00524F51 /* Build configuration list for PBXNativeTarget "OneTimePasswordLegacy" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C9A486BC196F352F00524F51 /* Debug */,
-				C9A486BD196F352F00524F51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

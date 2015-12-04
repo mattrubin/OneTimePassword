@@ -6,7 +6,8 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-@import OneTimePasswordLegacy;
+@import Foundation;
+#import "OneTimePasswordLegacyTests-Swift.h"
 
 
 #pragma mark - OTPTokenType
@@ -24,5 +25,4 @@ extern NSString *const kOTPAlgorithmSHA512;
 
 @interface NSString (OTPAlgorithm)
 + (instancetype)stringForAlgorithm:(OTPAlgorithm)algorithm;
-- (OTPAlgorithm)algorithmValue;
 @end

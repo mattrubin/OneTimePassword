@@ -24,7 +24,7 @@
 
 @import XCTest;
 @import Base32;
-@import OneTimePasswordLegacy;
+#import "OneTimePasswordLegacyTests-Swift.h"
 #import "OTPTypeStrings.h"
 
 
@@ -64,8 +64,8 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                       @"1234567890123456789012345678901234567890123456789012345678901234", @""];
     algorithmNumbers = @[@(OTPAlgorithmSHA1), @(OTPAlgorithmSHA256), @(OTPAlgorithmSHA512)];
     digitNumbers = @[@0, @6, @8];
-    periodNumbers = @[@0, @1, @([OTPToken defaultPeriod]), kRandomKey];
-    counterNumbers = @[@0, @1, @([OTPToken defaultInitialCounter]), kRandomKey];
+    periodNumbers = @[@0, @1, @30, kRandomKey];
+    counterNumbers = @[@0, @1, @99999, kRandomKey];
 }
 
 #pragma mark - Brute Force Tests
