@@ -10,13 +10,6 @@ import XCTest
 import OneTimePasswordLegacy
 
 class OTPTokenTests: XCTestCase {
-    func testDefaults() {
-        XCTAssertEqual(OTPToken.defaultAlgorithm, OTPAlgorithm.SHA1)
-        XCTAssertEqual(OTPToken.defaultDigits, 6)
-        XCTAssertEqual(OTPToken.defaultInitialCounter, 0)
-        XCTAssertEqual(OTPToken.defaultPeriod, 30)
-    }
-
     func testInit() {
         let token = OTPToken()
 

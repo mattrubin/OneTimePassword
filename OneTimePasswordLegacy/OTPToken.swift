@@ -25,23 +25,10 @@ public final class OTPToken: NSObject {
     public var period: NSTimeInterval = OTPToken.defaultPeriod
     public var counter: UInt64 = OTPToken.defaultInitialCounter
 
-
-    public static var defaultAlgorithm: OTPAlgorithm {
-        return OTPAlgorithm.SHA1
-    }
-
-    public static var defaultDigits: UInt {
-        return 6
-    }
-
-    public static var defaultInitialCounter: UInt64 {
-        return 0
-    }
-
-    public static var defaultPeriod: NSTimeInterval {
-        return 30
-    }
-
+    private static let defaultAlgorithm: OTPAlgorithm = .SHA1
+    private static var defaultDigits: UInt = 6
+    private static var defaultInitialCounter: UInt64 = 0
+    private static var defaultPeriod: NSTimeInterval = 30
 
     public var token: Token? {
         return tokenForOTPToken(self)
