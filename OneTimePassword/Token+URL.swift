@@ -1,5 +1,5 @@
 //
-//  Token.URLSerializer.swift
+//  Token+URL.swift
 //  OneTimePassword
 //
 //  Copyright (c) 2014-2015 Matt Rubin and the OneTimePassword authors
@@ -27,6 +27,8 @@ import Foundation
 import Base32
 
 extension Token {
+    // MARK: Serialization
+
     public func toURL() throws -> NSURL {
         return try urlForToken(
             name: name,
