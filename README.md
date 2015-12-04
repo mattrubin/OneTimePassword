@@ -32,4 +32,4 @@ $ carthage update --no-build --use-submodules
 ```
 
 ## License
-OneTimePassword was created by [Matt Rubin](http://mattrubin.me) and the [OneTimePassword authors](AUTHORS) and is released under the [MIT License](LICENSE.md).
+OneTimePassword was created by [Matt Rubin](http://mattrubin.me) and the [OneTimePassword authors](AUTHORS.txt) and is released under the [MIT License](LICENSE.md).
