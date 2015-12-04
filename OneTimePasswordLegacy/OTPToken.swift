@@ -2,7 +2,7 @@
 //  OTPToken.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2015 OneTimePassword authors
+//  Copyright (c) 2013-2015 OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -93,6 +93,19 @@ public extension OTPToken {
         }
         return Token.URLSerializer.serialize(token)
     }
+}
+
+// MARK: Enums
+
+@objc public enum OTPTokenType: UInt8 {
+    case Counter
+    case Timer
+}
+
+@objc public enum OTPAlgorithm: UInt32 {
+    case SHA1
+    case SHA256
+    case SHA512
 }
 
 // MARK: Conversion
