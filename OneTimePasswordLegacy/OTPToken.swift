@@ -30,11 +30,7 @@ public final class OTPToken: NSObject {
     private static var defaultInitialCounter: UInt64 = 0
     private static var defaultPeriod: NSTimeInterval = 30
 
-    public var token: Token? {
-        return tokenForOTPToken(self)
-    }
-
-    public func updateWithToken(token: Token) {
+    private func updateWithToken(token: Token) {
         self.name = token.name
         self.issuer = token.issuer
 
@@ -52,13 +48,13 @@ public final class OTPToken: NSObject {
         }
     }
 
-    public convenience init(token: Token) {
+    private convenience init(token: Token) {
         self.init()
         updateWithToken(token)
     }
 
     public func validate() -> Bool {
-        return (token != nil)
+        return (tokenForOTPToken(self) != nil)
     }
 }
 
@@ -75,7 +71,7 @@ public extension OTPToken {
     }
 
     func url() -> NSURL? {
-        guard let token = token else {
+        guard let token = tokenForOTPToken(self) else {
             return nil
         }
         return Token.URLSerializer.serialize(token)
