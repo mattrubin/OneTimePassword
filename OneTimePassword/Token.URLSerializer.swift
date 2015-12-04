@@ -27,7 +27,7 @@ import Foundation
 import Base32
 
 extension Token {
-    public struct URLSerializer: TokenSerializer {
+    public struct URLSerializer {
         public static let defaultAlgorithm: Generator.Algorithm = .SHA1
         public static let defaultDigits: Int = 6
 
