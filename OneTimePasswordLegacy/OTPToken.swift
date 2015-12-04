@@ -63,19 +63,6 @@ public final class OTPToken: NSObject {
 }
 
 public extension OTPToken {
-    var password: String? {
-        return token?.currentPassword
-    }
-
-    func updatePassword() {
-        if let token = token {
-            let newToken = token.updatedToken()
-            updateWithToken(newToken)
-        }
-    }
-}
-
-public extension OTPToken {
     static func tokenWithURL(url: NSURL) -> Self? {
         return tokenWithURL(url, secret: nil)
     }
