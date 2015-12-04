@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
-@import OneTimePasswordLegacy;
+#import "OneTimePasswordLegacyTests-Swift.h"
 
 
 #pragma mark - OTPTokenType

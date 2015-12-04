@@ -24,7 +24,7 @@
 
 @import XCTest;
 @import Base32;
-@import OneTimePasswordLegacy;
+#import "OneTimePasswordLegacyTests-Swift.h"
 #import "OTPTypeStrings.h"
 
 
