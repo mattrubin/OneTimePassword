@@ -26,12 +26,6 @@
 import XCTest
 import OneTimePassword
 
-extension Token {
-    var url: NSURL {
-        return URLSerializer.serialize(self)!
-    }
-}
-
 class TokenSerializationTests: XCTestCase {
     let kOTPScheme = "otpauth"
     let kOTPTokenTypeCounterHost = "hotp"
@@ -70,7 +64,10 @@ class TokenSerializationTests: XCTestCase {
                                 )
 
                                 // Serialize
-                                let url = token.url
+                                guard let url = try? token.toURL() else {
+                                    XCTFail("Failed to convert Token to URL")
+                                    continue
+                                }
 
                                 // Test scheme
                                 XCTAssertEqual(url.scheme, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"")
@@ -129,7 +126,10 @@ class TokenSerializationTests: XCTestCase {
                                 XCTAssertEqual(queryArguments["issuer"]!, issuer, "The issuer value should be \"\(issuer)\"")
 
                                 // Check url again
-                                let checkURL = token.url
+                                guard let checkURL = try? token.toURL() else {
+                                    XCTFail("Failed to convert Token to URL")
+                                    continue
+                                }
                                 XCTAssertEqual(url, checkURL, "Repeated calls to url() should return the same result!")
                             }
                         }

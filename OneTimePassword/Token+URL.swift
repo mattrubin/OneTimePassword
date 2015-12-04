@@ -1,5 +1,5 @@
 //
-//  Token.URLSerializer.swift
+//  Token+URL.swift
 //  OneTimePassword
 //
 //  Copyright (c) 2014-2015 Matt Rubin and the OneTimePassword authors
@@ -27,26 +27,35 @@ import Foundation
 import Base32
 
 extension Token {
-    public struct URLSerializer: TokenSerializer {
-        public static let defaultAlgorithm: Generator.Algorithm = .SHA1
-        public static let defaultDigits: Int = 6
+    // MARK: Serialization
 
-        public static func serialize(token: Token) -> NSURL? {
-            return urlForToken(
-                name: token.name,
-                issuer: token.issuer,
-                factor: token.generator.factor,
-                algorithm: token.generator.algorithm,
-                digits: token.generator.digits
-            )
-        }
+    public func toURL() throws -> NSURL {
+        return try urlForToken(
+            name: name,
+            issuer: issuer,
+            factor: generator.factor,
+            algorithm: generator.algorithm,
+            digits: generator.digits
+        )
+    }
 
-        public static func deserialize(url: NSURL, secret: NSData? = nil) -> Token? {
-            return tokenFromURL(url, secret: secret)
+    public init?(url: NSURL, secret: NSData? = nil) {
+        if let token = tokenFromURL(url, secret: secret) {
+            self = token
+        } else {
+            return nil
         }
     }
 }
 
+internal enum SerializationError: ErrorType {
+    case URLGenerationFailure
+}
+
+private let defaultAlgorithm: Generator.Algorithm = .SHA1
+private let defaultDigits: Int = 6
+private let defaultCounter: UInt64 = 0
+private let defaultPeriod: NSTimeInterval = 30
 
 private let kOTPAuthScheme = "otpauth"
 private let kQueryAlgorithmKey = "algorithm"
@@ -78,7 +87,7 @@ private func algorithmFromString(string: String) -> Generator.Algorithm? {
     return nil
 }
 
-private func urlForToken(name name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) -> NSURL? {
+private func urlForToken(name name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) throws -> NSURL {
     let urlComponents = NSURLComponents()
     urlComponents.scheme = kOTPAuthScheme
     urlComponents.path = "/" + name
@@ -100,7 +109,10 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
 
     urlComponents.queryItems = queryItems
 
-    return urlComponents.URL
+    guard let url = urlComponents.URL else {
+        throw SerializationError.URLGenerationFailure
+    }
+    return url
 }
 
 private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
@@ -124,7 +136,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
                     }
                     return counterValue
                 },
-                defaultTo: 0) {
+                defaultTo: defaultCounter) {
                     return .Counter(counter)
             }
         } else if string == kFactorTimerKey {
@@ -135,7 +147,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
                     }
                     return NSTimeInterval(int)
                 },
-                defaultTo: 30) {
+                defaultTo: defaultPeriod) {
                     return .Timer(period: period)
             }
         }
@@ -144,8 +156,8 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
 
     guard let factor = parse(url.host, with: factorParser, defaultTo: nil),
         let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, overrideWith: externalSecret),
-        let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: Token.URLSerializer.defaultAlgorithm),
-        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Token.URLSerializer.defaultDigits),
+        let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: defaultAlgorithm),
+        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: defaultDigits),
         let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
             return nil
     }

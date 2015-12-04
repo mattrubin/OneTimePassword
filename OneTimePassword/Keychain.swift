@@ -107,9 +107,9 @@ private let kOTPService = "me.mattrubin.onetimepassword.token"
 
 private extension Token {
     private func keychainAttributes() throws -> [String: AnyObject] {
-        guard let url = Token.URLSerializer.serialize(self),
-            let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
-                throw Keychain.Error.TokenSerializationFailure
+        let url = try self.toURL()
+        guard let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
+            throw Keychain.Error.TokenSerializationFailure
         }
         return [
             kSecAttrGeneric as String:  data,
@@ -126,7 +126,7 @@ private extension PersistentToken {
             let secret = keychainDictionary[kSecValueData as String] as? NSData,
             let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
             let url = NSURL(string: string as String),
-            let token = Token.URLSerializer.deserialize(url, secret: secret) else {
+            let token = Token(url: url, secret: secret) else {
                 return nil
         }
         self.init(token: token, identifier: keychainItemRef)
