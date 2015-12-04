@@ -108,11 +108,8 @@ private let kOTPService = "me.mattrubin.onetimepassword.token"
 private extension Token {
     private func keychainAttributes() throws -> [String: AnyObject] {
         let url = try self.toURL()
-        let data: NSData
-        if #available(iOSApplicationExtension 9.0, *) {
-            data = url.dataRepresentation
-        } else {
-            data = NSData()
+        guard let data = url.absoluteString.dataUsingEncoding(NSUTF8StringEncoding) else {
+            throw Keychain.Error.TokenSerializationFailure
         }
         return [
             kSecAttrGeneric as String:  data,
