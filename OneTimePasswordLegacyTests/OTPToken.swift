@@ -34,8 +34,8 @@ documentation.
 public final class OTPToken: NSObject {
     required public override init() {}
 
-    public var name: String = Token.defaultName
-    public var issuer: String = Token.defaultIssuer
+    public var name: String = OTPToken.defaultName
+    public var issuer: String = OTPToken.defaultIssuer
     public var type: OTPTokenType = .Timer
     public var secret: NSData = NSData()
     public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm
@@ -43,6 +43,8 @@ public final class OTPToken: NSObject {
     public var period: NSTimeInterval = OTPToken.defaultPeriod
     public var counter: UInt64 = OTPToken.defaultInitialCounter
 
+    private static let defaultName: String = ""
+    private static let defaultIssuer: String = ""
     private static let defaultAlgorithm: OTPAlgorithm = .SHA1
     private static var defaultDigits: UInt = 6
     private static var defaultInitialCounter: UInt64 = 0
