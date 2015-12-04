@@ -44,17 +44,14 @@ extension Token {
             return nil
         }
     }
-
-
-    public struct URLSerializer {
-        public static let defaultAlgorithm: Generator.Algorithm = .SHA1
-        public static let defaultDigits: Int = 6
-    }
 }
 
 enum SerializationError: ErrorType {
     case URLGenerationFailure
 }
+
+private let defaultAlgorithm: Generator.Algorithm = .SHA1
+private let defaultDigits: Int = 6
 
 private let kOTPAuthScheme = "otpauth"
 private let kQueryAlgorithmKey = "algorithm"
@@ -155,8 +152,8 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
 
     guard let factor = parse(url.host, with: factorParser, defaultTo: nil),
         let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, overrideWith: externalSecret),
-        let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: Token.URLSerializer.defaultAlgorithm),
-        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: Token.URLSerializer.defaultDigits),
+        let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: defaultAlgorithm),
+        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: defaultDigits),
         let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
             return nil
     }
