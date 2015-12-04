@@ -37,13 +37,18 @@ extension Token {
         )
     }
 
+    public init?(url: NSURL, secret: NSData? = nil) {
+        if let token = tokenFromURL(url, secret: secret) {
+            self = token
+        } else {
+            return nil
+        }
+    }
+
+
     public struct URLSerializer {
         public static let defaultAlgorithm: Generator.Algorithm = .SHA1
         public static let defaultDigits: Int = 6
-
-        public static func deserialize(url: NSURL, secret: NSData? = nil) -> Token? {
-            return tokenFromURL(url, secret: secret)
-        }
     }
 }
 

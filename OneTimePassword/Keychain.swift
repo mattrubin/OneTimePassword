@@ -126,7 +126,7 @@ private extension PersistentToken {
             let secret = keychainDictionary[kSecValueData as String] as? NSData,
             let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? NSData,
             let url = NSURL(string: string as String),
-            let token = Token.URLSerializer.deserialize(url, secret: secret) else {
+            let token = Token(url: url, secret: secret) else {
                 return nil
         }
         self.init(token: token, identifier: keychainItemRef)
