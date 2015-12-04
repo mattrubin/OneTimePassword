@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Matt Rubin. All rights reserved.
 //
 
+@import Foundation;
 #import "OneTimePasswordLegacyTests-Swift.h"
 
 
@@ -24,5 +25,4 @@ extern NSString *const kOTPAlgorithmSHA512;
 
 @interface NSString (OTPAlgorithm)
 + (instancetype)stringForAlgorithm:(OTPAlgorithm)algorithm;
-- (OTPAlgorithm)algorithmValue;
 @end

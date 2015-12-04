@@ -51,17 +51,4 @@ NSString *const kOTPAlgorithmSHA512 = @"SHA512";
     }
 }
 
-- (OTPAlgorithm)algorithmValue
-{
-    if ([self isEqualToString:kOTPAlgorithmSHA1]) {
-        return OTPAlgorithmSHA1;
-    } else if ([self isEqualToString:kOTPAlgorithmSHA256]) {
-        return OTPAlgorithmSHA256;
-    } else if ([self isEqualToString:kOTPAlgorithmSHA512]) {
-        return OTPAlgorithmSHA512;
-    }
-
-    return OTPAlgorithmUnknown;
-}
-
 @end
