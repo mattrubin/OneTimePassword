@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import OneTimePasswordLegacy
 
 class OTPTokenTests: XCTestCase {
     func testInit() {
