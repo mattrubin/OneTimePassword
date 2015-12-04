@@ -82,7 +82,7 @@ public extension OTPToken {
     }
 
     static func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
-        guard let token = Token.URLSerializer.deserialize(url, secret: secret) else {
+        guard let token = Token(url: url, secret: secret) else {
             return nil
         }
         return self.init(token: token)
@@ -92,7 +92,7 @@ public extension OTPToken {
         guard let token = tokenForOTPToken(self) else {
             return nil
         }
-        return Token.URLSerializer.serialize(token)
+        return try? token.toURL()
     }
 }
 
