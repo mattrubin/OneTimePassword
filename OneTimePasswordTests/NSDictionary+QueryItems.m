@@ -1,6 +1,6 @@
 //
-//  QueryHelpers.h
-//  Authenticator
+//  NSDictionary+QueryItems.m
+//  OneTimePassword
 //
 //  Copyright (c) 2014 Matt Rubin
 //
@@ -22,11 +22,24 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import Foundation;
+#import "NSDictionary+QueryItems.h"
 
 
-@interface NSURL (QueryDictionary)
+@implementation NSDictionary (QueryItems)
 
-- (NSDictionary *)queryDictionary;
+- (NSArray *)queryItemsArray
+{
+    NSMutableArray *queryItems = [NSMutableArray arrayWithCapacity:self.count];
+    for (NSString *key in self) {
+        id value = self[key];
+        if ([value isKindOfClass:[NSNumber class]]) {
+            value = ((NSNumber *)value).stringValue;
+        } else if (![value isKindOfClass:[NSString class]]) {
+            NSAssert(NO, @":(");
+        }
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:key value:value]];
+    }
+    return queryItems;
+}
 
 @end

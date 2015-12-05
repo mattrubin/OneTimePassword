@@ -1,6 +1,6 @@
 //
-//  QueryHelpers.h
-//  Authenticator
+//  NSDictionary+QueryItems.h
+//  OneTimePassword
 //
 //  Copyright (c) 2014 Matt Rubin
 //
@@ -22,11 +22,11 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 
-@interface NSURL (QueryDictionary)
+@interface NSDictionary (QueryItems)
 
-- (NSDictionary *)queryDictionary;
+- (NSArray *)queryItemsArray;
 
 @end
