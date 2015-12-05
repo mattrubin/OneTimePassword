@@ -39,7 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A7643FD57ED1F34ED96D4DB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		560131D4F5D140EA8458D149 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B0E42750F64443678FAFD9B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAlgorithm.h; sourceTree = "<group>"; };
 		C93A24F3196AF8E900F86892 /* OTPAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAlgorithm.m; sourceTree = "<group>"; };
 		C93A24F4196AF8E900F86892 /* OTPToken+Generation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OTPToken+Generation.h"; sourceTree = "<group>"; };
@@ -61,7 +63,6 @@
 		C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C82491946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C983AB6E197F913400975003 /* OTPBase32Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPBase32Tests.m; sourceTree = "<group>"; };
-		CA0307BA64104BFF93EB7509 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +88,6 @@
 		746E7166AD60449882DD84C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CA0307BA64104BFF93EB7509 /* Pods.xcconfig */,
 				560131D4F5D140EA8458D149 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -100,6 +100,7 @@
 				C97C82471946E51D00FD9F4C /* OneTimePasswordTests */,
 				746E7166AD60449882DD84C7 /* Frameworks */,
 				C97C82391946E51D00FD9F4C /* Products */,
+				D51C4BB102CF877149530BC7 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -159,6 +160,15 @@
 				C97C82491946E51D00FD9F4C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D51C4BB102CF877149530BC7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9B0E42750F64443678FAFD9B /* Pods.debug.xcconfig */,
+				4A7643FD57ED1F34ED96D4DB /* Pods.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,7 +295,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D546BD042EBE4EDF9F8F7C62 /* Check Pods Manifest.lock */ = {
@@ -428,7 +438,7 @@
 		};
 		C97C824F1946E51D00FD9F4C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
+			baseConfigurationReference = 9B0E42750F64443678FAFD9B /* Pods.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -444,7 +454,7 @@
 		};
 		C97C82501946E51D00FD9F4C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
+			baseConfigurationReference = 4A7643FD57ED1F34ED96D4DB /* Pods.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -460,15 +470,14 @@
 		};
 		C97C82521946E51D00FD9F4C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${SRCROOT}/Pods/Headers/Public\"",
 				);
 				INFOPLIST_FILE = OneTimePasswordTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -479,11 +488,10 @@
 		};
 		C97C82531946E51D00FD9F4C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA0307BA64104BFF93EB7509 /* Pods.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
+				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"${SRCROOT}/Pods/Headers/Public\"",
 				);
 				INFOPLIST_FILE = OneTimePasswordTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
