@@ -27,6 +27,6 @@
 
 @interface NSDictionary (QueryItems)
 
-- (NSArray *)queryItemsArray;
+- (NSArray *)queryItems;
 
 @end

@@ -27,7 +27,7 @@
 
 @implementation NSDictionary (QueryItems)
 
-- (NSArray *)queryItemsArray
+- (NSArray *)queryItems
 {
     NSMutableArray *queryItems = [NSMutableArray arrayWithCapacity:self.count];
     for (NSString *key in self) {

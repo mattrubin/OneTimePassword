@@ -96,7 +96,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                     if (![name isEqual:[NSNull null]])
                                         urlComponents.path = [@"/" stringByAppendingString:name];
-                                    urlComponents.queryItems = [query queryItemsArray];
+                                    urlComponents.queryItems = [query queryItems];
 
                                     // Create the token
                                     OTPToken *token = [OTPToken tokenWithURL:[urlComponents URL]];
@@ -160,7 +160,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                     if (![name isEqual:[NSNull null]])
                                         urlComponents.path = [@"/" stringByAppendingString:name];
-                                    urlComponents.queryItems = [query queryItemsArray];
+                                    urlComponents.queryItems = [query queryItems];
 
                                     // Create the token
                                     NSData *secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
