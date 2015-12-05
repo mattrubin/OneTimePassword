@@ -1,8 +1,8 @@
 //
-//  OTPToken+Serialization.h
+//  QueryHelpers.m
 //  Authenticator
 //
-//  Copyright (c) 2013 Matt Rubin
+//  Copyright (c) 2014 Matt Rubin
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -22,21 +22,39 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPToken.h"
+#import "QueryHelpers.h"
 
 
-@interface OTPToken (Serialization)
+@implementation NSURL (QueryDictionary)
 
-+ (instancetype)tokenWithURL:(NSURL *)url;
-+ (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret;
-
-- (NSURL *)url;
+- (NSDictionary *)queryDictionary
+{
+    NSArray *queryItems = [NSURLComponents componentsWithURL:self resolvingAgainstBaseURL:NO].queryItems;
+    NSMutableDictionary *queryDictionary = [NSMutableDictionary dictionaryWithCapacity:queryItems.count];
+    for (NSURLQueryItem *item in queryItems) {
+        queryDictionary[item.name] = item.value;
+    }
+    return queryDictionary;
+}
 
 @end
 
 
-@interface NSData (Secret)
+@implementation NSDictionary (QueryItems)
 
-+ (NSData *)secretWithString:(NSString *)string;
+- (NSArray *)queryItemsArray
+{
+    NSMutableArray *queryItems = [NSMutableArray arrayWithCapacity:self.count];
+    for (NSString *key in self) {
+        id value = self[key];
+        if ([value isKindOfClass:[NSNumber class]]) {
+            value = ((NSNumber *)value).stringValue;
+        } else if (![value isKindOfClass:[NSString class]]) {
+            NSAssert(NO, @":(");
+        }
+        [queryItems addObject:[NSURLQueryItem queryItemWithName:key value:value]];
+    }
+    return queryItems;
+}
 
 @end

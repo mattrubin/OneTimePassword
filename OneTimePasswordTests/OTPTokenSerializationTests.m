@@ -24,6 +24,7 @@
 
 @import XCTest;
 @import OneTimePassword;
+#import "QueryHelpers.h"
 #import <Base32/MF_Base32Additions.h>
 
 

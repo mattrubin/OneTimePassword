@@ -1,8 +1,8 @@
 //
-//  OTPToken+Serialization.h
+//  QueryHelpers.h
 //  Authenticator
 //
-//  Copyright (c) 2013 Matt Rubin
+//  Copyright (c) 2014 Matt Rubin
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -22,21 +22,18 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPToken.h"
+@import Foundation;
 
 
-@interface OTPToken (Serialization)
+@interface NSURL (QueryDictionary)
 
-+ (instancetype)tokenWithURL:(NSURL *)url;
-+ (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret;
-
-- (NSURL *)url;
+- (NSDictionary *)queryDictionary;
 
 @end
 
 
-@interface NSData (Secret)
+@interface NSDictionary (QueryItems)
 
-+ (NSData *)secretWithString:(NSString *)string;
+- (NSArray *)queryItemsArray;
 
 @end

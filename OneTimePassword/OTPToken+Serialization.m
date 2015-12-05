@@ -23,6 +23,7 @@
 //
 
 #import "OTPToken+Serialization.h"
+#import "QueryHelpers.h"
 #import <Base32/MF_Base32Additions.h>
 
 
@@ -134,41 +135,6 @@ static NSString *const kQueryIssuerKey = @"issuer";
 + (NSData *)secretWithString:(NSString *)string
 {
     return [NSData dataWithBase32String:string];
-}
-
-@end
-
-
-@implementation NSURL (QueryDictionary)
-
-- (NSDictionary *)queryDictionary
-{
-    NSArray *queryItems = [NSURLComponents componentsWithURL:self resolvingAgainstBaseURL:NO].queryItems;
-    NSMutableDictionary *queryDictionary = [NSMutableDictionary dictionaryWithCapacity:queryItems.count];
-    for (NSURLQueryItem *item in queryItems) {
-        queryDictionary[item.name] = item.value;
-    }
-    return queryDictionary;
-}
-
-@end
-
-
-@implementation NSDictionary (QueryItems)
-
-- (NSArray *)queryItemsArray
-{
-    NSMutableArray *queryItems = [NSMutableArray arrayWithCapacity:self.count];
-    for (NSString *key in self) {
-        id value = self[key];
-        if ([value isKindOfClass:[NSNumber class]]) {
-            value = ((NSNumber *)value).stringValue;
-        } else if (![value isKindOfClass:[NSString class]]) {
-            NSAssert(NO, @":(");
-        }
-        [queryItems addObject:[NSURLQueryItem queryItemWithName:key value:value]];
-    }
-    return queryItems;
 }
 
 @end
