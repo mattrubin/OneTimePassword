@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -108,7 +108,9 @@
 				C97C82391946E51D00FD9F4C /* Products */,
 				D51C4BB102CF877149530BC7 /* Pods */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		C97C82391946E51D00FD9F4C /* Products */ = {
 			isa = PBXGroup;
@@ -245,6 +247,7 @@
 		C97C822F1946E51D00FD9F4C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = OTP;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
@@ -258,7 +261,7 @@
 				};
 			};
 			buildConfigurationList = C97C82321946E51D00FD9F4C /* Build configuration list for PBXProject "OneTimePassword" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
