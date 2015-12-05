@@ -23,7 +23,7 @@
 		C93A2516196AFE1100F86892 /* OTPTokenGenerationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A2513196AFE1100F86892 /* OTPTokenGenerationTests.m */; };
 		C93A2517196AFE1100F86892 /* OTPTokenPersistenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A2514196AFE1100F86892 /* OTPTokenPersistenceTests.m */; };
 		C93A2518196AFE1100F86892 /* OTPTokenSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */; };
-		C93BD5EA1C127DBC00FFFB8F /* QueryHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = C93BD5E81C127DBC00FFFB8F /* QueryHelpers.m */; };
+		C93BD5EA1C127DBC00FFFB8F /* NSURL+QueryItems.m in Sources */ = {isa = PBXBuildFile; fileRef = C93BD5E81C127DBC00FFFB8F /* NSURL+QueryItems.m */; };
 		C93BD5ED1C12A05400FFFB8F /* NSDictionary+QueryItems.m in Sources */ = {isa = PBXBuildFile; fileRef = C93BD5EC1C12A05400FFFB8F /* NSDictionary+QueryItems.m */; };
 		C97C823E1946E51D00FD9F4C /* OneTimePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = C97C823D1946E51D00FD9F4C /* OneTimePassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
@@ -59,8 +59,8 @@
 		C93A2513196AFE1100F86892 /* OTPTokenGenerationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenGenerationTests.m; sourceTree = "<group>"; };
 		C93A2514196AFE1100F86892 /* OTPTokenPersistenceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenPersistenceTests.m; sourceTree = "<group>"; };
 		C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenSerializationTests.m; sourceTree = "<group>"; };
-		C93BD5E71C127DBC00FFFB8F /* QueryHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryHelpers.h; sourceTree = "<group>"; };
-		C93BD5E81C127DBC00FFFB8F /* QueryHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryHelpers.m; sourceTree = "<group>"; };
+		C93BD5E71C127DBC00FFFB8F /* NSURL+QueryItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+QueryItems.h"; sourceTree = "<group>"; };
+		C93BD5E81C127DBC00FFFB8F /* NSURL+QueryItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+QueryItems.m"; sourceTree = "<group>"; };
 		C93BD5EB1C12A05400FFFB8F /* NSDictionary+QueryItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+QueryItems.h"; sourceTree = "<group>"; };
 		C93BD5EC1C12A05400FFFB8F /* NSDictionary+QueryItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QueryItems.m"; sourceTree = "<group>"; };
 		C97C82381946E51D00FD9F4C /* OneTimePassword.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,8 +135,8 @@
 				C93A24FD196AF8E900F86892 /* OTPTokenType.m */,
 				C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */,
 				C93A24F3196AF8E900F86892 /* OTPAlgorithm.m */,
-				C93BD5E71C127DBC00FFFB8F /* QueryHelpers.h */,
-				C93BD5E81C127DBC00FFFB8F /* QueryHelpers.m */,
+				C93BD5E71C127DBC00FFFB8F /* NSURL+QueryItems.h */,
+				C93BD5E81C127DBC00FFFB8F /* NSURL+QueryItems.m */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
 			);
 			path = OneTimePassword;
@@ -330,7 +330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C93BD5EA1C127DBC00FFFB8F /* QueryHelpers.m in Sources */,
+				C93BD5EA1C127DBC00FFFB8F /* NSURL+QueryItems.m in Sources */,
 				C93A2505196AF8E900F86892 /* OTPToken+Serialization.m in Sources */,
 				C93A24FF196AF8E900F86892 /* OTPAlgorithm.m in Sources */,
 				C93A2507196AF8E900F86892 /* OTPToken.m in Sources */,

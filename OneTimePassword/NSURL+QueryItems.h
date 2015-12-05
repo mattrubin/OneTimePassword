@@ -1,5 +1,5 @@
 //
-//  QueryHelpers.h
+//  NSURL+QueryItems.h
 //  Authenticator
 //
 //  Copyright (c) 2014 Matt Rubin
@@ -25,7 +25,7 @@
 @import Foundation;
 
 
-@interface NSURL (QueryDictionary)
+@interface NSURL (QueryItems)
 
 - (NSDictionary *)queryDictionary;
 

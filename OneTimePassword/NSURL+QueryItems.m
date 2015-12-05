@@ -1,5 +1,5 @@
 //
-//  QueryHelpers.m
+//  NSURL+QueryItems.m
 //  Authenticator
 //
 //  Copyright (c) 2014 Matt Rubin
@@ -22,10 +22,10 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "QueryHelpers.h"
+#import "NSURL+QueryItems.h"
 
 
-@implementation NSURL (QueryDictionary)
+@implementation NSURL (QueryItems)
 
 - (NSDictionary *)queryDictionary
 {

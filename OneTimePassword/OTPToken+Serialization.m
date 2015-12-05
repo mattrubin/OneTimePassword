@@ -23,7 +23,7 @@
 //
 
 #import "OTPToken+Serialization.h"
-#import "QueryHelpers.h"
+#import "NSURL+QueryItems.h"
 #import <Base32/MF_Base32Additions.h>
 
 
