@@ -2,6 +2,9 @@
 
 excluded:
   - Carthage
+enabled_rules:
+ - empty_count
+ - missing_docs
 disabled_rules:
  - cyclomatic_complexity
  - function_body_length
