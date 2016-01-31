@@ -26,6 +26,8 @@
 import Foundation
 import OneTimePassword
 
+// swiftlint:disable missing_docs
+
 /**
 `OTPToken` is a mutable, Objective-C-compatible wrapper around `OneTimePassword.Token`. For more
 information about its properties and methods, consult the underlying `OneTimePassword`
