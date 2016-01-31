@@ -2,7 +2,7 @@
 //  Keychain.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2015 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2016 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -94,9 +94,13 @@ public final class Keychain {
 
     // MARK: Errors
 
+    /// An error type enum representing the various errors a `Keychain` operation can throw.
     public enum Error: ErrorType {
+        /// The keychain operation returned a system error code.
         case SystemError(OSStatus)
+        /// The keychain operation returned an unexpected type of data.
         case IncorrectReturnType
+        /// The given token could not be serialized to keychain data.
         case TokenSerializationFailure
     }
 }
