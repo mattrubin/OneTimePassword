@@ -3,6 +3,8 @@
 excluded:
   - Carthage
 disabled_rules:
+ - cyclomatic_complexity
  - function_body_length
  - line_length
  - opening_brace
+ - valid_docs
