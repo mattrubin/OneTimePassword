@@ -2,7 +2,7 @@
 //  PersistentToken.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2015 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2016 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -40,6 +40,7 @@ public struct PersistentToken: Equatable, Hashable {
         self.identifier = identifier
     }
 
+    /// A hash value for the persistent token, providing `Hashable` conformance.
     public var hashValue: Int {
         // Since we expect every `PersistentToken`s identifier to be unique, the identifier's hash
         // value makes a simple and adequate hash value for the struct as a whole.

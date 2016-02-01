@@ -2,7 +2,7 @@
 //  Token+URL.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2015 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2016 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import Base32
 extension Token {
     // MARK: Serialization
 
+    /// Serializes the token to a URL.
     public func toURL() throws -> NSURL {
         return try urlForToken(
             name: name,
@@ -39,6 +40,7 @@ extension Token {
         )
     }
 
+    /// Attempts to initialize a token represented by the give URL.
     public init?(url: NSURL, secret: NSData? = nil) {
         if let token = tokenFromURL(url, secret: secret) {
             self = token
