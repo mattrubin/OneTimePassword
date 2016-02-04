@@ -12,6 +12,10 @@ A great pull request:
 
 Please note that this project is released with a [Contributor Code of Conduct][conduct]. By participating in this project you agree to abide by its terms.
 
+[issues]: https://github.com/mattrubin/OneTimePassword/issues
+[conduct]: CONDUCT.md
+
+
 ## Getting Started
 
 1. Check out the latest version of the project:
@@ -29,6 +33,7 @@ git submodule update --init --recursive
 
 4. Build and run the "OneTimePassword" scheme.
 
+
 ## Managing Dependencies
 
 OneTimePassword uses [Carthage][] to manage its dependencies, but it does not currently use Carthage to build those dependencies. The dependent projects are checked out as submodules, are included in `OneTimePassword.xcworkspace`, and are built by Xcode as target dependencies of the OneTimePassword framework.
@@ -40,8 +45,5 @@ To update the dependencies, modify the [Cartfile][] and run:
 carthage update --no-build --use-submodules
 ```
 
-
-[issues]: https://github.com/mattrubin/OneTimePassword/issues
-[conduct]: CONDUCT.md
 [Carthage]: https://github.com/Carthage/Carthage
 [Cartfile]: https://github.com/mattrubin/OneTimePassword/blob/master/Cartfile
