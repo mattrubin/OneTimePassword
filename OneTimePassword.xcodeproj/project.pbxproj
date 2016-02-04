@@ -89,6 +89,8 @@
 		C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPToken.swift; sourceTree = "<group>"; };
 		C9E639071BDDFCA0002D9231 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CommonCrypto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E829531C62DFDA003F5FC9 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		C9E829541C62FFBD003F5FC9 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
+		C9E829551C630514003F5FC9 /* CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONDUCT.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,8 @@
 			children = (
 				C94B9BCA1BD7271E0073D7C5 /* AUTHORS.txt */,
 				C9E829531C62DFDA003F5FC9 /* CHANGELOG.md */,
+				C9E829551C630514003F5FC9 /* CONDUCT.md */,
+				C9E829541C62FFBD003F5FC9 /* CONTRIBUTING.md */,
 				C94B9BC81BD7270E0073D7C5 /* LICENSE.md */,
 				C94B9BC91BD727150073D7C5 /* README.md */,
 			);
