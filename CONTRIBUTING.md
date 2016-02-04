@@ -1,3 +1,5 @@
+Please note that this project is released with a [Contributor Code of Conduct][conduct]. By participating in this project you agree to abide by its terms.
+
 ## Getting Started
 
 1. Check out the [latest version of the project][project] using Git.
@@ -21,6 +23,7 @@ $ carthage update --no-build --use-submodules
 ```
 
 
+[conduct]: CONDUCT.md
 [project]: https://github.com/mattrubin/OneTimePassword
 [Carthage]: https://github.com/Carthage/Carthage
 [Cartfile]: https://github.com/mattrubin/OneTimePassword/blob/master/Cartfile
