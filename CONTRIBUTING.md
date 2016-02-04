@@ -14,12 +14,16 @@ Please note that this project is released with a [Contributor Code of Conduct][c
 
 ## Getting Started
 
-1. Check out the [latest version of the project][project] using Git.
+1. Check out the latest version of the project:
 
-2. Check out the project's dependencies with `git submodule init` and `git submodule update`.
+    `git clone https://github.com/mattrubin/OneTimePassword.git`
+
+2. Check out the project's dependencies:
+
+    `git submodule update --init --recursive`
 
 3. Open the `OneTimePassword.xcworkspace` file.
-> If you open the `.xcodeproj` instead, the app will not be able to find its dependencies.
+> If you open the `.xcodeproj` instead, the project will not be able to find its dependencies.
 
 4. Build and run the "OneTimePassword" scheme.
 
@@ -37,6 +41,5 @@ $ carthage update --no-build --use-submodules
 
 [issues]: https://github.com/mattrubin/OneTimePassword/issues
 [conduct]: CONDUCT.md
-[project]: https://github.com/mattrubin/OneTimePassword
 [Carthage]: https://github.com/Carthage/Carthage
 [Cartfile]: https://github.com/mattrubin/OneTimePassword/blob/master/Cartfile
