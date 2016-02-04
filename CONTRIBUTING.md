@@ -37,7 +37,7 @@ To check out the dependencies, simply follow the "Getting Started" instructions 
 
 To update the dependencies, modify the [Cartfile][] and run:
 ```
-$ carthage update --no-build --use-submodules
+carthage update --no-build --use-submodules
 ```
 
 
