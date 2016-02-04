@@ -1,3 +1,15 @@
+# Contributing
+
+**Pull requests are welcome!**
+
+If you encounter a problem with OneTimePassword, feel free to [open an issue][issues]. If you know how to fix the bug or implement the desired feature, a pull request is even better.
+
+A great pull request:
+- Follows the coding style and conventions of the project.
+- Adds tests to cover the added functionality or fixed bug.
+- Is accompanied by a clear explanation of its purpose.
+- Remains as simple as possible while achieving its intended goal.
+
 Please note that this project is released with a [Contributor Code of Conduct][conduct]. By participating in this project you agree to abide by its terms.
 
 ## Getting Started
@@ -23,6 +35,7 @@ $ carthage update --no-build --use-submodules
 ```
 
 
+[issues]: https://github.com/mattrubin/OneTimePassword/issues
 [conduct]: CONDUCT.md
 [project]: https://github.com/mattrubin/OneTimePassword
 [Carthage]: https://github.com/Carthage/Carthage
