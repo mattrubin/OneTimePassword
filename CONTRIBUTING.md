@@ -29,7 +29,7 @@ git submodule update --init --recursive
 
 4. Build and run the "OneTimePassword" scheme.
 
-## Dependencies
+## Managing Dependencies
 
 OneTimePassword uses [Carthage][] to manage its dependencies, but it does not currently use Carthage to build those dependencies. The dependent projects are checked out as submodules, are included in `OneTimePassword.xcworkspace`, and are built by Xcode as target dependencies of the OneTimePassword framework.
 
