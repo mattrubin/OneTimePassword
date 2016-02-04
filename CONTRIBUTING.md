@@ -19,14 +19,14 @@ Please note that this project is released with a [Contributor Code of Conduct][c
 ## Getting Started
 
 1. Check out the latest version of the project:
-```
-git clone https://github.com/mattrubin/OneTimePassword.git
-```
+  ```
+  git clone https://github.com/mattrubin/OneTimePassword.git
+  ```
 
 2. Check out the project's dependencies:
-```
-git submodule update --init --recursive
-```
+  ```
+  git submodule update --init --recursive
+  ```
 
 3. Open the `OneTimePassword.xcworkspace` file.
 > If you open the `.xcodeproj` instead, the project will not be able to find its dependencies.
