@@ -1,20 +1,24 @@
 # Changelog
 
-## [2.0.0-beta.3][] (2015-02-03)
+## 2.0.0
+
+### [In development][master]
+
+### [2.0.0-beta.3][] (2015-02-03)
 - Add documentation comments to `Token` and `Generator`
 - Add static constants for default values
 - Remove useless convenience initializer from `OTPToken`
 
-## [2.0.0-beta.2][] (2015-02-01)
+### [2.0.0-beta.2][] (2015-02-01)
 - Fix compatibility issues in OneTimePasswordLegacy
 - Build and link dependencies directly, instead of relying on a pre-built framework
 
-## [2.0.0-beta.1][] (2015-02-01)
+### [2.0.0-beta.1][] (2015-02-01)
 - Refactor `OTPToken` to prevent issues when creating invalid tokens
 - Improve testing of legacy tokens with invalid timer period or digits
 - Turn off Swift optimizations in Release builds (to avoid a keychain access issue)
 
-## [2.0.0-beta][] (2015-01-26)
+### [2.0.0-beta][] (2015-01-26)
 Version 2.0 bundles the library in a Framework bundle.
 
 ## [1.1.1][] (2015-12-05)
@@ -30,6 +34,7 @@ Version 2.0 bundles the library in a Framework bundle.
 
 ## [1.0.0][] (2014-07-17)
 
+[master]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.3...master
 [2.0.0-beta.3]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.2...2.0.0-beta.3
 [2.0.0-beta.2]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.1...2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta...2.0.0-beta.1
