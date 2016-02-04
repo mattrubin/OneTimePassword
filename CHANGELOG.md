@@ -3,6 +3,8 @@
 ## 2.0.0
 
 ### [In development][master]
+- Refactor and document new Swift framework
+- Remove legacy Objective-C framework
 
 ### [2.0.0-beta.3][] (2015-02-03)
 - Add documentation comments to `Token` and `Generator`
@@ -19,7 +21,8 @@
 - Turn off Swift optimizations in Release builds (to avoid a keychain access issue)
 
 ### [2.0.0-beta][] (2015-01-26)
-Version 2.0 bundles the library in a Framework bundle.
+- Convert the library to Swift and compile it into a Framework bundle for iOS 8+.
+- Replace CocoaPods with Carthage for dependency management.
 
 ## [1.1.1][] (2015-12-05)
 - Bump deployment target to iOS 8 (the framework product was already unsupported on iOS 7) (#46, #48)
