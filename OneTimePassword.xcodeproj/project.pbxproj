@@ -53,6 +53,7 @@
 		C93A2519196B1BA400F86892 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		C944A55E1A7EDAE200E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5941A809CC000E08B1E /* OTPTokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTokenTests.swift; sourceTree = "<group>"; };
+		C94765061C64587800C7527E /* Cartfile.private */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
 		C94B2006197774A20014A202 /* TokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
 		C94B9BC81BD7270E0073D7C5 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		C94B9BC91BD727150073D7C5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -293,6 +294,7 @@
 				C9B84D1D1C015EC0002EE631 /* .swiftlint.yml */,
 				C9B84D1E1C015EC0002EE631 /* .travis.yml */,
 				C9B84D1F1C015EC8002EE631 /* Cartfile */,
+				C94765061C64587800C7527E /* Cartfile.private */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
