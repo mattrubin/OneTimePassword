@@ -1,10 +1,12 @@
 # Changelog
 
-## 2.0.0
+## [2.0.0][master] (In development)
 
-### [In development][master]
+### [2.0.0-beta.4][] (2016-02-04)
 - Refactor and document new Swift framework
 - Remove legacy Objective-C framework
+- Add framework dependency for CommonCrypto
+- Improve framework tests
 
 ### [2.0.0-beta.3][] (2015-02-03)
 - Add documentation comments to `Token` and `Generator`
@@ -37,7 +39,9 @@
 
 ## [1.0.0][] (2014-07-17)
 
-[master]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.3...master
+[master]: https://github.com/mattrubin/OneTimePassword/compare/1.1.1...master
+
+[2.0.0-beta.4]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.3...2.0.0-beta.4
 [2.0.0-beta.3]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.2...2.0.0-beta.3
 [2.0.0-beta.2]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.1...2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta...2.0.0-beta.1
