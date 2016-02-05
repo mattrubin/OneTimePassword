@@ -2,7 +2,7 @@
 //  Generator.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2015 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2016 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,8 @@ public struct Generator: Equatable {
     /// - parameter algorithm: The cryptographic hash function
     /// - parameter digits:    The number of digits in the password
     ///
-    /// - returns: A new password generator with the given parameters.
+    /// - returns: A new password generator with the given parameters, or `nil` if the parameters
+    ///            are invalid.
     public init?(factor: Factor, secret: NSData, algorithm: Algorithm, digits: Int) {
         guard Generator.validateFactor(factor) && Generator.validateDigits(digits) else {
             return nil

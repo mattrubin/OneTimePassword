@@ -2,7 +2,7 @@
 //  OTPToken.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2013-2015 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2013-2016 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -28,11 +28,9 @@ import OneTimePassword
 
 // swiftlint:disable missing_docs
 
-/**
-`OTPToken` is a mutable, Objective-C-compatible wrapper around `OneTimePassword.Token`. For more
-information about its properties and methods, consult the underlying `OneTimePassword`
-documentation.
-*/
+/// `OTPToken` is a mutable, Objective-C-compatible wrapper around `OneTimePassword.Token`. For more
+/// information about its properties and methods, consult the underlying `OneTimePassword`
+/// documentation.
 public final class OTPToken: NSObject {
     required public override init() {}
 
