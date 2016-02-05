@@ -28,7 +28,8 @@ import Foundation
 /// A `Token` contains a password generator and information identifying the corresponding account.
 public struct Token: Equatable {
 
-    /// A string indicating the account represented by the token. This is often an email address or username.
+    /// A string indicating the account represented by the token.
+    /// This is often an email address or username.
     public let name: String
 
     /// A string indicating the provider or service which issued the token.
