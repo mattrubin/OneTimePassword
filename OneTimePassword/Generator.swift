@@ -48,7 +48,8 @@ public struct Generator: Equatable {
     /// - parameter algorithm: The cryptographic hash function
     /// - parameter digits:    The number of digits in the password
     ///
-    /// - returns: A new password generator with the given parameters.
+    /// - returns: A new password generator with the given parameters, or `nil` if the parameters
+    ///            are invalid.
     public init?(factor: Factor, secret: NSData, algorithm: Algorithm, digits: Int) {
         guard Generator.validateFactor(factor) && Generator.validateDigits(digits) else {
             return nil
