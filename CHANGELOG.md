@@ -2,6 +2,11 @@
 
 ## [2.0.0][master] (In development)
 
+### [2.0.0-beta.5][] (2016-02-05)
+- Use custom `modulemap`s to link CommonCrypto, removing external dependency on `soffes/Crypto` (#57)
+- Make `jspahrsummers/xcconfigs` a private dependency. (#58)
+- Update `OneTimePassword.podspec` to build the new framework. (#59) 
+
 ### [2.0.0-beta.4][] (2016-02-04)
 - Refactor and document new Swift framework
 - Remove legacy Objective-C framework
@@ -41,6 +46,7 @@
 
 [master]: https://github.com/mattrubin/OneTimePassword/compare/1.1.1...master
 
+[2.0.0-beta.5]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.4...2.0.0-beta.5
 [2.0.0-beta.4]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.3...2.0.0-beta.4
 [2.0.0-beta.3]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.2...2.0.0-beta.3
 [2.0.0-beta.2]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.1...2.0.0-beta.2
