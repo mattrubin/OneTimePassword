@@ -5,6 +5,8 @@
 ### [2.0.0-beta.4][] (2016-02-04)
 - Refactor and document new Swift framework
 - Remove legacy Objective-C framework
+- Add framework dependency for CommonCrypto
+- Improve framework tests
 
 ### [2.0.0-beta.3][] (2015-02-03)
 - Add documentation comments to `Token` and `Generator`
