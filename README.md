@@ -14,7 +14,7 @@ The OneTimePassword library is the core of [Authenticator](http://mattrubin.me/a
 
 ### [Carthage][]
 
-Add the following line to your Cartfile:
+Add the following line to your [Cartfile][]:
 
 ```
 github "mattrubin/OneTimePassword" ~> 2.0
@@ -25,6 +25,7 @@ Then run `carthage update OneTimePassword` to install the latest version of the 
 Be sure to check the Carthage README file for the latest instructions on [adding frameworks to an application][carthage-instructions].
 
 [Carthage]: https://github.com/Carthage/Carthage
+[Cartfile]: https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile
 [carthage-instructions]: https://github.com/Carthage/Carthage/blob/master/README.md#adding-frameworks-to-an-application
 
 
@@ -36,7 +37,7 @@ Add the following line to your [Podfile][]:
 pod 'OneTimePassword', '~> 2.0'
 ```
 
-OneTimePassword, like all pods written in Swift, can only be integrated as a framework. Make sure to add the line `use_frameworks!` to your Podfile or target to opt into using it.
+OneTimePassword, like all pods written in Swift, can only be integrated as a framework. Make sure to add the line `use_frameworks!` to your Podfile or target to opt into framework products.
 
 Then run `pod install` to install the latest version of the framework.
 
