@@ -28,5 +28,22 @@ Be sure to check the Carthage README file for the latest instructions on [adding
 [carthage-instructions]: https://github.com/Carthage/Carthage/blob/master/README.md#adding-frameworks-to-an-application
 
 
+### [CocoaPods][]
+
+Add the following line to your [Podfile][]:
+
+```ruby
+pod 'OneTimePassword', '~> 2.0'
+```
+
+OneTimePassword, like all pods written in Swift, can only be integrated as a framework. Make sure to add the line `use_frameworks!` to your Podfile or target to opt into using it.
+
+Then run `pod install` to install the latest version of the framework.
+
+[CocoaPods]: https://cocoapods.org
+[Podfile]: https://guides.cocoapods.org/using/the-podfile.html
+
+
+
 ## License
 OneTimePassword was created by [Matt Rubin](http://mattrubin.me) and the [OneTimePassword authors](AUTHORS.txt) and is released under the [MIT License](LICENSE.md).
