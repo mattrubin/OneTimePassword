@@ -1,6 +1,6 @@
 # Changelog
 
-## [In development][master]
+<!--## [In development][master]-->
 
 ## [2.0.0][] (2016-02-07)
 
