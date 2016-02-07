@@ -38,7 +38,6 @@ Be sure to check the Carthage README file for the latest instructions on [adding
 [Cartfile]: https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile
 [carthage-instructions]: https://github.com/Carthage/Carthage/blob/master/README.md#adding-frameworks-to-an-application
 
-
 ### [CocoaPods][]
 
 Add the following line to your [Podfile][]:
@@ -104,6 +103,55 @@ The password at a specific point in time:
 ````swift
 let now: NSTimeInterval = NSDate().timeIntervalSince1970
 let passwordAtTime = token.generator.passwordAtTime(now)
+````
+
+### Persistence
+
+To save a token to the keychain:
+````swift
+let keychain = Keychain.sharedInstance
+do {
+    let persistentToken = try keychain.addToken(token)
+    print("Saved to keychain with identifier: \(persistentToken.identifier)")
+} catch {
+    print("Keychain error: \(error)")
+}
+````
+
+To retrieve a token from the keychain:
+````swift
+let keychain = Keychain.sharedInstance
+do {
+    let persistentToken = try keychain.persistentTokenWithIdentifier(identifier)
+    print("Retrieved token: \(persistentToken)")
+    // Or...
+    let persistentTokens = try keychain.allPersistentTokens()
+} catch {
+    print("Keychain error: \(error)")
+}
+````
+
+To update a saved token in the keychain:
+````swift
+let keychain = Keychain.sharedInstance
+do {
+    let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
+        withToken: token)
+    print("Updated token: \(updatedPersistentToken)")
+} catch {
+    print("Keychain error: \(error)")
+}
+````
+
+To delete a token from the keychain:
+````swift
+let keychain = Keychain.sharedInstance
+do {
+    try keychain.deletePersistentToken(persistentToken)
+    print("Deleted token")
+} catch {
+    print("Keychain error: \(error)")
+}
 ````
 
 
