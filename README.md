@@ -107,9 +107,13 @@ let passwordAtTime = token.generator.passwordAtTime(now)
 
 ### Persistence
 
-To save a token to the keychain:
+Token persistence is managed by the `Keychain` class, which represents the iOS system keychain.
 ````swift
 let keychain = Keychain.sharedInstance
+````
+
+To save a token to the keychain:
+````swift
 do {
     let persistentToken = try keychain.addToken(token)
     print("Saved to keychain with identifier: \(persistentToken.identifier)")
@@ -120,7 +124,6 @@ do {
 
 To retrieve a token from the keychain:
 ````swift
-let keychain = Keychain.sharedInstance
 do {
     let persistentToken = try keychain.persistentTokenWithIdentifier(identifier)
     print("Retrieved token: \(persistentToken)")
@@ -133,7 +136,6 @@ do {
 
 To update a saved token in the keychain:
 ````swift
-let keychain = Keychain.sharedInstance
 do {
     let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
         withToken: token)
@@ -145,7 +147,6 @@ do {
 
 To delete a token from the keychain:
 ````swift
-let keychain = Keychain.sharedInstance
 do {
     try keychain.deletePersistentToken(persistentToken)
     print("Deleted token")
