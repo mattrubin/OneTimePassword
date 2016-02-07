@@ -14,6 +14,11 @@ The OneTimePassword library is the core of [Authenticator][]. It can generate bo
 [RFC 4226]: https://tools.ietf.org/html/rfc4226
 [otpauth]: https://github.com/google/google-authenticator/wiki/Key-Uri-Format
 
+> The latest version of the OneTimePassword library has been designed with a modern Swift API, and does not offer compatibility with Objective-C. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
+
+[objc]: https://github.com/mattrubin/OneTimePassword/tree/objc
+[releases]: https://github.com/mattrubin/OneTimePassword/releases
+
 
 ## Installation
 
