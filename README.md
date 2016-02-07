@@ -110,12 +110,12 @@ let password = token.currentPassword
 To generate the password at a specific point in time:
 
 ````swift
-let now: NSTimeInterval = NSDate().timeIntervalSince1970
+let time = someDate.timeIntervalSince1970
 do {
-    let passwordAtTime = try token.generator.passwordAtTime(now)
+    let passwordAtTime = try token.generator.passwordAtTime(time)
     print("Password at time: \(passwordAtTime)")
 } catch {
-    print("Cannot generate password for invalid time.")
+    print("Cannot generate password for invalid time \(time)")
 }
 ````
 
