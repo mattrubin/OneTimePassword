@@ -167,4 +167,7 @@ do {
 
 
 ## License
-OneTimePassword was created by [Matt Rubin](http://mattrubin.me) and the [OneTimePassword authors](AUTHORS.txt) and is released under the [MIT License](LICENSE.md).
+
+OneTimePassword was created by [Matt Rubin][] and the [OneTimePassword authors](AUTHORS.txt) and is released under the [MIT License](LICENSE.md).
+
+[Matt Rubin]: https://mattrubin.me
