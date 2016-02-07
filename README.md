@@ -21,7 +21,7 @@ The OneTimePassword library is the core of [Authenticator][]. It can generate bo
 
 Add the following line to your [Cartfile][]:
 
-````
+````config
 github "mattrubin/OneTimePassword" ~> 2.0
 ````
 
