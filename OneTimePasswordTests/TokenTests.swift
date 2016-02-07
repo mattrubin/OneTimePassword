@@ -27,13 +27,16 @@ import XCTest
 import OneTimePassword
 
 class TokenTests: XCTestCase {
+    let secretData = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+    let otherSecretData = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
+
     func testInit() {
         // Create a token
         let name = "Test Name"
         let issuer = "Test Issuer"
         guard let generator = Generator(
             factor: .Counter(111),
-            secret: "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!,
+            secret: secretData,
             algorithm: .SHA1,
             digits: 6
         ) else {
@@ -56,7 +59,7 @@ class TokenTests: XCTestCase {
         let other_issuer = "Other Test Issuer"
         guard let other_generator = Generator(
             factor: .Timer(period: 123),
-            secret: "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!,
+            secret: otherSecretData,
             algorithm: .SHA512,
             digits: 8
         ) else {
@@ -109,7 +112,7 @@ class TokenTests: XCTestCase {
     func testCurrentPassword() {
         guard let timerGenerator = Generator(
             factor: .Timer(period: 30),
-            secret: NSData(),
+            secret: secretData,
             algorithm: .SHA1,
             digits: 6
         ) else {
@@ -131,7 +134,7 @@ class TokenTests: XCTestCase {
 
         guard let counterGenerator = Generator(
             factor: .Counter(12345),
-            secret: NSData(),
+            secret: otherSecretData,
             algorithm: .SHA1,
             digits: 6
             ) else {
