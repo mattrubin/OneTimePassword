@@ -1,6 +1,8 @@
 # Changelog
 
-## [2.0.0][master] (In development)
+## [In development][master]
+
+## [2.0.0][] (2016-02-07)
 
 ### [2.0.0-rc][] (2016-02-07)
 - Update `Token` tests for full test coverage. (#66)
@@ -51,8 +53,9 @@
 
 ## [1.0.0][] (2014-07-17)
 
-[master]: https://github.com/mattrubin/OneTimePassword/compare/1.1.1...master
+[master]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0...master
 
+[2.0.0]: https://github.com/mattrubin/OneTimePassword/compare/1.1.1...2.0.0
 [2.0.0-rc]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.5...2.0.0
 [2.0.0-beta.5]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.4...2.0.0-beta.5
 [2.0.0-beta.4]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.3...2.0.0-beta.4
