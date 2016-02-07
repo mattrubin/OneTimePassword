@@ -21,7 +21,7 @@ The OneTimePassword library is the core of [Authenticator][]. It can generate bo
 
 Add the following line to your [Cartfile][]:
 
-````
+````config
 github "mattrubin/OneTimePassword" ~> 2.0
 ````
 
@@ -64,6 +64,7 @@ The [`Generator`][Generator] struct contains the parameters necessary to generat
 [Token]: https://github.com/mattrubin/OneTimePassword/blob/master/OneTimePassword/Token.swift
 
 To initialize a token with an `otpauth://` url:
+
 ````swift
 if let token = Token(url: url) {
     print("Password: \(token.currentPassword)")
@@ -73,6 +74,7 @@ if let token = Token(url: url) {
 ````
 
 To create a generator and a token from user input:
+
 ````swift
 let name = "..."
 let issuer = "..."
@@ -100,11 +102,13 @@ return token
 ### Generate a One-Time Password
 
 To generate the current password:
+
 ````swift
 let password = token.currentPassword
 ````
 
 To generate the password at a specific point in time:
+
 ````swift
 let now: NSTimeInterval = NSDate().timeIntervalSince1970
 let passwordAtTime = token.generator.passwordAtTime(now)
@@ -113,6 +117,7 @@ let passwordAtTime = token.generator.passwordAtTime(now)
 ### Persistence
 
 Token persistence is managed by the [`Keychain`][Keychain] class, which represents the iOS system keychain.
+
 ````swift
 let keychain = Keychain.sharedInstance
 ````
@@ -123,6 +128,7 @@ The [`PersistentToken`][PersistentToken] struct represents a `Token` that has be
 [PersistentToken]: https://github.com/mattrubin/OneTimePassword/blob/master/OneTimePassword/PersistentToken.swift
 
 To save a token to the keychain:
+
 ````swift
 do {
     let persistentToken = try keychain.addToken(token)
@@ -133,6 +139,7 @@ do {
 ````
 
 To retrieve a token from the keychain:
+
 ````swift
 do {
     let persistentToken = try keychain.persistentTokenWithIdentifier(identifier)
@@ -145,6 +152,7 @@ do {
 ````
 
 To update a saved token in the keychain:
+
 ````swift
 do {
     let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
@@ -156,6 +164,7 @@ do {
 ````
 
 To delete a token from the keychain:
+
 ````swift
 do {
     try keychain.deletePersistentToken(persistentToken)
