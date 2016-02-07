@@ -58,7 +58,10 @@ Then run `pod install` to install the latest version of the framework.
 
 ### Create a Token
 
-The `Generator` struct contains the parameters necessary to generate a one-time password. The `Token` struct associates a generator with a `name` and an `issuer` string.
+The [`Generator`][Generator] struct contains the parameters necessary to generate a one-time password. The [`Token`][Token] struct associates a generator with a `name` and an `issuer` string.
+
+[Generator]: https://github.com/mattrubin/OneTimePassword/blob/master/OneTimePassword/Generator.swift
+[Token]: https://github.com/mattrubin/OneTimePassword/blob/master/OneTimePassword/Token.swift
 
 To initialize a token with an `otpauth://` url:
 ````swift
@@ -109,12 +112,15 @@ let passwordAtTime = token.generator.passwordAtTime(now)
 
 ### Persistence
 
-Token persistence is managed by the `Keychain` class, which represents the iOS system keychain.
+Token persistence is managed by the [`Keychain`][Keychain] class, which represents the iOS system keychain.
 ````swift
 let keychain = Keychain.sharedInstance
 ````
 
-The `PersistentToken` struct represents a `Token` that has been saved to the keychain, and associates a token with a keychain-provided data `identifier`.
+The [`PersistentToken`][PersistentToken] struct represents a `Token` that has been saved to the keychain, and associates a token with a keychain-provided data `identifier`.
+
+[Keychain]: https://github.com/mattrubin/OneTimePassword/blob/master/OneTimePassword/Keychain.swift
+[PersistentToken]: https://github.com/mattrubin/OneTimePassword/blob/master/OneTimePassword/PersistentToken.swift
 
 To save a token to the keychain:
 ````swift
