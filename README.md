@@ -26,9 +26,9 @@ The OneTimePassword library is the core of [Authenticator][]. It can generate bo
 
 Add the following line to your [Cartfile][]:
 
-```
+````
 github "mattrubin/OneTimePassword" ~> 2.0
-```
+````
 
 Then run `carthage update OneTimePassword` to install the latest version of the framework.
 
@@ -43,9 +43,9 @@ Be sure to check the Carthage README file for the latest instructions on [adding
 
 Add the following line to your [Podfile][]:
 
-```ruby
+````ruby
 pod 'OneTimePassword', '~> 2.0'
-```
+````
 
 OneTimePassword, like all pods written in Swift, can only be integrated as a framework. Make sure to add the line `use_frameworks!` to your Podfile or target to opt into frameworks instead of static libraries.
 
@@ -54,6 +54,57 @@ Then run `pod install` to install the latest version of the framework.
 [CocoaPods]: https://cocoapods.org
 [Podfile]: https://guides.cocoapods.org/using/the-podfile.html
 
+
+## Usage
+
+### Create a Token
+
+To initialize a token with an `otpauth://` url:
+````swift
+if let token = Token(url: url) {
+    print("Password: \(token.currentPassword)")
+} else {
+    print("Invalid token URL")
+}
+````
+
+To create a generator and a token from user input:
+````swift
+let name = "..."
+let issuer = "..."
+let secretString = "..."
+
+guard let secretData = NSData(base32String: secretString)
+    where secretData.length > 0 else {
+        print("Invalid secret")
+        return nil
+}
+
+guard let generator = Generator(
+    factor: .Timer(period: 30),
+    secret: secretData,
+    algorithm: .SHA1,
+    digits: 6) else {
+        print("Invalid generator parameters")
+        return nil
+}
+
+let token = Token(name: name, issuer: issuer, generator: generator)
+return token
+````
+
+### Generate a One-Time Password
+
+The current password:
+````swift
+let password = token.currentPassword
+````
+
+The password at a specific point in time:
+````swift
+let now: NSTimeInterval = NSDate().timeIntervalSince1970
+let passwordAtTime = token.generator.passwordAtTime(now)
+````
 
 
 ## License
