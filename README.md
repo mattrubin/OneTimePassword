@@ -114,6 +114,8 @@ Token persistence is managed by the `Keychain` class, which represents the iOS s
 let keychain = Keychain.sharedInstance
 ````
 
+The `PersistentToken` struct represents a `Token` that has been saved to the keychain, and associates a token with a keychain-provided data `identifier`.
+
 To save a token to the keychain:
 ````swift
 do {
