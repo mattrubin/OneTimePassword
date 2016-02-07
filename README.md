@@ -58,6 +58,8 @@ Then run `pod install` to install the latest version of the framework.
 
 ### Create a Token
 
+The `Generator` struct contains the parameters necessary to generate a one-time password. The `Token` struct associates a generator with a `name` and an `issuer` string.
+
 To initialize a token with an `otpauth://` url:
 ````swift
 if let token = Token(url: url) {
@@ -126,7 +128,7 @@ To retrieve a token from the keychain:
 ````swift
 do {
     let persistentToken = try keychain.persistentTokenWithIdentifier(identifier)
-    print("Retrieved token: \(persistentToken)")
+    print("Retrieved token: \(persistentToken.token)")
     // Or...
     let persistentTokens = try keychain.allPersistentTokens()
 } catch {
@@ -149,7 +151,7 @@ To delete a token from the keychain:
 ````swift
 do {
     try keychain.deletePersistentToken(persistentToken)
-    print("Deleted token")
+    print("Deleted token.")
 } catch {
     print("Keychain error: \(error)")
 }
