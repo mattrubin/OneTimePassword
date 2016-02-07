@@ -154,4 +154,44 @@ class TokenTests: XCTestCase {
             return
         }
     }
+
+    func testUpdatedToken() {
+        guard let timerGenerator = Generator(
+            factor: .Timer(period: 30),
+            secret: secretData,
+            algorithm: .SHA1,
+            digits: 6
+            ) else {
+                XCTFail()
+                return
+        }
+        let timerToken = Token(generator: timerGenerator)
+
+        let updatedTimerToken = timerToken.updatedToken()
+        XCTAssertEqual(timerToken, updatedTimerToken)
+
+        let count: UInt64 = 12345
+        guard let counterGenerator = Generator(
+            factor: .Counter(count),
+            secret: otherSecretData,
+            algorithm: .SHA1,
+            digits: 6
+            ) else {
+                XCTFail()
+                return
+        }
+        let counterToken = Token(generator: counterGenerator)
+
+        let updatedCounterToken = counterToken.updatedToken()
+        XCTAssertNotEqual(updatedCounterToken, counterToken)
+
+        XCTAssertEqual(updatedCounterToken.name, counterToken.name)
+        XCTAssertEqual(updatedCounterToken.issuer, counterToken.issuer)
+        XCTAssertEqual(updatedCounterToken.generator.secret, counterToken.generator.secret)
+        XCTAssertEqual(updatedCounterToken.generator.algorithm, counterToken.generator.algorithm)
+        XCTAssertEqual(updatedCounterToken.generator.digits, counterToken.generator.digits)
+
+        let updatedFactor = Generator.Factor.Counter(count + 1)
+        XCTAssertEqual(updatedCounterToken.generator.factor, updatedFactor)
+    }
 }
