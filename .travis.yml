@@ -15,6 +15,7 @@ env:
   - DESTINATION="OS=8.4,name=iPhone 6"
   - DESTINATION="OS=9.0,name=iPhone 6 Plus"
   - DESTINATION="OS=9.1,name=iPhone 6S"
+  - DESTINATION="OS=9.2,name=iPhone 6S Plus"
 
 # Check out nested dependencies
 before_install: git submodule update --init --recursive
