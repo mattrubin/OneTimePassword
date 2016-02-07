@@ -105,4 +105,50 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(tokenWithAllDefaults.name, "")
         XCTAssertEqual(tokenWithAllDefaults.issuer, "")
     }
+
+    func testCurrentPassword() {
+        guard let timerGenerator = Generator(
+            factor: .Timer(period: 30),
+            secret: NSData(),
+            algorithm: .SHA1,
+            digits: 6
+        ) else {
+            XCTFail()
+            return
+        }
+        let timerToken = Token(generator: timerGenerator)
+
+        do {
+            let password = try timerToken.generator.passwordAtTime(NSDate().timeIntervalSince1970)
+            XCTAssertEqual(timerToken.currentPassword, password)
+
+            let oldPassword = try timerToken.generator.passwordAtTime(0)
+            XCTAssertNotEqual(timerToken.currentPassword, oldPassword)
+        } catch {
+            XCTFail()
+            return
+        }
+
+        guard let counterGenerator = Generator(
+            factor: .Counter(12345),
+            secret: NSData(),
+            algorithm: .SHA1,
+            digits: 6
+            ) else {
+                XCTFail()
+                return
+        }
+        let counterToken = Token(generator: counterGenerator)
+
+        do {
+            let password = try counterToken.generator.passwordAtTime(NSDate().timeIntervalSince1970)
+            XCTAssertEqual(counterToken.currentPassword, password)
+
+            let oldPassword = try counterToken.generator.passwordAtTime(0)
+            XCTAssertEqual(counterToken.currentPassword, oldPassword)
+        } catch {
+            XCTFail()
+            return
+        }
+    }
 }
