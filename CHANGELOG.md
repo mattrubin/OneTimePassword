@@ -2,6 +2,13 @@
 
 ## [2.0.0][master] (In development)
 
+### [2.0.0-rc][] (2016-02-07)
+- Update `Token` tests for full test coverage. (#66)
+- Add installation and usage instructions to the README. (#63, #65, #67)
+- Upgrade the Travis build configuration to use Xcode 7.2 and iOS 9.2. (#66)
+- Add a README file to the CommonCrypto folder to explain the custom modulemaps. (#64)
+- Assorted cleanup and formatting improvements. (#61, #62)
+
 ### [2.0.0-beta.5][] (2016-02-05)
 - Use custom `modulemap`s to link CommonCrypto, removing external dependency on `soffes/Crypto` (#57)
 - Make `jspahrsummers/xcconfigs` a private dependency. (#58)
@@ -46,6 +53,7 @@
 
 [master]: https://github.com/mattrubin/OneTimePassword/compare/1.1.1...master
 
+[2.0.0-rc]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.5...2.0.0
 [2.0.0-beta.5]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.4...2.0.0-beta.5
 [2.0.0-beta.4]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.3...2.0.0-beta.4
 [2.0.0-beta.3]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.2...2.0.0-beta.3
