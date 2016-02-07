@@ -27,13 +27,16 @@ import XCTest
 import OneTimePassword
 
 class TokenTests: XCTestCase {
+    let secretData = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+    let otherSecretData = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
+
     func testInit() {
         // Create a token
         let name = "Test Name"
         let issuer = "Test Issuer"
         guard let generator = Generator(
             factor: .Counter(111),
-            secret: "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!,
+            secret: secretData,
             algorithm: .SHA1,
             digits: 6
         ) else {
@@ -56,7 +59,7 @@ class TokenTests: XCTestCase {
         let other_issuer = "Other Test Issuer"
         guard let other_generator = Generator(
             factor: .Timer(period: 123),
-            secret: "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!,
+            secret: otherSecretData,
             algorithm: .SHA512,
             digits: 8
         ) else {
@@ -104,5 +107,91 @@ class TokenTests: XCTestCase {
         let tokenWithAllDefaults = Token(generator: generator)
         XCTAssertEqual(tokenWithAllDefaults.name, "")
         XCTAssertEqual(tokenWithAllDefaults.issuer, "")
+    }
+
+    func testCurrentPassword() {
+        guard let timerGenerator = Generator(
+            factor: .Timer(period: 30),
+            secret: secretData,
+            algorithm: .SHA1,
+            digits: 6
+        ) else {
+            XCTFail()
+            return
+        }
+        let timerToken = Token(generator: timerGenerator)
+
+        do {
+            let password = try timerToken.generator.passwordAtTime(NSDate().timeIntervalSince1970)
+            XCTAssertEqual(timerToken.currentPassword, password)
+
+            let oldPassword = try timerToken.generator.passwordAtTime(0)
+            XCTAssertNotEqual(timerToken.currentPassword, oldPassword)
+        } catch {
+            XCTFail()
+            return
+        }
+
+        guard let counterGenerator = Generator(
+            factor: .Counter(12345),
+            secret: otherSecretData,
+            algorithm: .SHA1,
+            digits: 6
+        ) else {
+            XCTFail()
+            return
+        }
+        let counterToken = Token(generator: counterGenerator)
+
+        do {
+            let password = try counterToken.generator.passwordAtTime(NSDate().timeIntervalSince1970)
+            XCTAssertEqual(counterToken.currentPassword, password)
+
+            let oldPassword = try counterToken.generator.passwordAtTime(0)
+            XCTAssertEqual(counterToken.currentPassword, oldPassword)
+        } catch {
+            XCTFail()
+            return
+        }
+    }
+
+    func testUpdatedToken() {
+        guard let timerGenerator = Generator(
+            factor: .Timer(period: 30),
+            secret: secretData,
+            algorithm: .SHA1,
+            digits: 6
+        ) else {
+            XCTFail()
+            return
+        }
+        let timerToken = Token(generator: timerGenerator)
+
+        let updatedTimerToken = timerToken.updatedToken()
+        XCTAssertEqual(updatedTimerToken, timerToken)
+
+        let count: UInt64 = 12345
+        guard let counterGenerator = Generator(
+            factor: .Counter(count),
+            secret: otherSecretData,
+            algorithm: .SHA1,
+            digits: 6
+        ) else {
+            XCTFail()
+            return
+        }
+        let counterToken = Token(generator: counterGenerator)
+
+        let updatedCounterToken = counterToken.updatedToken()
+        XCTAssertNotEqual(updatedCounterToken, counterToken)
+
+        XCTAssertEqual(updatedCounterToken.name, counterToken.name)
+        XCTAssertEqual(updatedCounterToken.issuer, counterToken.issuer)
+        XCTAssertEqual(updatedCounterToken.generator.secret, counterToken.generator.secret)
+        XCTAssertEqual(updatedCounterToken.generator.algorithm, counterToken.generator.algorithm)
+        XCTAssertEqual(updatedCounterToken.generator.digits, counterToken.generator.digits)
+
+        let updatedFactor = Generator.Factor.Counter(count + 1)
+        XCTAssertEqual(updatedCounterToken.generator.factor, updatedFactor)
     }
 }

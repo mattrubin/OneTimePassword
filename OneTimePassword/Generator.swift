@@ -65,8 +65,9 @@ public struct Generator: Equatable {
     /// Generates the password for the given point in time.
     ///
     /// - parameter time: The target time, as seconds since the Unix epoch.
+    ///                   The time value must be positive.
     ///
-    /// - throws: A `Generator.Error` if a valid password cannot be generated.
+    /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
     public func passwordAtTime(time: NSTimeInterval) throws -> String {
         guard Generator.validateDigits(digits) else {

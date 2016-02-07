@@ -5,8 +5,8 @@ language: objective-c
 xcode_workspace: OneTimePassword.xcworkspace
 xcode_scheme: OneTimePassword
 
-osx_image: xcode7.1
-xcode_sdk: iphonesimulator9.1
+osx_image: xcode7.2
+xcode_sdk: iphonesimulator9.2
 
 env:
   - DESTINATION="OS=8.1,name=iPhone 4S"
@@ -15,6 +15,7 @@ env:
   - DESTINATION="OS=8.4,name=iPhone 6"
   - DESTINATION="OS=9.0,name=iPhone 6 Plus"
   - DESTINATION="OS=9.1,name=iPhone 6S"
+  - DESTINATION="OS=9.2,name=iPhone 6S Plus"
 
 # Check out nested dependencies
 before_install: git submodule update --init --recursive
