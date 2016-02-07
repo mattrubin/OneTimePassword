@@ -42,7 +42,7 @@ Add the following line to your [Podfile][]:
 pod 'OneTimePassword', '~> 2.0'
 ```
 
-OneTimePassword, like all pods written in Swift, can only be integrated as a framework. Make sure to add the line `use_frameworks!` to your Podfile or target to opt into framework products.
+OneTimePassword, like all pods written in Swift, can only be integrated as a framework. Make sure to add the line `use_frameworks!` to your Podfile or target to opt into frameworks instead of static libraries.
 
 Then run `pod install` to install the latest version of the framework.
 
