@@ -137,9 +137,9 @@ class TokenTests: XCTestCase {
             secret: otherSecretData,
             algorithm: .SHA1,
             digits: 6
-            ) else {
-                XCTFail()
-                return
+        ) else {
+            XCTFail()
+            return
         }
         let counterToken = Token(generator: counterGenerator)
 
@@ -161,14 +161,14 @@ class TokenTests: XCTestCase {
             secret: secretData,
             algorithm: .SHA1,
             digits: 6
-            ) else {
-                XCTFail()
-                return
+        ) else {
+            XCTFail()
+            return
         }
         let timerToken = Token(generator: timerGenerator)
 
         let updatedTimerToken = timerToken.updatedToken()
-        XCTAssertEqual(timerToken, updatedTimerToken)
+        XCTAssertEqual(updatedTimerToken, timerToken)
 
         let count: UInt64 = 12345
         guard let counterGenerator = Generator(
@@ -176,9 +176,9 @@ class TokenTests: XCTestCase {
             secret: otherSecretData,
             algorithm: .SHA1,
             digits: 6
-            ) else {
-                XCTFail()
-                return
+        ) else {
+            XCTFail()
+            return
         }
         let counterToken = Token(generator: counterGenerator)
 
