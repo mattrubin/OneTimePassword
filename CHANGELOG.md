@@ -4,6 +4,16 @@
 
 ## [2.0.0][] (2016-02-07)
 
+Version 2 of the OneTimePassword library has been completely redesigned and rewritten with a modern Swift API. The new library source differs too greatly from its predecessor for the changes to be representable in a changelog. The README has a usage guide for the new API.
+
+Additional changes of note:
+- The library is well-tested and the source fully documented.
+- Carthage is used to manage dependencies, which are checked in as Git submodules.
+- Travis CI is used for testing, and Hound CI for linting.
+- The project now has a detailed README, as well as a changelog, guidelines for contributing, and a code of conduct.
+
+Changes between prerelease versions of OneTimePassword version 2 can be found below.
+
 ### [2.0.0-rc][] (2016-02-07)
 - Update `Token` tests for full test coverage. (#66)
 - Add installation and usage instructions to the README. (#63, #65, #67)
