@@ -154,7 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				C97C823A1946E51D00FD9F4C /* Sources */,
-				C97C82471946E51D00FD9F4C /* OneTimePasswordTests */,
+				C97C82471946E51D00FD9F4C /* Tests */,
 				C9A486B7196F352F00524F51 /* OneTimePasswordLegacyTests */,
 				746E7166AD60449882DD84C7 /* Frameworks */,
 				C996EC281A74D5830076B105 /* Configuration */,
@@ -195,7 +195,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C97C82471946E51D00FD9F4C /* OneTimePasswordTests */ = {
+		C97C82471946E51D00FD9F4C /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				C94B2006197774A20014A202 /* TokenTests.swift */,
@@ -205,7 +205,7 @@
 				C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */,
 				C97C82481946E51D00FD9F4C /* Supporting Files */,
 			);
-			path = OneTimePasswordTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		C97C82481946E51D00FD9F4C /* Supporting Files */ = {
