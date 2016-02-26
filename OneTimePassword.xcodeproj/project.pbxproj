@@ -153,7 +153,7 @@
 		C97C822E1946E51D00FD9F4C = {
 			isa = PBXGroup;
 			children = (
-				C97C823A1946E51D00FD9F4C /* OneTimePassword */,
+				C97C823A1946E51D00FD9F4C /* Sources */,
 				C97C82471946E51D00FD9F4C /* OneTimePasswordTests */,
 				C9A486B7196F352F00524F51 /* OneTimePasswordLegacyTests */,
 				746E7166AD60449882DD84C7 /* Frameworks */,
@@ -174,7 +174,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C97C823A1946E51D00FD9F4C /* OneTimePassword */ = {
+		C97C823A1946E51D00FD9F4C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				C93A2519196B1BA400F86892 /* Token.swift */,
@@ -183,7 +183,7 @@
 				C9A9B09A1A81EF4B00F3C4DC /* Persistence */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
 			);
-			path = OneTimePassword;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		C97C823B1946E51D00FD9F4C /* Supporting Files */ = {
