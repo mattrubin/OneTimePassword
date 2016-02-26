@@ -60,8 +60,8 @@ Then run `pod install` to install the latest version of the framework.
 
 The [`Generator`][Generator] struct contains the parameters necessary to generate a one-time password. The [`Token`][Token] struct associates a `generator` with a `name` and an `issuer` string.
 
-[Generator]: https://github.com/mattrubin/OneTimePassword/blob/master/OneTimePassword/Generator.swift
-[Token]: https://github.com/mattrubin/OneTimePassword/blob/master/OneTimePassword/Token.swift
+[Generator]: https://github.com/mattrubin/OneTimePassword/blob/master/Sources/Generator.swift
+[Token]: https://github.com/mattrubin/OneTimePassword/blob/master/Sources/Token.swift
 
 To initialize a token with an `otpauth://` url:
 
@@ -129,8 +129,8 @@ let keychain = Keychain.sharedInstance
 
 The [`PersistentToken`][PersistentToken] struct represents a `Token` that has been saved to the keychain, and associates a `token` with a keychain-provided data `identifier`.
 
-[Keychain]: https://github.com/mattrubin/OneTimePassword/blob/master/OneTimePassword/Keychain.swift
-[PersistentToken]: https://github.com/mattrubin/OneTimePassword/blob/master/OneTimePassword/PersistentToken.swift
+[Keychain]: https://github.com/mattrubin/OneTimePassword/blob/master/Sources/Keychain.swift
+[PersistentToken]: https://github.com/mattrubin/OneTimePassword/blob/master/Sources/PersistentToken.swift
 
 To save a token to the keychain:
 
