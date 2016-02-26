@@ -547,7 +547,7 @@
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				INFOPLIST_FILE = OneTimePassword/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"SWIFT_INCLUDE_PATHS[sdk=appletvos*]" = "$(SRCROOT)/CommonCrypto/appletvos";
@@ -567,7 +567,7 @@
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				INFOPLIST_FILE = OneTimePassword/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"SWIFT_INCLUDE_PATHS[sdk=appletvos*]" = "$(SRCROOT)/CommonCrypto/appletvos";
@@ -585,7 +585,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = OneTimePasswordTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -595,7 +595,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = OneTimePasswordTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
