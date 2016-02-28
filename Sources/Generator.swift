@@ -78,15 +78,12 @@ public struct Generator: Equatable {
         var bigCounter = counter.bigEndian
 
         // Generate an HMAC value from the key and counter
-        let hashLength = algorithm.hashFunction.digestLength
-        let hashPointer = UnsafeMutablePointer<UInt8>.alloc(hashLength)
-        defer { hashPointer.dealloc(hashLength) }
         let counterData = NSData(bytes: &bigCounter, length: sizeof(UInt64))
-        Crypto.HMAC(algorithm.hashFunction, key: secret, data: counterData, hashPointer)
+        let hash = Crypto.HMAC(algorithm.hashFunction, key: secret, data: counterData)
 
         // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
-        let ptr = UnsafePointer<UInt8>(hashPointer)
-        let offset = ptr[hashLength-1] & 0x0f
+        let ptr = UnsafePointer<UInt8>(hash.bytes)
+        let offset = ptr[hash.length-1] & 0x0f
 
         // Take 4 bytes from the hash, starting at the given byte offset
         let truncatedHashPtr = ptr + Int(offset)
