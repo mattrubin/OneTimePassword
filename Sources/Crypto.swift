@@ -47,9 +47,9 @@ internal enum Crypto {
         digestLength: Int(CC_SHA512_DIGEST_LENGTH)
     )
 
-    static func HMAC(hashFunction: HashFunction, key: NSData, _ data: UnsafePointer<Void>, _ dataLength: Int, _ macOut: UnsafeMutablePointer<Void>) {
+    static func HMAC(hashFunction: HashFunction, key: NSData, data: NSData, _ macOut: UnsafeMutablePointer<Void>) {
         let algorithm = hashFunction.CCHmacAlgorithm
-        CCHmac(algorithm, key.bytes, key.length, data, dataLength, macOut)
+        CCHmac(algorithm, key.bytes, key.length, data.bytes, data.length, macOut)
     }
 }
 
