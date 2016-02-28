@@ -78,10 +78,10 @@ public struct Generator: Equatable {
         var bigCounter = counter.bigEndian
 
         // Generate an HMAC value from the key and counter
-        let (hashAlgorithm, hashLength) = algorithm.hashInfo
+        let hashLength = algorithm.hashFunction.digestLength
         let hashPointer = UnsafeMutablePointer<UInt8>.alloc(hashLength)
         defer { hashPointer.dealloc(hashLength) }
-        Crypto.Hmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
+        Crypto.Hmac(algorithm.hashFunction, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
 
         // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
         let ptr = UnsafePointer<UInt8>(hashPointer)
@@ -177,14 +177,14 @@ public struct Generator: Equatable {
         case SHA512
 
         /// The corresponding CommonCrypto hash algorithm and hash length.
-        private var hashInfo: (algorithm: Crypto.HmacAlgorithm, length: Int) {
+        private var hashFunction: HashFunction {
             switch self {
             case .SHA1:
-                return (Crypto.SHA1.CCHmacAlgorithm, Crypto.SHA1.digestLength)
+                return Crypto.SHA1
             case .SHA256:
-                return (Crypto.SHA256.CCHmacAlgorithm, Crypto.SHA256.digestLength)
+                return Crypto.SHA256
             case .SHA512:
-                return (Crypto.SHA512.CCHmacAlgorithm, Crypto.SHA512.digestLength)
+                return Crypto.SHA512
             }
         }
     }
