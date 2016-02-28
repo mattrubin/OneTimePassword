@@ -180,11 +180,11 @@ public struct Generator: Equatable {
         private var hashInfo: (algorithm: Crypto.HmacAlgorithm, length: Int) {
             switch self {
             case .SHA1:
-                return (Crypto.HmacAlgSHA1, Crypto.SHA1_DIGEST_LENGTH)
+                return (Crypto.SHA1.CCHmacAlgorithm, Crypto.SHA1.digestLength)
             case .SHA256:
-                return (Crypto.HmacAlgSHA256, Crypto.SHA256_DIGEST_LENGTH)
+                return (Crypto.SHA256.CCHmacAlgorithm, Crypto.SHA256.digestLength)
             case .SHA512:
-                return (Crypto.HmacAlgSHA512, Crypto.SHA512_DIGEST_LENGTH)
+                return (Crypto.SHA512.CCHmacAlgorithm, Crypto.SHA512.digestLength)
             }
         }
     }

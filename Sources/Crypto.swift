@@ -31,16 +31,27 @@ import CommonCrypto
 internal enum Crypto {
     typealias HmacAlgorithm = UInt32
 
-    static let HmacAlgSHA1 = CCHmacAlgorithm(kCCHmacAlgSHA1)
-    static let SHA1_DIGEST_LENGTH = Int(CC_SHA1_DIGEST_LENGTH)
+    enum SHA1: HashFunction {
+        static let CCHmacAlgorithm = UInt32(kCCHmacAlgSHA1)
+        static let digestLength: Int = Int(CC_SHA1_DIGEST_LENGTH)
+    }
 
-    static let HmacAlgSHA256 = CCHmacAlgorithm(kCCHmacAlgSHA256)
-    static let SHA256_DIGEST_LENGTH = Int(CC_SHA256_DIGEST_LENGTH)
+    enum SHA256: HashFunction {
+        static let CCHmacAlgorithm = UInt32(kCCHmacAlgSHA256)
+        static let digestLength: Int = Int(CC_SHA256_DIGEST_LENGTH)
+    }
 
-    static let HmacAlgSHA512 = CCHmacAlgorithm(kCCHmacAlgSHA512)
-    static let SHA512_DIGEST_LENGTH = Int(CC_SHA512_DIGEST_LENGTH)
+    enum SHA512: HashFunction {
+        static let CCHmacAlgorithm = UInt32(kCCHmacAlgSHA512)
+        static let digestLength: Int = Int(CC_SHA512_DIGEST_LENGTH)
+    }
 
     static func Hmac(algorithm: CCHmacAlgorithm, _ key: UnsafePointer<Void>, _ keyLength: Int, _ data: UnsafePointer<Void>, _ dataLength: Int, _ macOut: UnsafeMutablePointer<Void>) {
         CCHmac(algorithm, key, keyLength, data, dataLength, macOut)
     }
+}
+
+protocol HashFunction {
+    static var digestLength: Int { get }
+    static var CCHmacAlgorithm: UInt32 { get }
 }
