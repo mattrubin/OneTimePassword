@@ -31,17 +31,17 @@ import CommonCrypto
 internal enum Crypto {
     typealias HmacAlgorithm = UInt32
 
-    static let SHA1: HashFunction = _HashFunction(
+    static let SHA1 = HashFunction(
         CCHmacAlgorithm: UInt32(kCCHmacAlgSHA1),
         digestLength: Int(CC_SHA1_DIGEST_LENGTH)
     )
 
-    static let SHA256: HashFunction = _HashFunction(
+    static let SHA256 = HashFunction(
         CCHmacAlgorithm: UInt32(kCCHmacAlgSHA256),
         digestLength: Int(CC_SHA256_DIGEST_LENGTH)
     )
 
-    static let SHA512: HashFunction = _HashFunction(
+    static let SHA512 = HashFunction(
         CCHmacAlgorithm: UInt32(kCCHmacAlgSHA512),
         digestLength: Int(CC_SHA512_DIGEST_LENGTH)
     )
@@ -52,12 +52,7 @@ internal enum Crypto {
     }
 }
 
-protocol HashFunction {
-    var digestLength: Int { get }
-    var CCHmacAlgorithm: UInt32 { get }
-}
-
-private struct _HashFunction: HashFunction {
-    let CCHmacAlgorithm: UInt32
-    let digestLength: Int
+internal struct HashFunction {
+    private let CCHmacAlgorithm: UInt32
+    internal let digestLength: Int
 }
