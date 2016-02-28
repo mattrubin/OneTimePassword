@@ -79,7 +79,7 @@ public struct Generator: Equatable {
 
         // Generate an HMAC value from the key and counter
         let counterData = NSData(bytes: &bigCounter, length: sizeof(UInt64))
-        let hash = Crypto.HMAC(algorithm.hashFunction, key: secret, data: counterData)
+        let hash = Crypto.HMAC(algorithm, key: secret, data: counterData)
 
         // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
         let ptr = UnsafePointer<UInt8>(hash.bytes)
@@ -173,18 +173,6 @@ public struct Generator: Equatable {
         case SHA256
         /// The SHA-512 hash function
         case SHA512
-
-        /// The corresponding CommonCrypto hash algorithm and hash length.
-        private var hashFunction: HashFunction {
-            switch self {
-            case .SHA1:
-                return Crypto.SHA1
-            case .SHA256:
-                return Crypto.SHA256
-            case .SHA512:
-                return Crypto.SHA512
-            }
-        }
     }
 
     /// An error type enum representing the various errors a `Generator` can throw when computing a

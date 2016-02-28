@@ -27,22 +27,7 @@ import Foundation
 import CommonCrypto
 
 internal enum Crypto {
-    static let SHA1 = HashFunction(
-        ccHmacAlgorithm: UInt32(kCCHmacAlgSHA1),
-        digestLength: Int(CC_SHA1_DIGEST_LENGTH)
-    )
-
-    static let SHA256 = HashFunction(
-        ccHmacAlgorithm: UInt32(kCCHmacAlgSHA256),
-        digestLength: Int(CC_SHA256_DIGEST_LENGTH)
-    )
-
-    static let SHA512 = HashFunction(
-        ccHmacAlgorithm: UInt32(kCCHmacAlgSHA512),
-        digestLength: Int(CC_SHA512_DIGEST_LENGTH)
-    )
-
-    static func HMAC(hashFunction: HashFunction, key: NSData, data: NSData) -> NSData {
+    static func HMAC(hashFunction: Generator.Algorithm, key: NSData, data: NSData) -> NSData {
         let hashLength = hashFunction.digestLength
 
         let macOut = UnsafeMutablePointer<UInt8>.alloc(hashLength)
@@ -54,7 +39,20 @@ internal enum Crypto {
     }
 }
 
-internal struct HashFunction {
-    private let ccHmacAlgorithm: UInt32
-    internal let digestLength: Int
+extension Generator.Algorithm {
+    private var ccHmacAlgorithm: UInt32 {
+        switch self {
+        case SHA1: return UInt32(kCCHmacAlgSHA1)
+        case SHA256: return UInt32(kCCHmacAlgSHA256)
+        case SHA512: return UInt32(kCCHmacAlgSHA512)
+        }
+    }
+
+    private var digestLength: Int {
+        switch self {
+        case SHA1: return Int(CC_SHA1_DIGEST_LENGTH)
+        case SHA256: return Int(CC_SHA256_DIGEST_LENGTH)
+        case SHA512: return Int(CC_SHA512_DIGEST_LENGTH)
+        }
+    }
 }
