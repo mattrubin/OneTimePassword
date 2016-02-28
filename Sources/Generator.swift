@@ -24,7 +24,6 @@
 //
 
 import Foundation
-import CommonCrypto
 
 /// A `Generator` contains all of the parameters needed to generate a one-time password.
 public struct Generator: Equatable {
@@ -82,7 +81,7 @@ public struct Generator: Equatable {
         let (hashAlgorithm, hashLength) = algorithm.hashInfo
         let hashPointer = UnsafeMutablePointer<UInt8>.alloc(hashLength)
         defer { hashPointer.dealloc(hashLength) }
-        CCHmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
+        Crypto.Hmac(hashAlgorithm, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
 
         // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
         let ptr = UnsafePointer<UInt8>(hashPointer)
@@ -178,14 +177,14 @@ public struct Generator: Equatable {
         case SHA512
 
         /// The corresponding CommonCrypto hash algorithm and hash length.
-        private var hashInfo: (algorithm: CCHmacAlgorithm, length: Int) {
+        private var hashInfo: (algorithm: Crypto.HmacAlgorithm, length: Int) {
             switch self {
             case .SHA1:
-                return (CCHmacAlgorithm(kCCHmacAlgSHA1), Int(CC_SHA1_DIGEST_LENGTH))
+                return (Crypto.HmacAlgSHA1, Crypto.SHA1_DIGEST_LENGTH)
             case .SHA256:
-                return (CCHmacAlgorithm(kCCHmacAlgSHA256), Int(CC_SHA256_DIGEST_LENGTH))
+                return (Crypto.HmacAlgSHA256, Crypto.SHA256_DIGEST_LENGTH)
             case .SHA512:
-                return (CCHmacAlgorithm(kCCHmacAlgSHA512), Int(CC_SHA512_DIGEST_LENGTH))
+                return (Crypto.HmacAlgSHA512, Crypto.SHA512_DIGEST_LENGTH)
             }
         }
     }

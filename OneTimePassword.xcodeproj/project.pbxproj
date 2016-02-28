@@ -25,6 +25,7 @@
 		C9DC7EC4196BD5DF00B50C82 /* Token+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token+URL.swift */; };
 		C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Generator.swift */; };
 		C9E639091BDDFF6B002D9231 /* OneTimePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = C9377D40196B93F900D6C67E /* OneTimePassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9F544AD1C8391630023CCF0 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F544AC1C8391630023CCF0 /* Crypto.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		C9E829531C62DFDA003F5FC9 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		C9E829541C62FFBD003F5FC9 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		C9E829551C630514003F5FC9 /* CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONDUCT.md; sourceTree = "<group>"; };
+		C9F544AC1C8391630023CCF0 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 			children = (
 				C93A2519196B1BA400F86892 /* Token.swift */,
 				C9DC7EC7196BDF3B00B50C82 /* Generator.swift */,
+				C9F544AC1C8391630023CCF0 /* Crypto.swift */,
 				C9307A8619A8522F00609B02 /* Serialization */,
 				C9A9B09A1A81EF4B00F3C4DC /* Persistence */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
@@ -468,6 +471,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9F544AD1C8391630023CCF0 /* Crypto.swift in Sources */,
 				C93A251A196B1BA400F86892 /* Token.swift in Sources */,
 				C95F9FB91C03D6BC00CEA286 /* PersistentToken.swift in Sources */,
 				C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */,
