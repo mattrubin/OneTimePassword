@@ -27,8 +27,6 @@ import Foundation
 import CommonCrypto
 
 internal enum Crypto {
-    typealias HmacAlgorithm = UInt32
-
     static let SHA1 = HashFunction(
         ccHmacAlgorithm: UInt32(kCCHmacAlgSHA1),
         digestLength: Int(CC_SHA1_DIGEST_LENGTH)
