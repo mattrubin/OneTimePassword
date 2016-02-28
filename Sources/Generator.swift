@@ -79,7 +79,7 @@ public struct Generator: Equatable {
 
         // Generate an HMAC value from the key and counter
         let counterData = NSData(bytes: &bigCounter, length: sizeof(UInt64))
-        let hash = Crypto.HMAC(algorithm, key: secret, data: counterData)
+        let hash = HMAC(algorithm, key: secret, data: counterData)
 
         // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
         let ptr = UnsafePointer<UInt8>(hash.bytes)

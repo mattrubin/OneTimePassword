@@ -26,17 +26,15 @@
 import Foundation
 import CommonCrypto
 
-internal enum Crypto {
-    static func HMAC(algorithm: Generator.Algorithm, key: NSData, data: NSData) -> NSData {
-        let (hashFunction, hashLength) = algorithm.hashInfo
+func HMAC(algorithm: Generator.Algorithm, key: NSData, data: NSData) -> NSData {
+    let (hashFunction, hashLength) = algorithm.hashInfo
 
-        let macOut = UnsafeMutablePointer<UInt8>.alloc(hashLength)
-        defer { macOut.dealloc(hashLength) }
+    let macOut = UnsafeMutablePointer<UInt8>.alloc(hashLength)
+    defer { macOut.dealloc(hashLength) }
 
-        CCHmac(hashFunction, key.bytes, key.length, data.bytes, data.length, macOut)
+    CCHmac(hashFunction, key.bytes, key.length, data.bytes, data.length, macOut)
 
-        return NSData(bytes: macOut, length: hashLength)
-    }
+    return NSData(bytes: macOut, length: hashLength)
 }
 
 extension Generator.Algorithm {
