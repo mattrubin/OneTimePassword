@@ -26,24 +26,21 @@
 import Foundation
 import CommonCrypto
 
-// swiftlint:disable function_parameter_count
-// swiftlint:disable variable_name
-
 internal enum Crypto {
     typealias HmacAlgorithm = UInt32
 
     static let SHA1 = HashFunction(
-        CCHmacAlgorithm: UInt32(kCCHmacAlgSHA1),
+        ccHmacAlgorithm: UInt32(kCCHmacAlgSHA1),
         digestLength: Int(CC_SHA1_DIGEST_LENGTH)
     )
 
     static let SHA256 = HashFunction(
-        CCHmacAlgorithm: UInt32(kCCHmacAlgSHA256),
+        ccHmacAlgorithm: UInt32(kCCHmacAlgSHA256),
         digestLength: Int(CC_SHA256_DIGEST_LENGTH)
     )
 
     static let SHA512 = HashFunction(
-        CCHmacAlgorithm: UInt32(kCCHmacAlgSHA512),
+        ccHmacAlgorithm: UInt32(kCCHmacAlgSHA512),
         digestLength: Int(CC_SHA512_DIGEST_LENGTH)
     )
 
@@ -53,13 +50,13 @@ internal enum Crypto {
         let macOut = UnsafeMutablePointer<UInt8>.alloc(hashLength)
         defer { macOut.dealloc(hashLength) }
 
-        CCHmac(hashFunction.CCHmacAlgorithm, key.bytes, key.length, data.bytes, data.length, macOut)
+        CCHmac(hashFunction.ccHmacAlgorithm, key.bytes, key.length, data.bytes, data.length, macOut)
 
         return NSData(bytes: macOut, length: hashLength)
     }
 }
 
 internal struct HashFunction {
-    private let CCHmacAlgorithm: UInt32
+    private let ccHmacAlgorithm: UInt32
     internal let digestLength: Int
 }
