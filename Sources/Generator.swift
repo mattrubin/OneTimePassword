@@ -81,7 +81,7 @@ public struct Generator: Equatable {
         let hashLength = algorithm.hashFunction.digestLength
         let hashPointer = UnsafeMutablePointer<UInt8>.alloc(hashLength)
         defer { hashPointer.dealloc(hashLength) }
-        Crypto.HMAC(algorithm.hashFunction, secret.bytes, secret.length, &bigCounter, sizeof(UInt64), hashPointer)
+        Crypto.HMAC(algorithm.hashFunction, key: secret, &bigCounter, sizeof(UInt64), hashPointer)
 
         // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
         let ptr = UnsafePointer<UInt8>(hashPointer)
