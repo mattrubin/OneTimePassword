@@ -395,13 +395,16 @@
 				TargetAttributes = {
 					C97C82371946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0800;
 					};
 					C97C82421946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0800;
 						TestTargetID = C97C82371946E51D00FD9F4C;
 					};
 					C9A486B2196F352E00524F51 = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0800;
 						TestTargetID = C9A486A8196F352E00524F51;
 					};
 				};
@@ -523,12 +526,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2C1A74D5830076B105 /* Debug.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -537,10 +540,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2E1A74D5830076B105 /* Release.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
