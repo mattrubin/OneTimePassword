@@ -70,7 +70,7 @@ public struct Generator: Equatable {
     /// - returns: The generated password, or throws an error if a password could not be generated.
     public func passwordAtTime(time: TimeInterval) throws -> String {
         guard Generator.validateDigits(digits) else {
-            throw Error.InvalidDigits
+            throw Error.invalidDigits
         }
 
         let counter = try factor.counterAtTime(time)
@@ -154,10 +154,10 @@ public struct Generator: Equatable {
                 return counter
             case .timer(let period):
                 guard Generator.validateTime(time) else {
-                    throw Error.InvalidTime
+                    throw Error.invalidTime
                 }
                 guard Generator.validatePeriod(period) else {
-                    throw Error.InvalidPeriod
+                    throw Error.invalidPeriod
                 }
                 return UInt64(time / period)
             }
@@ -179,11 +179,11 @@ public struct Generator: Equatable {
     /// password.
     public enum Error: ErrorProtocol {
         /// The requested time is before the epoch date.
-        case InvalidTime
+        case invalidTime
         /// The timer period is not a positive number of seconds
-        case InvalidPeriod
+        case invalidPeriod
         /// The number of digits is either too short to be secure, or too long to compute.
-        case InvalidDigits
+        case invalidDigits
     }
 }
 

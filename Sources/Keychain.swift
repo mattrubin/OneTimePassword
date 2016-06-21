@@ -97,11 +97,11 @@ public final class Keychain {
     /// An error type enum representing the various errors a `Keychain` operation can throw.
     public enum Error: ErrorProtocol {
         /// The keychain operation returned a system error code.
-        case SystemError(OSStatus)
+        case systemError(OSStatus)
         /// The keychain operation returned an unexpected type of data.
-        case IncorrectReturnType
+        case incorrectReturnType
         /// The given token could not be serialized to keychain data.
-        case TokenSerializationFailure
+        case tokenSerializationFailure
     }
 }
 
@@ -115,7 +115,7 @@ private extension Token {
         // This line supports the different optionality of `absoluteString` between Xcode 7 and 8
         let urlString: String? = url.absoluteString
         guard let data = urlString?.dataUsingEncoding(NSUTF8StringEncoding) else {
-            throw Keychain.Error.TokenSerializationFailure
+            throw Keychain.Error.tokenSerializationFailure
         }
         return [
             kSecAttrGeneric as String:  data,
@@ -155,10 +155,10 @@ private func addKeychainItemWithAttributes(attributes: [String: AnyObject]) thro
     }
 
     guard resultCode == errSecSuccess else {
-        throw Keychain.Error.SystemError(resultCode)
+        throw Keychain.Error.systemError(resultCode)
     }
     guard let persistentRef = result as? Data else {
-        throw Keychain.Error.IncorrectReturnType
+        throw Keychain.Error.incorrectReturnType
     }
     return persistentRef
 }
@@ -174,7 +174,7 @@ private func updateKeychainItemForPersistentRef(persistentRef: Data,
     let resultCode = SecItemUpdate(queryDict, attributesToUpdate)
 
     guard resultCode == errSecSuccess else {
-        throw Keychain.Error.SystemError(resultCode)
+        throw Keychain.Error.systemError(resultCode)
     }
 }
 
@@ -187,7 +187,7 @@ private func deleteKeychainItemForPersistentRef(persistentRef: Data) throws {
     let resultCode = SecItemDelete(queryDict)
 
     guard resultCode == errSecSuccess else {
-        throw Keychain.Error.SystemError(resultCode)
+        throw Keychain.Error.systemError(resultCode)
     }
 }
 
@@ -210,10 +210,10 @@ private func keychainItemForPersistentRef(persistentRef: Data) throws -> NSDicti
         return nil
     }
     guard resultCode == errSecSuccess else {
-        throw Keychain.Error.SystemError(resultCode)
+        throw Keychain.Error.systemError(resultCode)
     }
     guard let keychainItem = result as? NSDictionary else {
-        throw Keychain.Error.IncorrectReturnType
+        throw Keychain.Error.incorrectReturnType
     }
     return keychainItem
 }
@@ -237,10 +237,10 @@ private func allKeychainItems() throws -> [NSDictionary] {
         return []
     }
     guard resultCode == errSecSuccess else {
-        throw Keychain.Error.SystemError(resultCode)
+        throw Keychain.Error.systemError(resultCode)
     }
     guard let keychainItems = result as? [NSDictionary] else {
-        throw Keychain.Error.IncorrectReturnType
+        throw Keychain.Error.incorrectReturnType
     }
     return keychainItems
 }

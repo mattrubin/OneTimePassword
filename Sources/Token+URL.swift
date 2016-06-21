@@ -51,7 +51,7 @@ extension Token {
 }
 
 internal enum SerializationError: ErrorProtocol {
-    case URLGenerationFailure
+    case urlGenerationFailure
 }
 
 private let defaultAlgorithm: Generator.Algorithm = .SHA1
@@ -112,7 +112,7 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
     urlComponents.queryItems = queryItems
 
     guard let url = urlComponents.URL else {
-        throw SerializationError.URLGenerationFailure
+        throw SerializationError.urlGenerationFailure
     }
     return url
 }
