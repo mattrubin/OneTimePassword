@@ -36,7 +36,7 @@ public final class OTPToken: NSObject {
 
     public var name: String = OTPToken.defaultName
     public var issuer: String = OTPToken.defaultIssuer
-    public var type: OTPTokenType = .Timer
+    public var type: OTPTokenType = .timer
     public var secret: Data = Data()
     public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm
     public var digits: UInt = OTPToken.defaultDigits
@@ -60,10 +60,10 @@ public final class OTPToken: NSObject {
 
         switch token.generator.factor {
         case let .counter(counter):
-            self.type = .Counter
+            self.type = .counter
             self.counter = counter
         case let .timer(period):
-            self.type = .Timer
+            self.type = .timer
             self.period = period
         }
     }
@@ -101,8 +101,10 @@ public extension OTPToken {
 // MARK: Enums
 
 @objc public enum OTPTokenType: UInt8 {
-    case Counter
-    case Timer
+    @objc(OTPTokenTypeCounter)
+    case counter
+    @objc(OTPTokenTypeTimer)
+    case timer
 }
 
 @objc public enum OTPAlgorithm: UInt32 {
@@ -137,9 +139,9 @@ private func tokenForOTPToken(otpToken: OTPToken) -> Token? {
 
 private func factorForOTPToken(otpToken: OTPToken) -> Generator.Factor {
     switch otpToken.type {
-    case .Counter:
+    case .counter:
         return .counter(otpToken.counter)
-    case .Timer:
+    case .timer:
         return .timer(period: otpToken.period)
     }
 }
