@@ -6,6 +6,8 @@ enabled_rules:
   - empty_count
   - missing_docs
 disabled_rules:
+  - comma
+  - conditional_binding_cascade
   - cyclomatic_complexity
   - function_body_length
   - line_length
