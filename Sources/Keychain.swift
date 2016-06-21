@@ -112,7 +112,9 @@ private let kOTPService = "me.mattrubin.onetimepassword.token"
 private extension Token {
     private func keychainAttributes() throws -> [String: AnyObject] {
         let url = try self.toURL()
-        guard let data = url.absoluteString?.dataUsingEncoding(NSUTF8StringEncoding) else {
+        // This line supports the different optionality of absoluteString between Xcode 7 and 8
+        let urlString: String? = url.absoluteString
+        guard let data = urlString?.dataUsingEncoding(NSUTF8StringEncoding) else {
             throw Keychain.Error.TokenSerializationFailure
         }
         return [
