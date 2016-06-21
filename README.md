@@ -87,7 +87,7 @@ guard let secretData = Data(base32String: secretString)
 }
 
 guard let generator = Generator(
-    factor: .Timer(period: 30),
+    factor: .timer(period: 30),
     secret: secretData,
     algorithm: .SHA1,
     digits: 6) else {

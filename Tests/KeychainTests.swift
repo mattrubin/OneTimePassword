@@ -30,7 +30,7 @@ let testToken = Token(
     name: "Name",
     issuer: "Issuer",
     generator: Generator(
-        factor: .Timer(period: 45),
+        factor: .timer(period: 45),
         secret: Data(base32String: "AAAQEAYEAUDAOCAJBIFQYDIOB4"),
         algorithm: .SHA256,
         digits: 8

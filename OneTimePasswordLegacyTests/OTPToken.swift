@@ -59,10 +59,10 @@ public final class OTPToken: NSObject {
         self.digits = UInt(token.generator.digits)
 
         switch token.generator.factor {
-        case let .Counter(counter):
+        case let .counter(counter):
             self.type = .Counter
             self.counter = counter
-        case let .Timer(period):
+        case let .timer(period):
             self.type = .Timer
             self.period = period
         }
@@ -138,9 +138,9 @@ private func tokenForOTPToken(otpToken: OTPToken) -> Token? {
 private func factorForOTPToken(otpToken: OTPToken) -> Generator.Factor {
     switch otpToken.type {
     case .Counter:
-        return .Counter(otpToken.counter)
+        return .counter(otpToken.counter)
     case .Timer:
-        return .Timer(period: otpToken.period)
+        return .timer(period: otpToken.period)
     }
 }
 

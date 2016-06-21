@@ -35,7 +35,7 @@ class TokenTests: XCTestCase {
         let name = "Test Name"
         let issuer = "Test Issuer"
         guard let generator = Generator(
-            factor: .Counter(111),
+            factor: .counter(111),
             secret: secretData,
             algorithm: .SHA1,
             digits: 6
@@ -58,7 +58,7 @@ class TokenTests: XCTestCase {
         let other_name = "Other Test Name"
         let other_issuer = "Other Test Issuer"
         guard let other_generator = Generator(
-            factor: .Timer(period: 123),
+            factor: .timer(period: 123),
             secret: otherSecretData,
             algorithm: .SHA512,
             digits: 8
@@ -85,7 +85,7 @@ class TokenTests: XCTestCase {
 
     func testDefaults() {
         guard let generator = Generator(
-            factor: .Counter(0),
+            factor: .counter(0),
             secret: Data(),
             algorithm: .SHA1,
             digits: 6
@@ -111,7 +111,7 @@ class TokenTests: XCTestCase {
 
     func testCurrentPassword() {
         guard let timerGenerator = Generator(
-            factor: .Timer(period: 30),
+            factor: .timer(period: 30),
             secret: secretData,
             algorithm: .SHA1,
             digits: 6
@@ -133,7 +133,7 @@ class TokenTests: XCTestCase {
         }
 
         guard let counterGenerator = Generator(
-            factor: .Counter(12345),
+            factor: .counter(12345),
             secret: otherSecretData,
             algorithm: .SHA1,
             digits: 6
@@ -157,7 +157,7 @@ class TokenTests: XCTestCase {
 
     func testUpdatedToken() {
         guard let timerGenerator = Generator(
-            factor: .Timer(period: 30),
+            factor: .timer(period: 30),
             secret: secretData,
             algorithm: .SHA1,
             digits: 6
@@ -172,7 +172,7 @@ class TokenTests: XCTestCase {
 
         let count: UInt64 = 12345
         guard let counterGenerator = Generator(
-            factor: .Counter(count),
+            factor: .counter(count),
             secret: otherSecretData,
             algorithm: .SHA1,
             digits: 6
@@ -191,7 +191,7 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(updatedCounterToken.generator.algorithm, counterToken.generator.algorithm)
         XCTAssertEqual(updatedCounterToken.generator.digits, counterToken.generator.digits)
 
-        let updatedFactor = Generator.Factor.Counter(count + 1)
+        let updatedFactor = Generator.Factor.counter(count + 1)
         XCTAssertEqual(updatedCounterToken.generator.factor, updatedFactor)
     }
 }

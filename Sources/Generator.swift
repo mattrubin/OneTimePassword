@@ -109,17 +109,17 @@ public struct Generator: Equatable {
     @warn_unused_result
     public func successor() -> Generator {
         switch factor {
-        case .Counter(let counter):
+        case .counter(let counter):
             // Update a counter-based generator by incrementing the counter. Force-unwrapping should
             // be safe here, since any valid generator should have a valid successor.
             let nextGenerator = Generator(
-                factor: .Counter(counter.successor()),
+                factor: .counter(counter.successor()),
                 secret: secret,
                 algorithm: algorithm,
                 digits: digits
             )
             return nextGenerator!
-        case .Timer:
+        case .timer:
             // A timer-based generator does not need to be updated.
             return self
         }
@@ -133,11 +133,11 @@ public struct Generator: Equatable {
         /// Indicates a HOTP, with an associated 8-byte counter value for the moving factor. After
         /// each use of the password generator, the counter should be incremented to stay in sync
         /// with the server.
-        case Counter(UInt64)
+        case counter(UInt64)
         /// Indicates a TOTP, with an associated time interval for calculating the time-based moving
         /// factor. This period value remains constant, and is used as a divisor for the number of
         /// seconds since the Unix epoch.
-        case Timer(period: TimeInterval)
+        case timer(period: TimeInterval)
 
         /// Calculates the counter value for the moving factor at the target time. For a counter-
         /// based factor, this will be the associated counter value, but for a timer-based factor,
@@ -150,9 +150,9 @@ public struct Generator: Equatable {
         /// - returns: The counter value needed to generate the password for the target time.
         private func counterAtTime(time: TimeInterval) throws -> UInt64 {
             switch self {
-            case .Counter(let counter):
+            case .counter(let counter):
                 return counter
-            case .Timer(let period):
+            case .timer(let period):
                 guard Generator.validateTime(time) else {
                     throw Error.InvalidTime
                 }
@@ -198,9 +198,9 @@ public func == (lhs: Generator, rhs: Generator) -> Bool {
 /// Compares two `Factor`s for equality.
 public func == (lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
     switch (lhs, rhs) {
-    case let (.Counter(l), .Counter(r)):
+    case let (.counter(l), .counter(r)):
         return l == r
-    case let (.Timer(l), .Timer(r)):
+    case let (.timer(l), .timer(r)):
         return l == r
     default:
         return false
@@ -223,9 +223,9 @@ private extension Generator {
     @warn_unused_result
     private static func validateFactor(factor: Factor) -> Bool {
         switch factor {
-        case .Counter:
+        case .counter:
             return true
-        case .Timer(let period):
+        case .timer(let period):
             return validatePeriod(period)
         }
     }

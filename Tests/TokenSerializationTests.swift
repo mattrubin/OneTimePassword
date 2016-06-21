@@ -31,8 +31,8 @@ class TokenSerializationTests: XCTestCase {
     let kOTPTokenTypeCounterHost = "hotp"
     let kOTPTokenTypeTimerHost   = "totp"
 
-    let factors: [OneTimePassword.Generator.Factor] = [.Counter(0), .Counter(1), .Counter(UInt64.max),
-                                                       .Timer(period: 1), .Timer(period: 30), .Timer(period: 300)]
+    let factors: [OneTimePassword.Generator.Factor] = [.counter(0), .counter(1), .counter(UInt64.max),
+                                                       .timer(period: 1), .timer(period: 30), .timer(period: 300)]
     let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""]
     let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""]
     let secretStrings = ["12345678901234567890", "12345678901234567890123456789012", "1234567890123456789012345678901234567890123456789012345678901234", ""]
@@ -74,9 +74,9 @@ class TokenSerializationTests: XCTestCase {
                                 // Test Factor
                                 var expectedHost: String
                                 switch factor {
-                                case .Counter:
+                                case .counter:
                                     expectedHost = kOTPTokenTypeCounterHost
-                                case .Timer:
+                                case .timer:
                                     expectedHost = kOTPTokenTypeTimerHost
                                 }
                                 XCTAssertEqual(url.host!, expectedHost, "The url host should be \"\(expectedHost)\"")
@@ -109,14 +109,14 @@ class TokenSerializationTests: XCTestCase {
 
                                 // Test period
                                 switch factor {
-                                case .Timer(let period):
+                                case .timer(let period):
                                     XCTAssertEqual(queryArguments["period"]!, String(Int(period)), "The period value should be \"\(period)\"")
                                 default:
                                     XCTAssertNil(queryArguments["period"], "The url query string should not contain the period")
                                 }
                                 // Test counter
                                 switch factor {
-                                case .Counter(let counter):
+                                case .counter(let counter):
                                     XCTAssertEqual(queryArguments["counter"]!, String(counter), "The counter value should be \"\(counter)\"")
                                 default:
                                     XCTAssertNil(queryArguments["counter"], "The url query string should not contain the counter")

@@ -101,10 +101,10 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
     ]
 
     switch factor {
-    case .Timer(let period):
+    case .timer(let period):
         urlComponents.host = kFactorTimerKey
         queryItems.append(URLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
-    case .Counter(let counter):
+    case .counter(let counter):
         urlComponents.host = kFactorCounterKey
         queryItems.append(URLQueryItem(name:kQueryCounterKey, value:String(counter)))
     }
@@ -139,7 +139,7 @@ private func tokenFromURL(url: URL, secret externalSecret: Data? = nil) -> Token
                     return counterValue
                 },
                 defaultTo: defaultCounter) {
-                    return .Counter(counter)
+                    return .counter(counter)
             }
         } else if string == kFactorTimerKey {
             if let period: TimeInterval = parse(queryDictionary[kQueryPeriodKey],
@@ -150,7 +150,7 @@ private func tokenFromURL(url: URL, secret externalSecret: Data? = nil) -> Token
                     return TimeInterval(int)
                 },
                 defaultTo: defaultPeriod) {
-                    return .Timer(period: period)
+                    return .timer(period: period)
             }
         }
         return nil
