@@ -40,7 +40,7 @@ public final class OTPToken: NSObject {
     public var secret: Data = Data()
     public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm
     public var digits: UInt = OTPToken.defaultDigits
-    public var period: NSTimeInterval = OTPToken.defaultPeriod
+    public var period: TimeInterval = OTPToken.defaultPeriod
     public var counter: UInt64 = OTPToken.defaultInitialCounter
 
     private static let defaultName: String = ""
@@ -48,7 +48,7 @@ public final class OTPToken: NSObject {
     private static let defaultAlgorithm: OTPAlgorithm = .SHA1
     private static var defaultDigits: UInt = 6
     private static var defaultInitialCounter: UInt64 = 0
-    private static var defaultPeriod: NSTimeInterval = 30
+    private static var defaultPeriod: TimeInterval = 30
 
     private func updateWithToken(token: Token) {
         self.name = token.name

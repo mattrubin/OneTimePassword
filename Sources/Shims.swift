@@ -26,3 +26,5 @@
 import Foundation
 
 public typealias Data = NSData
+public typealias Date = NSDate
+public typealias TimeInterval = NSTimeInterval

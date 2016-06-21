@@ -68,7 +68,7 @@ public struct Generator: Equatable {
     ///
     /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
-    public func passwordAtTime(time: NSTimeInterval) throws -> String {
+    public func passwordAtTime(time: TimeInterval) throws -> String {
         guard Generator.validateDigits(digits) else {
             throw Error.InvalidDigits
         }
@@ -137,7 +137,7 @@ public struct Generator: Equatable {
         /// Indicates a TOTP, with an associated time interval for calculating the time-based moving
         /// factor. This period value remains constant, and is used as a divisor for the number of
         /// seconds since the Unix epoch.
-        case Timer(period: NSTimeInterval)
+        case Timer(period: TimeInterval)
 
         /// Calculates the counter value for the moving factor at the target time. For a counter-
         /// based factor, this will be the associated counter value, but for a timer-based factor,
@@ -148,7 +148,7 @@ public struct Generator: Equatable {
         ///
         /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
         /// - returns: The counter value needed to generate the password for the target time.
-        private func counterAtTime(time: NSTimeInterval) throws -> UInt64 {
+        private func counterAtTime(time: TimeInterval) throws -> UInt64 {
             switch self {
             case .Counter(let counter):
                 return counter
@@ -231,13 +231,13 @@ private extension Generator {
     }
 
     @warn_unused_result
-    private static func validatePeriod(period: NSTimeInterval) -> Bool {
+    private static func validatePeriod(period: TimeInterval) -> Bool {
         // The period must be positive and non-zero to produce a valid counter value.
         return (period > 0)
     }
 
     @warn_unused_result
-    private static func validateTime(time: NSTimeInterval) -> Bool {
+    private static func validateTime(time: TimeInterval) -> Bool {
         // The time must be positive to produce a valid counter value.
         return (time >= 0)
     }

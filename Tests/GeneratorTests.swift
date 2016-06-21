@@ -72,7 +72,7 @@ class GeneratorTests: XCTestCase {
     }
 
     func testCounter() {
-        let factors: [(NSTimeInterval, NSTimeInterval, UInt64)] = [
+        let factors: [(TimeInterval, TimeInterval, UInt64)] = [
             (100,         30, 3),
             (10000,       30, 333),
             (1000000,     30, 33333),
@@ -106,7 +106,7 @@ class GeneratorTests: XCTestCase {
             (10, false),
         ]
 
-        let periodTests: [(NSTimeInterval, Bool)] = [
+        let periodTests: [(TimeInterval, Bool)] = [
             (-30, false),
             (0, false),
             (1, true),
@@ -181,7 +181,7 @@ class GeneratorTests: XCTestCase {
             .SHA512: "1234567890123456789012345678901234567890123456789012345678901234",
         ]
 
-        let times: [NSTimeInterval] = [59, 1111111109, 1111111111, 1234567890, 2000000000, 20000000000]
+        let times: [TimeInterval] = [59, 1111111109, 1111111111, 1234567890, 2000000000, 20000000000]
 
         let expectedValues: [Generator.Algorithm: [String]] = [
             .SHA1:   ["94287082", "07081804", "14050471", "89005924", "69279037", "65353130"],
@@ -206,7 +206,7 @@ class GeneratorTests: XCTestCase {
     // https://code.google.com/p/google-authenticator/source/browse/mobile/ios/Classes/TOTPGeneratorTest.m
     func testTOTPGoogleValues() {
         let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
-        let times: [NSTimeInterval] = [1111111111, 1234567890, 2000000000]
+        let times: [TimeInterval] = [1111111111, 1234567890, 2000000000]
 
         let expectedValues: [Generator.Algorithm: [String]] = [
             .SHA1:   ["050471", "005924", "279037"],

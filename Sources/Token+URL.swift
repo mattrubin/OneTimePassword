@@ -57,7 +57,7 @@ internal enum SerializationError: ErrorType {
 private let defaultAlgorithm: Generator.Algorithm = .SHA1
 private let defaultDigits: Int = 6
 private let defaultCounter: UInt64 = 0
-private let defaultPeriod: NSTimeInterval = 30
+private let defaultPeriod: TimeInterval = 30
 
 private let kOTPAuthScheme = "otpauth"
 private let kQueryAlgorithmKey = "algorithm"
@@ -142,12 +142,12 @@ private func tokenFromURL(url: NSURL, secret externalSecret: Data? = nil) -> Tok
                     return .Counter(counter)
             }
         } else if string == kFactorTimerKey {
-            if let period: NSTimeInterval = parse(queryDictionary[kQueryPeriodKey],
+            if let period: TimeInterval = parse(queryDictionary[kQueryPeriodKey],
                 with: {
                     guard let int = Int($0) else {
                         return nil
                     }
-                    return NSTimeInterval(int)
+                    return TimeInterval(int)
                 },
                 defaultTo: defaultPeriod) {
                     return .Timer(period: period)
