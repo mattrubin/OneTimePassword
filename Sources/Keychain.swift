@@ -95,7 +95,7 @@ public final class Keychain {
     // MARK: Errors
 
     /// An error type enum representing the various errors a `Keychain` operation can throw.
-    public enum Error: ErrorType {
+    public enum Error: ErrorProtocol {
         /// The keychain operation returned a system error code.
         case SystemError(OSStatus)
         /// The keychain operation returned an unexpected type of data.

@@ -177,7 +177,7 @@ public struct Generator: Equatable {
 
     /// An error type enum representing the various errors a `Generator` can throw when computing a
     /// password.
-    public enum Error: ErrorType {
+    public enum Error: ErrorProtocol {
         /// The requested time is before the epoch date.
         case InvalidTime
         /// The timer period is not a positive number of seconds

@@ -50,7 +50,7 @@ extension Token {
     }
 }
 
-internal enum SerializationError: ErrorType {
+internal enum SerializationError: ErrorProtocol {
     case URLGenerationFailure
 }
 

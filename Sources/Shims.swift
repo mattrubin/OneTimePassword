@@ -27,6 +27,7 @@ import Foundation
 
 public typealias Data = NSData
 public typealias Date = NSDate
+public typealias ErrorProtocol = ErrorType
 public typealias TimeInterval = NSTimeInterval
 public typealias URL = NSURL
 public typealias URLComponents = NSURLComponents
