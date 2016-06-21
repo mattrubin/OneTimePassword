@@ -79,18 +79,18 @@ public final class OTPToken: NSObject {
 }
 
 public extension OTPToken {
-    static func tokenWithURL(url: NSURL) -> Self? {
+    static func tokenWithURL(url: URL) -> Self? {
         return tokenWithURL(url, secret: nil)
     }
 
-    static func tokenWithURL(url: NSURL, secret: Data?) -> Self? {
+    static func tokenWithURL(url: URL, secret: Data?) -> Self? {
         guard let token = Token(url: url, secret: secret) else {
             return nil
         }
         return self.init(token: token)
     }
 
-    func url() -> NSURL? {
+    func url() -> URL? {
         guard let token = tokenForOTPToken(self) else {
             return nil
         }

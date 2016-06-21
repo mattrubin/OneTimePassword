@@ -131,7 +131,7 @@ private extension PersistentToken {
             let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
             let secret = keychainDictionary[kSecValueData as String] as? Data,
             let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? Data,
-            let url = NSURL(string: string as String),
+            let url = URL(string: string as String),
             let token = Token(url: url, secret: secret) else {
                 return nil
         }
