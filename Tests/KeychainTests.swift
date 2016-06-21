@@ -31,7 +31,7 @@ let testToken = Token(
     issuer: "Issuer",
     generator: Generator(
         factor: .Timer(period: 45),
-        secret: NSData(base32String: "AAAQEAYEAUDAOCAJBIFQYDIOB4"),
+        secret: Data(base32String: "AAAQEAYEAUDAOCAJBIFQYDIOB4"),
         algorithm: .SHA256,
         digits: 8
     )!

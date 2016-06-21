@@ -118,7 +118,7 @@ class GeneratorTests: XCTestCase {
         for (digits, digitsAreValid) in digitTests {
             let generator = Generator(
                 factor: .Counter(0),
-                secret: NSData(),
+                secret: Data(),
                 algorithm: .SHA1,
                 digits: digits
             )
@@ -133,7 +133,7 @@ class GeneratorTests: XCTestCase {
             for (period, periodIsValid) in periodTests {
                 let generator = Generator(
                     factor: .Timer(period: period),
-                    secret: NSData(),
+                    secret: Data(),
                     algorithm: .SHA1,
                     digits: digits
                 )

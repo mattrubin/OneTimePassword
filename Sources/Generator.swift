@@ -32,7 +32,7 @@ public struct Generator: Equatable {
     public let factor: Factor
 
     /// The secret shared between the client and server.
-    public let secret: NSData
+    public let secret: Data
 
     /// The cryptographic hash function used to generate the password.
     public let algorithm: Algorithm
@@ -49,7 +49,7 @@ public struct Generator: Equatable {
     ///
     /// - returns: A new password generator with the given parameters, or `nil` if the parameters
     ///            are invalid.
-    public init?(factor: Factor, secret: NSData, algorithm: Algorithm, digits: Int) {
+    public init?(factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) {
         guard Generator.validateFactor(factor) && Generator.validateDigits(digits) else {
             return nil
         }
@@ -78,7 +78,7 @@ public struct Generator: Equatable {
         var bigCounter = counter.bigEndian
 
         // Generate an HMAC value from the key and counter
-        let counterData = NSData(bytes: &bigCounter, length: sizeof(UInt64))
+        let counterData = Data(bytes: &bigCounter, length: sizeof(UInt64))
         let hash = HMAC(algorithm, key: secret, data: counterData)
 
         // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)

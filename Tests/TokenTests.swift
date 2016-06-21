@@ -86,7 +86,7 @@ class TokenTests: XCTestCase {
     func testDefaults() {
         guard let generator = Generator(
             factor: .Counter(0),
-            secret: NSData(),
+            secret: Data(),
             algorithm: .SHA1,
             digits: 6
         ) else {

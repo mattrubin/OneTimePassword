@@ -37,7 +37,7 @@ public final class OTPToken: NSObject {
     public var name: String = OTPToken.defaultName
     public var issuer: String = OTPToken.defaultIssuer
     public var type: OTPTokenType = .Timer
-    public var secret: NSData = NSData()
+    public var secret: Data = Data()
     public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm
     public var digits: UInt = OTPToken.defaultDigits
     public var period: NSTimeInterval = OTPToken.defaultPeriod
@@ -83,7 +83,7 @@ public extension OTPToken {
         return tokenWithURL(url, secret: nil)
     }
 
-    static func tokenWithURL(url: NSURL, secret: NSData?) -> Self? {
+    static func tokenWithURL(url: NSURL, secret: Data?) -> Self? {
         guard let token = Token(url: url, secret: secret) else {
             return nil
         }

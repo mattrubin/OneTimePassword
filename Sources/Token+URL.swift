@@ -41,7 +41,7 @@ extension Token {
     }
 
     /// Attempts to initialize a token represented by the give URL.
-    public init?(url: NSURL, secret: NSData? = nil) {
+    public init?(url: NSURL, secret: Data? = nil) {
         if let token = tokenFromURL(url, secret: secret) {
             self = token
         } else {
@@ -117,7 +117,7 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
     return url
 }
 
-private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> Token? {
+private func tokenFromURL(url: NSURL, secret externalSecret: Data? = nil) -> Token? {
     guard url.scheme == kOTPAuthScheme else {
         return nil
     }

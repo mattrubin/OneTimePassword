@@ -80,7 +80,7 @@ let name = "..."
 let issuer = "..."
 let secretString = "..."
 
-guard let secretData = NSData(base32String: secretString)
+guard let secretData = Data(base32String: secretString)
     where secretData.length > 0 else {
         print("Invalid secret")
         return nil

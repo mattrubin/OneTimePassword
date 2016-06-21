@@ -32,10 +32,10 @@ public struct PersistentToken: Equatable, Hashable {
     /// A `Token` stored in the keychain.
     public let token: Token
     /// The keychain's persistent identifier for the saved token.
-    public let identifier: NSData
+    public let identifier: Data
 
     /// Initializes a new `PersistentToken` with the given properties.
-    internal init(token: Token, identifier: NSData) {
+    internal init(token: Token, identifier: Data) {
         self.token = token
         self.identifier = identifier
     }
