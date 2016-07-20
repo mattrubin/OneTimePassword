@@ -193,7 +193,7 @@ private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Tok
     return Token(name: name, issuer: issuer, generator: generator)
 }
 
-private func parse<P, T>(_ item: P?, with parser: (P -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {
+private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {
     if let value = overrideValue {
         return value
     }
