@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		C9003418196F7046009733E8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9003417196F7046009733E8 /* Keychain.swift */; };
 		C9290C301947D104008AE4DE /* TokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */; };
-		C936E0561D18C353002CC920 /* Shims.swift in Sources */ = {isa = PBXBuildFile; fileRef = C936E0551D18C353002CC920 /* Shims.swift */; };
-		C936E0571D18C445002CC920 /* Shims.swift in Sources */ = {isa = PBXBuildFile; fileRef = C936E0551D18C353002CC920 /* Shims.swift */; };
-		C936E0581D18C44F002CC920 /* Shims.swift in Sources */ = {isa = PBXBuildFile; fileRef = C936E0551D18C353002CC920 /* Shims.swift */; };
 		C93A251A196B1BA400F86892 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2519196B1BA400F86892 /* Token.swift */; };
 		C944A55F1A7EDAE200E08B1E /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C944A55E1A7EDAE200E08B1E /* Base32.framework */; };
 		C944A5951A809CC000E08B1E /* OTPTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944A5941A809CC000E08B1E /* OTPTokenTests.swift */; };
@@ -51,7 +48,6 @@
 /* Begin PBXFileReference section */
 		C9003417196F7046009733E8 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializationTests.swift; sourceTree = "<group>"; };
-		C936E0551D18C353002CC920 /* Shims.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shims.swift; sourceTree = "<group>"; };
 		C9377D40196B93F900D6C67E /* OneTimePassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneTimePassword.h; sourceTree = "<group>"; };
 		C93A2514196AFE1100F86892 /* KeychainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenSerializationTests.m; sourceTree = "<group>"; };
@@ -189,7 +185,6 @@
 				C9307A8619A8522F00609B02 /* Serialization */,
 				C9A9B09A1A81EF4B00F3C4DC /* Persistence */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
-				C936E0551D18C353002CC920 /* Shims.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -484,7 +479,6 @@
 				C95F9FB91C03D6BC00CEA286 /* PersistentToken.swift in Sources */,
 				C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */,
 				C9003418196F7046009733E8 /* Keychain.swift in Sources */,
-				C936E0561D18C353002CC920 /* Shims.swift in Sources */,
 				C9DC7EC4196BD5DF00B50C82 /* Token+URL.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,7 +491,6 @@
 				C95B10CC196D22B9000840AA /* GeneratorTests.swift in Sources */,
 				C9B77D771C03078B00BAF6BF /* KeychainTests.swift in Sources */,
 				C9290C301947D104008AE4DE /* TokenSerializationTests.swift in Sources */,
-				C936E0571D18C445002CC920 /* Shims.swift in Sources */,
 				C9B2A19C199A7F1B00BC4A8A /* EquatableTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -509,7 +502,6 @@
 				C9A486C8196F38C800524F51 /* OTPTokenSerializationTests.m in Sources */,
 				C97142361C1155FC0063B37E /* OTPToken.swift in Sources */,
 				C9A486C9196F38CD00524F51 /* OTPTypeStrings.m in Sources */,
-				C936E0581D18C44F002CC920 /* Shims.swift in Sources */,
 				C944A5951A809CC000E08B1E /* OTPTokenTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
