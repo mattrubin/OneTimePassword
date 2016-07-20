@@ -83,15 +83,15 @@ public struct Generator: Equatable {
         }
         let hash = HMAC(algorithm, key: secret, data: counterData)
 
-        // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
-        let ptr: UnsafePointer<UInt8> = hash.withUnsafeBytes {
-            return $0 // FIXME: This pointer might not be safe to use outside this closure.
-        }
-        let offset = ptr[hash.count-1] & 0x0f
+        var truncatedHash = hash.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
+            // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
+            let offset = ptr[hash.count-1] & 0x0f
 
-        // Take 4 bytes from the hash, starting at the given byte offset
-        let truncatedHashPtr = ptr + Int(offset)
-        var truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).pointee
+            // Take 4 bytes from the hash, starting at the given byte offset
+            let truncatedHashPtr = ptr + Int(offset)
+            let truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).pointee
+            return truncatedHash
+        }
 
         // Ensure the four bytes taken from the hash match the current endian format
         truncatedHash = UInt32(bigEndian: truncatedHash)
