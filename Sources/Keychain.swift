@@ -146,7 +146,7 @@ private func addKeychainItemWithAttributes(_ attributes: [String: AnyObject]) th
     // Set a random string for the account name.
     // We never query by or display this value, but the keychain requires it to be unique.
     if mutableAttributes[kSecAttrAccount as String] == nil {
-        mutableAttributes[kSecAttrAccount as String] = NSUUID().UUIDString
+        mutableAttributes[kSecAttrAccount as String] = UUID().UUIDString
     }
 
     var result: AnyObject?

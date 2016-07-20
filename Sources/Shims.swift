@@ -34,4 +34,5 @@ import Foundation
     public typealias URL = NSURL
     public typealias URLComponents = NSURLComponents
     public typealias URLQueryItem = NSURLQueryItem
+    public typealias UUID = NSUUID
 #endif
