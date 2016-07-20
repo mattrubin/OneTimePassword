@@ -74,7 +74,6 @@ public struct Token: Equatable {
     // MARK: Update
 
     /// - returns: A new `Token`, configured to generate the next password.
-    @warn_unused_result
     public func updatedToken() -> Token {
         return Token(name: name, issuer: issuer, generator: generator.successor())
     }
