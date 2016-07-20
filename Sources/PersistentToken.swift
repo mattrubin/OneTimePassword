@@ -50,6 +50,6 @@ public struct PersistentToken: Equatable, Hashable {
 
 /// Compares two `PersistentToken`s for equality.
 public func == (lhs: PersistentToken, rhs: PersistentToken) -> Bool {
-    return lhs.identifier.isEqualToData(rhs.identifier)
+    return lhs.identifier.isEqual(to: rhs.identifier)
         && (lhs.token == rhs.token)
 }

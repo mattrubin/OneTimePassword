@@ -27,8 +27,8 @@ import XCTest
 import OneTimePassword
 
 class TokenTests: XCTestCase {
-    let secretData = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
-    let otherSecretData = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
+    let secretData = "12345678901234567890".data(using: String.Encoding.ascii)!
+    let otherSecretData = "09876543210987654321".data(using: String.Encoding.ascii)!
 
     func testInit() {
         // Create a token

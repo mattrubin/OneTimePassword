@@ -33,7 +33,7 @@ class OTPTokenTests: XCTestCase {
         XCTAssertEqual(token.issuer, "")
         XCTAssertEqual(token.type, OTPTokenType.timer)
         XCTAssertEqual(token.secret, Data())
-        XCTAssertEqual(token.algorithm, OTPAlgorithm.SHA1)
+        XCTAssertEqual(token.algorithm, OTPAlgorithm.sha1)
         XCTAssertEqual(token.digits, 6)
         XCTAssertEqual(token.period, 30)
         XCTAssertEqual(token.counter, 0)

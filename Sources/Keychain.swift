@@ -114,7 +114,7 @@ private extension Token {
         let url = try self.toURL()
         // This line supports the different optionality of `absoluteString` between Xcode 7 and 8
         let urlString: String? = url.absoluteString
-        guard let data = urlString?.dataUsingEncoding(NSUTF8StringEncoding) else {
+        guard let data = urlString?.data(using: String.Encoding.utf8) else {
             throw Keychain.Error.tokenSerializationFailure
         }
         return [
@@ -128,7 +128,7 @@ private extension Token {
 private extension PersistentToken {
     private init?(keychainDictionary: NSDictionary) {
         guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? Data,
-            let string = NSString(data: urlData, encoding:NSUTF8StringEncoding),
+            let string = NSString(data: urlData, encoding:String.Encoding.utf8.rawValue),
             let secret = keychainDictionary[kSecValueData as String] as? Data,
             let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? Data,
             let url = URL(string: string as String),
@@ -146,7 +146,7 @@ private func addKeychainItemWithAttributes(_ attributes: [String: AnyObject]) th
     // Set a random string for the account name.
     // We never query by or display this value, but the keychain requires it to be unique.
     if mutableAttributes[kSecAttrAccount as String] == nil {
-        mutableAttributes[kSecAttrAccount as String] = UUID().UUIDString
+        mutableAttributes[kSecAttrAccount as String] = UUID().uuidString
     }
 
     var result: AnyObject?

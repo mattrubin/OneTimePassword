@@ -54,7 +54,7 @@ internal enum SerializationError: ErrorProtocol {
     case urlGenerationFailure
 }
 
-private let defaultAlgorithm: Generator.Algorithm = .SHA1
+private let defaultAlgorithm: Generator.Algorithm = .sha1
 private let defaultDigits: Int = 6
 private let defaultCounter: UInt64 = 0
 private let defaultPeriod: TimeInterval = 30
@@ -76,21 +76,21 @@ private let kAlgorithmSHA512 = "SHA512"
 
 private func stringForAlgorithm(_ algorithm: Generator.Algorithm) -> String {
     switch algorithm {
-    case .SHA1:   return kAlgorithmSHA1
-    case .SHA256: return kAlgorithmSHA256
-    case .SHA512: return kAlgorithmSHA512
+    case .sha1:   return kAlgorithmSHA1
+    case .sha256: return kAlgorithmSHA256
+    case .sha512: return kAlgorithmSHA512
     }
 }
 
 private func algorithmFromString(_ string: String) -> Generator.Algorithm? {
-    if string == kAlgorithmSHA1 { return .SHA1 }
-    if string == kAlgorithmSHA256 { return .SHA256 }
-    if string == kAlgorithmSHA512 { return .SHA512 }
+    if string == kAlgorithmSHA1 { return .sha1 }
+    if string == kAlgorithmSHA256 { return .sha256 }
+    if string == kAlgorithmSHA512 { return .sha512 }
     return nil
 }
 
-private func urlForToken(name name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) throws -> URL {
-    let urlComponents = URLComponents()
+private func urlForToken(name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) throws -> URL {
+    var urlComponents = URLComponents()
     urlComponents.scheme = kOTPAuthScheme
     urlComponents.path = "/" + name
 
@@ -111,7 +111,7 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
 
     urlComponents.queryItems = queryItems
 
-    guard let url = urlComponents.URL else {
+    guard let url = urlComponents.url else {
         throw SerializationError.urlGenerationFailure
     }
     return url
@@ -123,7 +123,7 @@ private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Tok
     }
 
     var queryDictionary = Dictionary<String, String>()
-    URLComponents(URL: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach { item in
+    URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach { item in
         queryDictionary[item.name] = item.value
     }
 
@@ -132,7 +132,7 @@ private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Tok
             if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey],
                 with: {
                     errno = 0
-                    let counterValue = strtoull(($0 as NSString).UTF8String, nil, 10)
+                    let counterValue = strtoull(($0 as NSString).utf8String, nil, 10)
                     guard errno == 0 else {
                         return nil
                     }
@@ -157,7 +157,7 @@ private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Tok
     }
 
     guard let factor = parse(url.host, with: factorParser, defaultTo: nil),
-        let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.dataFromBase32String($0) }, overrideWith: externalSecret),
+        let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.data(fromBase32String: $0) }, overrideWith: externalSecret),
         let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: defaultAlgorithm),
         let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: defaultDigits),
         let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
@@ -167,7 +167,7 @@ private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Tok
     var name = Token.defaultName
     if let path = url.path {
         if path.characters.count > 1 {
-            name = path.substringFromIndex(path.startIndex.successor()) // Skip the leading "/"
+            name = path.substring(from: path.characters.index(after: path.startIndex)) // Skip the leading "/"
         }
     }
 
@@ -176,7 +176,7 @@ private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Tok
         issuer = issuerString
     } else {
         // If there is no issuer string, try to extract one from the name
-        let components = name.componentsSeparatedByString(":")
+        let components = name.components(separatedBy: ":")
         if components.count > 1 {
             issuer = components[0]
         }
@@ -184,9 +184,9 @@ private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Tok
     // If the name is prefixed by the issuer string, trim the name
     if !issuer.isEmpty {
         let prefix = issuer + ":"
-        if name.hasPrefix(prefix), let prefixRange = name.rangeOfString(prefix) {
-            name = name.substringFromIndex(prefixRange.endIndex)
-            name = name.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if name.hasPrefix(prefix), let prefixRange = name.range(of: prefix) {
+            name = name.substring(from: prefixRange.upperBound)
+            name = name.trimmingCharacters(in: CharacterSet.whitespaces)
         }
     }
 

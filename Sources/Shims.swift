@@ -27,12 +27,12 @@ import Foundation
 
 #if swift(>=3.0)
 #else
-    public typealias Data = NSData
-    public typealias Date = NSDate
-    public typealias ErrorProtocol = ErrorType
-    public typealias TimeInterval = NSTimeInterval
-    public typealias URL = NSURL
-    public typealias URLComponents = NSURLComponents
-    public typealias URLQueryItem = NSURLQueryItem
-    public typealias UUID = NSUUID
+    public typealias Data = Foundation.Data
+    public typealias Date = Foundation.Date
+    public typealias ErrorProtocol = Swift.ErrorProtocol
+    public typealias TimeInterval = Foundation.TimeInterval
+    public typealias URL = Foundation.URL
+    public typealias URLComponents = Foundation.URLComponents
+    public typealias URLQueryItem = Foundation.URLQueryItem
+    public typealias UUID = Foundation.UUID
 #endif

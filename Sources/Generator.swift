@@ -83,11 +83,11 @@ public struct Generator: Equatable {
 
         // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
         let ptr = UnsafePointer<UInt8>(hash.bytes)
-        let offset = ptr[hash.length-1] & 0x0f
+        let offset = ptr[hash.count-1] & 0x0f
 
         // Take 4 bytes from the hash, starting at the given byte offset
         let truncatedHashPtr = ptr + Int(offset)
-        var truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).memory
+        var truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).pointee
 
         // Ensure the four bytes taken from the hash match the current endian format
         truncatedHash = UInt32(bigEndian: truncatedHash)
@@ -113,7 +113,7 @@ public struct Generator: Equatable {
             // Update a counter-based generator by incrementing the counter. Force-unwrapping should
             // be safe here, since any valid generator should have a valid successor.
             let nextGenerator = Generator(
-                factor: .counter(counter.successor()),
+                factor: .counter((counter + 1)),
                 secret: secret,
                 algorithm: algorithm,
                 digits: digits
@@ -168,11 +168,11 @@ public struct Generator: Equatable {
     /// The supported algorithms are SHA-1, SHA-256, and SHA-512
     public enum Algorithm: Equatable {
         /// The SHA-1 hash function
-        case SHA1
+        case sha1
         /// The SHA-256 hash function
-        case SHA256
+        case sha256
         /// The SHA-512 hash function
-        case SHA512
+        case sha512
     }
 
     /// An error type enum representing the various errors a `Generator` can throw when computing a
@@ -249,7 +249,7 @@ private extension String {
         let paddingCount = length - characters.count
         guard paddingCount > 0 else { return self }
 
-        let padding = String(count: paddingCount, repeatedValue: character)
+        let padding = String(repeating: character, count: paddingCount)
         return padding + self
     }
 }

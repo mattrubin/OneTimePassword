@@ -30,7 +30,7 @@ class GeneratorTests: XCTestCase {
     func testInit() {
         // Create a generator
         let factor = OneTimePassword.Generator.Factor.counter(111)
-        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+        let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
         let algorithm = Generator.Algorithm.SHA256
         let digits = 8
 
@@ -48,7 +48,7 @@ class GeneratorTests: XCTestCase {
 
         // Create another generator
         let other_factor = OneTimePassword.Generator.Factor.timer(period: 123)
-        let other_secret = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
+        let other_secret = "09876543210987654321".data(using: String.Encoding.ascii)!
         let other_algorithm = Generator.Algorithm.SHA512
         let other_digits = 7
 
@@ -83,7 +83,7 @@ class GeneratorTests: XCTestCase {
         for (time, period, count) in factors {
             let timer = Generator.Factor.timer(period: period)
             let counter = Generator.Factor.counter(count)
-            let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+            let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
             let hotp = Generator(factor: counter, secret: secret, algorithm: .SHA1, digits: 6)
                 .flatMap { try? $0.passwordAtTime(time) }
             let totp = Generator(factor: timer, secret: secret, algorithm: .SHA1, digits: 6)
@@ -151,7 +151,7 @@ class GeneratorTests: XCTestCase {
     // The values in this test are found in Appendix D of the HOTP RFC
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
-        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+        let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
         let expectedValues: [UInt64: String] = [
             0: "755224",
             1: "287082",
@@ -205,7 +205,7 @@ class GeneratorTests: XCTestCase {
     // From Google Authenticator for iOS
     // https://code.google.com/p/google-authenticator/source/browse/mobile/ios/Classes/TOTPGeneratorTest.m
     func testTOTPGoogleValues() {
-        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+        let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
         let times: [TimeInterval] = [1111111111, 1234567890, 2000000000]
 
         let expectedValues: [Generator.Algorithm: [String]] = [
