@@ -190,7 +190,7 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (algorithm, secretKey) in secretKeys {
-            let secret = secretKey.dataUsingEncoding(NSASCIIStringEncoding)!
+            let secret = secretKey.data(using: String.Encoding.ascii)!
             let generator = Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 8)
 
             for i in 0..<times.count {

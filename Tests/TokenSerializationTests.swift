@@ -49,7 +49,7 @@ class TokenSerializationTests: XCTestCase {
                                 // Create the token
                                 guard let generator = Generator(
                                     factor: factor,
-                                    secret: secretString.dataUsingEncoding(NSASCIIStringEncoding)!,
+                                    secret: secretString.data(using: String.Encoding.ascii)!,
                                     algorithm: algorithm,
                                     digits: digitNumber
                                 ) else {
@@ -81,9 +81,10 @@ class TokenSerializationTests: XCTestCase {
                                 }
                                 XCTAssertEqual(url.host!, expectedHost, "The url host should be \"\(expectedHost)\"")
                                 // Test name
-                                XCTAssertEqual(url.path!.substringFromIndex(url.path!.startIndex.successor()), name, "The url path should be \"\(name)\"")
+                                let path = url.path!
+                                XCTAssertEqual(path.substring(from: path.index(after: path.startIndex)), name, "The url path should be \"\(name)\"")
 
-                                let urlComponents = URLComponents(URL:url, resolvingAgainstBaseURL:false)
+                                let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
                                 let items = urlComponents?.queryItems
                                 let expectedItemCount = 4
                                 XCTAssertEqual(items?.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")

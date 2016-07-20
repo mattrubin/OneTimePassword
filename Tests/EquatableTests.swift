@@ -59,7 +59,7 @@ class EquatableTests: XCTestCase {
 
         XCTAssert(g == Generator(factor: .counter(0), secret: Data(), algorithm: .SHA1, digits: 6))
         XCTAssert(g != Generator(factor: .counter(1), secret: Data(), algorithm: .SHA1, digits: 6))
-        XCTAssert(g != Generator(factor: .counter(0), secret: "0".dataUsingEncoding(String.Encoding.utf8)!, algorithm: .SHA1, digits: 6))
+        XCTAssert(g != Generator(factor: .counter(0), secret: "0".data(using: String.Encoding.utf8)!, algorithm: .SHA1, digits: 6))
         XCTAssert(g != Generator(factor: .counter(0), secret: Data(), algorithm: .SHA256, digits: 6))
         XCTAssert(g != Generator(factor: .counter(0), secret: Data(), algorithm: .SHA1, digits: 8))
     }
