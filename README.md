@@ -80,14 +80,14 @@ let name = "..."
 let issuer = "..."
 let secretString = "..."
 
-guard let secretData = Data(base32String: secretString)
+guard let secretData = NSData(base32String: secretString)
     where secretData.length > 0 else {
         print("Invalid secret")
         return nil
 }
 
 guard let generator = Generator(
-    factor: .timer(period: 30),
+    factor: .Timer(period: 30),
     secret: secretData,
     algorithm: .SHA1,
     digits: 6) else {
