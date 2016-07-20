@@ -45,7 +45,7 @@ public final class OTPToken: NSObject {
 
     private static let defaultName: String = ""
     private static let defaultIssuer: String = ""
-    private static let defaultAlgorithm: OTPAlgorithm = .sha1
+    private static let defaultAlgorithm: OTPAlgorithm = .SHA1
     private static var defaultDigits: UInt = 6
     private static var defaultInitialCounter: UInt64 = 0
     private static var defaultPeriod: TimeInterval = 30
@@ -108,9 +108,9 @@ public extension OTPToken {
 }
 
 @objc public enum OTPAlgorithm: UInt32 {
-    case sha1
-    case sha256
-    case sha512
+    case SHA1
+    case SHA256
+    case SHA512
 }
 
 // MARK: Conversion

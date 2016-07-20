@@ -54,7 +54,7 @@ internal enum SerializationError: ErrorProtocol {
     case urlGenerationFailure
 }
 
-private let defaultAlgorithm: Generator.Algorithm = .sha1
+private let defaultAlgorithm: Generator.Algorithm = .SHA1
 private let defaultDigits: Int = 6
 private let defaultCounter: UInt64 = 0
 private let defaultPeriod: TimeInterval = 30
@@ -76,16 +76,16 @@ private let kAlgorithmSHA512 = "SHA512"
 
 private func stringForAlgorithm(_ algorithm: Generator.Algorithm) -> String {
     switch algorithm {
-    case .sha1:   return kAlgorithmSHA1
-    case .sha256: return kAlgorithmSHA256
-    case .sha512: return kAlgorithmSHA512
+    case .SHA1:   return kAlgorithmSHA1
+    case .SHA256: return kAlgorithmSHA256
+    case .SHA512: return kAlgorithmSHA512
     }
 }
 
 private func algorithmFromString(_ string: String) -> Generator.Algorithm? {
-    if string == kAlgorithmSHA1 { return .sha1 }
-    if string == kAlgorithmSHA256 { return .sha256 }
-    if string == kAlgorithmSHA512 { return .sha512 }
+    if string == kAlgorithmSHA1 { return .SHA1 }
+    if string == kAlgorithmSHA256 { return .SHA256 }
+    if string == kAlgorithmSHA512 { return .SHA512 }
     return nil
 }
 

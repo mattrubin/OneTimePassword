@@ -171,11 +171,11 @@ public struct Generator: Equatable {
     /// The supported algorithms are SHA-1, SHA-256, and SHA-512
     public enum Algorithm: Equatable {
         /// The SHA-1 hash function
-        case sha1
+        case SHA1
         /// The SHA-256 hash function
-        case sha256
+        case SHA256
         /// The SHA-512 hash function
-        case sha512
+        case SHA512
     }
 
     /// An error type enum representing the various errors a `Generator` can throw when computing a

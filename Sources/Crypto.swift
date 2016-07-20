@@ -41,11 +41,11 @@ extension Generator.Algorithm {
     /// The corresponding CommonCrypto hash function and hash length.
     private var hashInfo: (hashFunction: CCHmacAlgorithm, hashLength: Int) {
         switch self {
-        case .sha1:
+        case .SHA1:
             return (CCHmacAlgorithm(kCCHmacAlgSHA1), Int(CC_SHA1_DIGEST_LENGTH))
-        case .sha256:
+        case .SHA256:
             return (CCHmacAlgorithm(kCCHmacAlgSHA256), Int(CC_SHA256_DIGEST_LENGTH))
-        case .sha512:
+        case .SHA512:
             return (CCHmacAlgorithm(kCCHmacAlgSHA512), Int(CC_SHA512_DIGEST_LENGTH))
         }
     }
