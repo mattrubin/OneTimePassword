@@ -50,7 +50,7 @@ public final class OTPToken: NSObject {
     private static var defaultInitialCounter: UInt64 = 0
     private static var defaultPeriod: TimeInterval = 30
 
-    private func updateWithToken(token: Token) {
+    private func updateWithToken(_ token: Token) {
         self.name = token.name
         self.issuer = token.issuer
 
@@ -79,11 +79,11 @@ public final class OTPToken: NSObject {
 }
 
 public extension OTPToken {
-    static func tokenWithURL(url: URL) -> Self? {
+    static func tokenWithURL(_ url: URL) -> Self? {
         return tokenWithURL(url, secret: nil)
     }
 
-    static func tokenWithURL(url: URL, secret: Data?) -> Self? {
+    static func tokenWithURL(_ url: URL, secret: Data?) -> Self? {
         guard let token = Token(url: url, secret: secret) else {
             return nil
         }
@@ -125,7 +125,7 @@ private extension OTPAlgorithm {
     }
 }
 
-private func tokenForOTPToken(otpToken: OTPToken) -> Token? {
+private func tokenForOTPToken(_ otpToken: OTPToken) -> Token? {
     guard let generator = Generator(
         factor: factorForOTPToken(otpToken),
         secret: otpToken.secret,
@@ -137,7 +137,7 @@ private func tokenForOTPToken(otpToken: OTPToken) -> Token? {
     return Token(name: otpToken.name, issuer: otpToken.issuer, generator: generator)
 }
 
-private func factorForOTPToken(otpToken: OTPToken) -> Generator.Factor {
+private func factorForOTPToken(_ otpToken: OTPToken) -> Generator.Factor {
     switch otpToken.type {
     case .counter:
         return .counter(otpToken.counter)
@@ -146,7 +146,7 @@ private func factorForOTPToken(otpToken: OTPToken) -> Generator.Factor {
     }
 }
 
-private func algorithmForOTPAlgorithm(algorithm: OTPAlgorithm) -> Generator.Algorithm {
+private func algorithmForOTPAlgorithm(_ algorithm: OTPAlgorithm) -> Generator.Algorithm {
     switch algorithm {
     case .SHA1:   return .SHA1
     case .SHA256: return .SHA256

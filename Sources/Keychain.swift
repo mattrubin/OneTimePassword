@@ -39,7 +39,7 @@ public final class Keychain {
     ///
     /// - throws: A `Keychain.Error` if an error occurred.
     /// - returns: The persistent token, or `nil` if no token matched the given identifier.
-    public func persistentTokenWithIdentifier(identifier: Data) throws -> PersistentToken? {
+    public func persistentTokenWithIdentifier(_ identifier: Data) throws -> PersistentToken? {
         return try keychainItemForPersistentRef(identifier).flatMap(PersistentToken.init)
     }
 
@@ -58,7 +58,7 @@ public final class Keychain {
     ///
     /// - throws: A `Keychain.Error` if the token was not added successfully.
     /// - returns: The new persistent token.
-    public func addToken(token: Token) throws -> PersistentToken {
+    public func addToken(_ token: Token) throws -> PersistentToken {
         let attributes = try token.keychainAttributes()
         let persistentRef = try addKeychainItemWithAttributes(attributes)
         return PersistentToken(token: token, identifier: persistentRef)
@@ -71,7 +71,7 @@ public final class Keychain {
     ///
     /// - throws: A `Keychain.Error` if the update did not succeed.
     /// - returns: The updated persistent token.
-    public func updatePersistentToken(persistentToken: PersistentToken,
+    public func updatePersistentToken(_ persistentToken: PersistentToken,
         withToken token: Token) throws -> PersistentToken
     {
         let attributes = try token.keychainAttributes()
@@ -88,7 +88,7 @@ public final class Keychain {
     /// - parameter persistentToken: The persistent token to delete.
     ///
     /// - throws: A `Keychain.Error` if the deletion did not succeed.
-    public func deletePersistentToken(persistentToken: PersistentToken) throws {
+    public func deletePersistentToken(_ persistentToken: PersistentToken) throws {
         try deleteKeychainItemForPersistentRef(persistentToken.identifier)
     }
 
@@ -139,7 +139,7 @@ private extension PersistentToken {
     }
 }
 
-private func addKeychainItemWithAttributes(attributes: [String: AnyObject]) throws -> Data {
+private func addKeychainItemWithAttributes(_ attributes: [String: AnyObject]) throws -> Data {
     var mutableAttributes = attributes
     mutableAttributes[kSecClass as String] = kSecClassGenericPassword
     mutableAttributes[kSecReturnPersistentRef as String] = kCFBooleanTrue
@@ -163,7 +163,7 @@ private func addKeychainItemWithAttributes(attributes: [String: AnyObject]) thro
     return persistentRef
 }
 
-private func updateKeychainItemForPersistentRef(persistentRef: Data,
+private func updateKeychainItemForPersistentRef(_ persistentRef: Data,
     withAttributes attributesToUpdate: [String: AnyObject]) throws
 {
     let queryDict = [
@@ -178,7 +178,7 @@ private func updateKeychainItemForPersistentRef(persistentRef: Data,
     }
 }
 
-private func deleteKeychainItemForPersistentRef(persistentRef: Data) throws {
+private func deleteKeychainItemForPersistentRef(_ persistentRef: Data) throws {
     let queryDict = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef,
@@ -191,7 +191,7 @@ private func deleteKeychainItemForPersistentRef(persistentRef: Data) throws {
     }
 }
 
-private func keychainItemForPersistentRef(persistentRef: Data) throws -> NSDictionary? {
+private func keychainItemForPersistentRef(_ persistentRef: Data) throws -> NSDictionary? {
     let queryDict = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecValuePersistentRef as String:   persistentRef,

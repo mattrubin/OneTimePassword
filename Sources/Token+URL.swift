@@ -74,7 +74,7 @@ private let kAlgorithmSHA1   = "SHA1"
 private let kAlgorithmSHA256 = "SHA256"
 private let kAlgorithmSHA512 = "SHA512"
 
-private func stringForAlgorithm(algorithm: Generator.Algorithm) -> String {
+private func stringForAlgorithm(_ algorithm: Generator.Algorithm) -> String {
     switch algorithm {
     case .SHA1:   return kAlgorithmSHA1
     case .SHA256: return kAlgorithmSHA256
@@ -82,7 +82,7 @@ private func stringForAlgorithm(algorithm: Generator.Algorithm) -> String {
     }
 }
 
-private func algorithmFromString(string: String) -> Generator.Algorithm? {
+private func algorithmFromString(_ string: String) -> Generator.Algorithm? {
     if string == kAlgorithmSHA1 { return .SHA1 }
     if string == kAlgorithmSHA256 { return .SHA256 }
     if string == kAlgorithmSHA512 { return .SHA512 }
@@ -117,7 +117,7 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
     return url
 }
 
-private func tokenFromURL(url: URL, secret externalSecret: Data? = nil) -> Token? {
+private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Token? {
     guard url.scheme == kOTPAuthScheme else {
         return nil
     }
@@ -193,7 +193,7 @@ private func tokenFromURL(url: URL, secret externalSecret: Data? = nil) -> Token
     return Token(name: name, issuer: issuer, generator: generator)
 }
 
-private func parse<P, T>(item: P?, with parser: (P -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {
+private func parse<P, T>(_ item: P?, with parser: (P -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {
     if let value = overrideValue {
         return value
     }

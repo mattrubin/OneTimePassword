@@ -68,7 +68,7 @@ public struct Generator: Equatable {
     ///
     /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
-    public func passwordAtTime(time: TimeInterval) throws -> String {
+    public func passwordAtTime(_ time: TimeInterval) throws -> String {
         guard Generator.validateDigits(digits) else {
             throw Error.invalidDigits
         }
@@ -148,7 +148,7 @@ public struct Generator: Equatable {
         ///
         /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
         /// - returns: The counter value needed to generate the password for the target time.
-        private func counterAtTime(time: TimeInterval) throws -> UInt64 {
+        private func counterAtTime(_ time: TimeInterval) throws -> UInt64 {
             switch self {
             case .counter(let counter):
                 return counter
@@ -213,7 +213,7 @@ private extension Generator {
     // MARK: Validation
 
     @warn_unused_result
-    private static func validateDigits(digits: Int) -> Bool {
+    private static func validateDigits(_ digits: Int) -> Bool {
         // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
         // 6-digit code at a minimum and possibly 7 and 8-digit codes."
         let acceptableDigits = 6...8
@@ -221,7 +221,7 @@ private extension Generator {
     }
 
     @warn_unused_result
-    private static func validateFactor(factor: Factor) -> Bool {
+    private static func validateFactor(_ factor: Factor) -> Bool {
         switch factor {
         case .counter:
             return true
@@ -231,13 +231,13 @@ private extension Generator {
     }
 
     @warn_unused_result
-    private static func validatePeriod(period: TimeInterval) -> Bool {
+    private static func validatePeriod(_ period: TimeInterval) -> Bool {
         // The period must be positive and non-zero to produce a valid counter value.
         return (period > 0)
     }
 
     @warn_unused_result
-    private static func validateTime(time: TimeInterval) -> Bool {
+    private static func validateTime(_ time: TimeInterval) -> Bool {
         // The time must be positive to produce a valid counter value.
         return (time >= 0)
     }
@@ -245,7 +245,7 @@ private extension Generator {
 
 private extension String {
     /// Prepends the given character to the beginning of `self` until it matches the given length.
-    func paddedWithCharacter(character: Character, toLength length: Int) -> String {
+    func paddedWithCharacter(_ character: Character, toLength length: Int) -> String {
         let paddingCount = length - characters.count
         guard paddingCount > 0 else { return self }
 
