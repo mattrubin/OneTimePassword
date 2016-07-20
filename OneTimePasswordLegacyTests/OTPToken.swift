@@ -101,9 +101,7 @@ public extension OTPToken {
 // MARK: Enums
 
 @objc public enum OTPTokenType: UInt8 {
-    @objc(OTPTokenTypeCounter)
     case counter
-    @objc(OTPTokenTypeTimer)
     case timer
 }
 
