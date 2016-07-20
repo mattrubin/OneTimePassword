@@ -78,11 +78,15 @@ public struct Generator: Equatable {
         var bigCounter = counter.bigEndian
 
         // Generate an HMAC value from the key and counter
-        let counterData = Data(bytes: &bigCounter, length: sizeof(UInt64))
+        let counterData = withUnsafePointer(&bigCounter) {
+            Data(bytes: UnsafePointer<UInt8>($0), count: sizeof(UInt64.self))
+        }
         let hash = HMAC(algorithm, key: secret, data: counterData)
 
         // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
-        let ptr = UnsafePointer<UInt8>(hash.bytes)
+        let ptr: UnsafePointer<UInt8> = hash.withUnsafeBytes {
+            return $0 // FIXME: This pointer might not be safe to use outside this closure.
+        }
         let offset = ptr[hash.count-1] & 0x0f
 
         // Take 4 bytes from the hash, starting at the given byte offset
