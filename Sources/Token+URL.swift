@@ -95,18 +95,18 @@ private func urlForToken(name: String, issuer: String, factor: Generator.Factor,
     urlComponents.path = "/" + name
 
     var queryItems = [
-        URLQueryItem(name:kQueryAlgorithmKey, value:stringForAlgorithm(algorithm)),
-        URLQueryItem(name:kQueryDigitsKey, value:String(digits)),
-        URLQueryItem(name:kQueryIssuerKey, value:issuer)
+        URLQueryItem(name: kQueryAlgorithmKey, value: stringForAlgorithm(algorithm)),
+        URLQueryItem(name: kQueryDigitsKey, value: String(digits)),
+        URLQueryItem(name: kQueryIssuerKey, value: issuer)
     ]
 
     switch factor {
     case .timer(let period):
         urlComponents.host = kFactorTimerKey
-        queryItems.append(URLQueryItem(name:kQueryPeriodKey, value:String(Int(period))))
+        queryItems.append(URLQueryItem(name: kQueryPeriodKey, value: String(Int(period))))
     case .counter(let counter):
         urlComponents.host = kFactorCounterKey
-        queryItems.append(URLQueryItem(name:kQueryCounterKey, value:String(counter)))
+        queryItems.append(URLQueryItem(name: kQueryCounterKey, value: String(counter)))
     }
 
     urlComponents.queryItems = queryItems
