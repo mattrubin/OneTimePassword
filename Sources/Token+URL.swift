@@ -167,7 +167,8 @@ private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Tok
     var name = Token.defaultName
     if let path = url.path {
         if path.characters.count > 1 {
-            name = path.substring(from: path.characters.index(after: path.startIndex)) // Skip the leading "/"
+            // Skip the leading "/"
+            name = path.substring(from: path.characters.index(after: path.startIndex))
         }
     }
 
@@ -193,7 +194,8 @@ private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Tok
     return Token(name: name, issuer: issuer, generator: generator)
 }
 
-private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {
+private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), defaultTo defaultValue: T? = nil,
+                   overrideWith overrideValue: T? = nil) -> T? {
     if let value = overrideValue {
         return value
     }
