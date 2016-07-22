@@ -28,10 +28,10 @@ import OneTimePassword
 
 class EquatableTests: XCTestCase {
     func testFactorEquality() {
-        let c0 = Generator.Factor.Counter(30)
-        let c1 = Generator.Factor.Counter(60)
-        let t0 = Generator.Factor.Timer(period: 30)
-        let t1 = Generator.Factor.Timer(period: 60)
+        let c0 = Generator.Factor.counter(30)
+        let c1 = Generator.Factor.counter(60)
+        let t0 = Generator.Factor.timer(period: 30)
+        let t1 = Generator.Factor.timer(period: 60)
 
         XCTAssertEqual(c0, c0)
         XCTAssertEqual(c1, c1)
@@ -55,18 +55,18 @@ class EquatableTests: XCTestCase {
     }
 
     func testGeneratorEquality() {
-        let g = Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 6)
+        let g = Generator(factor: .counter(0), secret: Data(), algorithm: .SHA1, digits: 6)
 
-        XCTAssert(g == Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 6))
-        XCTAssert(g != Generator(factor: .Counter(1), secret: NSData(), algorithm: .SHA1, digits: 6))
-        XCTAssert(g != Generator(factor: .Counter(0), secret: "0".dataUsingEncoding(NSUTF8StringEncoding)!, algorithm: .SHA1, digits: 6))
-        XCTAssert(g != Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA256, digits: 6))
-        XCTAssert(g != Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 8))
+        XCTAssert(g == Generator(factor: .counter(0), secret: Data(), algorithm: .SHA1, digits: 6))
+        XCTAssert(g != Generator(factor: .counter(1), secret: Data(), algorithm: .SHA1, digits: 6))
+        XCTAssert(g != Generator(factor: .counter(0), secret: "0".data(using: String.Encoding.utf8)!, algorithm: .SHA1, digits: 6))
+        XCTAssert(g != Generator(factor: .counter(0), secret: Data(), algorithm: .SHA256, digits: 6))
+        XCTAssert(g != Generator(factor: .counter(0), secret: Data(), algorithm: .SHA1, digits: 8))
     }
 
     func testTokenEquality() {
-        guard let generator = Generator(factor: .Counter(0), secret: NSData(), algorithm: .SHA1, digits: 6),
-            let other_generator = Generator(factor: .Counter(1), secret: NSData(), algorithm: .SHA512, digits: 8) else {
+        guard let generator = Generator(factor: .counter(0), secret: Data(), algorithm: .SHA1, digits: 6),
+            let other_generator = Generator(factor: .counter(1), secret: Data(), algorithm: .SHA512, digits: 8) else {
                 XCTFail()
                 return
         }

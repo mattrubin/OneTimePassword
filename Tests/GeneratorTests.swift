@@ -29,8 +29,8 @@ import OneTimePassword
 class GeneratorTests: XCTestCase {
     func testInit() {
         // Create a generator
-        let factor = OneTimePassword.Generator.Factor.Counter(111)
-        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+        let factor = OneTimePassword.Generator.Factor.counter(111)
+        let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
         let algorithm = Generator.Algorithm.SHA256
         let digits = 8
 
@@ -47,8 +47,8 @@ class GeneratorTests: XCTestCase {
         XCTAssertEqual(generator?.digits, digits)
 
         // Create another generator
-        let other_factor = OneTimePassword.Generator.Factor.Timer(period: 123)
-        let other_secret = "09876543210987654321".dataUsingEncoding(NSASCIIStringEncoding)!
+        let other_factor = OneTimePassword.Generator.Factor.timer(period: 123)
+        let other_secret = "09876543210987654321".data(using: String.Encoding.ascii)!
         let other_algorithm = Generator.Algorithm.SHA512
         let other_digits = 7
 
@@ -72,7 +72,7 @@ class GeneratorTests: XCTestCase {
     }
 
     func testCounter() {
-        let factors: [(NSTimeInterval, NSTimeInterval, UInt64)] = [
+        let factors: [(TimeInterval, TimeInterval, UInt64)] = [
             (100,         30, 3),
             (10000,       30, 333),
             (1000000,     30, 33333),
@@ -81,9 +81,9 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (time, period, count) in factors {
-            let timer = Generator.Factor.Timer(period: period)
-            let counter = Generator.Factor.Counter(count)
-            let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+            let timer = Generator.Factor.timer(period: period)
+            let counter = Generator.Factor.counter(count)
+            let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
             let hotp = Generator(factor: counter, secret: secret, algorithm: .SHA1, digits: 6)
                 .flatMap { try? $0.passwordAtTime(time) }
             let totp = Generator(factor: timer, secret: secret, algorithm: .SHA1, digits: 6)
@@ -106,7 +106,7 @@ class GeneratorTests: XCTestCase {
             (10, false),
         ]
 
-        let periodTests: [(NSTimeInterval, Bool)] = [
+        let periodTests: [(TimeInterval, Bool)] = [
             (-30, false),
             (0, false),
             (1, true),
@@ -117,8 +117,8 @@ class GeneratorTests: XCTestCase {
 
         for (digits, digitsAreValid) in digitTests {
             let generator = Generator(
-                factor: .Counter(0),
-                secret: NSData(),
+                factor: .counter(0),
+                secret: Data(),
                 algorithm: .SHA1,
                 digits: digits
             )
@@ -132,8 +132,8 @@ class GeneratorTests: XCTestCase {
 
             for (period, periodIsValid) in periodTests {
                 let generator = Generator(
-                    factor: .Timer(period: period),
-                    secret: NSData(),
+                    factor: .timer(period: period),
+                    secret: Data(),
                     algorithm: .SHA1,
                     digits: digits
                 )
@@ -151,7 +151,7 @@ class GeneratorTests: XCTestCase {
     // The values in this test are found in Appendix D of the HOTP RFC
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
-        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
+        let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
         let expectedValues: [UInt64: String] = [
             0: "755224",
             1: "287082",
@@ -165,7 +165,7 @@ class GeneratorTests: XCTestCase {
             9: "520489",
         ]
         for (counter, expectedPassword) in expectedValues {
-            let generator = Generator(factor: .Counter(counter), secret: secret, algorithm: .SHA1, digits: 6)
+            let generator = Generator(factor: .counter(counter), secret: secret, algorithm: .SHA1, digits: 6)
             let password = generator.flatMap { try? $0.passwordAtTime(0) }
             XCTAssertEqual(password, expectedPassword,
                 "The generator did not produce the expected OTP.")
@@ -181,7 +181,7 @@ class GeneratorTests: XCTestCase {
             .SHA512: "1234567890123456789012345678901234567890123456789012345678901234",
         ]
 
-        let times: [NSTimeInterval] = [59, 1111111109, 1111111111, 1234567890, 2000000000, 20000000000]
+        let times: [TimeInterval] = [59, 1111111109, 1111111111, 1234567890, 2000000000, 20000000000]
 
         let expectedValues: [Generator.Algorithm: [String]] = [
             .SHA1:   ["94287082", "07081804", "14050471", "89005924", "69279037", "65353130"],
@@ -190,8 +190,8 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (algorithm, secretKey) in secretKeys {
-            let secret = secretKey.dataUsingEncoding(NSASCIIStringEncoding)!
-            let generator = Generator(factor: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 8)
+            let secret = secretKey.data(using: String.Encoding.ascii)!
+            let generator = Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 8)
 
             for i in 0..<times.count {
                 let expectedPassword = expectedValues[algorithm]?[i]
@@ -205,8 +205,8 @@ class GeneratorTests: XCTestCase {
     // From Google Authenticator for iOS
     // https://code.google.com/p/google-authenticator/source/browse/mobile/ios/Classes/TOTPGeneratorTest.m
     func testTOTPGoogleValues() {
-        let secret = "12345678901234567890".dataUsingEncoding(NSASCIIStringEncoding)!
-        let times: [NSTimeInterval] = [1111111111, 1234567890, 2000000000]
+        let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
+        let times: [TimeInterval] = [1111111111, 1234567890, 2000000000]
 
         let expectedValues: [Generator.Algorithm: [String]] = [
             .SHA1:   ["050471", "005924", "279037"],
@@ -215,7 +215,7 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (algorithm, expectedPasswords) in expectedValues {
-            let generator = Generator(factor: .Timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
+            let generator = Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
             for i in 0..<times.count {
                 let expectedPassword = expectedPasswords[i]
                 let password = generator.flatMap { try? $0.passwordAtTime(times[i]) }

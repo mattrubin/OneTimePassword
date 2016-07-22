@@ -67,14 +67,13 @@ public struct Token: Equatable {
     ///
     /// - returns: The current password, or `nil` if a password could not be generated.
     public var currentPassword: String? {
-        let currentTime = NSDate().timeIntervalSince1970
+        let currentTime = Date().timeIntervalSince1970
         return try? generator.passwordAtTime(currentTime)
     }
 
     // MARK: Update
 
     /// - returns: A new `Token`, configured to generate the next password.
-    @warn_unused_result
     public func updatedToken() -> Token {
         return Token(name: name, issuer: issuer, generator: generator.successor())
     }

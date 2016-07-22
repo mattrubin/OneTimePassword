@@ -31,8 +31,8 @@ class OTPTokenTests: XCTestCase {
 
         XCTAssertEqual(token.name, "")
         XCTAssertEqual(token.issuer, "")
-        XCTAssertEqual(token.type, OTPTokenType.Timer)
-        XCTAssertEqual(token.secret, NSData())
+        XCTAssertEqual(token.type, OTPTokenType.timer)
+        XCTAssertEqual(token.secret, Data())
         XCTAssertEqual(token.algorithm, OTPAlgorithm.SHA1)
         XCTAssertEqual(token.digits, 6)
         XCTAssertEqual(token.period, 30)
