@@ -116,7 +116,7 @@ public struct Generator: Equatable {
             // Update a counter-based generator by incrementing the counter. Force-unwrapping should
             // be safe here, since any valid generator should have a valid successor.
             let nextGenerator = Generator(
-                factor: .counter((counter + 1)),
+                factor: .counter(counter + 1),
                 secret: secret,
                 algorithm: algorithm,
                 digits: digits
