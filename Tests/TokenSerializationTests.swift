@@ -83,7 +83,7 @@ class TokenSerializationTests: XCTestCase {
                                 // Test name
                                 XCTAssertEqual(url.path!.substringFromIndex(url.path!.startIndex.successor()), name, "The url path should be \"\(name)\"")
 
-                                let urlComponents = NSURLComponents(URL:url, resolvingAgainstBaseURL:false)
+                                let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false)
                                 let items = urlComponents?.queryItems
                                 let expectedItemCount = 4
                                 XCTAssertEqual(items?.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")

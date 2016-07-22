@@ -27,7 +27,6 @@ import Foundation
 
 /// A `Generator` contains all of the parameters needed to generate a one-time password.
 public struct Generator: Equatable {
-
     /// The moving factor, either timer- or counter-based.
     public let factor: Factor
 
