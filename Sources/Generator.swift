@@ -68,7 +68,7 @@ public struct Generator: Equatable {
     ///
     /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
-    public func passwordAtTime(_ time: TimeInterval) throws -> String {
+    public func password(at time: TimeInterval) throws -> String {
         guard Generator.validateDigits(digits) else {
             throw Error.invalidDigits
         }
@@ -101,7 +101,7 @@ public struct Generator: Equatable {
         truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
 
         // Pad the string representation with zeros, if necessary
-        return String(truncatedHash).paddedWithCharacter("0", toLength: digits)
+        return String(truncatedHash).padded(with: "0", toLength: digits)
     }
 
     // MARK: Update
@@ -244,7 +244,7 @@ private extension Generator {
 
 private extension String {
     /// Prepends the given character to the beginning of `self` until it matches the given length.
-    func paddedWithCharacter(_ character: Character, toLength length: Int) -> String {
+    func padded(with character: Character, toLength length: Int) -> String {
         let paddingCount = length - characters.count
         guard paddingCount > 0 else { return self }
 
