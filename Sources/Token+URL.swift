@@ -42,7 +42,7 @@ extension Token {
 
     /// Attempts to initialize a token represented by the give URL.
     public init?(url: URL, secret: Data? = nil) {
-        if let token = tokenFromURL(url, secret: secret) {
+        if let token = token(from: url, secret: secret) {
             self = token
         } else {
             return nil
@@ -117,7 +117,7 @@ private func urlForToken(name: String, issuer: String, factor: Generator.Factor,
     return url
 }
 
-private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Token? {
+private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? {
     guard url.scheme == kOTPAuthScheme else {
         return nil
     }

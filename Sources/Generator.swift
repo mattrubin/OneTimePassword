@@ -81,7 +81,7 @@ public struct Generator: Equatable {
         let counterData = withUnsafePointer(&bigCounter) {
             Data(bytes: UnsafePointer<UInt8>($0), count: sizeof(UInt64.self))
         }
-        let hash = HMAC(algorithm, key: secret, data: counterData)
+        let hash = HMAC(algorithm: algorithm, key: secret, data: counterData)
 
         var truncatedHash = hash.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
             // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
