@@ -73,7 +73,7 @@ public struct Generator: Equatable {
             throw Error.invalidDigits
         }
 
-        let counter = try factor.counterAtTime(time)
+        let counter = try factor.counterValue(at: time)
         // Ensure the counter value is big-endian
         var bigCounter = counter.bigEndian
 
@@ -151,7 +151,7 @@ public struct Generator: Equatable {
         ///
         /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
         /// - returns: The counter value needed to generate the password for the target time.
-        private func counterAtTime(_ time: TimeInterval) throws -> UInt64 {
+        private func counterValue(at time: TimeInterval) throws -> UInt64 {
             switch self {
             case .counter(let counter):
                 return counter
