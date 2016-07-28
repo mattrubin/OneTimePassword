@@ -71,9 +71,7 @@ public final class Keychain {
     ///
     /// - throws: A `Keychain.Error` if the update did not succeed.
     /// - returns: The updated persistent token.
-    public func update(_ persistentToken: PersistentToken,
-        withToken token: Token) throws -> PersistentToken
-    {
+    public func update(_ persistentToken: PersistentToken, with token: Token) throws -> PersistentToken {
         let attributes = try token.keychainAttributes()
         try updateKeychainItem(forPersistentRef: persistentToken.identifier,
             withAttributes: attributes)

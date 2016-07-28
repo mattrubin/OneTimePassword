@@ -72,7 +72,7 @@ class KeychainTests: XCTestCase {
                 generator: token.generator.successor()
             )
             do {
-                let updatedToken = try keychain.update(savedToken, withToken: modifiedToken)
+                let updatedToken = try keychain.update(savedToken, with: modifiedToken)
                 XCTAssertEqual(updatedToken.identifier, savedToken.identifier)
                 XCTAssertEqual(updatedToken.token, modifiedToken)
             } catch {
