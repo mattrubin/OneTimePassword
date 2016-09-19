@@ -1,6 +1,8 @@
 # Changelog
 
 ## [In development][master]
+
+## [2.0.1][] (2016-09-18)
 #### Enhancements
 - Update the project to support Xcode 8 and Swift 2.3. ([#73](https://github.com/mattrubin/OneTimePassword/pull/73), [#75](https://github.com/mattrubin/OneTimePassword/pull/75), [#84](https://github.com/mattrubin/OneTimePassword/pull/84))
 
@@ -76,8 +78,9 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[master]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0...master
+[master]: https://github.com/mattrubin/OneTimePassword/compare/2.0.1...master
 
+[2.0.1]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/mattrubin/OneTimePassword/compare/1.1.0...2.0.0
 [2.0.0-rc]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.5...2.0.0
 [2.0.0-beta.5]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.4...2.0.0-beta.5
