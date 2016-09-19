@@ -16,6 +16,7 @@
 - Clean up whitespace. ([#79](https://github.com/mattrubin/OneTimePassword/pull/79))
 - Integrate with codecov.io for automated code coverage reporting. ([#82](https://github.com/mattrubin/OneTimePassword/pull/82))
 - Update SwiftLint configuration. ([#87](https://github.com/mattrubin/OneTimePassword/pull/87))
+- Update Travis configuration to use Xcode 8 ([#89](https://github.com/mattrubin/OneTimePassword/pull/89))
 
 
 ## [2.0.0][] (2016-02-07)
