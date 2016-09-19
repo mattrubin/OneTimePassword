@@ -1,6 +1,6 @@
 # OneTimePassword Changelog
 
-## [In development][master]
+<!--## [In development][master]-->
 
 ## [2.0.1][] (2016-09-18)
 #### Enhancements
