@@ -1,4 +1,4 @@
-# Changelog
+# OneTimePassword Changelog
 
 ## [In development][master]
 
