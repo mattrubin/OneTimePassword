@@ -5,8 +5,8 @@ language: objective-c
 xcode_workspace: OneTimePassword.xcworkspace
 xcode_scheme: OneTimePassword
 
-osx_image: xcode7.3
-xcode_sdk: iphonesimulator9.3
+osx_image: xcode8
+xcode_sdk: iphonesimulator10.0
 
 env:
   - DESTINATION="OS=8.1,name=iPhone 4S"
@@ -17,12 +17,16 @@ env:
   - DESTINATION="OS=9.1,name=iPhone 6S"
   - DESTINATION="OS=9.2,name=iPhone 6S Plus"
   - DESTINATION="OS=9.3,name=iPhone 6S Plus"
+  - DESTINATION="OS=10.0,name=iPhone 7"
+  - DESTINATION="OS=10.0,name=iPhone 7 Plus"
+  - DESTINATION="OS=10.0,name=iPhone SE"
 
+# For now, continue testing with Xcode 7.3 and Swift 2.2
 matrix:
   include:
-    - osx_image: xcode8
-      xcode_sdk: iphonesimulator10.0
-      env: DESTINATION="OS=10.0,name=iPhone SE"
+    - osx_image: xcode7.3
+      xcode_sdk: iphonesimulator9.3
+      env: DESTINATION="OS=8.1,name=iPhone 4S"
 
 # Check out nested dependencies
 before_install: git submodule update --init --recursive
