@@ -5,6 +5,7 @@ excluded:
 opt_in_rules:
   - empty_count
   - missing_docs
+  - vertical_whitespace
 disabled_rules:
   - comma
   - cyclomatic_complexity
