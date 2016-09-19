@@ -23,7 +23,7 @@
 //  SOFTWARE.
 //
 
-// NOTE: Keychain access from test bundles seems to be broken (error -34018) as of Xcode 8 beta 2.
+// NOTE: Keychain access from test bundles seems to be broken (error -34018) in iOS 10.
 // https://forums.developer.apple.com/thread/51071
 // Even basic (unshared) keychain access in iOS 10 requires the keychain sharing entitlement, but
 // since entitlements do not apply to test bundles, there isn't a fix for broken keychain tests.
