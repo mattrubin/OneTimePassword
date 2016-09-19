@@ -2,12 +2,12 @@
 
 excluded:
   - Carthage
-enabled_rules:
+opt_in_rules:
   - empty_count
   - missing_docs
+  - vertical_whitespace
 disabled_rules:
   - comma
-  - conditional_binding_cascade
   - cyclomatic_complexity
   - function_body_length
   - line_length
