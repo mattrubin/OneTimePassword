@@ -1,8 +1,8 @@
 # OneTimePassword Changelog
 
-<!--## [In development][master]-->
+## [In development][master]
 
-## [2.0.1][] (2016-09-18)
+<!--## [2.0.1][] (?????)-->
 #### Enhancements
 - Update the project to support Xcode 8 and Swift 2.3. ([#73](https://github.com/mattrubin/OneTimePassword/pull/73), [#75](https://github.com/mattrubin/OneTimePassword/pull/75), [#84](https://github.com/mattrubin/OneTimePassword/pull/84))
 
