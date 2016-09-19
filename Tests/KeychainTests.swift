@@ -23,11 +23,11 @@
 //  SOFTWARE.
 //
 
-// NOTE: Keychain access seems to be broken (error -34018) as of Xcode 8 beta 2.
+// NOTE: Keychain access from test bundles seems to be broken (error -34018) as of Xcode 8 beta 2.
 // https://forums.developer.apple.com/thread/51071
-// The current workaround for this issue is to enable the keychain sharing entitlement, but since
-// entitlements appear to not affect test bundles, there isn't a fix for broken keychain tests.
-// Until a future beta fixes the issue, keychain tests are disabled for iOS 10.
+// Even basic (unshared) keychain access in iOS 10 requires the keychain sharing entitlement, but
+// since entitlements do not apply to test bundles, there isn't a fix for broken keychain tests.
+// Until a fix for the issue is found, keychain tests are disabled for iOS 10.
 
 import XCTest
 import OneTimePassword
