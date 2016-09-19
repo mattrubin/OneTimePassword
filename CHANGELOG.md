@@ -2,17 +2,17 @@
 
 ## [In development][master]
 Enhancements:
-- Update the project to support Xcode 8 and Swift 2.3. (#73, #75, #84)
+- Update the project to support Xcode 8 and Swift 2.3. ([#73](https://github.com/mattrubin/OneTimePassword/pull/73), [#75](https://github.com/mattrubin/OneTimePassword/pull/75), [#84](https://github.com/mattrubin/OneTimePassword/pull/84))
 
 Fixes:
-- Disable broken keychain tests on iOS 10. (#77)
+- Disable broken keychain tests on iOS 10. ([#77](https://github.com/mattrubin/OneTimePassword/pull/77))
 
 Other Changes:
-- Update badge images and links in the README. (#69)
-- Reorganize source and test files following the conventions the Swift Package Manager. (#70)
-- Isolate the CommonCrypto dependency inside a custom wrapper function. (#71)
-- Clean up whitespace. (#79)
-- Integrate with codecov.io for automated code coverage reporting. (#82) 
+- Update badge images and links in the README. ([#69](https://github.com/mattrubin/OneTimePassword/pull/69))
+- Reorganize source and test files following the conventions the Swift Package Manager. ([#70](https://github.com/mattrubin/OneTimePassword/pull/70))
+- Isolate the CommonCrypto dependency inside a custom wrapper function. ([#71](https://github.com/mattrubin/OneTimePassword/pull/71))
+- Clean up whitespace. ([#79](https://github.com/mattrubin/OneTimePassword/pull/79))
+- Integrate with codecov.io for automated code coverage reporting. ([#82](https://github.com/mattrubin/OneTimePassword/pull/82))
 
 ## [2.0.0][] (2016-02-07)
 
