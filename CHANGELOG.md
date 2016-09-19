@@ -1,6 +1,13 @@
 # Changelog
 
-<!--## [In development][master]-->
+## [In development][master]
+- Update badge images and links in the README. (#69)
+- Reorganize source and test files following the conventions the Swift Package Manager. (#70)
+- Isolate the CommonCrypto dependency inside a custom wrapper function. (#71)
+- Update the project to support Xcode 8 and Swift 2.3. (#73, #75, #84)
+- Disable broken keychain tests on iOS 10. (#77)
+- Clean up whitespace. (#79)
+- Integrate with codecov.io for automated code coverage reporting. (#82) 
 
 ## [2.0.0][] (2016-02-07)
 
