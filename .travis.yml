@@ -14,8 +14,8 @@ env:
   - DESTINATION="OS=9.2,name=iPhone 6S Plus"
   - DESTINATION="OS=9.3,name=iPhone 6S Plus"
   - DESTINATION="OS=10.0,name=iPhone 7"
-  - DESTINATION="OS=10.0,name=iPhone 7 Plus"
-  - DESTINATION="OS=10.0,name=iPhone SE"
+#  - DESTINATION="OS=10.0,name=iPhone 7 Plus"
+#  - DESTINATION="OS=10.0,name=iPhone SE"
 
 # For now, continue testing with Xcode 7.3 and Swift 2.2
 # Testing on iOS 8.x currently times out on Travis with Xcode 8:
