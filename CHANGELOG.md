@@ -7,7 +7,7 @@
 - Update the project to support Xcode 8 and Swift 2.3. ([#73](https://github.com/mattrubin/OneTimePassword/pull/73), [#75](https://github.com/mattrubin/OneTimePassword/pull/75), [#84](https://github.com/mattrubin/OneTimePassword/pull/84))
 
 #### Fixes
-- Disable broken keychain tests on iOS 10. ([#77](https://github.com/mattrubin/OneTimePassword/pull/77))
+- Disable broken keychain tests on iOS 10. ([#77](https://github.com/mattrubin/OneTimePassword/pull/77), [#88](https://github.com/mattrubin/OneTimePassword/pull/88))
 
 #### Other Changes
 - Update badge images and links in the README. ([#69](https://github.com/mattrubin/OneTimePassword/pull/69))
