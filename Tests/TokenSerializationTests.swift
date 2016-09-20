@@ -81,7 +81,7 @@ class TokenSerializationTests: XCTestCase {
                                 }
                                 XCTAssertEqual(url.host!, expectedHost, "The url host should be \"\(expectedHost)\"")
                                 // Test name
-                                let path = url.path!
+                                let path = url.path
                                 XCTAssertEqual(path.substring(from: path.index(after: path.startIndex)), name, "The url path should be \"\(name)\"")
 
                                 let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)

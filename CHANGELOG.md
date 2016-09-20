@@ -1,6 +1,23 @@
-# Changelog
+# OneTimePassword Changelog
 
 <!--## [In development][master]-->
+
+## [2.0.1][] (2016-09-20)
+#### Enhancements
+- Update the project to support Xcode 8 and Swift 2.3. ([#73](https://github.com/mattrubin/OneTimePassword/pull/73), [#75](https://github.com/mattrubin/OneTimePassword/pull/75), [#84](https://github.com/mattrubin/OneTimePassword/pull/84))
+
+#### Fixes
+- Disable broken keychain tests on iOS 10. ([#77](https://github.com/mattrubin/OneTimePassword/pull/77), [#88](https://github.com/mattrubin/OneTimePassword/pull/88))
+
+#### Other Changes
+- Update badge images and links in the README. ([#69](https://github.com/mattrubin/OneTimePassword/pull/69))
+- Reorganize source and test files following the conventions the Swift Package Manager. ([#70](https://github.com/mattrubin/OneTimePassword/pull/70))
+- Isolate the CommonCrypto dependency inside a custom wrapper function. ([#71](https://github.com/mattrubin/OneTimePassword/pull/71))
+- Clean up whitespace. ([#79](https://github.com/mattrubin/OneTimePassword/pull/79))
+- Integrate with codecov.io for automated code coverage reporting. ([#82](https://github.com/mattrubin/OneTimePassword/pull/82))
+- Update SwiftLint configuration. ([#87](https://github.com/mattrubin/OneTimePassword/pull/87))
+- Update Travis configuration to use Xcode 8. ([#89](https://github.com/mattrubin/OneTimePassword/pull/89))
+
 
 ## [2.0.0][] (2016-02-07)
 
@@ -63,8 +80,9 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[master]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0...master
+[master]: https://github.com/mattrubin/OneTimePassword/compare/2.0.1...master
 
+[2.0.1]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/mattrubin/OneTimePassword/compare/1.1.0...2.0.0
 [2.0.0-rc]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.5...2.0.0
 [2.0.0-beta.5]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.4...2.0.0-beta.5

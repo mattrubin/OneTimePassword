@@ -50,7 +50,7 @@ extension Token {
     }
 }
 
-internal enum SerializationError: ErrorProtocol {
+internal enum SerializationError: Swift.Error {
     case urlGenerationFailure
 }
 
@@ -127,7 +127,7 @@ private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Tok
         queryDictionary[item.name] = item.value
     }
 
-    let factorParser: (string: String) -> Generator.Factor? = { string in
+    let factorParser: (String) -> Generator.Factor? = { string in
         if string == kFactorCounterKey {
             if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey],
                 with: {
@@ -165,11 +165,10 @@ private func tokenFromURL(_ url: URL, secret externalSecret: Data? = nil) -> Tok
     }
 
     var name = Token.defaultName
-    if let path = url.path {
-        if path.characters.count > 1 {
-            // Skip the leading "/"
-            name = path.substring(from: path.characters.index(after: path.startIndex))
-        }
+    let path = url.path
+    if path.characters.count > 1 {
+        // Skip the leading "/"
+        name = path.substring(from: path.characters.index(after: path.startIndex))
     }
 
     var issuer = Token.defaultIssuer

@@ -62,6 +62,7 @@
 		C94B9BCA1BD7271E0073D7C5 /* AUTHORS.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS.txt; sourceTree = "<group>"; };
 		C95B10CB196D22B9000840AA /* GeneratorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratorTests.swift; sourceTree = "<group>"; };
 		C95F9FB81C03D6BC00CEA286 /* PersistentToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentToken.swift; sourceTree = "<group>"; };
+		C9619C5C1D73FB3500757587 /* .codecov.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codecov.yml; sourceTree = "<group>"; };
 		C97C82381946E51D00FD9F4C /* OneTimePassword.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97C823C1946E51D00FD9F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -297,6 +298,7 @@
 				C9B84D1F1C015EC8002EE631 /* Cartfile */,
 				C94765061C64587800C7527E /* Cartfile.private */,
 				C947650A1C66ADEC00C7527E /* OneTimePassword.podspec */,
+				C9619C5C1D73FB3500757587 /* .codecov.yml */,
 				C9B84D1C1C015EC0002EE631 /* .hound.yml */,
 				C9B84D1D1C015EC0002EE631 /* .swiftlint.yml */,
 				C9B84D1E1C015EC0002EE631 /* .travis.yml */,
@@ -390,7 +392,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					C97C82371946E51D00FD9F4C = {
@@ -526,6 +528,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2C1A74D5830076B105 /* Debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -540,6 +544,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2E1A74D5830076B105 /* Release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
