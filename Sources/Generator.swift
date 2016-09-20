@@ -77,9 +77,7 @@ public struct Generator: Equatable {
         var bigCounter = counter.bigEndian
 
         // Generate an HMAC value from the key and counter
-        let counterData = withUnsafePointer(to: &bigCounter) {
-            Data(bytes: $0, count: MemoryLayout<UInt64>.size)
-        }
+        let counterData = Data(bytes: &bigCounter, count: MemoryLayout<UInt64>.size)
         let hash = HMAC(algorithm, key: secret, data: counterData)
 
         var truncatedHash = hash.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
