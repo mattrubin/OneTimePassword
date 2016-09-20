@@ -29,17 +29,17 @@ import CommonCrypto
 func HMAC(_ algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
     let (hashFunction, hashLength) = algorithm.hashInfo
 
-    let macOut = UnsafeMutablePointer<UInt8>(allocatingCapacity: hashLength)
-    defer { macOut.deallocateCapacity(hashLength) }
+    let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
+    defer { macOut.deallocate(capacity: hashLength) }
 
     CCHmac(hashFunction, (key as NSData).bytes, key.count, (data as NSData).bytes, data.count, macOut)
 
     return Data(bytes: macOut, count: hashLength)
 }
 
-extension Generator.Algorithm {
+private extension Generator.Algorithm {
     /// The corresponding CommonCrypto hash function and hash length.
-    private var hashInfo: (hashFunction: CCHmacAlgorithm, hashLength: Int) {
+    var hashInfo: (hashFunction: CCHmacAlgorithm, hashLength: Int) {
         switch self {
         case .SHA1:
             return (CCHmacAlgorithm(kCCHmacAlgSHA1), Int(CC_SHA1_DIGEST_LENGTH))
