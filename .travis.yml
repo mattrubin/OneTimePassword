@@ -9,11 +9,15 @@ osx_image: xcode8
 xcode_sdk: iphonesimulator10.0
 
 env:
-  - DESTINATION="OS=10.0,name=iPhone 5"
-  - DESTINATION="OS=10.0,name=iPhone 6S Plus"
-  - DESTINATION="OS=10.0,name=iPhone SE"
-  - DESTINATION="OS=10.0,name=iPad Retina"
-  - DESTINATION="OS=10.0,name=iPad Pro (12.9 inch)"
+  - DESTINATION="OS=8.1,name=iPhone 4S"
+  - DESTINATION="OS=8.2,name=iPhone 5"
+  - DESTINATION="OS=8.3,name=iPhone 5S"
+  - DESTINATION="OS=8.4,name=iPhone 6"
+  - DESTINATION="OS=9.0,name=iPhone 6"
+  - DESTINATION="OS=9.1,name=iPhone 6 Plus"
+  - DESTINATION="OS=9.2,name=iPhone 6S"
+  - DESTINATION="OS=9.3,name=iPhone 6S Plus"
+  - DESTINATION="OS=10.0,name=iPhone 7"
 
 # Check out nested dependencies
 before_install: git submodule update --init --recursive
@@ -21,3 +25,6 @@ before_install: git submodule update --init --recursive
 # A custom test script is required because xctool cannot access the iOS keychain
 # https://github.com/facebook/xctool/issues/269
 script: set -o pipefail && xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK -destination "$DESTINATION" build test | xcpretty -c
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
