@@ -68,7 +68,7 @@ public final class OTPToken: NSObject {
         }
     }
 
-    private convenience init(token: Token) {
+    fileprivate convenience init(token: Token) {
         self.init()
         updateWithToken(token)
     }
