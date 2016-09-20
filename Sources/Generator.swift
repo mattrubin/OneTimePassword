@@ -27,7 +27,6 @@ import Foundation
 
 /// A `Generator` contains all of the parameters needed to generate a one-time password.
 public struct Generator: Equatable {
-
     /// The moving factor, either timer- or counter-based.
     public let factor: Factor
 
@@ -78,8 +77,8 @@ public struct Generator: Equatable {
         var bigCounter = counter.bigEndian
 
         // Generate an HMAC value from the key and counter
-        let counterData = withUnsafePointer(&bigCounter) {
-            Data(bytes: UnsafePointer<UInt8>($0), count: sizeof(UInt64.self))
+        let counterData = withUnsafePointer(to: &bigCounter) {
+            Data(bytes: $0, count: MemoryLayout<UInt64>.size)
         }
         let hash = HMAC(algorithm: algorithm, key: secret, data: counterData)
 
@@ -89,7 +88,9 @@ public struct Generator: Equatable {
 
             // Take 4 bytes from the hash, starting at the given byte offset
             let truncatedHashPtr = ptr + Int(offset)
-            let truncatedHash = UnsafePointer<UInt32>(truncatedHashPtr).pointee
+            let truncatedHash = truncatedHashPtr.withMemoryRebound(to: UInt32.self, capacity: 1) {
+                $0.pointee
+            }
             return truncatedHash
         }
 
@@ -151,7 +152,7 @@ public struct Generator: Equatable {
         ///
         /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
         /// - returns: The counter value needed to generate the password for the target time.
-        private func counterValue(at time: TimeInterval) throws -> UInt64 {
+        fileprivate func counterValue(at time: TimeInterval) throws -> UInt64 {
             switch self {
             case .counter(let counter):
                 return counter
@@ -180,7 +181,7 @@ public struct Generator: Equatable {
 
     /// An error type enum representing the various errors a `Generator` can throw when computing a
     /// password.
-    public enum Error: ErrorProtocol {
+    public enum Error: Swift.Error {
         /// The requested time is before the epoch date.
         case invalidTime
         /// The timer period is not a positive number of seconds
@@ -215,14 +216,14 @@ public func == (lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
 private extension Generator {
     // MARK: Validation
 
-    private static func validateDigits(_ digits: Int) -> Bool {
+    static func validateDigits(_ digits: Int) -> Bool {
         // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
         // 6-digit code at a minimum and possibly 7 and 8-digit codes."
         let acceptableDigits = 6...8
         return acceptableDigits.contains(digits)
     }
 
-    private static func validateFactor(_ factor: Factor) -> Bool {
+    static func validateFactor(_ factor: Factor) -> Bool {
         switch factor {
         case .counter:
             return true
@@ -231,12 +232,12 @@ private extension Generator {
         }
     }
 
-    private static func validatePeriod(_ period: TimeInterval) -> Bool {
+    static func validatePeriod(_ period: TimeInterval) -> Bool {
         // The period must be positive and non-zero to produce a valid counter value.
         return (period > 0)
     }
 
-    private static func validateTime(_ time: TimeInterval) -> Bool {
+    static func validateTime(_ time: TimeInterval) -> Bool {
         // The time must be positive to produce a valid counter value.
         return (time >= 0)
     }
@@ -248,7 +249,7 @@ private extension String {
         let paddingCount = length - characters.count
         guard paddingCount > 0 else { return self }
 
-        let padding = String(repeating: character, count: paddingCount)
+        let padding = String(repeating: String(character), count: paddingCount)
         return padding + self
     }
 }

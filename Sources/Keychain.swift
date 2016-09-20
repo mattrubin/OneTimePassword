@@ -93,7 +93,7 @@ public final class Keychain {
     // MARK: Errors
 
     /// An error type enum representing the various errors a `Keychain` operation can throw.
-    public enum Error: ErrorProtocol {
+    public enum Error: Swift.Error {
         /// The keychain operation returned a system error code.
         case systemError(OSStatus)
         /// The keychain operation returned an unexpected type of data.
@@ -108,7 +108,7 @@ public final class Keychain {
 private let kOTPService = "me.mattrubin.onetimepassword.token"
 
 private extension Token {
-    private func keychainAttributes() throws -> [String: AnyObject] {
+    func keychainAttributes() throws -> [String: AnyObject] {
         let url = try self.toURL()
         // This line supports the different optionality of `absoluteString` between Xcode 7 and 8
         let urlString: String? = url.absoluteString
@@ -116,15 +116,15 @@ private extension Token {
             throw Keychain.Error.tokenSerializationFailure
         }
         return [
-            kSecAttrGeneric as String:  data,
-            kSecValueData as String:    generator.secret,
-            kSecAttrService as String:  kOTPService,
+            kSecAttrGeneric as String:  data as NSData,
+            kSecValueData as String:    generator.secret as NSData,
+            kSecAttrService as String:  kOTPService as NSString,
         ]
     }
 }
 
 private extension PersistentToken {
-    private init?(keychainDictionary: NSDictionary) {
+    init?(keychainDictionary: NSDictionary) {
         guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? Data,
             let string = NSString(data: urlData, encoding: String.Encoding.utf8.rawValue),
             let secret = keychainDictionary[kSecValueData as String] as? Data,
@@ -144,12 +144,12 @@ private func addKeychainItem(withAttributes attributes: [String: AnyObject]) thr
     // Set a random string for the account name.
     // We never query by or display this value, but the keychain requires it to be unique.
     if mutableAttributes[kSecAttrAccount as String] == nil {
-        mutableAttributes[kSecAttrAccount as String] = UUID().uuidString
+        mutableAttributes[kSecAttrAccount as String] = UUID().uuidString as NSString
     }
 
     var result: AnyObject?
-    let resultCode: OSStatus = withUnsafeMutablePointer(&result) {
-        SecItemAdd(mutableAttributes, $0)
+    let resultCode: OSStatus = withUnsafeMutablePointer(to: &result) {
+        SecItemAdd(mutableAttributes as CFDictionary, $0)
     }
 
     guard resultCode == errSecSuccess else {
@@ -164,12 +164,12 @@ private func addKeychainItem(withAttributes attributes: [String: AnyObject]) thr
 private func updateKeychainItem(forPersistentRef persistentRef: Data,
     withAttributes attributesToUpdate: [String: AnyObject]) throws
 {
-    let queryDict = [
+    let queryDict: [String : AnyObject] = [
         kSecClass as String:               kSecClassGenericPassword,
-        kSecValuePersistentRef as String:  persistentRef,
+        kSecValuePersistentRef as String:  persistentRef as NSData,
     ]
 
-    let resultCode = SecItemUpdate(queryDict, attributesToUpdate)
+    let resultCode = SecItemUpdate(queryDict as CFDictionary, attributesToUpdate as CFDictionary)
 
     guard resultCode == errSecSuccess else {
         throw Keychain.Error.systemError(resultCode)
@@ -177,12 +177,12 @@ private func updateKeychainItem(forPersistentRef persistentRef: Data,
 }
 
 private func deleteKeychainItem(forPersistentRef persistentRef: Data) throws {
-    let queryDict = [
+    let queryDict: [String : AnyObject] = [
         kSecClass as String:               kSecClassGenericPassword,
-        kSecValuePersistentRef as String:  persistentRef,
+        kSecValuePersistentRef as String:  persistentRef as NSData,
     ]
 
-    let resultCode = SecItemDelete(queryDict)
+    let resultCode = SecItemDelete(queryDict as CFDictionary)
 
     guard resultCode == errSecSuccess else {
         throw Keychain.Error.systemError(resultCode)
@@ -190,17 +190,17 @@ private func deleteKeychainItem(forPersistentRef persistentRef: Data) throws {
 }
 
 private func keychainItem(forPersistentRef persistentRef: Data) throws -> NSDictionary? {
-    let queryDict = [
+    let queryDict: [String : AnyObject] = [
         kSecClass as String:                kSecClassGenericPassword,
-        kSecValuePersistentRef as String:   persistentRef,
+        kSecValuePersistentRef as String:   persistentRef as NSData,
         kSecReturnPersistentRef as String:  kCFBooleanTrue,
         kSecReturnAttributes as String:     kCFBooleanTrue,
         kSecReturnData as String:           kCFBooleanTrue,
     ]
 
     var result: AnyObject?
-    let resultCode = withUnsafeMutablePointer(&result) {
-        SecItemCopyMatching(queryDict, $0)
+    let resultCode = withUnsafeMutablePointer(to: &result) {
+        SecItemCopyMatching(queryDict as CFDictionary, $0)
     }
 
     if resultCode == errSecItemNotFound {
@@ -217,7 +217,7 @@ private func keychainItem(forPersistentRef persistentRef: Data) throws -> NSDict
 }
 
 private func allKeychainItems() throws -> [NSDictionary] {
-    let queryDict = [
+    let queryDict: [String : AnyObject] = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecMatchLimit as String:           kSecMatchLimitAll,
         kSecReturnPersistentRef as String:  kCFBooleanTrue,
@@ -226,8 +226,8 @@ private func allKeychainItems() throws -> [NSDictionary] {
     ]
 
     var result: AnyObject?
-    let resultCode = withUnsafeMutablePointer(&result) {
-        SecItemCopyMatching(queryDict, $0)
+    let resultCode = withUnsafeMutablePointer(to: &result) {
+        SecItemCopyMatching(queryDict as CFDictionary, $0)
     }
 
     if resultCode == errSecItemNotFound {
