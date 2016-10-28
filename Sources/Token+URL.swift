@@ -36,7 +36,8 @@ extension Token {
             issuer: issuer,
             factor: generator.factor,
             algorithm: generator.algorithm,
-            digits: generator.digits
+            digits: generator.digits,
+            secret: generator.secret.base32String()
         )
     }
 
@@ -89,7 +90,11 @@ private func algorithmFromString(string: String) -> Generator.Algorithm? {
     return nil
 }
 
-private func urlForToken(name name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) throws -> NSURL {
+// swiftlint:disable function_parameter_count
+private func urlForToken(name name: String, issuer: String, factor: Generator.Factor,
+                         algorithm: Generator.Algorithm, digits: Int, secret: String)
+                         throws -> NSURL {
+// swiftlint:enable function_parameter_count
     let urlComponents = NSURLComponents()
     urlComponents.scheme = kOTPAuthScheme
     urlComponents.path = "/" + name
@@ -108,6 +113,8 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
         urlComponents.host = kFactorCounterKey
         queryItems.append(NSURLQueryItem(name: kQueryCounterKey, value: String(counter)))
     }
+
+    queryItems.append(NSURLQueryItem(name: kQuerySecretKey, value: secret))
 
     urlComponents.queryItems = queryItems
 
