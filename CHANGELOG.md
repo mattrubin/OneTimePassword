@@ -1,6 +1,7 @@
 # OneTimePassword Changelog
 
-<!--## [In development][master]-->
+## [In development][master]
+- Clean up project configuration and build settings ([#95](https://github.com/mattrubin/OneTimePassword/pull/95))
 
 ## [2.0.1][] (2016-09-20)
 #### Enhancements
