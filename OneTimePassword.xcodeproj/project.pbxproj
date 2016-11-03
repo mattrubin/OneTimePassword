@@ -407,7 +407,6 @@
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Manual;
-						TestTargetID = C9A486A8196F352E00524F51;
 					};
 				};
 			};
