@@ -3,7 +3,7 @@
 language: objective-c
 
 xcode_workspace: OneTimePassword.xcworkspace
-xcode_scheme: OneTimePassword
+xcode_scheme: OneTimePassword (iOS)
 
 osx_image: xcode8
 xcode_sdk: iphonesimulator10.0
