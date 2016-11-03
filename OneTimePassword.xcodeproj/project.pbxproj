@@ -395,15 +395,18 @@
 					C97C82371946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 					};
 					C97C82421946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 						TestTargetID = C97C82371946E51D00FD9F4C;
 					};
 					C9A486B2196F352E00524F51 = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 						TestTargetID = C9A486A8196F352E00524F51;
 					};
 				};
