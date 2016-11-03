@@ -42,14 +42,14 @@
 			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C97C82371946E51D00FD9F4C;
-			remoteInfo = OneTimePassword;
+			remoteInfo = "OneTimePassword (iOS)";
 		};
 		C97C82451946E51D00FD9F4C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C97C82371946E51D00FD9F4C;
-			remoteInfo = OneTimePassword;
+			remoteInfo = "OneTimePassword (iOS)";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -388,9 +388,9 @@
 			productReference = 5B39F4941DBD06BA00CD2DAB /* OneTimePassword.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C97C82371946E51D00FD9F4C /* OneTimePassword */ = {
+		C97C82371946E51D00FD9F4C /* OneTimePassword (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword" */;
+			buildConfigurationList = C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword (iOS)" */;
 			buildPhases = (
 				C97C82331946E51D00FD9F4C /* Sources */,
 				C97CDF2E1BEFB20000D64406 /* Lint */,
@@ -401,8 +401,8 @@
 			);
 			dependencies = (
 			);
-			name = OneTimePassword;
-			productName = OneTimePassword;
+			name = "OneTimePassword (iOS)";
+			productName = "OneTimePassword (iOS)";
 			productReference = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -484,7 +484,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C97C82371946E51D00FD9F4C /* OneTimePassword */,
+				C97C82371946E51D00FD9F4C /* OneTimePassword (iOS) */,
 				C97C82421946E51D00FD9F4C /* OneTimePasswordTests */,
 				C9A486B2196F352E00524F51 /* OneTimePasswordLegacyTests */,
 				5B39F4931DBD06BA00CD2DAB /* OneTimePassword (watchOS) */,
@@ -574,12 +574,12 @@
 /* Begin PBXTargetDependency section */
 		C97142391C1157FC0063B37E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C97C82371946E51D00FD9F4C /* OneTimePassword */;
+			target = C97C82371946E51D00FD9F4C /* OneTimePassword (iOS) */;
 			targetProxy = C97142381C1157FC0063B37E /* PBXContainerItemProxy */;
 		};
 		C97C82461946E51D00FD9F4C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C97C82371946E51D00FD9F4C /* OneTimePassword */;
+			target = C97C82371946E51D00FD9F4C /* OneTimePassword (iOS) */;
 			targetProxy = C97C82451946E51D00FD9F4C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -645,7 +645,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OneTimePassword;
 				"SWIFT_INCLUDE_PATHS[sdk=appletvos*]" = "$(SRCROOT)/CommonCrypto/appletvos";
 				"SWIFT_INCLUDE_PATHS[sdk=appletvsimulator*]" = "$(SRCROOT)/CommonCrypto/appletvsimulator";
 				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "$(SRCROOT)/CommonCrypto/iphoneos";
@@ -663,7 +663,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OneTimePassword;
 				"SWIFT_INCLUDE_PATHS[sdk=appletvos*]" = "$(SRCROOT)/CommonCrypto/appletvos";
 				"SWIFT_INCLUDE_PATHS[sdk=appletvsimulator*]" = "$(SRCROOT)/CommonCrypto/appletvsimulator";
 				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "$(SRCROOT)/CommonCrypto/iphoneos";
@@ -736,7 +736,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword" */ = {
+		C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C97C824F1946E51D00FD9F4C /* Debug */,
