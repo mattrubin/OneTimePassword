@@ -103,6 +103,9 @@
 		C9E829541C62FFBD003F5FC9 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		C9E829551C630514003F5FC9 /* CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONDUCT.md; sourceTree = "<group>"; };
 		C9F544AC1C8391630023CCF0 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
+		C9FCE5631DCB01B90032920D /* watchOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "watchOS-Application.xcconfig"; sourceTree = "<group>"; };
+		C9FCE5651DCB01B90032920D /* watchOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "watchOS-Framework.xcconfig"; sourceTree = "<group>"; };
+		C9FCE5661DCB01B90032920D /* watchOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "watchOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,7 +246,8 @@
 			children = (
 				C996EC291A74D5830076B105 /* Base */,
 				C996EC341A74D5830076B105 /* iOS */,
-				C996EC391A74D5830076B105 /* Mac OS X */,
+				C996EC391A74D5830076B105 /* macOS */,
+				C9FCE5621DCB01B90032920D /* watchOS */,
 			);
 			name = Configuration;
 			path = Carthage/Checkouts/xcconfigs;
@@ -270,7 +274,7 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
-		C996EC391A74D5830076B105 /* Mac OS X */ = {
+		C996EC391A74D5830076B105 /* macOS */ = {
 			isa = PBXGroup;
 			children = (
 				C996EC3A1A74D5830076B105 /* Mac-Application.xcconfig */,
@@ -278,6 +282,7 @@
 				C996EC3D1A74D5830076B105 /* Mac-Framework.xcconfig */,
 				C996EC3E1A74D5830076B105 /* Mac-StaticLibrary.xcconfig */,
 			);
+			name = macOS;
 			path = "Mac OS X";
 			sourceTree = "<group>";
 		};
@@ -331,6 +336,16 @@
 				C9C9FE25196D181800C7ACEE /* OTPTypeStrings.m */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		C9FCE5621DCB01B90032920D /* watchOS */ = {
+			isa = PBXGroup;
+			children = (
+				C9FCE5631DCB01B90032920D /* watchOS-Application.xcconfig */,
+				C9FCE5651DCB01B90032920D /* watchOS-Framework.xcconfig */,
+				C9FCE5661DCB01B90032920D /* watchOS-StaticLibrary.xcconfig */,
+			);
+			path = watchOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -572,6 +587,7 @@
 /* Begin XCBuildConfiguration section */
 		5B39F4991DBD06BA00CD2DAB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C9FCE5651DCB01B90032920D /* watchOS-Framework.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -640,6 +656,7 @@
 		};
 		5B39F49A1DBD06BA00CD2DAB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C9FCE5651DCB01B90032920D /* watchOS-Framework.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
