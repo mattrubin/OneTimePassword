@@ -1,2 +1,2 @@
 github "mattrubin/Base32" "1.0.2+carthage"
-github "jspahrsummers/xcconfigs" "0.9"
+github "jspahrsummers/xcconfigs" "0.10"
