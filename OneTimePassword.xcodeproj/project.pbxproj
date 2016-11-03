@@ -64,6 +64,7 @@
 		C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "OneTimePassword-iOS.xcconfig"; sourceTree = "<group>"; };
 		C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "OneTimePassword-watchOS.xcconfig"; sourceTree = "<group>"; };
 		C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "OneTimePasswordTests-iOS.xcconfig"; sourceTree = "<group>"; };
+		C93CC01D1DCBB9EE006255FA /* CommonCrypto.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CommonCrypto.xcconfig; sourceTree = "<group>"; };
 		C944A55E1A7EDAE200E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5941A809CC000E08B1E /* OTPTokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTokenTests.swift; sourceTree = "<group>"; };
 		C94765061C64587800C7527E /* Cartfile.private */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
@@ -241,6 +242,7 @@
 				C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */,
 				C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */,
 				C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */,
+				C93CC01D1DCBB9EE006255FA /* CommonCrypto.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -542,13 +544,6 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
 				PRODUCT_NAME = OneTimePassword;
-				"SWIFT_INCLUDE_PATHS[sdk=appletvos*]" = "$(SRCROOT)/CommonCrypto/appletvos";
-				"SWIFT_INCLUDE_PATHS[sdk=appletvsimulator*]" = "$(SRCROOT)/CommonCrypto/appletvsimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "$(SRCROOT)/CommonCrypto/iphoneos";
-				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "$(SRCROOT)/CommonCrypto/iphonesimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=macosx*]" = "$(SRCROOT)/CommonCrypto/macosx";
-				"SWIFT_INCLUDE_PATHS[sdk=watchos*]" = "$(SRCROOT)/CommonCrypto/watchos";
-				"SWIFT_INCLUDE_PATHS[sdk=watchsimulator*]" = "$(SRCROOT)/CommonCrypto/watchsimulator";
 			};
 			name = Debug;
 		};
@@ -559,13 +554,6 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
 				PRODUCT_NAME = OneTimePassword;
-				"SWIFT_INCLUDE_PATHS[sdk=appletvos*]" = "$(SRCROOT)/CommonCrypto/appletvos";
-				"SWIFT_INCLUDE_PATHS[sdk=appletvsimulator*]" = "$(SRCROOT)/CommonCrypto/appletvsimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "$(SRCROOT)/CommonCrypto/iphoneos";
-				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "$(SRCROOT)/CommonCrypto/iphonesimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=macosx*]" = "$(SRCROOT)/CommonCrypto/macosx";
-				"SWIFT_INCLUDE_PATHS[sdk=watchos*]" = "$(SRCROOT)/CommonCrypto/watchos";
-				"SWIFT_INCLUDE_PATHS[sdk=watchsimulator*]" = "$(SRCROOT)/CommonCrypto/watchsimulator";
 			};
 			name = Release;
 		};
@@ -596,13 +584,6 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
 				PRODUCT_NAME = OneTimePassword;
-				"SWIFT_INCLUDE_PATHS[sdk=appletvos*]" = "$(SRCROOT)/CommonCrypto/appletvos";
-				"SWIFT_INCLUDE_PATHS[sdk=appletvsimulator*]" = "$(SRCROOT)/CommonCrypto/appletvsimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "$(SRCROOT)/CommonCrypto/iphoneos";
-				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "$(SRCROOT)/CommonCrypto/iphonesimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=macosx*]" = "$(SRCROOT)/CommonCrypto/macosx";
-				"SWIFT_INCLUDE_PATHS[sdk=watchos*]" = "$(SRCROOT)/CommonCrypto/watchos";
-				"SWIFT_INCLUDE_PATHS[sdk=watchsimulator*]" = "$(SRCROOT)/CommonCrypto/watchsimulator";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 			};
 			name = Debug;
@@ -614,13 +595,6 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
 				PRODUCT_NAME = OneTimePassword;
-				"SWIFT_INCLUDE_PATHS[sdk=appletvos*]" = "$(SRCROOT)/CommonCrypto/appletvos";
-				"SWIFT_INCLUDE_PATHS[sdk=appletvsimulator*]" = "$(SRCROOT)/CommonCrypto/appletvsimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "$(SRCROOT)/CommonCrypto/iphoneos";
-				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "$(SRCROOT)/CommonCrypto/iphonesimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=macosx*]" = "$(SRCROOT)/CommonCrypto/macosx";
-				"SWIFT_INCLUDE_PATHS[sdk=watchos*]" = "$(SRCROOT)/CommonCrypto/watchos";
-				"SWIFT_INCLUDE_PATHS[sdk=watchsimulator*]" = "$(SRCROOT)/CommonCrypto/watchsimulator";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 			};
 			name = Release;
