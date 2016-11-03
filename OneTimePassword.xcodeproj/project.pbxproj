@@ -355,9 +355,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		5B39F4931DBD06BA00CD2DAB /* watchOS-OneTimePassword */ = {
+		5B39F4931DBD06BA00CD2DAB /* OneTimePassword (watchOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5B39F49B1DBD06BA00CD2DAB /* Build configuration list for PBXNativeTarget "watchOS-OneTimePassword" */;
+			buildConfigurationList = 5B39F49B1DBD06BA00CD2DAB /* Build configuration list for PBXNativeTarget "OneTimePassword (watchOS)" */;
 			buildPhases = (
 				5B39F48F1DBD06BA00CD2DAB /* Sources */,
 				5B39F4901DBD06BA00CD2DAB /* Frameworks */,
@@ -368,8 +368,8 @@
 			);
 			dependencies = (
 			);
-			name = "watchOS-OneTimePassword";
-			productName = "watchOS-OneTimePassword";
+			name = "OneTimePassword (watchOS)";
+			productName = "OneTimePassword (watchOS)";
 			productReference = 5B39F4941DBD06BA00CD2DAB /* OneTimePassword.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -472,7 +472,7 @@
 				C97C82371946E51D00FD9F4C /* OneTimePassword */,
 				C97C82421946E51D00FD9F4C /* OneTimePasswordTests */,
 				C9A486B2196F352E00524F51 /* OneTimePasswordLegacyTests */,
-				5B39F4931DBD06BA00CD2DAB /* watchOS-OneTimePassword */,
+				5B39F4931DBD06BA00CD2DAB /* OneTimePassword (watchOS) */,
 			);
 		};
 /* End PBXProject section */
@@ -798,7 +798,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5B39F49B1DBD06BA00CD2DAB /* Build configuration list for PBXNativeTarget "watchOS-OneTimePassword" */ = {
+		5B39F49B1DBD06BA00CD2DAB /* Build configuration list for PBXNativeTarget "OneTimePassword (watchOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B39F4991DBD06BA00CD2DAB /* Debug */,
