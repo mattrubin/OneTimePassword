@@ -337,7 +337,6 @@
 				C97CDF2E1BEFB20000D64406 /* Lint */,
 				C97C82341946E51D00FD9F4C /* Frameworks */,
 				C97C82351946E51D00FD9F4C /* Headers */,
-				C97C82361946E51D00FD9F4C /* Resources */,
 			);
 			buildRules = (
 			);
@@ -354,7 +353,6 @@
 			buildPhases = (
 				C97C823F1946E51D00FD9F4C /* Sources */,
 				C97C82401946E51D00FD9F4C /* Frameworks */,
-				C97C82411946E51D00FD9F4C /* Resources */,
 			);
 			buildRules = (
 			);
@@ -372,7 +370,6 @@
 			buildPhases = (
 				C9A486AF196F352E00524F51 /* Sources */,
 				C9A486B0196F352E00524F51 /* Frameworks */,
-				C9A486B1196F352E00524F51 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -398,16 +395,17 @@
 					C97C82371946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 					};
 					C97C82421946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
-						TestTargetID = C97C82371946E51D00FD9F4C;
+						ProvisioningStyle = Manual;
 					};
 					C9A486B2196F352E00524F51 = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
-						TestTargetID = C9A486A8196F352E00524F51;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -429,30 +427,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		C97C82361946E51D00FD9F4C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C97C82411946E51D00FD9F4C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9A486B1196F352E00524F51 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		C97CDF2E1BEFB20000D64406 /* Lint */ = {
@@ -528,15 +502,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2C1A74D5830076B105 /* Debug.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
 				SWIFT_VERSION = 2.3;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -544,13 +511,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2E1A74D5830076B105 /* Release.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				SDKROOT = iphoneos;
 				SWIFT_VERSION = 2.3;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -558,8 +520,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC371A74D5830076B105 /* iOS-Framework.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -578,8 +538,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC371A74D5830076B105 /* iOS-Framework.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
 				PRODUCT_NAME = "$(TARGET_NAME)";
