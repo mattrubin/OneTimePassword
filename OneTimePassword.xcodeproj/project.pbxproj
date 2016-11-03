@@ -65,6 +65,7 @@
 		C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "OneTimePassword-watchOS.xcconfig"; sourceTree = "<group>"; };
 		C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "OneTimePasswordTests-iOS.xcconfig"; sourceTree = "<group>"; };
 		C93CC01D1DCBB9EE006255FA /* CommonCrypto.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CommonCrypto.xcconfig; sourceTree = "<group>"; };
+		C93CC01E1DCBBDE7006255FA /* OneTimePassword.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OneTimePassword.xcconfig; sourceTree = "<group>"; };
 		C944A55E1A7EDAE200E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5941A809CC000E08B1E /* OTPTokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTokenTests.swift; sourceTree = "<group>"; };
 		C94765061C64587800C7527E /* Cartfile.private */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
@@ -239,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				C996EC291A74D5830076B105 /* Base */,
+				C93CC01E1DCBBDE7006255FA /* OneTimePassword.xcconfig */,
 				C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */,
 				C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */,
 				C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */,
@@ -541,9 +543,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = Sources/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
-				PRODUCT_NAME = OneTimePassword;
 			};
 			name = Debug;
 		};
@@ -551,9 +550,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = Sources/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
-				PRODUCT_NAME = OneTimePassword;
 			};
 			name = Release;
 		};
@@ -581,10 +577,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = Sources/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
-				PRODUCT_NAME = OneTimePassword;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
 			};
 			name = Debug;
 		};
@@ -592,10 +584,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = Sources/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
-				PRODUCT_NAME = OneTimePassword;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
 			};
 			name = Release;
 		};
