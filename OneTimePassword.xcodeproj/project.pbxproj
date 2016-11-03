@@ -605,7 +605,6 @@
 				"SWIFT_INCLUDE_PATHS[sdk=macosx*]" = "$(SRCROOT)/CommonCrypto/macosx";
 				"SWIFT_INCLUDE_PATHS[sdk=watchos*]" = "$(SRCROOT)/CommonCrypto/watchos";
 				"SWIFT_INCLUDE_PATHS[sdk=watchsimulator*]" = "$(SRCROOT)/CommonCrypto/watchsimulator";
-				WATCHOS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Debug;
 		};
@@ -630,7 +629,6 @@
 				"SWIFT_INCLUDE_PATHS[sdk=macosx*]" = "$(SRCROOT)/CommonCrypto/macosx";
 				"SWIFT_INCLUDE_PATHS[sdk=watchos*]" = "$(SRCROOT)/CommonCrypto/watchos";
 				"SWIFT_INCLUDE_PATHS[sdk=watchsimulator*]" = "$(SRCROOT)/CommonCrypto/watchsimulator";
-				WATCHOS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Release;
 		};
@@ -640,6 +638,7 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SWIFT_VERSION = 2.3;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -649,6 +648,7 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SWIFT_VERSION = 2.3;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
