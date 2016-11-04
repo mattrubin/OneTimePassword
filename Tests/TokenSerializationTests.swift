@@ -85,7 +85,7 @@ class TokenSerializationTests: XCTestCase {
 
                                 let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false)
                                 let items = urlComponents?.queryItems
-                                let expectedItemCount = 4
+                                let expectedItemCount = 5
                                 XCTAssertEqual(items?.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
 
                                 var queryArguments = Dictionary<String, String>()
@@ -105,7 +105,9 @@ class TokenSerializationTests: XCTestCase {
                                 // Test digits
                                 XCTAssertEqual(queryArguments["digits"]!, String(digitNumber), "The digits value should be \"\(digitNumber)\"")
                                 // Test secret
-                                XCTAssertNil(queryArguments["secret"], "The url query string should not contain the secret")
+                                let expectedSecret = generator.secret.base32String()
+                                XCTAssertEqual(queryArguments["secret"], expectedSecret,
+                                               "The secret value should be \"\(expectedSecret)\"")
 
                                 // Test period
                                 switch factor {
