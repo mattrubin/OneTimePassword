@@ -1,7 +1,12 @@
 # OneTimePassword Changelog
 
 ## [In development][master]
-- Clean up project configuration and build settings ([#95](https://github.com/mattrubin/OneTimePassword/pull/95))
+#### Enhancements
+- Add watchOS target ([#96](https://github.com/mattrubin/OneTimePassword/pull/96))
+
+#### Other Changes
+- Clean up project configuration and build settings ([#95](https://github.com/mattrubin/OneTimePassword/pull/95), [#97](https://github.com/mattrubin/OneTimePassword/pull/97))
+
 
 ## [2.0.1][] (2016-09-20)
 #### Enhancements
