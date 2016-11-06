@@ -2,7 +2,7 @@
 
 ## [In development][master]
 #### Enhancements
-- Add watchOS target ([#96](https://github.com/mattrubin/OneTimePassword/pull/96))
+- Add watchOS support ([#96](https://github.com/mattrubin/OneTimePassword/pull/96), [#98](https://github.com/mattrubin/OneTimePassword/pull/98))
 
 #### Other Changes
 - Clean up project configuration and build settings ([#95](https://github.com/mattrubin/OneTimePassword/pull/95), [#97](https://github.com/mattrubin/OneTimePassword/pull/97))
