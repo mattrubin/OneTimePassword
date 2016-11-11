@@ -86,10 +86,9 @@ public struct Generator: Equatable {
 
             // Take 4 bytes from the hash, starting at the given byte offset
             let truncatedHashPtr = ptr + Int(offset)
-            let truncatedHash = truncatedHashPtr.withMemoryRebound(to: UInt32.self, capacity: 1) {
+            return truncatedHashPtr.withMemoryRebound(to: UInt32.self, capacity: 1) {
                 $0.pointee
             }
-            return truncatedHash
         }
 
         // Ensure the four bytes taken from the hash match the current endian format
