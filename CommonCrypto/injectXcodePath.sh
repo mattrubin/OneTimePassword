@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "Injecting xcode path"
-defaultXcodePath="/Applications/Xcode.app/Contents/Developer"
-realXcodePath="`xcode-select -p`"
+defaultXcodePath="header \".*/Contents/Developer"
+realXcodePath="header \"`xcode-select -p`"
 fatal() {
 	echo "[fatal] $1" 1>&2
 	exit 1
