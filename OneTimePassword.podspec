@@ -20,7 +20,5 @@ Pod::Spec.new do |s|
     "SWIFT_INCLUDE_PATHS[sdk=watchsimulator*]"    => "$(SRCROOT)/OneTimePassword/CommonCrypto/watchsimulator",
   }
   s.preserve_paths = "CommonCrypto/*"
-  s.prepare_command = <<-CMD
-  CommonCrypto/injectXcodePath
-                   CMD
+  s.prepare_command = "CommonCrypto/injectXcodePath.sh"
 end
