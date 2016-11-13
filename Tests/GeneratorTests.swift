@@ -2,7 +2,7 @@
 //  GeneratorTests.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2015 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2016 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -172,6 +172,22 @@ class GeneratorTests: XCTestCase {
         XCTFail("passwordAtTime(\(badTime)) should throw an error)")
     }
 
+    func testPasswordWithInvalidPeriod() {
+        let generator = Generator(unvalidatedFactor: .Timer(period: 0))
+        let time: NSTimeInterval = 100
+
+        do {
+            _ = try generator.passwordAtTime(time)
+        } catch Generator.Error.InvalidPeriod {
+            // This is the expected type of error
+            return
+        } catch {
+            XCTFail("passwordAtTime(\(time)) threw an unexpected type of error: \(error))")
+            return
+        }
+        XCTFail("passwordAtTime(\(time)) should throw an error)")
+    }
+
     // The values in this test are found in Appendix D of the HOTP RFC
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
@@ -247,5 +263,17 @@ class GeneratorTests: XCTestCase {
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
         }
+    }
+}
+
+private extension Generator {
+    init(unvalidatedFactor factor: Factor = .Timer(period: 30),
+         unvalidatedSecret secret: NSData = NSData(),
+         unvalidatedAlgorithm algorithm: Algorithm = .SHA1,
+         unvalidatedDigits digits: Int = 8) {
+        self.factor = factor
+        self.secret = secret
+        self.algorithm = algorithm
+        self.digits = digits
     }
 }
