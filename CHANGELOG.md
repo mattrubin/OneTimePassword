@@ -4,11 +4,11 @@
 
 ## [2.1][]
 #### Enhancements
-- Add watchOS support ([#96](https://github.com/mattrubin/OneTimePassword/pull/96), [#98](https://github.com/mattrubin/OneTimePassword/pull/98))
-- Inject Xcode path into the CommonCrypto modulemaps, to support non-standard Xcodelocations ([#92](https://github.com/mattrubin/OneTimePassword/pull/92), [#101](https://github.com/mattrubin/OneTimePassword/pull/101))
+- Add watchOS support. ([#96](https://github.com/mattrubin/OneTimePassword/pull/96), [#98](https://github.com/mattrubin/OneTimePassword/pull/98))
+- Inject Xcode path into the CommonCrypto modulemaps, to support non-standard Xcode locations. ([#92](https://github.com/mattrubin/OneTimePassword/pull/92), [#101](https://github.com/mattrubin/OneTimePassword/pull/101))
 
 #### Other Changes
-- Clean up project configuration and build settings ([#95](https://github.com/mattrubin/OneTimePassword/pull/95), [#97](https://github.com/mattrubin/OneTimePassword/pull/97))
+- Clean up project configuration and build settings. ([#95](https://github.com/mattrubin/OneTimePassword/pull/95), [#97](https://github.com/mattrubin/OneTimePassword/pull/97))
 
 
 ## [2.0.1][] (2016-09-20)
