@@ -1,11 +1,14 @@
 # OneTimePassword Changelog
 
-## [In development][master]
+<!--## [In development][master]-->
+
+## [2.1][]
 #### Enhancements
-- Add watchOS support ([#96](https://github.com/mattrubin/OneTimePassword/pull/96), [#98](https://github.com/mattrubin/OneTimePassword/pull/98))
+- Add watchOS support. ([#96](https://github.com/mattrubin/OneTimePassword/pull/96), [#98](https://github.com/mattrubin/OneTimePassword/pull/98))
+- Inject Xcode path into the CommonCrypto modulemaps, to support non-standard Xcode locations. ([#92](https://github.com/mattrubin/OneTimePassword/pull/92), [#101](https://github.com/mattrubin/OneTimePassword/pull/101))
 
 #### Other Changes
-- Clean up project configuration and build settings ([#95](https://github.com/mattrubin/OneTimePassword/pull/95), [#97](https://github.com/mattrubin/OneTimePassword/pull/97))
+- Clean up project configuration and build settings. ([#95](https://github.com/mattrubin/OneTimePassword/pull/95), [#97](https://github.com/mattrubin/OneTimePassword/pull/97))
 
 
 ## [2.0.1][] (2016-09-20)
@@ -86,8 +89,9 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[master]: https://github.com/mattrubin/OneTimePassword/compare/2.0.1...master
+[master]: https://github.com/mattrubin/OneTimePassword/compare/2.1...master
 
+[2.1]: https://github.com/mattrubin/OneTimePassword/compare/2.0.1...2.1
 [2.0.1]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/mattrubin/OneTimePassword/compare/1.1.0...2.0.0
 [2.0.0-rc]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.5...2.0.0
