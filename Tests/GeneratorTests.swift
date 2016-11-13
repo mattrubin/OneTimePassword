@@ -188,6 +188,22 @@ class GeneratorTests: XCTestCase {
         XCTFail("passwordAtTime(\(time)) should throw an error)")
     }
 
+    func testPasswordWithInvalidDigits() {
+        let generator = Generator(unvalidatedDigits: 3)
+        let time: NSTimeInterval = 100
+
+        do {
+            _ = try generator.passwordAtTime(time)
+        } catch Generator.Error.InvalidDigits {
+            // This is the expected type of error
+            return
+        } catch {
+            XCTFail("passwordAtTime(\(time)) threw an unexpected type of error: \(error))")
+            return
+        }
+        XCTFail("passwordAtTime(\(time)) should throw an error)")
+    }
+
     // The values in this test are found in Appendix D of the HOTP RFC
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
