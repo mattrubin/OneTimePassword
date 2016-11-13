@@ -148,6 +148,30 @@ class GeneratorTests: XCTestCase {
         }
     }
 
+    func testPasswordAtInvalidTime() {
+        guard let generator = Generator(
+            factor: .Timer(period: 30),
+            secret: NSData(),
+            algorithm: .SHA1,
+            digits: 6
+            ) else {
+                XCTFail("Failed to initialize a Generator.")
+                return
+        }
+
+        let badTime: NSTimeInterval = -100
+        do {
+            _ = try generator.passwordAtTime(badTime)
+        } catch Generator.Error.InvalidTime {
+            // This is the expected type of error
+            return
+        } catch {
+            XCTFail("passwordAtTime(\(badTime)) threw an unexpected type of error: \(error))")
+            return
+        }
+        XCTFail("passwordAtTime(\(badTime)) should throw an error)")
+    }
+
     // The values in this test are found in Appendix D of the HOTP RFC
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
