@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/mattrubin/OneTimePassword.git", :tag => s.version }
   s.source_files = "Sources/*.{swift}"
   s.requires_arc = true
-  s.dependency "Base32", "~> 1.0.2"
+  s.dependency "Base32", "~> 1.1.2"
   s.pod_target_xcconfig = {
     "SWIFT_INCLUDE_PATHS[sdk=appletvos*]"         => "$(SRCROOT)/OneTimePassword/CommonCrypto/appletvos",
     "SWIFT_INCLUDE_PATHS[sdk=appletvsimulator*]"  => "$(SRCROOT)/OneTimePassword/CommonCrypto/appletvsimulator",
