@@ -131,9 +131,7 @@ private func tokenFromURL(url: NSURL, secret externalSecret: NSData? = nil) -> T
         if string == kFactorCounterKey {
             if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey],
                 with: {
-                    errno = 0
-                    let counterValue = strtoull(($0 as NSString).UTF8String, nil, 10)
-                    guard errno == 0 else {
+                    guard let counterValue = UInt64($0, radix: 10) else {
                         return nil
                     }
                     return counterValue
