@@ -9,6 +9,7 @@
 
 #### Other Changes
 - Clean up project configuration and build settings. ([#95](https://github.com/mattrubin/OneTimePassword/pull/95), [#97](https://github.com/mattrubin/OneTimePassword/pull/97))
+- Improve instructions and project settings to make setting up a new clone easier. ([#104](https://github.com/mattrubin/OneTimePassword/pull/104))
 
 
 ## [2.0.1][] (2016-09-20)
