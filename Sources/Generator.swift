@@ -67,18 +67,18 @@ public struct Generator: Equatable {
     ///
     /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
-    public func passwordAtTime(_ time: TimeInterval) throws -> String {
+    public func password(at time: TimeInterval) throws -> String {
         guard Generator.validateDigits(digits) else {
             throw Error.invalidDigits
         }
 
-        let counter = try factor.counterAtTime(time)
+        let counter = try factor.counterValue(at: time)
         // Ensure the counter value is big-endian
         var bigCounter = counter.bigEndian
 
         // Generate an HMAC value from the key and counter
         let counterData = Data(bytes: &bigCounter, count: MemoryLayout<UInt64>.size)
-        let hash = HMAC(algorithm, key: secret, data: counterData)
+        let hash = HMAC(algorithm: algorithm, key: secret, data: counterData)
 
         var truncatedHash = hash.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
             // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
@@ -99,7 +99,7 @@ public struct Generator: Equatable {
         truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
 
         // Pad the string representation with zeros, if necessary
-        return String(truncatedHash).paddedWithCharacter("0", toLength: digits)
+        return String(truncatedHash).padded(with: "0", toLength: digits)
     }
 
     // MARK: Update
@@ -149,7 +149,7 @@ public struct Generator: Equatable {
         ///
         /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
         /// - returns: The counter value needed to generate the password for the target time.
-        fileprivate func counterAtTime(_ time: TimeInterval) throws -> UInt64 {
+        fileprivate func counterValue(at time: TimeInterval) throws -> UInt64 {
             switch self {
             case .counter(let counter):
                 return counter
@@ -247,7 +247,7 @@ private extension String {
     /// - parameter length:    The desired length of the padded string.
     ///
     /// - returns: A new string padded to the given length.
-    func paddedWithCharacter(_ character: Character, toLength length: Int) -> String {
+    func padded(with character: Character, toLength length: Int) -> String {
         let paddingCount = length - characters.count
         guard paddingCount > 0 else { return self }
 

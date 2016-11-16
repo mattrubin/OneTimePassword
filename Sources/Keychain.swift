@@ -39,8 +39,8 @@ public final class Keychain {
     ///
     /// - throws: A `Keychain.Error` if an error occurred.
     /// - returns: The persistent token, or `nil` if no token matched the given identifier.
-    public func persistentTokenWithIdentifier(_ identifier: Data) throws -> PersistentToken? {
-        return try keychainItemForPersistentRef(identifier).flatMap(PersistentToken.init)
+    public func persistentToken(withIdentifier identifier: Data) throws -> PersistentToken? {
+        return try keychainItem(forPersistentRef: identifier).flatMap(PersistentToken.init)
     }
 
     /// Returns the set of all persistent tokens found in the keychain.
@@ -58,9 +58,9 @@ public final class Keychain {
     ///
     /// - throws: A `Keychain.Error` if the token was not added successfully.
     /// - returns: The new persistent token.
-    public func addToken(_ token: Token) throws -> PersistentToken {
+    public func add(_ token: Token) throws -> PersistentToken {
         let attributes = try token.keychainAttributes()
-        let persistentRef = try addKeychainItemWithAttributes(attributes)
+        let persistentRef = try addKeychainItem(withAttributes: attributes)
         return PersistentToken(token: token, identifier: persistentRef)
     }
 
@@ -71,11 +71,9 @@ public final class Keychain {
     ///
     /// - throws: A `Keychain.Error` if the update did not succeed.
     /// - returns: The updated persistent token.
-    public func updatePersistentToken(_ persistentToken: PersistentToken,
-        withToken token: Token) throws -> PersistentToken
-    {
+    public func update(_ persistentToken: PersistentToken, with token: Token) throws -> PersistentToken {
         let attributes = try token.keychainAttributes()
-        try updateKeychainItemForPersistentRef(persistentToken.identifier,
+        try updateKeychainItem(forPersistentRef: persistentToken.identifier,
             withAttributes: attributes)
         return PersistentToken(token: token, identifier: persistentToken.identifier)
     }
@@ -88,8 +86,8 @@ public final class Keychain {
     /// - parameter persistentToken: The persistent token to delete.
     ///
     /// - throws: A `Keychain.Error` if the deletion did not succeed.
-    public func deletePersistentToken(_ persistentToken: PersistentToken) throws {
-        try deleteKeychainItemForPersistentRef(persistentToken.identifier)
+    public func delete(_ persistentToken: PersistentToken) throws {
+        try deleteKeychainItem(forPersistentRef: persistentToken.identifier)
     }
 
     // MARK: Errors
@@ -139,7 +137,7 @@ private extension PersistentToken {
     }
 }
 
-private func addKeychainItemWithAttributes(_ attributes: [String: AnyObject]) throws -> Data {
+private func addKeychainItem(withAttributes attributes: [String: AnyObject]) throws -> Data {
     var mutableAttributes = attributes
     mutableAttributes[kSecClass as String] = kSecClassGenericPassword
     mutableAttributes[kSecReturnPersistentRef as String] = kCFBooleanTrue
@@ -163,7 +161,7 @@ private func addKeychainItemWithAttributes(_ attributes: [String: AnyObject]) th
     return persistentRef
 }
 
-private func updateKeychainItemForPersistentRef(_ persistentRef: Data,
+private func updateKeychainItem(forPersistentRef persistentRef: Data,
     withAttributes attributesToUpdate: [String: AnyObject]) throws
 {
     let queryDict: [String : AnyObject] = [
@@ -178,7 +176,7 @@ private func updateKeychainItemForPersistentRef(_ persistentRef: Data,
     }
 }
 
-private func deleteKeychainItemForPersistentRef(_ persistentRef: Data) throws {
+private func deleteKeychainItem(forPersistentRef persistentRef: Data) throws {
     let queryDict: [String : AnyObject] = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef as NSData,
@@ -191,7 +189,7 @@ private func deleteKeychainItemForPersistentRef(_ persistentRef: Data) throws {
     }
 }
 
-private func keychainItemForPersistentRef(_ persistentRef: Data) throws -> NSDictionary? {
+private func keychainItem(forPersistentRef persistentRef: Data) throws -> NSDictionary? {
     let queryDict: [String : AnyObject] = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecValuePersistentRef as String:   persistentRef as NSData,
