@@ -41,10 +41,10 @@ public struct Generator: Equatable {
 
     /// Initializes a new password generator with the given parameters.
     ///
-    /// - parameter factor:    The moving factor
-    /// - parameter secret:    The shared secret
-    /// - parameter algorithm: The cryptographic hash function
-    /// - parameter digits:    The number of digits in the password
+    /// - parameter factor:    The moving factor.
+    /// - parameter secret:    The shared secret.
+    /// - parameter algorithm: The cryptographic hash function.
+    /// - parameter digits:    The number of digits in the password.
     ///
     /// - returns: A new password generator with the given parameters, or `nil` if the parameters
     ///            are invalid.
@@ -164,13 +164,13 @@ public struct Generator: Equatable {
     }
 
     /// A cryptographic hash function used to calculate the HMAC from which a password is derived.
-    /// The supported algorithms are SHA-1, SHA-256, and SHA-512
+    /// The supported algorithms are SHA-1, SHA-256, and SHA-512.
     public enum Algorithm: Equatable {
-        /// The SHA-1 hash function
+        /// The SHA-1 hash function.
         case SHA1
-        /// The SHA-256 hash function
+        /// The SHA-256 hash function.
         case SHA256
-        /// The SHA-512 hash function
+        /// The SHA-512 hash function.
         case SHA512
     }
 
@@ -179,7 +179,7 @@ public struct Generator: Equatable {
     public enum Error: ErrorType {
         /// The requested time is before the epoch date.
         case InvalidTime
-        /// The timer period is not a positive number of seconds
+        /// The timer period is not a positive number of seconds.
         case InvalidPeriod
         /// The number of digits is either too short to be secure, or too long to compute.
         case InvalidDigits
