@@ -150,8 +150,8 @@ class GeneratorTests: XCTestCase {
 
     func testPasswordAtInvalidTime() {
         guard let generator = Generator(
-            factor: .Timer(period: 30),
-            secret: NSData(),
+            factor: .timer(period: 30),
+            secret: Data(),
             algorithm: .SHA1,
             digits: 6
             ) else {
@@ -159,10 +159,10 @@ class GeneratorTests: XCTestCase {
                 return
         }
 
-        let badTime: NSTimeInterval = -100
+        let badTime: TimeInterval = -100
         do {
             _ = try generator.passwordAtTime(badTime)
-        } catch Generator.Error.InvalidTime {
+        } catch Generator.Error.invalidTime {
             // This is the expected type of error
             return
         } catch {
@@ -173,12 +173,12 @@ class GeneratorTests: XCTestCase {
     }
 
     func testPasswordWithInvalidPeriod() {
-        let generator = Generator(unvalidatedFactor: .Timer(period: 0))
-        let time: NSTimeInterval = 100
+        let generator = Generator(unvalidatedFactor: .timer(period: 0))
+        let time: TimeInterval = 100
 
         do {
             _ = try generator.passwordAtTime(time)
-        } catch Generator.Error.InvalidPeriod {
+        } catch Generator.Error.invalidPeriod {
             // This is the expected type of error
             return
         } catch {
@@ -190,11 +190,11 @@ class GeneratorTests: XCTestCase {
 
     func testPasswordWithInvalidDigits() {
         let generator = Generator(unvalidatedDigits: 3)
-        let time: NSTimeInterval = 100
+        let time: TimeInterval = 100
 
         do {
             _ = try generator.passwordAtTime(time)
-        } catch Generator.Error.InvalidDigits {
+        } catch Generator.Error.invalidDigits {
             // This is the expected type of error
             return
         } catch {
@@ -283,8 +283,8 @@ class GeneratorTests: XCTestCase {
 }
 
 private extension Generator {
-    init(unvalidatedFactor factor: Factor = .Timer(period: 30),
-         unvalidatedSecret secret: NSData = NSData(),
+    init(unvalidatedFactor factor: Factor = .timer(period: 30),
+         unvalidatedSecret secret: Data = Data(),
          unvalidatedAlgorithm algorithm: Algorithm = .SHA1,
          unvalidatedDigits digits: Int = 8) {
         self.factor = factor
