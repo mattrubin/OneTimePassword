@@ -2,7 +2,7 @@
 //  OTPTokenSerializationTests.m
 //  OneTimePassword
 //
-//  Copyright (c) 2013-2015 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2013-2016 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -374,8 +374,12 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                          @"otpauth://foo", // invalid type
                          @"otpauth://totp/bar", // missing secret
                          @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&period=0", // invalid period
+                         @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&period=x", // non-numeric period
                          @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&algorithm=MD5", // invalid algorithm
                          @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&digits=2", // invalid digits
+                         @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&digits=x", // non-numeric digits
+                         @"otpauth://hotp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&counter=1.5", // invalid counter
+                         @"otpauth://hotp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&counter=x", // non-numeric counter
                          ];
 
     for (NSString *badURL in badURLs) {
