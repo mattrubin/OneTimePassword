@@ -2,7 +2,7 @@
 //  GeneratorTests.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2015 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2016 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -148,6 +148,62 @@ class GeneratorTests: XCTestCase {
         }
     }
 
+    func testPasswordAtInvalidTime() {
+        guard let generator = Generator(
+            factor: .timer(period: 30),
+            secret: Data(),
+            algorithm: .SHA1,
+            digits: 6
+            ) else {
+                XCTFail("Failed to initialize a Generator.")
+                return
+        }
+
+        let badTime: TimeInterval = -100
+        do {
+            _ = try generator.password(at: badTime)
+        } catch Generator.Error.invalidTime {
+            // This is the expected type of error
+            return
+        } catch {
+            XCTFail("passwordAtTime(\(badTime)) threw an unexpected type of error: \(error))")
+            return
+        }
+        XCTFail("passwordAtTime(\(badTime)) should throw an error)")
+    }
+
+    func testPasswordWithInvalidPeriod() {
+        let generator = Generator(unvalidatedFactor: .timer(period: 0))
+        let time: TimeInterval = 100
+
+        do {
+            _ = try generator.password(at: time)
+        } catch Generator.Error.invalidPeriod {
+            // This is the expected type of error
+            return
+        } catch {
+            XCTFail("passwordAtTime(\(time)) threw an unexpected type of error: \(error))")
+            return
+        }
+        XCTFail("passwordAtTime(\(time)) should throw an error)")
+    }
+
+    func testPasswordWithInvalidDigits() {
+        let generator = Generator(unvalidatedDigits: 3)
+        let time: TimeInterval = 100
+
+        do {
+            _ = try generator.password(at: time)
+        } catch Generator.Error.invalidDigits {
+            // This is the expected type of error
+            return
+        } catch {
+            XCTFail("passwordAtTime(\(time)) threw an unexpected type of error: \(error))")
+            return
+        }
+        XCTFail("passwordAtTime(\(time)) should throw an error)")
+    }
+
     // The values in this test are found in Appendix D of the HOTP RFC
     // https://tools.ietf.org/html/rfc4226#appendix-D
     func testHOTPRFCValues() {
@@ -223,5 +279,17 @@ class GeneratorTests: XCTestCase {
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
         }
+    }
+}
+
+private extension Generator {
+    init(unvalidatedFactor factor: Factor = .timer(period: 30),
+         unvalidatedSecret secret: Data = Data(),
+         unvalidatedAlgorithm algorithm: Algorithm = .SHA1,
+         unvalidatedDigits digits: Int = 8) {
+        self.factor = factor
+        self.secret = secret
+        self.algorithm = algorithm
+        self.digits = digits
     }
 }
