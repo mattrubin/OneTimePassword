@@ -53,9 +53,14 @@ class KeychainTests: XCTestCase {
         // Create a token
         let token = testToken
 
+        // Save the token
+        let savedToken: PersistentToken
         do {
-            // Save the token
-            let savedToken = try keychain.addToken(token)
+            savedToken = try keychain.addToken(token)
+        } catch {
+            XCTFail("addToken(_:) failed with error: \(error)")
+            return
+        }
 
             // Restore the token
             do {
@@ -103,9 +108,6 @@ class KeychainTests: XCTestCase {
             } catch {
                 XCTFail("persistentTokenWithIdentifier(_:) failed with error: \(error)")
             }
-        } catch {
-            XCTFail("addToken(_:) failed with error: \(error)")
-        }
     }
 
     func testDuplicateTokens() {
@@ -114,12 +116,18 @@ class KeychainTests: XCTestCase {
 
         let token1 = testToken, token2 = testToken
 
+        // Add both tokens to the keychain
+        let savedItem1: PersistentToken
+        let savedItem2: PersistentToken
         do {
-            // Add both tokens to the keychain
-            let savedItem1 = try keychain.addToken(token1)
-            let savedItem2 = try keychain.addToken(token2)
+            savedItem1 = try keychain.addToken(token1)
+            savedItem2 = try keychain.addToken(token2)
             XCTAssertEqual(savedItem1.token, token1)
             XCTAssertEqual(savedItem2.token, token2)
+        } catch {
+            XCTFail("addToken(_:) failed with error: \(error)")
+            return
+        }
 
             // Fetch both tokens from the keychain
             do {
@@ -178,9 +186,6 @@ class KeychainTests: XCTestCase {
             } catch {
                 // An error thrown is the expected outcome
             }
-        } catch {
-            XCTFail("addToken(_:) failed with error: \(error)")
-        }
     }
 
     func testAllPersistentTokens() {
@@ -196,10 +201,17 @@ class KeychainTests: XCTestCase {
             XCTFail("allPersistentTokens() failed with error: \(error)")
         }
 
+        let persistentToken1: PersistentToken
+        let persistentToken2: PersistentToken
+        let persistentToken3: PersistentToken
         do {
-            let persistentToken1 = try keychain.addToken(token1)
-            let persistentToken2 = try keychain.addToken(token2)
-            let persistentToken3 = try keychain.addToken(token3)
+            persistentToken1 = try keychain.addToken(token1)
+            persistentToken2 = try keychain.addToken(token2)
+            persistentToken3 = try keychain.addToken(token3)
+        } catch {
+            XCTFail("addToken(_:) failed with error: \(error)")
+            return
+        }
 
             do {
                 let allTokens = try keychain.allPersistentTokens()
@@ -223,8 +235,5 @@ class KeychainTests: XCTestCase {
             } catch {
                 XCTFail("allPersistentTokens() failed with error: \(error)")
             }
-        } catch {
-            XCTFail("addToken(_:) failed with error: \(error)")
-        }
     }
 }
