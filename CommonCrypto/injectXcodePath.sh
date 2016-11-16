@@ -47,14 +47,16 @@ absPath() {
 }
 
 scriptDir="`dirname $0`"
-scriptName="`basename $0`"
 absScriptDir="`cd $scriptDir; pwd`"
 
 main() {
+    echo "  ...in ${absScriptDir}..."
     for f in `find ${absScriptDir} -name module.modulemap`; do
+        echo "    ...updating file ${f}"
         cat ${f} | sed "s,${defaultXcodePath},${realXcodePath},g" > ${f}.new || fatal "Failed to update modulemap ${f}"
         mv ${f}.new ${f} || fatal "Failed to replace modulemap ${f}"
     done
+    echo "  ...with new path `xcode-select -p`"
 }
 
 main $*
