@@ -39,9 +39,9 @@ public struct Token: Equatable {
 
     /// Initializes a new token with the given parameters.
     ///
-    /// - parameter name:       The account name for the token (defaults to "")
-    /// - parameter issuer:     The entity which issued the token (defaults to "")
-    /// - parameter generator:  The password generator
+    /// - parameter name:       The account name for the token (defaults to "").
+    /// - parameter issuer:     The entity which issued the token (defaults to "").
+    /// - parameter generator:  The password generator.
     ///
     /// - returns: A new token with the given parameters.
     public init(name: String = defaultName, issuer: String = defaultIssuer, generator: Generator) {

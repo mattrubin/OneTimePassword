@@ -2,6 +2,19 @@
 
 <!--## [In development][master]-->
 
+## [2.1][]
+#### Enhancements
+- Add watchOS support. ([#96](https://github.com/mattrubin/OneTimePassword/pull/96), [#98](https://github.com/mattrubin/OneTimePassword/pull/98), [#107](https://github.com/mattrubin/OneTimePassword/pull/107))
+- Inject Xcode path into the CommonCrypto modulemaps, to support non-standard Xcode locations. ([#92](https://github.com/mattrubin/OneTimePassword/pull/92), [#101](https://github.com/mattrubin/OneTimePassword/pull/101))
+
+#### Other Changes
+- Clean up project configuration and build settings. ([#95](https://github.com/mattrubin/OneTimePassword/pull/95), [#97](https://github.com/mattrubin/OneTimePassword/pull/97))
+- Improve instructions and project settings to make setting up a new clone easier. ([#104](https://github.com/mattrubin/OneTimePassword/pull/104))
+- Add tests for validation and parsing failures. ([#105](https://github.com/mattrubin/OneTimePassword/pull/105))
+- Improve documentation comments. ([#108](https://github.com/mattrubin/OneTimePassword/pull/108))
+- Refactor the Keychain tests to remove excessive nesting. ([#109](https://github.com/mattrubin/OneTimePassword/pull/109))
+
+
 ## [2.0.1][] (2016-09-20)
 #### Enhancements
 - Update the project to support Xcode 8 and Swift 2.3. ([#73](https://github.com/mattrubin/OneTimePassword/pull/73), [#75](https://github.com/mattrubin/OneTimePassword/pull/75), [#84](https://github.com/mattrubin/OneTimePassword/pull/84))
@@ -80,8 +93,9 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[master]: https://github.com/mattrubin/OneTimePassword/compare/2.0.1...master
+[master]: https://github.com/mattrubin/OneTimePassword/compare/2.1...master
 
+[2.1]: https://github.com/mattrubin/OneTimePassword/compare/2.0.1...2.1
 [2.0.1]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/mattrubin/OneTimePassword/compare/1.1.0...2.0.0
 [2.0.0-rc]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0-beta.5...2.0.0
