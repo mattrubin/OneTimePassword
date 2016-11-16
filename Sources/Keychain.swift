@@ -35,7 +35,7 @@ public final class Keychain {
 
     /// Finds the persistent token with the given identifer, if one exists.
     ///
-    /// - parameter token: The persistent identifier for the desired token.
+    /// - parameter identifier: The persistent identifier for the desired token.
     ///
     /// - throws: A `Keychain.Error` if an error occurred.
     /// - returns: The persistent token, or `nil` if no token matched the given identifier.
