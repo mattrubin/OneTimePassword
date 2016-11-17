@@ -23,8 +23,9 @@ Please note that this project is released with a [Contributor Code of Conduct][c
   git clone https://github.com/mattrubin/OneTimePassword.git
   ```
 
-2. Check out the project's dependencies:
+2. In the OneTimePassword directory, check out the project's dependencies:
   ```
+  cd OneTimePassword
   git submodule update --init --recursive
   ```
 

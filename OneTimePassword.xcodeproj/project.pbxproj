@@ -6,7 +6,29 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		FDD3B8661DD6E59E00F87980 /* CommonCrypto */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = FDD3B8671DD6E59E00F87980 /* Build configuration list for PBXAggregateTarget "CommonCrypto" */;
+			buildPhases = (
+				FDD3B86A1DD6E5B700F87980 /* Inject Xcode Path */,
+			);
+			dependencies = (
+			);
+			name = CommonCrypto;
+			productName = CommonCrypto;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
+		5B39F49C1DBD06EB00CD2DAB /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2519196B1BA400F86892 /* Token.swift */; };
+		5B39F49D1DBD06EE00CD2DAB /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Generator.swift */; };
+		5B39F49E1DBD06F100CD2DAB /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F544AC1C8391630023CCF0 /* Crypto.swift */; };
+		5B39F49F1DBD06F500CD2DAB /* Token+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token+URL.swift */; };
+		5B39F4A01DBD06F900CD2DAB /* PersistentToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F9FB81C03D6BC00CEA286 /* PersistentToken.swift */; };
+		5B39F4A11DBD06FC00CD2DAB /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9003417196F7046009733E8 /* Keychain.swift */; };
+		5B39F4A21DBD070000CD2DAB /* OneTimePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = C9377D40196B93F900D6C67E /* OneTimePassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5B39F4A51DBD08A900CD2DAB /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C944A55E1A7EDAE200E08B1E /* Base32.framework */; };
 		C9003418196F7046009733E8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9003417196F7046009733E8 /* Keychain.swift */; };
 		C9290C301947D104008AE4DE /* TokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */; };
 		C93A251A196B1BA400F86892 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2519196B1BA400F86892 /* Token.swift */; };
@@ -34,24 +56,44 @@
 			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C97C82371946E51D00FD9F4C;
-			remoteInfo = OneTimePassword;
+			remoteInfo = "OneTimePassword (iOS)";
 		};
 		C97C82451946E51D00FD9F4C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C97C82371946E51D00FD9F4C;
-			remoteInfo = OneTimePassword;
+			remoteInfo = "OneTimePassword (iOS)";
+		};
+		FD61F4741DD6E73200166DD9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FDD3B8661DD6E59E00F87980;
+			remoteInfo = CommonCrypto;
+		};
+		FDA822711DD6E69F005E4127 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FDD3B8661DD6E59E00F87980;
+			remoteInfo = CommonCrypto;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B39F4941DBD06BA00CD2DAB /* OneTimePassword.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9003417196F7046009733E8 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializationTests.swift; sourceTree = "<group>"; };
 		C9377D40196B93F900D6C67E /* OneTimePassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneTimePassword.h; sourceTree = "<group>"; };
 		C93A2514196AFE1100F86892 /* KeychainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenSerializationTests.m; sourceTree = "<group>"; };
 		C93A2519196B1BA400F86892 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "OneTimePassword-iOS.xcconfig"; sourceTree = "<group>"; };
+		C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "OneTimePassword-watchOS.xcconfig"; sourceTree = "<group>"; };
+		C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "OneTimePasswordTests-iOS.xcconfig"; sourceTree = "<group>"; };
+		C93CC01E1DCBBDE7006255FA /* OneTimePassword.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OneTimePassword.xcconfig; sourceTree = "<group>"; };
+		C93CC0211DCBC189006255FA /* OneTimePasswordTests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OneTimePasswordTests.xcconfig; sourceTree = "<group>"; };
 		C944A55E1A7EDAE200E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5941A809CC000E08B1E /* OTPTokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTokenTests.swift; sourceTree = "<group>"; };
 		C94765061C64587800C7527E /* Cartfile.private */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
@@ -71,13 +113,6 @@
 		C996EC2D1A74D5830076B105 /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Profile.xcconfig; path = Configurations/Profile.xcconfig; sourceTree = "<group>"; };
 		C996EC2E1A74D5830076B105 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Configurations/Release.xcconfig; sourceTree = "<group>"; };
 		C996EC2F1A74D5830076B105 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Test.xcconfig; path = Configurations/Test.xcconfig; sourceTree = "<group>"; };
-		C996EC351A74D5830076B105 /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
-		C996EC371A74D5830076B105 /* iOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Framework.xcconfig"; sourceTree = "<group>"; };
-		C996EC381A74D5830076B105 /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
-		C996EC3A1A74D5830076B105 /* Mac-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Application.xcconfig"; sourceTree = "<group>"; };
-		C996EC3C1A74D5830076B105 /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
-		C996EC3D1A74D5830076B105 /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
-		C996EC3E1A74D5830076B105 /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 		C9A486B3196F352E00524F51 /* OneTimePasswordLegacyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneTimePasswordLegacyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A486B9196F352F00524F51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EquatableTests.swift; sourceTree = "<group>"; };
@@ -97,6 +132,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5B39F4901DBD06BA00CD2DAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B39F4A51DBD08A900CD2DAB /* Base32.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C97C82341946E51D00FD9F4C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -140,6 +183,18 @@
 			name = Serialization;
 			sourceTree = "<group>";
 		};
+		C93CC01F1DCBC0E6006255FA /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				C93CC01E1DCBBDE7006255FA /* OneTimePassword.xcconfig */,
+				C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */,
+				C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */,
+				C93CC0211DCBC189006255FA /* OneTimePasswordTests.xcconfig */,
+				C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */,
+			);
+			name = Targets;
+			sourceTree = "<group>";
+		};
 		C94B9BC71BD726F70073D7C5 /* Docs */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,7 +220,9 @@
 				C9B84D1B1C015EA2002EE631 /* Tools */,
 				C94B9BC71BD726F70073D7C5 /* Docs */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		C97C82391946E51D00FD9F4C /* Products */ = {
 			isa = PBXGroup;
@@ -173,6 +230,7 @@
 				C97C82381946E51D00FD9F4C /* OneTimePassword.framework */,
 				C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */,
 				C9A486B3196F352E00524F51 /* OneTimePasswordLegacyTests.xctest */,
+				5B39F4941DBD06BA00CD2DAB /* OneTimePassword.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -223,15 +281,13 @@
 		C996EC281A74D5830076B105 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				C996EC291A74D5830076B105 /* Base */,
-				C996EC341A74D5830076B105 /* iOS */,
-				C996EC391A74D5830076B105 /* Mac OS X */,
+				C996EC291A74D5830076B105 /* Project */,
+				C93CC01F1DCBC0E6006255FA /* Targets */,
 			);
-			name = Configuration;
-			path = Carthage/Checkouts/xcconfigs;
+			path = Configuration;
 			sourceTree = "<group>";
 		};
-		C996EC291A74D5830076B105 /* Base */ = {
+		C996EC291A74D5830076B105 /* Project */ = {
 			isa = PBXGroup;
 			children = (
 				C996EC2C1A74D5830076B105 /* Debug.xcconfig */,
@@ -239,29 +295,9 @@
 				C996EC2E1A74D5830076B105 /* Release.xcconfig */,
 				C996EC2F1A74D5830076B105 /* Test.xcconfig */,
 			);
-			path = Base;
-			sourceTree = "<group>";
-		};
-		C996EC341A74D5830076B105 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				C996EC351A74D5830076B105 /* iOS-Application.xcconfig */,
-				C996EC371A74D5830076B105 /* iOS-Framework.xcconfig */,
-				C996EC381A74D5830076B105 /* iOS-StaticLibrary.xcconfig */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
-		C996EC391A74D5830076B105 /* Mac OS X */ = {
-			isa = PBXGroup;
-			children = (
-				C996EC3A1A74D5830076B105 /* Mac-Application.xcconfig */,
-				C996EC3C1A74D5830076B105 /* Mac-DynamicLibrary.xcconfig */,
-				C996EC3D1A74D5830076B105 /* Mac-Framework.xcconfig */,
-				C996EC3E1A74D5830076B105 /* Mac-StaticLibrary.xcconfig */,
-			);
-			path = "Mac OS X";
-			sourceTree = "<group>";
+			name = Project;
+			path = Carthage/Checkouts/xcconfigs/Base;
+			sourceTree = SOURCE_ROOT;
 		};
 		C9A486B7196F352F00524F51 /* OneTimePasswordLegacyTests */ = {
 			isa = PBXGroup;
@@ -318,6 +354,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		5B39F4911DBD06BA00CD2DAB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B39F4A21DBD070000CD2DAB /* OneTimePassword.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C97C82351946E51D00FD9F4C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -329,22 +373,40 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		C97C82371946E51D00FD9F4C /* OneTimePassword */ = {
+		5B39F4931DBD06BA00CD2DAB /* OneTimePassword (watchOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword" */;
+			buildConfigurationList = 5B39F49B1DBD06BA00CD2DAB /* Build configuration list for PBXNativeTarget "OneTimePassword (watchOS)" */;
+			buildPhases = (
+				5B39F48F1DBD06BA00CD2DAB /* Sources */,
+				5B39F4901DBD06BA00CD2DAB /* Frameworks */,
+				5B39F4911DBD06BA00CD2DAB /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FDA822721DD6E69F005E4127 /* PBXTargetDependency */,
+			);
+			name = "OneTimePassword (watchOS)";
+			productName = "OneTimePassword (watchOS)";
+			productReference = 5B39F4941DBD06BA00CD2DAB /* OneTimePassword.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C97C82371946E51D00FD9F4C /* OneTimePassword (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword (iOS)" */;
 			buildPhases = (
 				C97C82331946E51D00FD9F4C /* Sources */,
 				C97CDF2E1BEFB20000D64406 /* Lint */,
 				C97C82341946E51D00FD9F4C /* Frameworks */,
 				C97C82351946E51D00FD9F4C /* Headers */,
-				C97C82361946E51D00FD9F4C /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				FD61F4751DD6E73200166DD9 /* PBXTargetDependency */,
 			);
-			name = OneTimePassword;
-			productName = OneTimePassword;
+			name = "OneTimePassword (iOS)";
+			productName = "OneTimePassword (iOS)";
 			productReference = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -354,7 +416,6 @@
 			buildPhases = (
 				C97C823F1946E51D00FD9F4C /* Sources */,
 				C97C82401946E51D00FD9F4C /* Frameworks */,
-				C97C82411946E51D00FD9F4C /* Resources */,
 			);
 			buildRules = (
 			);
@@ -372,7 +433,6 @@
 			buildPhases = (
 				C9A486AF196F352E00524F51 /* Sources */,
 				C9A486B0196F352E00524F51 /* Frameworks */,
-				C9A486B1196F352E00524F51 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -395,19 +455,28 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
+					5B39F4931DBD06BA00CD2DAB = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Manual;
+					};
 					C97C82371946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 					};
 					C97C82421946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
-						TestTargetID = C97C82371946E51D00FD9F4C;
+						ProvisioningStyle = Manual;
 					};
 					C9A486B2196F352E00524F51 = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
-						TestTargetID = C9A486A8196F352E00524F51;
+						ProvisioningStyle = Manual;
+					};
+					FDD3B8661DD6E59E00F87980 = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -423,36 +492,14 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C97C82371946E51D00FD9F4C /* OneTimePassword */,
+				FDD3B8661DD6E59E00F87980 /* CommonCrypto */,
+				C97C82371946E51D00FD9F4C /* OneTimePassword (iOS) */,
 				C97C82421946E51D00FD9F4C /* OneTimePasswordTests */,
 				C9A486B2196F352E00524F51 /* OneTimePasswordLegacyTests */,
+				5B39F4931DBD06BA00CD2DAB /* OneTimePassword (watchOS) */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		C97C82361946E51D00FD9F4C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C97C82411946E51D00FD9F4C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C9A486B1196F352E00524F51 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		C97CDF2E1BEFB20000D64406 /* Lint */ = {
@@ -469,9 +516,36 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
+		FDD3B86A1DD6E5B700F87980 /* Inject Xcode Path */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Inject Xcode Path";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = $SOURCE_ROOT/CommonCrypto/injectXcodePath.sh;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5B39F48F1DBD06BA00CD2DAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B39F49E1DBD06F100CD2DAB /* Crypto.swift in Sources */,
+				5B39F49F1DBD06F500CD2DAB /* Token+URL.swift in Sources */,
+				5B39F49C1DBD06EB00CD2DAB /* Token.swift in Sources */,
+				5B39F49D1DBD06EE00CD2DAB /* Generator.swift in Sources */,
+				5B39F4A01DBD06F900CD2DAB /* PersistentToken.swift in Sources */,
+				5B39F4A11DBD06FC00CD2DAB /* Keychain.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C97C82331946E51D00FD9F4C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -513,30 +587,48 @@
 /* Begin PBXTargetDependency section */
 		C97142391C1157FC0063B37E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C97C82371946E51D00FD9F4C /* OneTimePassword */;
+			target = C97C82371946E51D00FD9F4C /* OneTimePassword (iOS) */;
 			targetProxy = C97142381C1157FC0063B37E /* PBXContainerItemProxy */;
 		};
 		C97C82461946E51D00FD9F4C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C97C82371946E51D00FD9F4C /* OneTimePassword */;
+			target = C97C82371946E51D00FD9F4C /* OneTimePassword (iOS) */;
 			targetProxy = C97C82451946E51D00FD9F4C /* PBXContainerItemProxy */;
+		};
+		FD61F4751DD6E73200166DD9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FDD3B8661DD6E59E00F87980 /* CommonCrypto */;
+			targetProxy = FD61F4741DD6E73200166DD9 /* PBXContainerItemProxy */;
+		};
+		FDA822721DD6E69F005E4127 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FDD3B8661DD6E59E00F87980 /* CommonCrypto */;
+			targetProxy = FDA822711DD6E69F005E4127 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		5B39F4991DBD06BA00CD2DAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		5B39F49A1DBD06BA00CD2DAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		C97C824C1946E51D00FD9F4C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2C1A74D5830076B105 /* Debug.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
 				SWIFT_VERSION = 2.3;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -544,79 +636,43 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2E1A74D5830076B105 /* Release.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				SDKROOT = iphoneos;
 				SWIFT_VERSION = 2.3;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
 		C97C824F1946E51D00FD9F4C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C996EC371A74D5830076B105 /* iOS-Framework.xcconfig */;
+			baseConfigurationReference = C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				INFOPLIST_FILE = Sources/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				"SWIFT_INCLUDE_PATHS[sdk=appletvos*]" = "$(SRCROOT)/CommonCrypto/appletvos";
-				"SWIFT_INCLUDE_PATHS[sdk=appletvsimulator*]" = "$(SRCROOT)/CommonCrypto/appletvsimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "$(SRCROOT)/CommonCrypto/iphoneos";
-				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "$(SRCROOT)/CommonCrypto/iphonesimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=macosx*]" = "$(SRCROOT)/CommonCrypto/macosx";
-				"SWIFT_INCLUDE_PATHS[sdk=watchos*]" = "$(SRCROOT)/CommonCrypto/watchos";
-				"SWIFT_INCLUDE_PATHS[sdk=watchsimulator*]" = "$(SRCROOT)/CommonCrypto/watchsimulator";
-				SWIFT_INSTALL_OBJC_HEADER = NO;
 			};
 			name = Debug;
 		};
 		C97C82501946E51D00FD9F4C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C996EC371A74D5830076B105 /* iOS-Framework.xcconfig */;
+			baseConfigurationReference = C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				INFOPLIST_FILE = Sources/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				"SWIFT_INCLUDE_PATHS[sdk=appletvos*]" = "$(SRCROOT)/CommonCrypto/appletvos";
-				"SWIFT_INCLUDE_PATHS[sdk=appletvsimulator*]" = "$(SRCROOT)/CommonCrypto/appletvsimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "$(SRCROOT)/CommonCrypto/iphoneos";
-				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "$(SRCROOT)/CommonCrypto/iphonesimulator";
-				"SWIFT_INCLUDE_PATHS[sdk=macosx*]" = "$(SRCROOT)/CommonCrypto/macosx";
-				"SWIFT_INCLUDE_PATHS[sdk=watchos*]" = "$(SRCROOT)/CommonCrypto/watchos";
-				"SWIFT_INCLUDE_PATHS[sdk=watchsimulator*]" = "$(SRCROOT)/CommonCrypto/watchsimulator";
-				SWIFT_INSTALL_OBJC_HEADER = NO;
 			};
 			name = Release;
 		};
 		C97C82521946E51D00FD9F4C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
+			baseConfigurationReference = C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = Tests/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.tests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		C97C82531946E51D00FD9F4C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
+			baseConfigurationReference = C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = Tests/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.tests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		C9A486BE196F352F00524F51 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
+			baseConfigurationReference = C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = OneTimePasswordLegacyTests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.legacy.tests;
@@ -626,7 +682,7 @@
 		};
 		C9A486BF196F352F00524F51 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C996EC351A74D5830076B105 /* iOS-Application.xcconfig */;
+			baseConfigurationReference = C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = OneTimePasswordLegacyTests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.legacy.tests;
@@ -634,9 +690,32 @@
 			};
 			name = Release;
 		};
+		FDD3B8681DD6E59E00F87980 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FDD3B8691DD6E59E00F87980 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5B39F49B1DBD06BA00CD2DAB /* Build configuration list for PBXNativeTarget "OneTimePassword (watchOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B39F4991DBD06BA00CD2DAB /* Debug */,
+				5B39F49A1DBD06BA00CD2DAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C97C82321946E51D00FD9F4C /* Build configuration list for PBXProject "OneTimePassword" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -646,7 +725,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword" */ = {
+		C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C97C824F1946E51D00FD9F4C /* Debug */,
@@ -669,6 +748,15 @@
 			buildConfigurations = (
 				C9A486BE196F352F00524F51 /* Debug */,
 				C9A486BF196F352F00524F51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FDD3B8671DD6E59E00F87980 /* Build configuration list for PBXAggregateTarget "CommonCrypto" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FDD3B8681DD6E59E00F87980 /* Debug */,
+				FDD3B8691DD6E59E00F87980 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
