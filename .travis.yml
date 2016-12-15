@@ -5,8 +5,8 @@ language: objective-c
 xcode_workspace: OneTimePassword.xcworkspace
 xcode_scheme: OneTimePassword (iOS)
 
-osx_image: xcode8
-xcode_sdk: iphonesimulator10.0
+osx_image: xcode8.2
+xcode_sdk: iphonesimulator10.2
 
 env:
   - DESTINATION="OS=9.0,name=iPhone 6"
