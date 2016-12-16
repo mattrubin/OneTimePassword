@@ -30,10 +30,10 @@ matrix:
     - osx_image: xcode7.3
       env: RUNTIME="iOS 9.3" DEVICE="iPhone 6s Plus"
     - xcode_scheme: OneTimePassword (watchOS)
-      env: RUNTIME="watchOS 3.1" DEVICE="Apple Watch Series 2 - 42mm" BUILD_ONLY="YES"
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 3.1" DEVICE="Apple Watch Series 2 - 42mm"
     - osx_image: xcode7.3
       xcode_scheme: OneTimePassword (watchOS)
-      env: RUNTIME="watchOS 2.2" DEVICE="Apple Watch - 38mm" BUILD_ONLY="YES"
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 2.2" DEVICE="Apple Watch - 38mm"
 
 
 # Check out nested dependencies
