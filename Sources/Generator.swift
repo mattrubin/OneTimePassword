@@ -82,7 +82,7 @@ public struct Generator: Equatable {
 
         // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
         let ptr = UnsafePointer<UInt8>(hash.bytes)
-        let offset = ptr[hash.length-1] & 0x0f
+        let offset = ptr[hash.length - 1] & 0x0f
 
         // Take 4 bytes from the hash, starting at the given byte offset
         let truncatedHashPtr = ptr + Int(offset)

@@ -11,6 +11,7 @@ opt_in_rules:
   - first_where
   - missing_docs
   - nimble_operator
+  - operator_usage_whitespace
   - overridden_super_call
   - private_outlet
   - prohibited_super_call
