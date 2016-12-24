@@ -76,9 +76,12 @@ private let kAlgorithmSHA512 = "SHA512"
 
 private func stringForAlgorithm(algorithm: Generator.Algorithm) -> String {
     switch algorithm {
-    case .SHA1:   return kAlgorithmSHA1
-    case .SHA256: return kAlgorithmSHA256
-    case .SHA512: return kAlgorithmSHA512
+    case .SHA1:
+        return kAlgorithmSHA1
+    case .SHA256:
+        return kAlgorithmSHA256
+    case .SHA512:
+        return kAlgorithmSHA512
     }
 }
 

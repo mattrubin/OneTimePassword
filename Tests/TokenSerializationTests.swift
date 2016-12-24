@@ -97,9 +97,12 @@ class TokenSerializationTests: XCTestCase {
                                 // Test algorithm
                                 let algorithmString: String = {
                                     switch $0 {
-                                    case .SHA1:   return "SHA1"
-                                    case .SHA256: return "SHA256"
-                                    case .SHA512: return "SHA512"
+                                    case .SHA1:
+                                        return "SHA1"
+                                    case .SHA256:
+                                        return "SHA256"
+                                    case .SHA512:
+                                        return "SHA512"
                                     }}(algorithm)
                                 XCTAssertEqual(queryArguments["algorithm"]!, algorithmString, "The algorithm value should be \"\(algorithmString)\"")
                                 // Test digits
