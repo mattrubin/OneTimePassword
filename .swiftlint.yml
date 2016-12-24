@@ -3,13 +3,28 @@
 excluded:
   - Carthage
 opt_in_rules:
+  - closure_end_indentation
+  - closure_spacing
   - empty_count
+  - explicit_init
+  - first_where
   - missing_docs
+  - nimble_operator
+  - overridden_super_call
+  - private_outlet
+  - prohibited_super_call
+  - redundant_nil_coalescing
   - vertical_whitespace
 disabled_rules:
+  - closure_parameter_position
+  - colon
   - comma
   - cyclomatic_complexity
   - function_body_length
   - line_length
   - opening_brace
+  - syntactic_sugar
+  - trailing_comma
+  - unused_closure_parameter
   - valid_docs
+  - vertical_parameter_alignment
