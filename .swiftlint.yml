@@ -3,6 +3,7 @@
 excluded:
   - Carthage
 opt_in_rules:
+  - attributes
   - closure_end_indentation
   - closure_spacing
   - empty_count

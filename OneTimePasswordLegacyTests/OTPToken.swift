@@ -100,12 +100,14 @@ public extension OTPToken {
 
 // MARK: Enums
 
-@objc public enum OTPTokenType: UInt8 {
+@objc
+public enum OTPTokenType: UInt8 {
     case Counter
     case Timer
 }
 
-@objc public enum OTPAlgorithm: UInt32 {
+@objc
+public enum OTPAlgorithm: UInt32 {
     case SHA1
     case SHA256
     case SHA512
