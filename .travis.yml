@@ -30,12 +30,10 @@ matrix:
     - osx_image: xcode7.3
       env: RUNTIME="iOS 9.3" DEVICE="iPhone 6s Plus"
     - xcode_scheme: OneTimePassword (watchOS)
-      env: RUNTIME="watchOS 3.1" DEVICE="Apple Watch Series 2 - 42mm"
-      script: set -o pipefail && xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme "$TRAVIS_XCODE_SCHEME" build | xcpretty -c
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 3.1" DEVICE="Apple Watch Series 2 - 42mm"
     - osx_image: xcode7.3
       xcode_scheme: OneTimePassword (watchOS)
-      env: RUNTIME="watchOS 2.2" DEVICE="Apple Watch - 38mm"
-      script: set -o pipefail && xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme "$TRAVIS_XCODE_SCHEME" build | xcpretty -c
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 2.2" DEVICE="Apple Watch - 38mm"
 
 
 # Check out nested dependencies
@@ -46,8 +44,13 @@ before_script:
   - RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
   - DESTINATION_ID=$(xcrun simctl create Travis $DEVICE_ID $RUNTIME_ID)
   - xcrun simctl boot $DESTINATION_ID
+  - if [[ $BUILD_ONLY == YES ]]; then ACTIONS="build"; else ACTIONS="build test"; fi
+  - echo "xcodebuild -workspace \"$TRAVIS_XCODE_WORKSPACE\" -scheme \"$TRAVIS_XCODE_SCHEME\" -destination \"id=$DESTINATION_ID\" $ACTIONS"
 
-script: set -o pipefail && xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" build test | xcpretty -c
+script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" $ACTIONS | xcpretty -c
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  email: false
