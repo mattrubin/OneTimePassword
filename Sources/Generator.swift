@@ -251,7 +251,9 @@ private extension String {
     /// - returns: A new string padded to the given length.
     func paddedWithCharacter(character: Character, toLength length: Int) -> String {
         let paddingCount = length - characters.count
-        guard paddingCount > 0 else { return self }
+        guard paddingCount > 0 else {
+            return self
+        }
 
         let padding = String(count: paddingCount, repeatedValue: character)
         return padding + self

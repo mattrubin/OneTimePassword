@@ -86,10 +86,16 @@ private func stringForAlgorithm(algorithm: Generator.Algorithm) -> String {
 }
 
 private func algorithmFromString(string: String) -> Generator.Algorithm? {
-    if string == kAlgorithmSHA1 { return .SHA1 }
-    if string == kAlgorithmSHA256 { return .SHA256 }
-    if string == kAlgorithmSHA512 { return .SHA512 }
-    return nil
+    switch string {
+    case kAlgorithmSHA1:
+        return .SHA1
+    case kAlgorithmSHA256:
+        return .SHA256
+    case kAlgorithmSHA512:
+        return .SHA512
+    default:
+        return nil
+    }
 }
 
 private func urlForToken(name name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) throws -> NSURL {

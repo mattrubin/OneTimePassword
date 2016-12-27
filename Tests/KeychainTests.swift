@@ -48,7 +48,9 @@ class KeychainTests: XCTestCase {
 
     func testPersistentTokenWithIdentifier() {
         // See the NOTE above
-        if #available(iOS 10, *) { return }
+        if #available(iOS 10, *) {
+            return
+        }
 
         // Create a token
         let token = testToken
@@ -112,7 +114,9 @@ class KeychainTests: XCTestCase {
 
     func testDuplicateTokens() {
         // See the NOTE above
-        if #available(iOS 10, *) { return }
+        if #available(iOS 10, *) {
+            return
+        }
 
         let token1 = testToken, token2 = testToken
 
@@ -190,7 +194,9 @@ class KeychainTests: XCTestCase {
 
     func testAllPersistentTokens() {
         // See the NOTE above
-        if #available(iOS 10, *) { return }
+        if #available(iOS 10, *) {
+            return
+        }
 
         let token1 = testToken, token2 = testToken, token3 = testToken
 
