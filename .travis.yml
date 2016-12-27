@@ -20,15 +20,12 @@ env:
   - RUNTIME="iOS 10.1" DEVICE="iPhone 7"
   - RUNTIME="iOS 10.2" DEVICE="iPhone 7 Plus"
 
-# Include builds for Xcode 8, Xcode 8.1, and Xcode 7.3 with Swift 2.2
+# Include builds for watchOS
 matrix:
   include:
-    - osx_image: xcode7.3
-      env: RUNTIME="iOS 9.3" DEVICE="iPhone 6s Plus"
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 3.1" DEVICE="Apple Watch Series 2 - 42mm"
-    - osx_image: xcode7.3
-      xcode_scheme: OneTimePassword (watchOS)
+    - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 2.2" DEVICE="Apple Watch - 38mm"
 
 
