@@ -106,7 +106,7 @@ private func urlForToken(name name: String, issuer: String, factor: Generator.Fa
     var queryItems = [
         NSURLQueryItem(name: kQueryAlgorithmKey, value: stringForAlgorithm(algorithm)),
         NSURLQueryItem(name: kQueryDigitsKey, value: String(digits)),
-        NSURLQueryItem(name: kQueryIssuerKey, value: issuer)
+        NSURLQueryItem(name: kQueryIssuerKey, value: issuer),
     ]
 
     switch factor {

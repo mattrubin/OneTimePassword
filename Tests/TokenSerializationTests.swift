@@ -31,11 +31,22 @@ class TokenSerializationTests: XCTestCase {
     let kOTPTokenTypeCounterHost = "hotp"
     let kOTPTokenTypeTimerHost   = "totp"
 
-    let factors: [OneTimePassword.Generator.Factor] = [.Counter(0), .Counter(1), .Counter(UInt64.max),
-                                                       .Timer(period: 1), .Timer(period: 30), .Timer(period: 300)]
+    let factors: [OneTimePassword.Generator.Factor] = [
+        .Counter(0),
+        .Counter(1),
+        .Counter(UInt64.max),
+        .Timer(period: 1),
+        .Timer(period: 30),
+        .Timer(period: 300),
+    ]
     let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""]
     let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""]
-    let secretStrings = ["12345678901234567890", "12345678901234567890123456789012", "1234567890123456789012345678901234567890123456789012345678901234", ""]
+    let secretStrings = [
+        "12345678901234567890",
+        "12345678901234567890123456789012",
+        "1234567890123456789012345678901234567890123456789012345678901234",
+        "",
+    ]
     let algorithms: [OneTimePassword.Generator.Algorithm] = [.SHA1, .SHA256, .SHA512]
     let digits = [6, 7, 8]
 

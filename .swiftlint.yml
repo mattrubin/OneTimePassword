@@ -27,6 +27,8 @@ disabled_rules:
   - function_body_length
   - line_length
   - syntactic_sugar
-  - trailing_comma
   - unused_closure_parameter
   - valid_docs
+
+trailing_comma:
+  mandatory_comma: true
