@@ -100,12 +100,14 @@ public extension OTPToken {
 
 // MARK: Enums
 
-@objc public enum OTPTokenType: UInt8 {
+@objc
+public enum OTPTokenType: UInt8 {
     case Counter
     case Timer
 }
 
-@objc public enum OTPAlgorithm: UInt32 {
+@objc
+public enum OTPAlgorithm: UInt32 {
     case SHA1
     case SHA256
     case SHA512
@@ -116,9 +118,12 @@ public extension OTPToken {
 private extension OTPAlgorithm {
     init(_ generatorAlgorithm: Generator.Algorithm) {
         switch generatorAlgorithm {
-        case .SHA1:   self = .SHA1
-        case .SHA256: self = .SHA256
-        case .SHA512: self = .SHA512
+        case .SHA1:
+            self = .SHA1
+        case .SHA256:
+            self = .SHA256
+        case .SHA512:
+            self = .SHA512
         }
     }
 }
@@ -146,8 +151,11 @@ private func factorForOTPToken(otpToken: OTPToken) -> Generator.Factor {
 
 private func algorithmForOTPAlgorithm(algorithm: OTPAlgorithm) -> Generator.Algorithm {
     switch algorithm {
-    case .SHA1:   return .SHA1
-    case .SHA256: return .SHA256
-    case .SHA512: return .SHA512
+    case .SHA1:
+        return .SHA1
+    case .SHA256:
+        return .SHA256
+    case .SHA512:
+        return .SHA512
     }
 }
