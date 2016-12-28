@@ -72,11 +72,9 @@ public final class Keychain {
     /// - throws: A `Keychain.Error` if the update did not succeed.
     /// - returns: The updated persistent token.
     public func updatePersistentToken(persistentToken: PersistentToken,
-        withToken token: Token) throws -> PersistentToken
-    {
+                                      withToken token: Token) throws -> PersistentToken {
         let attributes = try token.keychainAttributes()
-        try updateKeychainItemForPersistentRef(persistentToken.identifier,
-            withAttributes: attributes)
+        try updateKeychainItemForPersistentRef(persistentToken.identifier, withAttributes: attributes)
         return PersistentToken(token: token, identifier: persistentToken.identifier)
     }
 
@@ -164,8 +162,7 @@ private func addKeychainItemWithAttributes(attributes: [String: AnyObject]) thro
 }
 
 private func updateKeychainItemForPersistentRef(persistentRef: NSData,
-    withAttributes attributesToUpdate: [String: AnyObject]) throws
-{
+                                                withAttributes attributesToUpdate: [String: AnyObject]) throws {
     let queryDict = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef,

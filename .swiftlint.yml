@@ -26,9 +26,7 @@ disabled_rules:
   - cyclomatic_complexity
   - function_body_length
   - line_length
-  - opening_brace
   - syntactic_sugar
   - trailing_comma
   - unused_closure_parameter
   - valid_docs
-  - vertical_parameter_alignment
