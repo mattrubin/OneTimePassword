@@ -23,12 +23,6 @@
 //  SOFTWARE.
 //
 
-// NOTE: Keychain access from test bundles seems to be broken (error -34018) in iOS 10.
-// https://forums.developer.apple.com/thread/51071
-// Even basic (unshared) keychain access in iOS 10 requires the keychain sharing entitlement, but
-// since entitlements do not apply to test bundles, there isn't a fix for broken keychain tests.
-// Until a fix for the issue is found, keychain tests are disabled for iOS 10.
-
 import XCTest
 import OneTimePassword
 
@@ -47,11 +41,6 @@ class KeychainTests: XCTestCase {
     let keychain = Keychain.sharedInstance
 
     func testPersistentTokenWithIdentifier() {
-        // See the NOTE above
-        if #available(iOS 10, *) {
-            return
-        }
-
         // Create a token
         let token = testToken
 
@@ -113,11 +102,6 @@ class KeychainTests: XCTestCase {
     }
 
     func testDuplicateTokens() {
-        // See the NOTE above
-        if #available(iOS 10, *) {
-            return
-        }
-
         let token1 = testToken, token2 = testToken
 
         // Add both tokens to the keychain
@@ -193,11 +177,6 @@ class KeychainTests: XCTestCase {
     }
 
     func testAllPersistentTokens() {
-        // See the NOTE above
-        if #available(iOS 10, *) {
-            return
-        }
-
         let token1 = testToken, token2 = testToken, token3 = testToken
 
         do {
