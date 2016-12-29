@@ -93,18 +93,21 @@ class TokenSerializationTests: XCTestCase {
                                 XCTAssertEqual(url.host!, expectedHost, "The url host should be \"\(expectedHost)\"")
                                 // Test name
                                 let path = url.path
-                                XCTAssertEqual(path.substring(from: path.index(after: path.startIndex)), name, "The url path should be \"\(name)\"")
+                                XCTAssertEqual(path.substring(from: path.index(after: path.startIndex)), name,
+                                               "The url path should be \"\(name)\"")
 
                                 let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
                                 let items = urlComponents?.queryItems
                                 let expectedItemCount = 4
-                                XCTAssertEqual(items?.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
+                                XCTAssertEqual(items?.count, expectedItemCount,
+                                               "There shouldn't be any unexpected query arguments: \(url)")
 
                                 var queryArguments = Dictionary<String, String>()
                                 for item in items ?? [] {
                                     queryArguments[item.name] = item.value
                                 }
-                                XCTAssertEqual(queryArguments.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
+                                XCTAssertEqual(queryArguments.count, expectedItemCount,
+                                               "There shouldn't be any unexpected query arguments: \(url)")
 
                                 // Test algorithm
                                 let algorithmString: String = {
@@ -116,29 +119,37 @@ class TokenSerializationTests: XCTestCase {
                                     case .SHA512:
                                         return "SHA512"
                                     }}(algorithm)
-                                XCTAssertEqual(queryArguments["algorithm"]!, algorithmString, "The algorithm value should be \"\(algorithmString)\"")
+                                XCTAssertEqual(queryArguments["algorithm"]!, algorithmString,
+                                               "The algorithm value should be \"\(algorithmString)\"")
                                 // Test digits
-                                XCTAssertEqual(queryArguments["digits"]!, String(digitNumber), "The digits value should be \"\(digitNumber)\"")
+                                XCTAssertEqual(queryArguments["digits"]!, String(digitNumber),
+                                               "The digits value should be \"\(digitNumber)\"")
                                 // Test secret
-                                XCTAssertNil(queryArguments["secret"], "The url query string should not contain the secret")
+                                XCTAssertNil(queryArguments["secret"],
+                                             "The url query string should not contain the secret")
 
                                 // Test period
                                 switch factor {
                                 case .timer(let period):
-                                    XCTAssertEqual(queryArguments["period"]!, String(Int(period)), "The period value should be \"\(period)\"")
+                                    XCTAssertEqual(queryArguments["period"]!, String(Int(period)),
+                                                   "The period value should be \"\(period)\"")
                                 default:
-                                    XCTAssertNil(queryArguments["period"], "The url query string should not contain the period")
+                                    XCTAssertNil(queryArguments["period"],
+                                                 "The url query string should not contain the period")
                                 }
                                 // Test counter
                                 switch factor {
                                 case .counter(let counter):
-                                    XCTAssertEqual(queryArguments["counter"]!, String(counter), "The counter value should be \"\(counter)\"")
+                                    XCTAssertEqual(queryArguments["counter"]!, String(counter),
+                                                   "The counter value should be \"\(counter)\"")
                                 default:
-                                    XCTAssertNil(queryArguments["counter"], "The url query string should not contain the counter")
+                                    XCTAssertNil(queryArguments["counter"],
+                                                 "The url query string should not contain the counter")
                                 }
 
                                 // Test issuer
-                                XCTAssertEqual(queryArguments["issuer"]!, issuer, "The issuer value should be \"\(issuer)\"")
+                                XCTAssertEqual(queryArguments["issuer"]!, issuer,
+                                               "The issuer value should be \"\(issuer)\"")
 
                                 // Check url again
                                 guard let checkURL = try? token.toURL() else {

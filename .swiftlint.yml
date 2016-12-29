@@ -24,9 +24,11 @@ disabled_rules:
   - comma
   - cyclomatic_complexity
   - function_body_length
-  - line_length
   - syntactic_sugar
   - valid_docs
 
 trailing_comma:
   mandatory_comma: true
+
+line_length:
+  warning: 120

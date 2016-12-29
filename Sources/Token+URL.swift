@@ -98,7 +98,8 @@ private func algorithmFromString(_ string: String) -> Generator.Algorithm? {
     }
 }
 
-private func urlForToken(name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) throws -> URL {
+private func urlForToken(name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm,
+                         digits: Int) throws -> URL {
     var urlComponents = URLComponents()
     urlComponents.scheme = kOTPAuthScheme
     urlComponents.path = "/" + name
@@ -164,8 +165,10 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     }
 
     guard let factor = parse(url.host, with: factorParser, defaultTo: nil),
-        let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.data(fromBase32String: $0) }, overrideWith: externalSecret),
-        let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString, defaultTo: defaultAlgorithm),
+        let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.data(fromBase32String: $0) },
+                           overrideWith: externalSecret),
+        let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString,
+                              defaultTo: defaultAlgorithm),
         let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: defaultDigits),
         let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
             return nil
@@ -200,7 +203,8 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     return Token(name: name, issuer: issuer, generator: generator)
 }
 
-private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {
+private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), defaultTo defaultValue: T? = nil,
+                         overrideWith overrideValue: T? = nil) -> T? {
     if let value = overrideValue {
         return value
     }
