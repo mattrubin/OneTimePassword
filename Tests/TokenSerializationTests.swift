@@ -31,11 +31,22 @@ class TokenSerializationTests: XCTestCase {
     let kOTPTokenTypeCounterHost = "hotp"
     let kOTPTokenTypeTimerHost   = "totp"
 
-    let factors: [OneTimePassword.Generator.Factor] = [.counter(0), .counter(1), .counter(UInt64.max),
-                                                       .timer(period: 1), .timer(period: 30), .timer(period: 300)]
+    let factors: [OneTimePassword.Generator.Factor] = [
+        .counter(0),
+        .counter(1),
+        .counter(UInt64.max),
+        .timer(period: 1),
+        .timer(period: 30),
+        .timer(period: 300),
+    ]
     let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""]
     let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""]
-    let secretStrings = ["12345678901234567890", "12345678901234567890123456789012", "1234567890123456789012345678901234567890123456789012345678901234", ""]
+    let secretStrings = [
+        "12345678901234567890",
+        "12345678901234567890123456789012",
+        "1234567890123456789012345678901234567890123456789012345678901234",
+        "",
+    ]
     let algorithms: [OneTimePassword.Generator.Algorithm] = [.SHA1, .SHA256, .SHA512]
     let digits = [6, 7, 8]
 
@@ -98,9 +109,12 @@ class TokenSerializationTests: XCTestCase {
                                 // Test algorithm
                                 let algorithmString: String = {
                                     switch $0 {
-                                    case .SHA1:   return "SHA1"
-                                    case .SHA256: return "SHA256"
-                                    case .SHA512: return "SHA512"
+                                    case .SHA1:
+                                        return "SHA1"
+                                    case .SHA256:
+                                        return "SHA256"
+                                    case .SHA512:
+                                        return "SHA512"
                                     }}(algorithm)
                                 XCTAssertEqual(queryArguments["algorithm"]!, algorithmString, "The algorithm value should be \"\(algorithmString)\"")
                                 // Test digits

@@ -82,7 +82,7 @@ public struct Generator: Equatable {
 
         var truncatedHash = hash.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
             // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
-            let offset = ptr[hash.count-1] & 0x0f
+            let offset = ptr[hash.count - 1] & 0x0f
 
             // Take 4 bytes from the hash, starting at the given byte offset
             let truncatedHashPtr = ptr + Int(offset)
@@ -249,7 +249,9 @@ private extension String {
     /// - returns: A new string padded to the given length.
     func padded(with character: Character, toLength length: Int) -> String {
         let paddingCount = length - characters.count
-        guard paddingCount > 0 else { return self }
+        guard paddingCount > 0 else {
+            return self
+        }
 
         let padding = String(repeating: String(character), count: paddingCount)
         return padding + self

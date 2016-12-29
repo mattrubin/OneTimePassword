@@ -76,17 +76,26 @@ private let kAlgorithmSHA512 = "SHA512"
 
 private func stringForAlgorithm(_ algorithm: Generator.Algorithm) -> String {
     switch algorithm {
-    case .SHA1:   return kAlgorithmSHA1
-    case .SHA256: return kAlgorithmSHA256
-    case .SHA512: return kAlgorithmSHA512
+    case .SHA1:
+        return kAlgorithmSHA1
+    case .SHA256:
+        return kAlgorithmSHA256
+    case .SHA512:
+        return kAlgorithmSHA512
     }
 }
 
 private func algorithmFromString(_ string: String) -> Generator.Algorithm? {
-    if string == kAlgorithmSHA1 { return .SHA1 }
-    if string == kAlgorithmSHA256 { return .SHA256 }
-    if string == kAlgorithmSHA512 { return .SHA512 }
-    return nil
+    switch string {
+    case kAlgorithmSHA1:
+        return .SHA1
+    case kAlgorithmSHA256:
+        return .SHA256
+    case kAlgorithmSHA512:
+        return .SHA512
+    default:
+        return nil
+    }
 }
 
 private func urlForToken(name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) throws -> URL {
@@ -97,7 +106,7 @@ private func urlForToken(name: String, issuer: String, factor: Generator.Factor,
     var queryItems = [
         URLQueryItem(name: kQueryAlgorithmKey, value: stringForAlgorithm(algorithm)),
         URLQueryItem(name: kQueryDigitsKey, value: String(digits)),
-        URLQueryItem(name: kQueryIssuerKey, value: issuer)
+        URLQueryItem(name: kQueryIssuerKey, value: issuer),
     ]
 
     switch factor {

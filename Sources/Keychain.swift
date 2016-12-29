@@ -162,8 +162,7 @@ private func addKeychainItem(withAttributes attributes: [String: AnyObject]) thr
 }
 
 private func updateKeychainItem(forPersistentRef persistentRef: Data,
-    withAttributes attributesToUpdate: [String: AnyObject]) throws
-{
+                                withAttributes attributesToUpdate: [String: AnyObject]) throws {
     let queryDict: [String : AnyObject] = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef as NSData,
