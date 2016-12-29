@@ -48,6 +48,9 @@
 		C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Generator.swift */; };
 		C9E639091BDDFF6B002D9231 /* OneTimePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = C9377D40196B93F900D6C67E /* OneTimePassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9F544AD1C8391630023CCF0 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F544AC1C8391630023CCF0 /* Crypto.swift */; };
+		FD6C3C0F1E0200F800EC4528 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6C3C0E1E0200F800EC4528 /* AppDelegate.swift */; };
+		FD6C3C341E02033600EC4528 /* OneTimePassword.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FDA64C751E020ABF004AD993 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDA64C741E020ABF004AD993 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,20 @@
 			remoteGlobalIDString = FDD3B8661DD6E59E00F87980;
 			remoteInfo = CommonCrypto;
 		};
+		FD6C3C201E0200F900EC4528 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD6C3C0B1E0200F800EC4528;
+			remoteInfo = OneTimePasswordTestApp;
+		};
+		FD6C3C351E02033600EC4528 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C97C82371946E51D00FD9F4C;
+			remoteInfo = "OneTimePassword (iOS)";
+		};
 		FDA822711DD6E69F005E4127 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
@@ -80,6 +97,20 @@
 			remoteInfo = CommonCrypto;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FD6C3C371E02033700EC4528 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FD6C3C341E02033600EC4528 /* OneTimePassword.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5B39F4941DBD06BA00CD2DAB /* OneTimePassword.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +160,11 @@
 		C9E829541C62FFBD003F5FC9 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		C9E829551C630514003F5FC9 /* CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONDUCT.md; sourceTree = "<group>"; };
 		C9F544AC1C8391630023CCF0 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
+		FD6C3C0C1E0200F800EC4528 /* OneTimePasswordTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneTimePasswordTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD6C3C0E1E0200F800EC4528 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FD6C3C1A1E0200F800EC4528 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FDA64C741E020ABF004AD993 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		FDA64C771E021394004AD993 /* OneTimePasswordTestApp.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OneTimePasswordTestApp.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +227,7 @@
 				C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */,
 				C93CC0211DCBC189006255FA /* OneTimePasswordTests.xcconfig */,
 				C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */,
+				FDA64C771E021394004AD993 /* OneTimePasswordTestApp.xcconfig */,
 			);
 			name = Targets;
 			sourceTree = "<group>";
@@ -231,6 +268,7 @@
 				C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */,
 				C9A486B3196F352E00524F51 /* OneTimePasswordLegacyTests.xctest */,
 				5B39F4941DBD06BA00CD2DAB /* OneTimePassword.framework */,
+				FD6C3C0C1E0200F800EC4528 /* OneTimePasswordTestApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -266,6 +304,7 @@
 				C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */,
 				C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */,
 				C97C82481946E51D00FD9F4C /* Supporting Files */,
+				FD6C3C0D1E0200F800EC4528 /* Test App */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -351,6 +390,17 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
+		FD6C3C0D1E0200F800EC4528 /* Test App */ = {
+			isa = PBXGroup;
+			children = (
+				FD6C3C0E1E0200F800EC4528 /* AppDelegate.swift */,
+				FD6C3C1A1E0200F800EC4528 /* Info.plist */,
+				FDA64C741E020ABF004AD993 /* Launch Screen.storyboard */,
+			);
+			name = "Test App";
+			path = App;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -421,6 +471,7 @@
 			);
 			dependencies = (
 				C97C82461946E51D00FD9F4C /* PBXTargetDependency */,
+				FD6C3C211E0200F900EC4528 /* PBXTargetDependency */,
 			);
 			name = OneTimePasswordTests;
 			productName = OneTimePasswordTests;
@@ -443,6 +494,24 @@
 			productName = OneTimePasswordLegacyTests;
 			productReference = C9A486B3196F352E00524F51 /* OneTimePasswordLegacyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FD6C3C0B1E0200F800EC4528 /* OneTimePasswordTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD6C3C2A1E0200F900EC4528 /* Build configuration list for PBXNativeTarget "OneTimePasswordTestApp" */;
+			buildPhases = (
+				FD6C3C081E0200F800EC4528 /* Sources */,
+				FD6C3C0A1E0200F800EC4528 /* Resources */,
+				FD6C3C371E02033700EC4528 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FD6C3C361E02033600EC4528 /* PBXTargetDependency */,
+			);
+			name = OneTimePasswordTestApp;
+			productName = OneTimePasswordApp;
+			productReference = FD6C3C0C1E0200F800EC4528 /* OneTimePasswordTestApp.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -468,11 +537,16 @@
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Manual;
+						TestTargetID = FD6C3C0B1E0200F800EC4528;
 					};
 					C9A486B2196F352E00524F51 = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Manual;
+					};
+					FD6C3C0B1E0200F800EC4528 = {
+						CreatedOnToolsVersion = 8.2;
+						ProvisioningStyle = Automatic;
 					};
 					FDD3B8661DD6E59E00F87980 = {
 						CreatedOnToolsVersion = 8.1;
@@ -496,10 +570,22 @@
 				C97C82371946E51D00FD9F4C /* OneTimePassword (iOS) */,
 				C97C82421946E51D00FD9F4C /* OneTimePasswordTests */,
 				C9A486B2196F352E00524F51 /* OneTimePasswordLegacyTests */,
+				FD6C3C0B1E0200F800EC4528 /* OneTimePasswordTestApp */,
 				5B39F4931DBD06BA00CD2DAB /* OneTimePassword (watchOS) */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FD6C3C0A1E0200F800EC4528 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDA64C751E020ABF004AD993 /* Launch Screen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		C97CDF2E1BEFB20000D64406 /* Lint */ = {
@@ -582,6 +668,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FD6C3C081E0200F800EC4528 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD6C3C0F1E0200F800EC4528 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -599,6 +693,16 @@
 			isa = PBXTargetDependency;
 			target = FDD3B8661DD6E59E00F87980 /* CommonCrypto */;
 			targetProxy = FD61F4741DD6E73200166DD9 /* PBXContainerItemProxy */;
+		};
+		FD6C3C211E0200F900EC4528 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD6C3C0B1E0200F800EC4528 /* OneTimePasswordTestApp */;
+			targetProxy = FD6C3C201E0200F900EC4528 /* PBXContainerItemProxy */;
+		};
+		FD6C3C361E02033600EC4528 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C97C82371946E51D00FD9F4C /* OneTimePassword (iOS) */;
+			targetProxy = FD6C3C351E02033600EC4528 /* PBXContainerItemProxy */;
 		};
 		FDA822721DD6E69F005E4127 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -690,6 +794,20 @@
 			};
 			name = Release;
 		};
+		FD6C3C261E0200F900EC4528 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDA64C771E021394004AD993 /* OneTimePasswordTestApp.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		FD6C3C271E0200F900EC4528 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDA64C771E021394004AD993 /* OneTimePasswordTestApp.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		FDD3B8681DD6E59E00F87980 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -748,6 +866,15 @@
 			buildConfigurations = (
 				C9A486BE196F352F00524F51 /* Debug */,
 				C9A486BF196F352F00524F51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD6C3C2A1E0200F900EC4528 /* Build configuration list for PBXNativeTarget "OneTimePasswordTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD6C3C261E0200F900EC4528 /* Debug */,
+				FD6C3C271E0200F900EC4528 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
