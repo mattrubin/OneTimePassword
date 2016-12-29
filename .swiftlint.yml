@@ -20,14 +20,12 @@ opt_in_rules:
   - switch_case_on_newline
   - vertical_whitespace
 disabled_rules:
-  - closure_parameter_position
   - colon
   - comma
   - cyclomatic_complexity
   - function_body_length
   - line_length
   - syntactic_sugar
-  - unused_closure_parameter
   - valid_docs
 
 trailing_comma:
