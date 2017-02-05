@@ -25,13 +25,14 @@
 
 import XCTest
 import OneTimePassword
+import Base32
 
 let testToken = Token(
     name: "Name",
     issuer: "Issuer",
     generator: Generator(
         factor: .timer(period: 45),
-        secret: NSData(base32String: "AAAQEAYEAUDAOCAJBIFQYDIOB4") as Data,
+        secret: MF_Base32Codec.data(fromBase32String: "AAAQEAYEAUDAOCAJBIFQYDIOB4"),
         algorithm: .SHA256,
         digits: 8
     )!

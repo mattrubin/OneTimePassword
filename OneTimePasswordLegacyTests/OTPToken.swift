@@ -26,8 +26,6 @@
 import Foundation
 import OneTimePassword
 
-// swiftlint:disable missing_docs
-
 /// `OTPToken` is a mutable, Objective-C-compatible wrapper around `OneTimePassword.Token`. For more
 /// information about its properties and methods, consult the underlying `OneTimePassword`
 /// documentation.
@@ -50,7 +48,7 @@ public final class OTPToken: NSObject {
     private static var defaultInitialCounter: UInt64 = 0
     private static var defaultPeriod: TimeInterval = 30
 
-    private func updateWithToken(_ token: Token) {
+    private func update(with token: Token) {
         self.name = token.name
         self.issuer = token.issuer
 
@@ -70,7 +68,7 @@ public final class OTPToken: NSObject {
 
     fileprivate convenience init(token: Token) {
         self.init()
-        updateWithToken(token)
+        update(with: token)
     }
 
     public func validate() -> Bool {
@@ -79,11 +77,13 @@ public final class OTPToken: NSObject {
 }
 
 public extension OTPToken {
-    static func tokenWithURL(_ url: URL) -> Self? {
-        return tokenWithURL(url, secret: nil)
+    @objc(tokenWithURL:)
+    static func token(from url: URL) -> Self? {
+        return token(from: url, secret: nil)
     }
 
-    static func tokenWithURL(_ url: URL, secret: Data?) -> Self? {
+    @objc(tokenWithURL:secret:)
+    static func token(from url: URL, secret: Data?) -> Self? {
         guard let token = Token(url: url, secret: secret) else {
             return nil
         }

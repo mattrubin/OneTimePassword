@@ -106,13 +106,14 @@ public final class Keychain {
 // MARK: - Private
 
 private let kOTPService = "me.mattrubin.onetimepassword.token"
+private let urlStringEncoding = String.Encoding.utf8
 
 private extension Token {
     func keychainAttributes() throws -> [String: AnyObject] {
         let url = try self.toURL()
         // This line supports the different optionality of `absoluteString` between Xcode 7 and 8
         let urlString: String? = url.absoluteString
-        guard let data = urlString?.data(using: String.Encoding.utf8) else {
+        guard let data = urlString?.data(using: urlStringEncoding) else {
             throw Keychain.Error.tokenSerializationFailure
         }
         return [
@@ -126,10 +127,10 @@ private extension Token {
 private extension PersistentToken {
     init?(keychainDictionary: NSDictionary) {
         guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? Data,
-            let string = NSString(data: urlData, encoding: String.Encoding.utf8.rawValue),
+            let urlString = String(data: urlData, encoding: urlStringEncoding),
             let secret = keychainDictionary[kSecValueData as String] as? Data,
             let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? Data,
-            let url = URL(string: string as String),
+            let url = URL(string: urlString as String),
             let token = Token(url: url, secret: secret) else {
                 return nil
         }
