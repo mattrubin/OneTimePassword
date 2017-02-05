@@ -32,7 +32,11 @@ func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
     let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
     defer { macOut.deallocate(capacity: hashLength) }
 
-    CCHmac(hashFunction, (key as NSData).bytes, key.count, (data as NSData).bytes, data.count, macOut)
+    key.withUnsafeBytes { keyBytes in
+        data.withUnsafeBytes { dataBytes in
+            CCHmac(hashFunction, keyBytes, key.count, dataBytes, data.count, macOut)
+        }
+    }
 
     return Data(bytes: macOut, count: hashLength)
 }
