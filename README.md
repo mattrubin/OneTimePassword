@@ -52,8 +52,9 @@ Then run `pod install` to install the latest version of the framework.
 
 ## Usage
 
-> The latest version of the OneTimePassword library has been designed with a modern Swift API, and does not offer compatibility with Objective-C. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
+> The latest version of OneTimePassword targets Swift 3. To use OneTimePassword with Swift 2.3, check out the [`swift-2.3` branch][swift-2.3] and the [2.x releases][releases]. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
 
+[swift-2.3]: https://github.com/mattrubin/OneTimePassword/tree/swift-2.3
 [objc]: https://github.com/mattrubin/OneTimePassword/tree/objc
 [releases]: https://github.com/mattrubin/OneTimePassword/releases
 
