@@ -62,12 +62,12 @@ public struct Generator: Equatable {
 
     /// Generates the password for the given point in time.
     ///
-    /// - parameter time: The target time, as seconds since the Unix epoch.
-    ///                   The time value must be positive.
+    /// - parameter time: The target time, represented as a `Date`.
+    ///                   The time must not be before the Unix epoch.
     ///
     /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
-    public func password(at time: TimeInterval) throws -> String {
+    public func password(at time: Date) throws -> String {
         guard Generator.validateDigits(digits) else {
             throw Error.invalidDigits
         }
@@ -145,22 +145,24 @@ public struct Generator: Equatable {
         /// it will be the number of time steps since the Unix epoch, based on the associated
         /// period value.
         ///
-        /// - parameter time: The target time, as seconds since the Unix epoch.
+        /// - parameter time: The target time, represented as a `Date`.
+        ///                   The time must not be before the Unix epoch.
         ///
         /// - throws: A `Generator.Error` if a valid counter cannot be calculated.
         /// - returns: The counter value needed to generate the password for the target time.
-        fileprivate func counterValue(at time: TimeInterval) throws -> UInt64 {
+        fileprivate func counterValue(at time: Date) throws -> UInt64 {
             switch self {
             case .counter(let counter):
                 return counter
             case .timer(let period):
-                guard Generator.validateTime(time) else {
+                let timeSinceEpoch = time.timeIntervalSince1970
+                guard Generator.validateTime(timeSinceEpoch) else {
                     throw Error.invalidTime
                 }
                 guard Generator.validatePeriod(period) else {
                     throw Error.invalidPeriod
                 }
-                return UInt64(time / period)
+                return UInt64(timeSinceEpoch / period)
             }
         }
     }
@@ -234,9 +236,9 @@ private extension Generator {
         return (period > 0)
     }
 
-    static func validateTime(_ time: TimeInterval) -> Bool {
+    static func validateTime(_ timeSinceEpoch: TimeInterval) -> Bool {
         // The time must be positive to produce a valid counter value.
-        return (time >= 0)
+        return (timeSinceEpoch >= 0)
     }
 }
 
