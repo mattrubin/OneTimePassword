@@ -52,8 +52,10 @@ Then run `pod install` to install the latest version of the framework.
 
 ## Usage
 
-> The latest version of the OneTimePassword library has been designed with a modern Swift API, and does not offer compatibility with Objective-C. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
+> The [latest version][swift-3] of OneTimePassword targets Swift 3. To use OneTimePassword with Swift 2.3, check out the [`swift-2.3` branch][swift-2.3] and the [2.x releases][releases]. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
 
+[swift-3]: https://github.com/mattrubin/OneTimePassword/tree/swift-3
+[swift-2.3]: https://github.com/mattrubin/OneTimePassword/tree/swift-2.3
 [objc]: https://github.com/mattrubin/OneTimePassword/tree/objc
 [releases]: https://github.com/mattrubin/OneTimePassword/releases
 
@@ -81,16 +83,16 @@ let name = "..."
 let issuer = "..."
 let secretString = "..."
 
-guard let secretData = NSData(base32String: secretString)
-    where secretData.length > 0 else {
+guard let secretData = Data(base32String: secretString),
+    !secretData.isEmpty else {
         print("Invalid secret")
         return nil
 }
 
 guard let generator = Generator(
-    factor: .Timer(period: 30),
+    factor: .timer(period: 30),
     secret: secretData,
-    algorithm: .SHA1,
+    algorithm: .sha1,
     digits: 6) else {
         print("Invalid generator parameters")
         return nil
@@ -111,9 +113,9 @@ let password = token.currentPassword
 To generate the password at a specific point in time:
 
 ````swift
-let time = someDate.timeIntervalSince1970
+let time = Date(timeIntervalSince1970: ...)
 do {
-    let passwordAtTime = try token.generator.passwordAtTime(time)
+    let passwordAtTime = try token.generator.password(at: time)
     print("Password at time: \(passwordAtTime)")
 } catch {
     print("Cannot generate password for invalid time \(time)")
@@ -137,7 +139,7 @@ To save a token to the keychain:
 
 ````swift
 do {
-    let persistentToken = try keychain.addToken(token)
+    let persistentToken = try keychain.add(token)
     print("Saved to keychain with identifier: \(persistentToken.identifier)")
 } catch {
     print("Keychain error: \(error)")
@@ -148,10 +150,12 @@ To retrieve a token from the keychain:
 
 ````swift
 do {
-    let persistentToken = try keychain.persistentTokenWithIdentifier(identifier)
-    print("Retrieved token: \(persistentToken.token)")
+    if let persistentToken = try keychain.persistentToken(withIdentifier: identifier) {
+        print("Retrieved token: \(persistentToken.token)")
+    }
     // Or...
     let persistentTokens = try keychain.allPersistentTokens()
+    print("All tokens: \(persistentTokens.map({ $0.token }))")
 } catch {
     print("Keychain error: \(error)")
 }
@@ -161,8 +165,7 @@ To update a saved token in the keychain:
 
 ````swift
 do {
-    let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
-        withToken: token)
+    let updatedPersistentToken = try keychain.update(persistentToken, with: token)
     print("Updated token: \(updatedPersistentToken)")
 } catch {
     print("Keychain error: \(error)")
@@ -173,7 +176,7 @@ To delete a token from the keychain:
 
 ````swift
 do {
-    try keychain.deletePersistentToken(persistentToken)
+    try keychain.delete(persistentToken)
     print("Deleted token.")
 } catch {
     print("Keychain error: \(error)")
