@@ -81,16 +81,16 @@ let name = "..."
 let issuer = "..."
 let secretString = "..."
 
-guard let secretData = NSData(base32String: secretString)
-    where secretData.length > 0 else {
+guard let secretData = Data(base32String: secretString),
+    !secretData.isEmpty else {
         print("Invalid secret")
         return nil
 }
 
 guard let generator = Generator(
-    factor: .Timer(period: 30),
+    factor: .timer(period: 30),
     secret: secretData,
-    algorithm: .SHA1,
+    algorithm: .sha1,
     digits: 6) else {
         print("Invalid generator parameters")
         return nil
@@ -111,9 +111,9 @@ let password = token.currentPassword
 To generate the password at a specific point in time:
 
 ````swift
-let time = someDate.timeIntervalSince1970
+let time = Date(timeIntervalSince1970: ...)
 do {
-    let passwordAtTime = try token.generator.passwordAtTime(time)
+    let passwordAtTime = try token.generator.password(at: time)
     print("Password at time: \(passwordAtTime)")
 } catch {
     print("Cannot generate password for invalid time \(time)")
@@ -137,7 +137,7 @@ To save a token to the keychain:
 
 ````swift
 do {
-    let persistentToken = try keychain.addToken(token)
+    let persistentToken = try keychain.add(token)
     print("Saved to keychain with identifier: \(persistentToken.identifier)")
 } catch {
     print("Keychain error: \(error)")
@@ -148,10 +148,12 @@ To retrieve a token from the keychain:
 
 ````swift
 do {
-    let persistentToken = try keychain.persistentTokenWithIdentifier(identifier)
-    print("Retrieved token: \(persistentToken.token)")
+    if let persistentToken = try keychain.persistentToken(withIdentifier: identifier) {
+        print("Retrieved token: \(persistentToken.token)")
+    }
     // Or...
     let persistentTokens = try keychain.allPersistentTokens()
+    print("All tokens: \(persistentTokens)")
 } catch {
     print("Keychain error: \(error)")
 }
@@ -161,8 +163,7 @@ To update a saved token in the keychain:
 
 ````swift
 do {
-    let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
-        withToken: token)
+    let updatedPersistentToken = try keychain.update(persistentToken, with: token)
     print("Updated token: \(updatedPersistentToken)")
 } catch {
     print("Keychain error: \(error)")
@@ -173,7 +174,7 @@ To delete a token from the keychain:
 
 ````swift
 do {
-    try keychain.deletePersistentToken(persistentToken)
+    try keychain.delete(persistentToken)
     print("Deleted token.")
 } catch {
     print("Keychain error: \(error)")
