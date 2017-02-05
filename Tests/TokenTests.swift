@@ -37,7 +37,7 @@ class TokenTests: XCTestCase {
         guard let generator = Generator(
             factor: .counter(111),
             secret: secretData,
-            algorithm: .SHA1,
+            algorithm: .sha1,
             digits: 6
         ) else {
             XCTFail()
@@ -60,7 +60,7 @@ class TokenTests: XCTestCase {
         guard let other_generator = Generator(
             factor: .timer(period: 123),
             secret: otherSecretData,
-            algorithm: .SHA512,
+            algorithm: .sha512,
             digits: 8
         ) else {
             XCTFail()
@@ -87,7 +87,7 @@ class TokenTests: XCTestCase {
         guard let generator = Generator(
             factor: .counter(0),
             secret: Data(),
-            algorithm: .SHA1,
+            algorithm: .sha1,
             digits: 6
         ) else {
             XCTFail()
@@ -113,7 +113,7 @@ class TokenTests: XCTestCase {
         guard let timerGenerator = Generator(
             factor: .timer(period: 30),
             secret: secretData,
-            algorithm: .SHA1,
+            algorithm: .sha1,
             digits: 6
         ) else {
             XCTFail()
@@ -135,7 +135,7 @@ class TokenTests: XCTestCase {
         guard let counterGenerator = Generator(
             factor: .counter(12345),
             secret: otherSecretData,
-            algorithm: .SHA1,
+            algorithm: .sha1,
             digits: 6
         ) else {
             XCTFail()
@@ -159,7 +159,7 @@ class TokenTests: XCTestCase {
         guard let timerGenerator = Generator(
             factor: .timer(period: 30),
             secret: secretData,
-            algorithm: .SHA1,
+            algorithm: .sha1,
             digits: 6
         ) else {
             XCTFail()
@@ -174,7 +174,7 @@ class TokenTests: XCTestCase {
         guard let counterGenerator = Generator(
             factor: .counter(count),
             secret: otherSecretData,
-            algorithm: .SHA1,
+            algorithm: .sha1,
             digits: 6
         ) else {
             XCTFail()

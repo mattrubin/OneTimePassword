@@ -31,7 +31,7 @@ class GeneratorTests: XCTestCase {
         // Create a generator
         let factor = OneTimePassword.Generator.Factor.counter(111)
         let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
-        let algorithm = Generator.Algorithm.SHA256
+        let algorithm = Generator.Algorithm.sha256
         let digits = 8
 
         let generator = Generator(
@@ -49,7 +49,7 @@ class GeneratorTests: XCTestCase {
         // Create another generator
         let other_factor = OneTimePassword.Generator.Factor.timer(period: 123)
         let other_secret = "09876543210987654321".data(using: String.Encoding.ascii)!
-        let other_algorithm = Generator.Algorithm.SHA512
+        let other_algorithm = Generator.Algorithm.sha512
         let other_digits = 7
 
         let other_generator = Generator(
@@ -84,9 +84,9 @@ class GeneratorTests: XCTestCase {
             let timer = Generator.Factor.timer(period: period)
             let counter = Generator.Factor.counter(count)
             let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
-            let hotp = Generator(factor: counter, secret: secret, algorithm: .SHA1, digits: 6)
+            let hotp = Generator(factor: counter, secret: secret, algorithm: .sha1, digits: 6)
                 .flatMap { try? $0.password(at: time) }
-            let totp = Generator(factor: timer, secret: secret, algorithm: .SHA1, digits: 6)
+            let totp = Generator(factor: timer, secret: secret, algorithm: .sha1, digits: 6)
                 .flatMap { try? $0.password(at: time) }
             XCTAssertEqual(hotp, totp,
                 "TOTP with \(timer) should match HOTP with counter \(counter) at time \(time).")
@@ -119,7 +119,7 @@ class GeneratorTests: XCTestCase {
             let generator = Generator(
                 factor: .counter(0),
                 secret: Data(),
-                algorithm: .SHA1,
+                algorithm: .sha1,
                 digits: digits
             )
             // If the digits are invalid, password generation should throw an error
@@ -134,7 +134,7 @@ class GeneratorTests: XCTestCase {
                 let generator = Generator(
                     factor: .timer(period: period),
                     secret: Data(),
-                    algorithm: .SHA1,
+                    algorithm: .sha1,
                     digits: digits
                 )
                 // If the digits or period are invalid, password generation should throw an error
@@ -152,7 +152,7 @@ class GeneratorTests: XCTestCase {
         guard let generator = Generator(
             factor: .timer(period: 30),
             secret: Data(),
-            algorithm: .SHA1,
+            algorithm: .sha1,
             digits: 6
             ) else {
                 XCTFail("Failed to initialize a Generator.")
@@ -221,7 +221,7 @@ class GeneratorTests: XCTestCase {
             9: "520489",
         ]
         for (counter, expectedPassword) in expectedValues {
-            let generator = Generator(factor: .counter(counter), secret: secret, algorithm: .SHA1, digits: 6)
+            let generator = Generator(factor: .counter(counter), secret: secret, algorithm: .sha1, digits: 6)
             let password = generator.flatMap { try? $0.password(at: 0) }
             XCTAssertEqual(password, expectedPassword,
                 "The generator did not produce the expected OTP.")
@@ -232,17 +232,17 @@ class GeneratorTests: XCTestCase {
     // https://tools.ietf.org/html/rfc6238#appendix-B
     func testTOTPRFCValues() {
         let secretKeys: [Generator.Algorithm: String] = [
-            .SHA1:   "12345678901234567890",
-            .SHA256: "12345678901234567890123456789012",
-            .SHA512: "1234567890123456789012345678901234567890123456789012345678901234",
+            .sha1:   "12345678901234567890",
+            .sha256: "12345678901234567890123456789012",
+            .sha512: "1234567890123456789012345678901234567890123456789012345678901234",
         ]
 
         let times: [TimeInterval] = [59, 1111111109, 1111111111, 1234567890, 2000000000, 20000000000]
 
         let expectedValues: [Generator.Algorithm: [String]] = [
-            .SHA1:   ["94287082", "07081804", "14050471", "89005924", "69279037", "65353130"],
-            .SHA256: ["46119246", "68084774", "67062674", "91819424", "90698825", "77737706"],
-            .SHA512: ["90693936", "25091201", "99943326", "93441116", "38618901", "47863826"],
+            .sha1:   ["94287082", "07081804", "14050471", "89005924", "69279037", "65353130"],
+            .sha256: ["46119246", "68084774", "67062674", "91819424", "90698825", "77737706"],
+            .sha512: ["90693936", "25091201", "99943326", "93441116", "38618901", "47863826"],
         ]
 
         for (algorithm, secretKey) in secretKeys {
@@ -265,9 +265,9 @@ class GeneratorTests: XCTestCase {
         let times: [TimeInterval] = [1111111111, 1234567890, 2000000000]
 
         let expectedValues: [Generator.Algorithm: [String]] = [
-            .SHA1:   ["050471", "005924", "279037"],
-            .SHA256: ["584430", "829826", "428693"],
-            .SHA512: ["380122", "671578", "464532"],
+            .sha1:   ["050471", "005924", "279037"],
+            .sha256: ["584430", "829826", "428693"],
+            .sha512: ["380122", "671578", "464532"],
         ]
 
         for (algorithm, expectedPasswords) in expectedValues {
@@ -285,7 +285,7 @@ class GeneratorTests: XCTestCase {
 private extension Generator {
     init(unvalidatedFactor factor: Factor = .timer(period: 30),
          unvalidatedSecret secret: Data = Data(),
-         unvalidatedAlgorithm algorithm: Algorithm = .SHA1,
+         unvalidatedAlgorithm algorithm: Algorithm = .sha1,
          unvalidatedDigits digits: Int = 8) {
         self.factor = factor
         self.secret = secret
