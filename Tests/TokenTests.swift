@@ -122,10 +122,10 @@ class TokenTests: XCTestCase {
         let timerToken = Token(generator: timerGenerator)
 
         do {
-            let password = try timerToken.generator.password(at: Date().timeIntervalSince1970)
+            let password = try timerToken.generator.password(at: Date())
             XCTAssertEqual(timerToken.currentPassword, password)
 
-            let oldPassword = try timerToken.generator.password(at: 0)
+            let oldPassword = try timerToken.generator.password(at: Date(timeIntervalSince1970: 0))
             XCTAssertNotEqual(timerToken.currentPassword, oldPassword)
         } catch {
             XCTFail()
@@ -144,10 +144,10 @@ class TokenTests: XCTestCase {
         let counterToken = Token(generator: counterGenerator)
 
         do {
-            let password = try counterToken.generator.password(at: Date().timeIntervalSince1970)
+            let password = try counterToken.generator.password(at: Date())
             XCTAssertEqual(counterToken.currentPassword, password)
 
-            let oldPassword = try counterToken.generator.password(at: 0)
+            let oldPassword = try counterToken.generator.password(at: Date(timeIntervalSince1970: 0))
             XCTAssertEqual(counterToken.currentPassword, oldPassword)
         } catch {
             XCTFail()

@@ -80,7 +80,8 @@ class GeneratorTests: XCTestCase {
             (10000000000, 90, 111111111),
         ]
 
-        for (time, period, count) in factors {
+        for (timeSinceEpoch, period, count) in factors {
+            let time = Date(timeIntervalSince1970: timeSinceEpoch)
             let timer = Generator.Factor.timer(period: period)
             let counter = Generator.Factor.counter(count)
             let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
@@ -159,7 +160,7 @@ class GeneratorTests: XCTestCase {
                 return
         }
 
-        let badTime: TimeInterval = -100
+        let badTime = Date(timeIntervalSince1970: -100)
         do {
             _ = try generator.password(at: badTime)
         } catch Generator.Error.invalidTime {
@@ -174,7 +175,7 @@ class GeneratorTests: XCTestCase {
 
     func testPasswordWithInvalidPeriod() {
         let generator = Generator(unvalidatedFactor: .timer(period: 0))
-        let time: TimeInterval = 100
+        let time = Date(timeIntervalSince1970: 100)
 
         do {
             _ = try generator.password(at: time)
@@ -190,7 +191,7 @@ class GeneratorTests: XCTestCase {
 
     func testPasswordWithInvalidDigits() {
         let generator = Generator(unvalidatedDigits: 3)
-        let time: TimeInterval = 100
+        let time = Date(timeIntervalSince1970: 100)
 
         do {
             _ = try generator.password(at: time)
@@ -222,7 +223,8 @@ class GeneratorTests: XCTestCase {
         ]
         for (counter, expectedPassword) in expectedValues {
             let generator = Generator(factor: .counter(counter), secret: secret, algorithm: .sha1, digits: 6)
-            let password = generator.flatMap { try? $0.password(at: 0) }
+            let time = Date(timeIntervalSince1970: 0)
+            let password = generator.flatMap { try? $0.password(at: time) }
             XCTAssertEqual(password, expectedPassword,
                 "The generator did not produce the expected OTP.")
         }
@@ -251,7 +253,8 @@ class GeneratorTests: XCTestCase {
 
             for i in 0..<times.count {
                 let expectedPassword = expectedValues[algorithm]?[i]
-                let password = generator.flatMap { try? $0.password(at: times[i]) }
+                let time = Date(timeIntervalSince1970: times[i])
+                let password = generator.flatMap { try? $0.password(at: time) }
                 XCTAssertEqual(password, expectedPassword,
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
@@ -274,7 +277,8 @@ class GeneratorTests: XCTestCase {
             let generator = Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
             for i in 0..<times.count {
                 let expectedPassword = expectedPasswords[i]
-                let password = generator.flatMap { try? $0.password(at: times[i]) }
+                let time = Date(timeIntervalSince1970: times[i])
+                let password = generator.flatMap { try? $0.password(at: time) }
                 XCTAssertEqual(password, expectedPassword,
                     "Incorrect result for \(algorithm) at \(times[i])")
             }
