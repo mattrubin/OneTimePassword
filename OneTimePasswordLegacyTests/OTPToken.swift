@@ -43,7 +43,7 @@ public final class OTPToken: NSObject {
 
     private static let defaultName: String = ""
     private static let defaultIssuer: String = ""
-    private static let defaultAlgorithm: OTPAlgorithm = .SHA1
+    private static let defaultAlgorithm: OTPAlgorithm = .sha1
     private static var defaultDigits: UInt = 6
     private static var defaultInitialCounter: UInt64 = 0
     private static var defaultPeriod: TimeInterval = 30
@@ -108,9 +108,9 @@ public enum OTPTokenType: UInt8 {
 
 @objc
 public enum OTPAlgorithm: UInt32 {
-    case SHA1
-    case SHA256
-    case SHA512
+    @objc(OTPAlgorithmSHA1)   case sha1
+    @objc(OTPAlgorithmSHA256) case sha256
+    @objc(OTPAlgorithmSHA512) case sha512
 }
 
 // MARK: Conversion
@@ -118,12 +118,12 @@ public enum OTPAlgorithm: UInt32 {
 private extension OTPAlgorithm {
     init(_ generatorAlgorithm: Generator.Algorithm) {
         switch generatorAlgorithm {
-        case .SHA1:
-            self = .SHA1
-        case .SHA256:
-            self = .SHA256
-        case .SHA512:
-            self = .SHA512
+        case .sha1:
+            self = .sha1
+        case .sha256:
+            self = .sha256
+        case .sha512:
+            self = .sha512
         }
     }
 }
@@ -151,11 +151,11 @@ private func factorForOTPToken(_ otpToken: OTPToken) -> Generator.Factor {
 
 private func algorithmForOTPAlgorithm(_ algorithm: OTPAlgorithm) -> Generator.Algorithm {
     switch algorithm {
-    case .SHA1:
-        return .SHA1
-    case .SHA256:
-        return .SHA256
-    case .SHA512:
-        return .SHA512
+    case .sha1:
+        return .sha1
+    case .sha256:
+        return .sha256
+    case .sha512:
+        return .sha512
     }
 }

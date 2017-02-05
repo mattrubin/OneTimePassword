@@ -47,7 +47,7 @@ class TokenSerializationTests: XCTestCase {
         "1234567890123456789012345678901234567890123456789012345678901234",
         "",
     ]
-    let algorithms: [OneTimePassword.Generator.Algorithm] = [.SHA1, .SHA256, .SHA512]
+    let algorithms: [OneTimePassword.Generator.Algorithm] = [.sha1, .sha256, .sha512]
     let digits = [6, 7, 8]
 
     func testSerialization() {
@@ -112,11 +112,11 @@ class TokenSerializationTests: XCTestCase {
                                 // Test algorithm
                                 let algorithmString: String = {
                                     switch $0 {
-                                    case .SHA1:
+                                    case .sha1:
                                         return "SHA1"
-                                    case .SHA256:
+                                    case .sha256:
                                         return "SHA256"
-                                    case .SHA512:
+                                    case .sha512:
                                         return "SHA512"
                                     }}(algorithm)
                                 XCTAssertEqual(queryArguments["algorithm"]!, algorithmString,
