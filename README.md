@@ -154,7 +154,7 @@ do {
     }
     // Or...
     let persistentTokens = try keychain.allPersistentTokens()
-    print("All tokens: \(persistentTokens)")
+    print("All tokens: \(persistentTokens.map({ $0.token }))")
 } catch {
     print("Keychain error: \(error)")
 }
