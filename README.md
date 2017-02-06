@@ -6,7 +6,7 @@
 [![CocoaPods](https://img.shields.io/cocoapods/v/OneTimePassword.svg)](https://cocoapods.org/pods/OneTimePassword)
 [![Carthage Compatible](https://img.shields.io/badge/carthage-%E2%9C%93-5BA7E9.svg)](https://github.com/Carthage/Carthage/)
 ![Platform](https://img.shields.io/cocoapods/p/OneTimePassword.svg)
-[![MIT License](https://img.shields.io/cocoapods/l/OneTimePassword.svg)](https://github.com/mattrubin/OneTimePassword/blob/develop/LICENSE.md)
+[![MIT License](https://img.shields.io/cocoapods/l/OneTimePassword.svg)](./LICENSE.md)
 
 The OneTimePassword library is the core of [Authenticator][]. It can generate both [time-based][RFC 6238] and [counter-based][RFC 4226] one-time passwords as standardized in [RFC 4226][] and [RFC 6238][]. It can also read and generate the ["otpauth://" URLs][otpauth] commonly used to set up OTP tokens, and can save and load tokens to and from the iOS secure keychain.
 
@@ -63,8 +63,8 @@ Then run `pod install` to install the latest version of the framework.
 
 The [`Generator`][Generator] struct contains the parameters necessary to generate a one-time password. The [`Token`][Token] struct associates a `generator` with a `name` and an `issuer` string.
 
-[Generator]: https://github.com/mattrubin/OneTimePassword/blob/develop/Sources/Generator.swift
-[Token]: https://github.com/mattrubin/OneTimePassword/blob/develop/Sources/Token.swift
+[Generator]: ./Sources/Generator.swift
+[Token]: ./Sources/Token.swift
 
 To initialize a token with an `otpauth://` url:
 
@@ -132,8 +132,8 @@ let keychain = Keychain.sharedInstance
 
 The [`PersistentToken`][PersistentToken] struct represents a `Token` that has been saved to the keychain, and associates a `token` with a keychain-provided data `identifier`.
 
-[Keychain]: https://github.com/mattrubin/OneTimePassword/blob/develop/Sources/Keychain.swift
-[PersistentToken]: https://github.com/mattrubin/OneTimePassword/blob/develop/Sources/PersistentToken.swift
+[Keychain]: ./Sources/Keychain.swift
+[PersistentToken]: ./Sources/PersistentToken.swift
 
 To save a token to the keychain:
 
