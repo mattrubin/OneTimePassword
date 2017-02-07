@@ -1,6 +1,6 @@
 # OneTimePassword Changelog
 
-<!--## [In development][master]-->
+<!--## [In development][develop]-->
 
 ## [3.0][]
 - Convert to Swift 3 and update the library API to follow the Swift [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
@@ -115,7 +115,7 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[master]: https://github.com/mattrubin/OneTimePassword/compare/2.1.1...master
+[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.0...develop
 
 [3.0]: https://github.com/mattrubin/OneTimePassword/compare/2.1.1...3.0
 [2.1.1]: https://github.com/mattrubin/OneTimePassword/compare/2.1...2.1.1
