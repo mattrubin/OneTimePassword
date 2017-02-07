@@ -2,7 +2,7 @@
 //  Token.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2016 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2017 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -66,14 +66,13 @@ public struct Token: Equatable {
     ///
     /// - returns: The current password, or `nil` if a password could not be generated.
     public var currentPassword: String? {
-        let currentTime = NSDate().timeIntervalSince1970
-        return try? generator.passwordAtTime(currentTime)
+        let currentTime = Date()
+        return try? generator.password(at: currentTime)
     }
 
     // MARK: Update
 
     /// - returns: A new `Token`, configured to generate the next password.
-    @warn_unused_result
     public func updatedToken() -> Token {
         return Token(name: name, issuer: issuer, generator: generator.successor())
     }

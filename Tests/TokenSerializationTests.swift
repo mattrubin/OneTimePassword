@@ -2,7 +2,7 @@
 //  TokenSerializationTests.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2015 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2017 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -32,12 +32,12 @@ class TokenSerializationTests: XCTestCase {
     let kOTPTokenTypeTimerHost   = "totp"
 
     let factors: [OneTimePassword.Generator.Factor] = [
-        .Counter(0),
-        .Counter(1),
-        .Counter(UInt64.max),
-        .Timer(period: 1),
-        .Timer(period: 30),
-        .Timer(period: 300),
+        .counter(0),
+        .counter(1),
+        .counter(UInt64.max),
+        .timer(period: 1),
+        .timer(period: 30),
+        .timer(period: 300),
     ]
     let names = ["", "Login", "user_123@website.com", "Léon", ":/?#[]@!$&'()*+,;=%\""]
     let issuers = ["", "Big Cörpøráçìôn", ":/?#[]@!$&'()*+,;=%\""]
@@ -47,7 +47,7 @@ class TokenSerializationTests: XCTestCase {
         "1234567890123456789012345678901234567890123456789012345678901234",
         "",
     ]
-    let algorithms: [OneTimePassword.Generator.Algorithm] = [.SHA1, .SHA256, .SHA512]
+    let algorithms: [OneTimePassword.Generator.Algorithm] = [.sha1, .sha256, .sha512]
     let digits = [6, 7, 8]
 
     func testSerialization() {
@@ -60,7 +60,7 @@ class TokenSerializationTests: XCTestCase {
                                 // Create the token
                                 guard let generator = Generator(
                                     factor: factor,
-                                    secret: secretString.dataUsingEncoding(NSASCIIStringEncoding)!,
+                                    secret: secretString.data(using: String.Encoding.ascii)!,
                                     algorithm: algorithm,
                                     digits: digitNumber
                                 ) else {
@@ -85,59 +85,71 @@ class TokenSerializationTests: XCTestCase {
                                 // Test Factor
                                 var expectedHost: String
                                 switch factor {
-                                case .Counter:
+                                case .counter:
                                     expectedHost = kOTPTokenTypeCounterHost
-                                case .Timer:
+                                case .timer:
                                     expectedHost = kOTPTokenTypeTimerHost
                                 }
                                 XCTAssertEqual(url.host!, expectedHost, "The url host should be \"\(expectedHost)\"")
                                 // Test name
-                                XCTAssertEqual(url.path!.substringFromIndex(url.path!.startIndex.successor()), name, "The url path should be \"\(name)\"")
+                                let path = url.path
+                                XCTAssertEqual(path.substring(from: path.index(after: path.startIndex)), name,
+                                               "The url path should be \"\(name)\"")
 
-                                let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false)
+                                let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
                                 let items = urlComponents?.queryItems
                                 let expectedItemCount = 4
-                                XCTAssertEqual(items?.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
+                                XCTAssertEqual(items?.count, expectedItemCount,
+                                               "There shouldn't be any unexpected query arguments: \(url)")
 
                                 var queryArguments = Dictionary<String, String>()
                                 for item in items ?? [] {
                                     queryArguments[item.name] = item.value
                                 }
-                                XCTAssertEqual(queryArguments.count, expectedItemCount, "There shouldn't be any unexpected query arguments: \(url)")
+                                XCTAssertEqual(queryArguments.count, expectedItemCount,
+                                               "There shouldn't be any unexpected query arguments: \(url)")
 
                                 // Test algorithm
                                 let algorithmString: String = {
                                     switch $0 {
-                                    case .SHA1:
+                                    case .sha1:
                                         return "SHA1"
-                                    case .SHA256:
+                                    case .sha256:
                                         return "SHA256"
-                                    case .SHA512:
+                                    case .sha512:
                                         return "SHA512"
                                     }}(algorithm)
-                                XCTAssertEqual(queryArguments["algorithm"]!, algorithmString, "The algorithm value should be \"\(algorithmString)\"")
+                                XCTAssertEqual(queryArguments["algorithm"]!, algorithmString,
+                                               "The algorithm value should be \"\(algorithmString)\"")
                                 // Test digits
-                                XCTAssertEqual(queryArguments["digits"]!, String(digitNumber), "The digits value should be \"\(digitNumber)\"")
+                                XCTAssertEqual(queryArguments["digits"]!, String(digitNumber),
+                                               "The digits value should be \"\(digitNumber)\"")
                                 // Test secret
-                                XCTAssertNil(queryArguments["secret"], "The url query string should not contain the secret")
+                                XCTAssertNil(queryArguments["secret"],
+                                             "The url query string should not contain the secret")
 
                                 // Test period
                                 switch factor {
-                                case .Timer(let period):
-                                    XCTAssertEqual(queryArguments["period"]!, String(Int(period)), "The period value should be \"\(period)\"")
+                                case .timer(let period):
+                                    XCTAssertEqual(queryArguments["period"]!, String(Int(period)),
+                                                   "The period value should be \"\(period)\"")
                                 default:
-                                    XCTAssertNil(queryArguments["period"], "The url query string should not contain the period")
+                                    XCTAssertNil(queryArguments["period"],
+                                                 "The url query string should not contain the period")
                                 }
                                 // Test counter
                                 switch factor {
-                                case .Counter(let counter):
-                                    XCTAssertEqual(queryArguments["counter"]!, String(counter), "The counter value should be \"\(counter)\"")
+                                case .counter(let counter):
+                                    XCTAssertEqual(queryArguments["counter"]!, String(counter),
+                                                   "The counter value should be \"\(counter)\"")
                                 default:
-                                    XCTAssertNil(queryArguments["counter"], "The url query string should not contain the counter")
+                                    XCTAssertNil(queryArguments["counter"],
+                                                 "The url query string should not contain the counter")
                                 }
 
                                 // Test issuer
-                                XCTAssertEqual(queryArguments["issuer"]!, issuer, "The issuer value should be \"\(issuer)\"")
+                                XCTAssertEqual(queryArguments["issuer"]!, issuer,
+                                               "The issuer value should be \"\(issuer)\"")
 
                                 // Check url again
                                 guard let checkURL = try? token.toURL() else {

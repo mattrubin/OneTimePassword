@@ -2,7 +2,7 @@
 //  OTPTokenTests.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2015 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2015-2017 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -31,9 +31,9 @@ class OTPTokenTests: XCTestCase {
 
         XCTAssertEqual(token.name, "")
         XCTAssertEqual(token.issuer, "")
-        XCTAssertEqual(token.type, OTPTokenType.Timer)
-        XCTAssertEqual(token.secret, NSData())
-        XCTAssertEqual(token.algorithm, OTPAlgorithm.SHA1)
+        XCTAssertEqual(token.type, OTPTokenType.timer)
+        XCTAssertEqual(token.secret, Data())
+        XCTAssertEqual(token.algorithm, OTPAlgorithm.sha1)
         XCTAssertEqual(token.digits, 6)
         XCTAssertEqual(token.period, 30)
         XCTAssertEqual(token.counter, 0)

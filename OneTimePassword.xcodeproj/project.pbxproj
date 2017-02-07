@@ -731,7 +731,7 @@
 			baseConfigurationReference = C996EC2C1A74D5830076B105 /* Debug.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -741,7 +741,7 @@
 			baseConfigurationReference = C996EC2E1A74D5830076B105 /* Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
