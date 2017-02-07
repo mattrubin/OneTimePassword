@@ -2,6 +2,22 @@
 
 <!--## [In development][master]-->
 
+## [3.0][]
+- Convert to Swift 3 and update the library API to follow the Swift [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
+([#74](https://github.com/mattrubin/OneTimePassword/pull/74),
+[#78](https://github.com/mattrubin/OneTimePassword/pull/78),
+[#80](https://github.com/mattrubin/OneTimePassword/pull/80),
+[#91](https://github.com/mattrubin/OneTimePassword/pull/91),
+[#100](https://github.com/mattrubin/OneTimePassword/pull/100),
+[#111](https://github.com/mattrubin/OneTimePassword/pull/111),
+[#113](https://github.com/mattrubin/OneTimePassword/pull/113),
+[#122](https://github.com/mattrubin/OneTimePassword/pull/122),
+[#123](https://github.com/mattrubin/OneTimePassword/pull/123),
+[#124](https://github.com/mattrubin/OneTimePassword/pull/124),
+[#125](https://github.com/mattrubin/OneTimePassword/pull/125))
+- Update the SwiftLint configuration ([#120](https://github.com/mattrubin/OneTimePassword/pull/120))
+ 
+
 ## [2.1.1][] (2016-12-28)
 - Configure Travis to build and test with Xcode 8.2. ([#115](https://github.com/mattrubin/OneTimePassword/pull/115))
 - Add a test host app to enable keychain tests on iOS 10. ([#116](https://github.com/mattrubin/OneTimePassword/pull/116))
@@ -101,6 +117,7 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 [master]: https://github.com/mattrubin/OneTimePassword/compare/2.1.1...master
 
+[3.0]: https://github.com/mattrubin/OneTimePassword/compare/2.1.1...3.0
 [2.1.1]: https://github.com/mattrubin/OneTimePassword/compare/2.1...2.1.1
 [2.1]: https://github.com/mattrubin/OneTimePassword/compare/2.0.1...2.1
 [2.0.1]: https://github.com/mattrubin/OneTimePassword/compare/2.0.0...2.0.1
