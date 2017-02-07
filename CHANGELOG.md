@@ -2,7 +2,7 @@
 
 <!--## [In development][develop]-->
 
-## [3.0][]
+## [3.0][] (2017-02-07)
 - Convert to Swift 3 and update the library API to follow the Swift [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
 ([#74](https://github.com/mattrubin/OneTimePassword/pull/74),
 [#78](https://github.com/mattrubin/OneTimePassword/pull/78),
