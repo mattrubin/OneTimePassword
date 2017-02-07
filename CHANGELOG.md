@@ -13,8 +13,8 @@
 [#113](https://github.com/mattrubin/OneTimePassword/pull/113),
 [#122](https://github.com/mattrubin/OneTimePassword/pull/122),
 [#123](https://github.com/mattrubin/OneTimePassword/pull/123),
-[#124](https://github.com/mattrubin/OneTimePassword/pull/124),
 [#125](https://github.com/mattrubin/OneTimePassword/pull/125))
+- Convert `password(at:)` to take a `Date` instead of a `TimeInterval` ([#124](https://github.com/mattrubin/OneTimePassword/pull/124))
 - Update the SwiftLint configuration ([#120](https://github.com/mattrubin/OneTimePassword/pull/120))
  
 
