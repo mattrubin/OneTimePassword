@@ -47,4 +47,4 @@ carthage update --no-build --use-submodules
 ```
 
 [Carthage]: https://github.com/Carthage/Carthage
-[Cartfile]: https://github.com/mattrubin/OneTimePassword/blob/master/Cartfile
+[Cartfile]: https://github.com/mattrubin/OneTimePassword/blob/develop/Cartfile
