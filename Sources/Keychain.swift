@@ -111,9 +111,7 @@ private let urlStringEncoding = String.Encoding.utf8
 private extension Token {
     func keychainAttributes() throws -> [String: AnyObject] {
         let url = try self.toURL()
-        // This line supports the different optionality of `absoluteString` between Xcode 7 and 8
-        let urlString: String? = url.absoluteString
-        guard let data = urlString?.data(using: urlStringEncoding) else {
+        guard let data = url.absoluteString.data(using: urlStringEncoding) else {
             throw Keychain.Error.tokenSerializationFailure
         }
         return [
