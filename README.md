@@ -78,12 +78,14 @@ if let token = Token(url: url) {
 
 To create a generator and a token from user input:
 
+> This example assumes the user provides the secret as a Bas32-encoded string. To use the decoding function seen below, add `import Base32` to the top of your Swift file.
+
 ````swift
 let name = "..."
 let issuer = "..."
 let secretString = "..."
 
-guard let secretData = Data(base32String: secretString),
+guard let secretData = MF_Base32Codec.data(fromBase32String: secretString),
     !secretData.isEmpty else {
         print("Invalid secret")
         return nil
