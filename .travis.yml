@@ -36,7 +36,7 @@ before_script:
   - RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
   - DESTINATION_ID=$(xcrun simctl create Travis $DEVICE_ID $RUNTIME_ID)
   - xcrun simctl boot $DESTINATION_ID
-  - if [[ $BUILD_ONLY == YES ]]; then ACTIONS="build"; else ACTIONS="build test"; fi
+  - if [[ $BUILD_ONLY == YES ]]; then ACTIONS="build"; else ACTIONS="build-for-testing test-without-building"; fi
   - echo "xcodebuild -workspace \"$TRAVIS_XCODE_WORKSPACE\" -scheme \"$TRAVIS_XCODE_SCHEME\" -destination \"id=$DESTINATION_ID\" $ACTIONS"
 
 script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" $ACTIONS | xcpretty -c
