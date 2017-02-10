@@ -40,14 +40,14 @@ public final class Keychain {
     /// - throws: A `Keychain.Error` if an error occurred.
     /// - returns: The persistent token, or `nil` if no token matched the given identifier.
     public func persistentToken(withIdentifier identifier: Data) throws -> PersistentToken? {
-        return try keychainItem(forPersistentRef: identifier).flatMap(PersistentToken.init)
+        return try keychainItem(forPersistentRef: identifier).flatMap(PersistentToken.init(keychainDictionary:))
     }
 
     /// Returns the set of all persistent tokens found in the keychain.
     ///
     /// - throws: A `Keychain.Error` if an error occurred.
     public func allPersistentTokens() throws -> Set<PersistentToken> {
-        return Set(try allKeychainItems().flatMap(PersistentToken.init))
+        return Set(try allKeychainItems().flatMap(PersistentToken.init(keychainDictionary:)))
     }
 
     // MARK: Write
@@ -111,9 +111,7 @@ private let urlStringEncoding = String.Encoding.utf8
 private extension Token {
     func keychainAttributes() throws -> [String: AnyObject] {
         let url = try self.toURL()
-        // This line supports the different optionality of `absoluteString` between Xcode 7 and 8
-        let urlString: String? = url.absoluteString
-        guard let data = urlString?.data(using: urlStringEncoding) else {
+        guard let data = url.absoluteString.data(using: urlStringEncoding) else {
             throw Keychain.Error.tokenSerializationFailure
         }
         return [
