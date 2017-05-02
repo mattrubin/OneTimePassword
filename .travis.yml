@@ -5,8 +5,7 @@ language: objective-c
 xcode_workspace: OneTimePassword.xcworkspace
 xcode_scheme: OneTimePassword
 
-osx_image: xcode7.1
-xcode_sdk: iphonesimulator9.1
+osx_image: xcode8.3
 
 env:
   - DESTINATION="OS=8.1,name=iPhone 4S"
@@ -15,7 +14,11 @@ env:
   - DESTINATION="OS=8.4,name=iPhone 6"
   - DESTINATION="OS=9.0,name=iPhone 6 Plus"
   - DESTINATION="OS=9.1,name=iPhone 6S"
+  - DESTINATION="OS=9.2,name=iPhone 6S Plus"
+  - DESTINATION="OS=9.3,name=iPad 2"
+  - DESTINATION="OS=10.0,name=iPad Pro (12.9-inch)"
+  - DESTINATION="OS=10.1,name=iPhone SE"
+  - DESTINATION="OS=10.2,name=iPhone 7"
+  - DESTINATION="OS=10.3,name=iPhone 7 Plus"
 
-# A custom test script is required because xctool cannot access the iOS keychain
-# https://github.com/facebook/xctool/issues/269
-script: set -o pipefail && xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK -destination "$DESTINATION" build test | xcpretty -c
+script: set -o pipefail && xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -destination "$DESTINATION" build test | xcpretty -c
