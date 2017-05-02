@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B6C6D5560BC6437A8E4F8580 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 560131D4F5D140EA8458D149 /* libPods.a */; };
+		B6C6D5560BC6437A8E4F8580 /* libPods-OneTimePassword.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 560131D4F5D140EA8458D149 /* libPods-OneTimePassword.a */; };
 		C93A24FE196AF8E900F86892 /* OTPAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C93A24FF196AF8E900F86892 /* OTPAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A24F3196AF8E900F86892 /* OTPAlgorithm.m */; };
 		C93A2500196AF8E900F86892 /* OTPToken+Generation.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24F4196AF8E900F86892 /* OTPToken+Generation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -41,9 +41,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4A7643FD57ED1F34ED96D4DB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		560131D4F5D140EA8458D149 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		9B0E42750F64443678FAFD9B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		4A7643FD57ED1F34ED96D4DB /* Pods-OneTimePassword.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneTimePassword.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneTimePassword/Pods-OneTimePassword.release.xcconfig"; sourceTree = "<group>"; };
+		560131D4F5D140EA8458D149 /* libPods-OneTimePassword.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneTimePassword.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B0E42750F64443678FAFD9B /* Pods-OneTimePassword.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneTimePassword.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneTimePassword/Pods-OneTimePassword.debug.xcconfig"; sourceTree = "<group>"; };
 		C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAlgorithm.h; sourceTree = "<group>"; };
 		C93A24F3196AF8E900F86892 /* OTPAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAlgorithm.m; sourceTree = "<group>"; };
 		C93A24F4196AF8E900F86892 /* OTPToken+Generation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OTPToken+Generation.h"; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6C6D5560BC6437A8E4F8580 /* libPods.a in Frameworks */,
+				B6C6D5560BC6437A8E4F8580 /* libPods-OneTimePassword.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,7 +94,7 @@
 		746E7166AD60449882DD84C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				560131D4F5D140EA8458D149 /* libPods.a */,
+				560131D4F5D140EA8458D149 /* libPods-OneTimePassword.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -177,8 +177,8 @@
 		D51C4BB102CF877149530BC7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9B0E42750F64443678FAFD9B /* Pods.debug.xcconfig */,
-				4A7643FD57ED1F34ED96D4DB /* Pods.release.xcconfig */,
+				9B0E42750F64443678FAFD9B /* Pods-OneTimePassword.debug.xcconfig */,
+				4A7643FD57ED1F34ED96D4DB /* Pods-OneTimePassword.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -207,12 +207,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword" */;
 			buildPhases = (
-				D546BD042EBE4EDF9F8F7C62 /* Check Pods Manifest.lock */,
+				D546BD042EBE4EDF9F8F7C62 /* [CP] Check Pods Manifest.lock */,
 				C97C82331946E51D00FD9F4C /* Sources */,
 				C97C82341946E51D00FD9F4C /* Frameworks */,
 				C97C82351946E51D00FD9F4C /* Headers */,
 				C97C82361946E51D00FD9F4C /* Resources */,
-				4601C67B1F6043A68DEEBDF9 /* Copy Pods Resources */,
+				4601C67B1F6043A68DEEBDF9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -296,34 +296,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4601C67B1F6043A68DEEBDF9 /* Copy Pods Resources */ = {
+		4601C67B1F6043A68DEEBDF9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OneTimePassword/Pods-OneTimePassword-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D546BD042EBE4EDF9F8F7C62 /* Check Pods Manifest.lock */ = {
+		D546BD042EBE4EDF9F8F7C62 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -453,7 +453,7 @@
 		};
 		C97C824F1946E51D00FD9F4C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B0E42750F64443678FAFD9B /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 9B0E42750F64443678FAFD9B /* Pods-OneTimePassword.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -469,7 +469,7 @@
 		};
 		C97C82501946E51D00FD9F4C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A7643FD57ED1F34ED96D4DB /* Pods.release.xcconfig */;
+			baseConfigurationReference = 4A7643FD57ED1F34ED96D4DB /* Pods-OneTimePassword.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
