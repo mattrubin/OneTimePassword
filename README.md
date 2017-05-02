@@ -17,7 +17,7 @@ The [OneTimePassword](https://github.com/mattrubin/OneTimePassword) library is t
 Add the following line to your [Podfile][]:
 
 ````ruby
-pod 'OneTimePassword', '~> 3.0', :git => 'https://github.com/mattrubin/OneTimePassword.git', :branch => 'objc'
+pod 'OneTimePassword', '~> 1.0'
 ````
 
 Then run `pod install` to install the latest version of the framework.
