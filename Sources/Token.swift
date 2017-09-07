@@ -53,10 +53,10 @@ public struct Token: Equatable {
     // MARK: Defaults
 
     /// The default token name, an empty string.
-    internal static let defaultName: String = ""
+    public static let defaultName: String = ""
 
     /// The default token issuer, an empty string.
-    internal static let defaultIssuer: String = ""
+    public static let defaultIssuer: String = ""
 
     // MARK: Password Generation
 
