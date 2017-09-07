@@ -178,7 +178,7 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     let path = url.path
     if path.characters.count > 1 {
         // Skip the leading "/"
-        name = path.substring(from: path.characters.index(after: path.startIndex))
+        name = String(path[path.index(path.startIndex, offsetBy: 1)...])
     }
 
     var issuer = Token.defaultIssuer
@@ -195,7 +195,7 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     if !issuer.isEmpty {
         let prefix = issuer + ":"
         if name.hasPrefix(prefix), let prefixRange = name.range(of: prefix) {
-            name = name.substring(from: prefixRange.upperBound)
+            name = String(name[prefixRange.upperBound...])
             name = name.trimmingCharacters(in: CharacterSet.whitespaces)
         }
     }

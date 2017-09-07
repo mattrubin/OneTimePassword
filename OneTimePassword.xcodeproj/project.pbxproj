@@ -521,7 +521,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					5B39F4931DBD06BA00CD2DAB = {
@@ -530,7 +530,7 @@
 					};
 					C97C82371946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Manual;
 					};
 					C97C82421946E51D00FD9F4C = {
@@ -546,6 +546,7 @@
 					};
 					FD6C3C0B1E0200F800EC4528 = {
 						CreatedOnToolsVersion = 8.2;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					FDD3B8661DD6E59E00F87980 = {
@@ -716,6 +717,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -723,6 +725,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -730,8 +733,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2C1A74D5830076B105 /* Debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -740,8 +747,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2E1A74D5830076B105 /* Release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
@@ -750,6 +761,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -757,6 +769,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -764,6 +777,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -771,6 +785,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01C1DCBB875006255FA /* OneTimePasswordTests-iOS.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -781,6 +796,7 @@
 				INFOPLIST_FILE = OneTimePasswordLegacyTests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.legacy.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -791,6 +807,7 @@
 				INFOPLIST_FILE = OneTimePasswordLegacyTests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.onetimepassword.legacy.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -798,6 +815,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FDA64C771E021394004AD993 /* OneTimePasswordTestApp.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -805,6 +823,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FDA64C771E021394004AD993 /* OneTimePasswordTestApp.xcconfig */;
 			buildSettings = {
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -812,6 +831,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -819,6 +839,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
