@@ -32,14 +32,14 @@ import OneTimePassword
 public final class OTPToken: NSObject {
     required public override init() {}
 
-    public var name: String = OTPToken.defaultName
-    public var issuer: String = OTPToken.defaultIssuer
-    public var type: OTPTokenType = .timer
-    public var secret: Data = Data()
-    public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm
-    public var digits: UInt = OTPToken.defaultDigits
-    public var period: TimeInterval = OTPToken.defaultPeriod
-    public var counter: UInt64 = OTPToken.defaultInitialCounter
+    @objc public var name: String = OTPToken.defaultName
+    @objc public var issuer: String = OTPToken.defaultIssuer
+    @objc public var type: OTPTokenType = .timer
+    @objc public var secret: Data = Data()
+    @objc public var algorithm: OTPAlgorithm = OTPToken.defaultAlgorithm
+    @objc public var digits: UInt = OTPToken.defaultDigits
+    @objc public var period: TimeInterval = OTPToken.defaultPeriod
+    @objc public var counter: UInt64 = OTPToken.defaultInitialCounter
 
     private static let defaultName: String = ""
     private static let defaultIssuer: String = ""
@@ -71,6 +71,7 @@ public final class OTPToken: NSObject {
         update(with: token)
     }
 
+    @objc
     public func validate() -> Bool {
         return (tokenForOTPToken(self) != nil)
     }
@@ -90,6 +91,7 @@ public extension OTPToken {
         return self.init(token: token)
     }
 
+    @objc
     func url() -> URL? {
         guard let token = tokenForOTPToken(self) else {
             return nil
