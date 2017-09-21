@@ -195,8 +195,8 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     if !issuer.isEmpty {
         let prefix = issuer + ":"
         if name.hasPrefix(prefix), let prefixRange = name.range(of: prefix) {
-            name = String(name[prefixRange.upperBound...])
-            name = name.trimmingCharacters(in: CharacterSet.whitespaces)
+            let substringAfterSeparator = name[prefixRange.upperBound...]
+            name = substringAfterSeparator.trimmingCharacters(in: CharacterSet.whitespaces)
         }
     }
 
