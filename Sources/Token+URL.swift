@@ -178,7 +178,7 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     let path = url.path
     if path.characters.count > 1 {
         // Skip the leading "/"
-        name = String(path[path.index(after: path.startIndex)...])
+        name = String(path.dropFirst())
     }
 
     var issuer = Token.defaultIssuer
