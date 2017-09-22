@@ -180,12 +180,9 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     var issuer = ""
     if let issuerString = queryDictionary[kQueryIssuerKey] {
         issuer = issuerString
-    } else {
+    } else if let separatorRange = name.range(of: ":") {
         // If there is no issuer string, try to extract one from the name
-        let components = name.components(separatedBy: ":")
-        if components.count > 1 {
-            issuer = components[0]
-        }
+        issuer = String(name[..<separatorRange.lowerBound])
     }
     // If the name is prefixed by the issuer string, trim the name
     if !issuer.isEmpty {
