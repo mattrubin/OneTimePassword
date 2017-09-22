@@ -175,10 +175,11 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     }
 
     var name = Token.defaultName
-    let path = url.path
-    if path.characters.count > 1 {
-        // Skip the leading "/"
-        name = String(path.dropFirst())
+
+    // Skip the leading "/"
+    let potentialNameFromPath = url.path.dropFirst()
+    if !potentialNameFromPath.isEmpty {
+        name = String(potentialNameFromPath)
     }
 
     var issuer = Token.defaultIssuer
