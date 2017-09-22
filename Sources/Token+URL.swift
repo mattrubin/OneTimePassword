@@ -177,13 +177,17 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     // Skip the leading "/"
     var name = String(url.path.dropFirst())
 
-    var issuer = ""
+    let issuer: String
     if let issuerString = queryDictionary[kQueryIssuerKey] {
         issuer = issuerString
     } else if let separatorRange = name.range(of: ":") {
         // If there is no issuer string, try to extract one from the name
         issuer = String(name[..<separatorRange.lowerBound])
+    } else {
+        // The default value is an empty string
+        issuer = ""
     }
+
     // If the name is prefixed by the issuer string, trim the name
     if !issuer.isEmpty {
         let prefix = issuer + ":"
