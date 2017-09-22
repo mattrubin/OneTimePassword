@@ -44,16 +44,11 @@ public struct Token: Equatable {
     /// - parameter generator:  The password generator.
     ///
     /// - returns: A new token with the given parameters.
-    public init(name: String = "", issuer: String = defaultIssuer, generator: Generator) {
+    public init(name: String = "", issuer: String = "", generator: Generator) {
         self.name = name
         self.issuer = issuer
         self.generator = generator
     }
-
-    // MARK: Defaults
-
-    /// The default token issuer, an empty string.
-    public static let defaultIssuer: String = ""
 
     // MARK: Password Generation
 
