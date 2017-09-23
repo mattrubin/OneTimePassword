@@ -5,7 +5,7 @@ language: objective-c
 xcode_workspace: OneTimePassword.xcworkspace
 xcode_scheme: OneTimePassword (iOS)
 
-osx_image: xcode8.2
+osx_image: xcode9
 
 env:
   - RUNTIME="iOS 8.1"  DEVICE="iPad 2"
