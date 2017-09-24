@@ -174,29 +174,26 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
             return nil
     }
 
-    var name = Token.defaultName
-    let path = url.path
-    if path.characters.count > 1 {
-        // Skip the leading "/"
-        name = path.substring(from: path.characters.index(after: path.startIndex))
-    }
+    // Skip the leading "/"
+    var name = String(url.path.dropFirst())
 
-    var issuer = Token.defaultIssuer
+    let issuer: String
     if let issuerString = queryDictionary[kQueryIssuerKey] {
         issuer = issuerString
-    } else {
+    } else if let separatorRange = name.range(of: ":") {
         // If there is no issuer string, try to extract one from the name
-        let components = name.components(separatedBy: ":")
-        if components.count > 1 {
-            issuer = components[0]
-        }
+        issuer = String(name[..<separatorRange.lowerBound])
+    } else {
+        // The default value is an empty string
+        issuer = ""
     }
+
     // If the name is prefixed by the issuer string, trim the name
     if !issuer.isEmpty {
         let prefix = issuer + ":"
         if name.hasPrefix(prefix), let prefixRange = name.range(of: prefix) {
-            name = name.substring(from: prefixRange.upperBound)
-            name = name.trimmingCharacters(in: CharacterSet.whitespaces)
+            let substringAfterSeparator = name[prefixRange.upperBound...]
+            name = substringAfterSeparator.trimmingCharacters(in: CharacterSet.whitespaces)
         }
     }
 
