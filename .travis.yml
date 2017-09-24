@@ -9,11 +9,11 @@ osx_image: xcode9
 
 env:
   - RUNTIME="iOS 8.1"  DEVICE="iPad 2"
-  - RUNTIME="iOS 8.4"  DEVICE="iPhone 5s"
-  - RUNTIME="iOS 9.0"  DEVICE="iPhone 6"
-  - RUNTIME="iOS 9.3"  DEVICE="iPhone 7"
+  - RUNTIME="iOS 8.4"  DEVICE="iPhone 4s"
+  - RUNTIME="iOS 9.0"  DEVICE="iPhone 5s"
+  - RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
   - RUNTIME="iOS 10.0" DEVICE="iPhone SE"
-  - RUNTIME="iOS 10.3" DEVICE="iPhone 8 Plus"
+  - RUNTIME="iOS 10.3" DEVICE="iPhone 7 Plus"
   - RUNTIME="iOS 11.0" DEVICE="iPhone X"
 
 # Include builds for watchOS
