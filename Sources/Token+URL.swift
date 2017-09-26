@@ -199,11 +199,21 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     return Token(name: name, issuer: issuer, generator: generator)
 }
 
-private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {
+private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), overrideWith overrideValue: T?) -> T? {
     if let value = overrideValue {
         return value
     }
 
+    if let concrete = item {
+        guard let value = parser(concrete) else {
+            return nil
+        }
+        return value
+    }
+    return nil
+}
+
+private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), defaultTo defaultValue: T?) -> T? {
     if let concrete = item {
         guard let value = parser(concrete) else {
             return nil
