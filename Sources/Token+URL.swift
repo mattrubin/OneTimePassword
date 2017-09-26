@@ -164,8 +164,7 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
     let digits = try queryDictionary[kQueryDigitsKey].map(parseDigits) ?? defaultDigits
 
     guard let factor = try url.host.map(factorParser),
-        let secret = try parse(queryDictionary[kQuerySecretKey], with: parseSecret,
-                           overrideWith: externalSecret),
+        let secret = try externalSecret ?? queryDictionary[kQuerySecretKey].map(parseSecret),
         let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
             return nil
     }
@@ -222,16 +221,4 @@ private func parseDigits(_ rawValue: String) throws -> Int {
         throw DeserializationError.digits
     }
     return intValue
-}
-
-private func parse<P, T>(_ item: P?, with parser: ((P) throws -> T), overrideWith overrideValue: T?) rethrows -> T? {
-    if let value = overrideValue {
-        return value
-    }
-
-    if let concrete = item {
-        let value = try parser(concrete)
-        return value
-    }
-    return nil
 }
