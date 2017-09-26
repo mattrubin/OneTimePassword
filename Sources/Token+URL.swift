@@ -203,7 +203,7 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
 }
 
 private func parseCounterValue(_ rawValue: String) throws -> UInt64 {
-    guard let counterValue = UInt64(rawValue, radix: 10) else {
+    guard let counterValue = UInt64(rawValue) else {
         throw DeserializationError.invalidCounterValue(rawValue)
     }
     return counterValue
