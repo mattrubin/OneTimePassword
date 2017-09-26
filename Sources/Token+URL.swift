@@ -59,12 +59,12 @@ internal enum SerializationError: Swift.Error {
 }
 
 internal enum DeserializationError: Swift.Error {
-    case factor
-    case counterValue
-    case timerPeriod
-    case secret
-    case algorithm
-    case digits
+    case invalidFactor(String)
+    case invalidCounterValue(String)
+    case invalidTimerPeriod(String)
+    case invalidSecret(String)
+    case invalidAlgorithm(String)
+    case invalidDigits(String)
 }
 
 private let defaultAlgorithm: Generator.Algorithm = .sha1
@@ -107,7 +107,7 @@ private func algorithmFromString(_ string: String) throws -> Generator.Algorithm
     case kAlgorithmSHA512:
         return .sha512
     default:
-        throw DeserializationError.algorithm
+        throw DeserializationError.invalidAlgorithm(string)
     }
 }
 
@@ -156,8 +156,9 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
         } else if string == kFactorTimerKey {
             let period = try queryDictionary[kQueryPeriodKey].map(parseTimerPeriod) ?? defaultPeriod
             return .timer(period: period)
+        } else {
+            throw DeserializationError.invalidFactor(string)
         }
-        throw DeserializationError.factor
     }
 
     let algorithm = try queryDictionary[kQueryAlgorithmKey].map(algorithmFromString) ?? defaultAlgorithm
@@ -197,28 +198,28 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
 
 private func parseCounterValue(_ rawValue: String) throws -> UInt64 {
     guard let counterValue = UInt64(rawValue, radix: 10) else {
-        throw DeserializationError.counterValue
+        throw DeserializationError.invalidCounterValue(rawValue)
     }
     return counterValue
 }
 
 private func parseTimerPeriod(_ rawValue: String) throws -> TimeInterval {
     guard let int = Int(rawValue) else {
-        throw DeserializationError.timerPeriod
+        throw DeserializationError.invalidTimerPeriod(rawValue)
     }
     return TimeInterval(int)
 }
 
 private func parseSecret(_ rawValue: String) throws -> Data {
     guard let data = MF_Base32Codec.data(fromBase32String: rawValue) else {
-        throw DeserializationError.secret
+        throw DeserializationError.invalidSecret(rawValue)
     }
     return data
 }
 
 private func parseDigits(_ rawValue: String) throws -> Int {
     guard let intValue = Int(rawValue) else {
-        throw DeserializationError.digits
+        throw DeserializationError.invalidDigits(rawValue)
     }
     return intValue
 }
