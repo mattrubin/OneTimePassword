@@ -42,9 +42,13 @@ extension Token {
 
     /// Attempts to initialize a token represented by the give URL.
     public init?(url: URL, secret: Data? = nil) {
-        if let token = token(from: url, secret: secret) {
+        do {
+        if let token = try token(from: url, secret: secret) {
             self = token
         } else {
+            return nil
+        }
+        } catch {
             return nil
         }
     }
@@ -135,7 +139,7 @@ private func urlForToken(name: String, issuer: String, factor: Generator.Factor,
     return url
 }
 
-private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? {
+private func token(from url: URL, secret externalSecret: Data? = nil) throws -> Token? {
     guard url.scheme == kOTPAuthScheme else {
         return nil
     }
@@ -162,17 +166,15 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
         throw DeserializationError.factor
     }
 
-    // swiftlint:disable force_try
-    guard let factor = try! parse(url.host, with: factorParser, defaultTo: nil),
-        let secret = try! parse(queryDictionary[kQuerySecretKey], with: parseSecret,
+    guard let factor = try parse(url.host, with: factorParser, defaultTo: nil),
+        let secret = try parse(queryDictionary[kQuerySecretKey], with: parseSecret,
                            overrideWith: externalSecret),
-        let algorithm = try! parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString,
+        let algorithm = try parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString,
                               defaultTo: defaultAlgorithm),
-        let digits = try! parse(queryDictionary[kQueryDigitsKey], with: parseDigits, defaultTo: defaultDigits),
+        let digits = try parse(queryDictionary[kQueryDigitsKey], with: parseDigits, defaultTo: defaultDigits),
         let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
             return nil
     }
-    // swiftlint:enable force_try
 
     // Skip the leading "/"
     var name = String(url.path.dropFirst())
