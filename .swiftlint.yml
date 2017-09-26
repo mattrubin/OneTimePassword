@@ -25,6 +25,7 @@ disabled_rules:
   - cyclomatic_complexity
   - function_body_length
   - syntactic_sugar
+  - xctfail_message
 
 trailing_comma:
   mandatory_comma: true
