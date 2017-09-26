@@ -40,7 +40,7 @@ class TokenTests: XCTestCase {
             algorithm: .sha1,
             digits: 6
         ) else {
-            XCTFail()
+            XCTFail("Failed to construct Generator.")
             return
         }
 
@@ -63,7 +63,7 @@ class TokenTests: XCTestCase {
             algorithm: .sha512,
             digits: 8
         ) else {
-            XCTFail()
+            XCTFail("Failed to construct Generator.")
             return
         }
 
@@ -90,7 +90,7 @@ class TokenTests: XCTestCase {
             algorithm: .sha1,
             digits: 6
         ) else {
-            XCTFail()
+            XCTFail("Failed to construct Generator.")
             return
         }
         let n = "Test Name"
@@ -116,7 +116,7 @@ class TokenTests: XCTestCase {
             algorithm: .sha1,
             digits: 6
         ) else {
-            XCTFail()
+            XCTFail("Failed to construct Generator.")
             return
         }
         let timerToken = Token(generator: timerGenerator)
@@ -128,7 +128,7 @@ class TokenTests: XCTestCase {
             let oldPassword = try timerToken.generator.password(at: Date(timeIntervalSince1970: 0))
             XCTAssertNotEqual(timerToken.currentPassword, oldPassword)
         } catch {
-            XCTFail()
+            XCTFail("Failed to generate password with error: \(error)")
             return
         }
 
@@ -138,7 +138,7 @@ class TokenTests: XCTestCase {
             algorithm: .sha1,
             digits: 6
         ) else {
-            XCTFail()
+            XCTFail("Failed to construct Generator.")
             return
         }
         let counterToken = Token(generator: counterGenerator)
@@ -150,7 +150,7 @@ class TokenTests: XCTestCase {
             let oldPassword = try counterToken.generator.password(at: Date(timeIntervalSince1970: 0))
             XCTAssertEqual(counterToken.currentPassword, oldPassword)
         } catch {
-            XCTFail()
+            XCTFail("Failed to generate password with error: \(error)")
             return
         }
     }
@@ -162,7 +162,7 @@ class TokenTests: XCTestCase {
             algorithm: .sha1,
             digits: 6
         ) else {
-            XCTFail()
+            XCTFail("Failed to construct Generator.")
             return
         }
         let timerToken = Token(generator: timerGenerator)
@@ -177,7 +177,7 @@ class TokenTests: XCTestCase {
             algorithm: .sha1,
             digits: 6
         ) else {
-            XCTFail()
+            XCTFail("Failed to construct Generator.")
             return
         }
         let counterToken = Token(generator: counterGenerator)

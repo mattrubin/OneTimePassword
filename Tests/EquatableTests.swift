@@ -68,7 +68,7 @@ class EquatableTests: XCTestCase {
     func testTokenEquality() {
         guard let generator = Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6),
             let other_generator = Generator(factor: .counter(1), secret: Data(), algorithm: .sha512, digits: 8) else {
-                XCTFail()
+                XCTFail("Failed to construct Generator.")
                 return
         }
 

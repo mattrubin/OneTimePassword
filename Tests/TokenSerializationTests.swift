@@ -64,7 +64,7 @@ class TokenSerializationTests: XCTestCase {
                                     algorithm: algorithm,
                                     digits: digitNumber
                                 ) else {
-                                    XCTFail()
+                                    XCTFail("Failed to construct Generator.")
                                     continue
                                 }
 
