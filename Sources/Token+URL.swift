@@ -54,6 +54,15 @@ internal enum SerializationError: Swift.Error {
     case urlGenerationFailure
 }
 
+internal enum DeserializationError: Swift.Error {
+    case factor
+    case counterValue
+    case timerPeriod
+    case secret
+    case algorithm
+    case digits
+}
+
 private let defaultAlgorithm: Generator.Algorithm = .sha1
 private let defaultDigits: Int = 6
 private let defaultCounter: UInt64 = 0
@@ -85,7 +94,7 @@ private func stringForAlgorithm(_ algorithm: Generator.Algorithm) -> String {
     }
 }
 
-private func algorithmFromString(_ string: String) -> Generator.Algorithm? {
+private func algorithmFromString(_ string: String) throws -> Generator.Algorithm {
     switch string {
     case kAlgorithmSHA1:
         return .sha1
@@ -94,7 +103,7 @@ private func algorithmFromString(_ string: String) -> Generator.Algorithm? {
     case kAlgorithmSHA512:
         return .sha512
     default:
-        return nil
+        throw DeserializationError.algorithm
     }
 }
 
@@ -136,7 +145,7 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
         queryDictionary[item.name] = item.value
     }
 
-    let factorParser: (String) -> Generator.Factor? = { string in
+    let factorParser: (String) throws -> Generator.Factor = { string in
         if string == kFactorCounterKey {
             if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey],
                 with: parseCounterValue,
@@ -150,15 +159,15 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
                     return .timer(period: period)
             }
         }
-        return nil
+        throw DeserializationError.factor
     }
 
     guard let factor = parse(url.host, with: factorParser, defaultTo: nil),
-        let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.data(fromBase32String: $0) },
+        let secret = parse(queryDictionary[kQuerySecretKey], with: parseSecret,
                            overrideWith: externalSecret),
         let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString,
                               defaultTo: defaultAlgorithm),
-        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: defaultDigits),
+        let digits = parse(queryDictionary[kQueryDigitsKey], with: parseDigits, defaultTo: defaultDigits),
         let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
             return nil
     }
@@ -189,27 +198,41 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     return Token(name: name, issuer: issuer, generator: generator)
 }
 
-private func parseCounterValue(_ rawValue: String) -> UInt64? {
+private func parseCounterValue(_ rawValue: String) throws -> UInt64 {
     guard let counterValue = UInt64(rawValue, radix: 10) else {
-        return nil
+        throw DeserializationError.counterValue
     }
     return counterValue
 }
 
-private func parseTimerPeriod(_ rawValue: String) -> TimeInterval? {
+private func parseTimerPeriod(_ rawValue: String) throws -> TimeInterval {
     guard let int = Int(rawValue) else {
-        return nil
+        throw DeserializationError.timerPeriod
     }
     return TimeInterval(int)
 }
 
-private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), overrideWith overrideValue: T?) -> T? {
+private func parseSecret(_ rawValue: String) throws -> Data {
+    guard let data = MF_Base32Codec.data(fromBase32String: rawValue) else {
+        throw DeserializationError.secret
+    }
+    return data
+}
+
+private func parseDigits(_ rawValue: String) throws -> Int {
+    guard let intValue = Int(rawValue) else {
+        throw DeserializationError.digits
+    }
+    return intValue
+}
+
+private func parse<P, T>(_ item: P?, with parser: ((P) throws -> T), overrideWith overrideValue: T?) -> T? {
     if let value = overrideValue {
         return value
     }
 
     if let concrete = item {
-        guard let value = parser(concrete) else {
+        guard let value = try? parser(concrete) else {
             return nil
         }
         return value
@@ -217,9 +240,9 @@ private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), overrideWith over
     return nil
 }
 
-private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), defaultTo defaultValue: T?) -> T? {
+private func parse<P, T>(_ item: P?, with parser: ((P) throws -> T), defaultTo defaultValue: T?) -> T? {
     if let concrete = item {
-        guard let value = parser(concrete) else {
+        guard let value = try? parser(concrete) else {
             return nil
         }
         return value
