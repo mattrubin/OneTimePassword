@@ -151,27 +151,21 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
 
     let factorParser: (String) throws -> Generator.Factor = { string in
         if string == kFactorCounterKey {
-            if let counter: UInt64 = try parse(queryDictionary[kQueryCounterKey],
-                with: parseCounterValue,
-                defaultTo: defaultCounter) {
-                    return .counter(counter)
-            }
+            let counter = try queryDictionary[kQueryCounterKey].map(parseCounterValue) ?? defaultCounter
+            return .counter(counter)
         } else if string == kFactorTimerKey {
-            if let period: TimeInterval = try parse(queryDictionary[kQueryPeriodKey],
-                with: parseTimerPeriod,
-                defaultTo: defaultPeriod) {
-                    return .timer(period: period)
-            }
+            let period = try queryDictionary[kQueryPeriodKey].map(parseTimerPeriod) ?? defaultPeriod
+            return .timer(period: period)
         }
         throw DeserializationError.factor
     }
 
-    guard let factor = try parse(url.host, with: factorParser, defaultTo: nil),
+    let algorithm = try queryDictionary[kQueryAlgorithmKey].map(algorithmFromString) ?? defaultAlgorithm
+    let digits = try queryDictionary[kQueryDigitsKey].map(parseDigits) ?? defaultDigits
+
+    guard let factor = try url.host.map(factorParser),
         let secret = try parse(queryDictionary[kQuerySecretKey], with: parseSecret,
                            overrideWith: externalSecret),
-        let algorithm = try parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString,
-                              defaultTo: defaultAlgorithm),
-        let digits = try parse(queryDictionary[kQueryDigitsKey], with: parseDigits, defaultTo: defaultDigits),
         let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
             return nil
     }
@@ -240,12 +234,4 @@ private func parse<P, T>(_ item: P?, with parser: ((P) throws -> T), overrideWit
         return value
     }
     return nil
-}
-
-private func parse<P, T>(_ item: P?, with parser: ((P) throws -> T), defaultTo defaultValue: T?) rethrows -> T? {
-    if let concrete = item {
-        let value = try parser(concrete)
-        return value
-    }
-    return defaultValue
 }
