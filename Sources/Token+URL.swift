@@ -59,9 +59,11 @@ internal enum SerializationError: Swift.Error {
 }
 
 internal enum DeserializationError: Swift.Error {
+    case missingFactor
     case invalidFactor(String)
     case invalidCounterValue(String)
     case invalidTimerPeriod(String)
+    case missingSecret
     case invalidSecret(String)
     case invalidAlgorithm(String)
     case invalidDigits(String)
@@ -164,10 +166,14 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
     let algorithm = try queryDictionary[kQueryAlgorithmKey].map(algorithmFromString) ?? defaultAlgorithm
     let digits = try queryDictionary[kQueryDigitsKey].map(parseDigits) ?? defaultDigits
 
-    guard let factor = try url.host.map(factorParser),
-        let secret = try externalSecret ?? queryDictionary[kQuerySecretKey].map(parseSecret),
-        let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
-            return nil
+    guard let factor = try url.host.map(factorParser) else {
+        throw DeserializationError.missingFactor
+    }
+    guard let secret = try externalSecret ?? queryDictionary[kQuerySecretKey].map(parseSecret) else {
+        throw DeserializationError.missingSecret
+    }
+    guard let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
+        return nil
     }
 
     // Skip the leading "/"
