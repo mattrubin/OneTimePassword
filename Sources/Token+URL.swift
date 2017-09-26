@@ -151,24 +151,22 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
         queryDictionary[item.name] = item.value
     }
 
-    let factorParser: (String) throws -> Generator.Factor = { string in
-        if string == kFactorCounterKey {
-            let counter = try queryDictionary[kQueryCounterKey].map(parseCounterValue) ?? defaultCounter
-            return .counter(counter)
-        } else if string == kFactorTimerKey {
-            let period = try queryDictionary[kQueryPeriodKey].map(parseTimerPeriod) ?? defaultPeriod
-            return .timer(period: period)
-        } else {
-            throw DeserializationError.invalidFactor(string)
-        }
+    guard let factorString = url.host else {
+        throw DeserializationError.missingFactor
+    }
+    let factor: Generator.Factor
+    if factorString == kFactorCounterKey {
+        let counter = try queryDictionary[kQueryCounterKey].map(parseCounterValue) ?? defaultCounter
+        factor = .counter(counter)
+    } else if factorString == kFactorTimerKey {
+        let period = try queryDictionary[kQueryPeriodKey].map(parseTimerPeriod) ?? defaultPeriod
+        factor = .timer(period: period)
+    } else {
+        throw DeserializationError.invalidFactor(factorString)
     }
 
     let algorithm = try queryDictionary[kQueryAlgorithmKey].map(algorithmFromString) ?? defaultAlgorithm
     let digits = try queryDictionary[kQueryDigitsKey].map(parseDigits) ?? defaultDigits
-
-    guard let factor = try url.host.map(factorParser) else {
-        throw DeserializationError.missingFactor
-    }
     guard let secret = try externalSecret ?? queryDictionary[kQuerySecretKey].map(parseSecret) else {
         throw DeserializationError.missingSecret
     }
