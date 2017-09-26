@@ -139,23 +139,13 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     let factorParser: (String) -> Generator.Factor? = { string in
         if string == kFactorCounterKey {
             if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey],
-                with: {
-                    guard let counterValue = UInt64($0, radix: 10) else {
-                        return nil
-                    }
-                    return counterValue
-                },
+                with: parseCounterValue,
                 defaultTo: defaultCounter) {
                     return .counter(counter)
             }
         } else if string == kFactorTimerKey {
             if let period: TimeInterval = parse(queryDictionary[kQueryPeriodKey],
-                with: {
-                    guard let int = Int($0) else {
-                        return nil
-                    }
-                    return TimeInterval(int)
-                },
+                with: parseTimerPeriod,
                 defaultTo: defaultPeriod) {
                     return .timer(period: period)
             }
@@ -197,6 +187,20 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
     }
 
     return Token(name: name, issuer: issuer, generator: generator)
+}
+
+private func parseCounterValue(_ rawValue: String) -> UInt64? {
+    guard let counterValue = UInt64(rawValue, radix: 10) else {
+        return nil
+    }
+    return counterValue
+}
+
+private func parseTimerPeriod(_ rawValue: String) -> TimeInterval? {
+    guard let int = Int(rawValue) else {
+        return nil
+    }
+    return TimeInterval(int)
 }
 
 private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), overrideWith overrideValue: T?) -> T? {
