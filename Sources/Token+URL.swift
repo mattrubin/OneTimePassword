@@ -147,13 +147,13 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
 
     let factorParser: (String) throws -> Generator.Factor = { string in
         if string == kFactorCounterKey {
-            if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey],
+            if let counter: UInt64 = try parse(queryDictionary[kQueryCounterKey],
                 with: parseCounterValue,
                 defaultTo: defaultCounter) {
                     return .counter(counter)
             }
         } else if string == kFactorTimerKey {
-            if let period: TimeInterval = parse(queryDictionary[kQueryPeriodKey],
+            if let period: TimeInterval = try parse(queryDictionary[kQueryPeriodKey],
                 with: parseTimerPeriod,
                 defaultTo: defaultPeriod) {
                     return .timer(period: period)
@@ -162,15 +162,17 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
         throw DeserializationError.factor
     }
 
-    guard let factor = parse(url.host, with: factorParser, defaultTo: nil),
-        let secret = parse(queryDictionary[kQuerySecretKey], with: parseSecret,
+    // swiftlint:disable force_try
+    guard let factor = try! parse(url.host, with: factorParser, defaultTo: nil),
+        let secret = try! parse(queryDictionary[kQuerySecretKey], with: parseSecret,
                            overrideWith: externalSecret),
-        let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString,
+        let algorithm = try! parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString,
                               defaultTo: defaultAlgorithm),
-        let digits = parse(queryDictionary[kQueryDigitsKey], with: parseDigits, defaultTo: defaultDigits),
+        let digits = try! parse(queryDictionary[kQueryDigitsKey], with: parseDigits, defaultTo: defaultDigits),
         let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
             return nil
     }
+    // swiftlint:enable force_try
 
     // Skip the leading "/"
     var name = String(url.path.dropFirst())
@@ -226,25 +228,21 @@ private func parseDigits(_ rawValue: String) throws -> Int {
     return intValue
 }
 
-private func parse<P, T>(_ item: P?, with parser: ((P) throws -> T), overrideWith overrideValue: T?) -> T? {
+private func parse<P, T>(_ item: P?, with parser: ((P) throws -> T), overrideWith overrideValue: T?) rethrows -> T? {
     if let value = overrideValue {
         return value
     }
 
     if let concrete = item {
-        guard let value = try? parser(concrete) else {
-            return nil
-        }
+        let value = try parser(concrete)
         return value
     }
     return nil
 }
 
-private func parse<P, T>(_ item: P?, with parser: ((P) throws -> T), defaultTo defaultValue: T?) -> T? {
+private func parse<P, T>(_ item: P?, with parser: ((P) throws -> T), defaultTo defaultValue: T?) rethrows -> T? {
     if let concrete = item {
-        guard let value = try? parser(concrete) else {
-            return nil
-        }
+        let value = try parser(concrete)
         return value
     }
     return defaultValue
