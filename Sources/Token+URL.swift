@@ -172,27 +172,21 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
     }
 
     // Skip the leading "/"
-    var name = String(url.path.dropFirst())
+    let fullName = String(url.path.dropFirst())
 
     let issuer: String
     if let issuerString = try queryItems.value(for: kQueryIssuerKey) {
         issuer = issuerString
-    } else if let separatorRange = name.range(of: ":") {
+    } else if let separatorRange = fullName.range(of: ":") {
         // If there is no issuer string, try to extract one from the name
-        issuer = String(name[..<separatorRange.lowerBound])
+        issuer = String(fullName[..<separatorRange.lowerBound])
     } else {
         // The default value is an empty string
         issuer = ""
     }
 
     // If the name is prefixed by the issuer string, trim the name
-    if !issuer.isEmpty {
-        let prefix = issuer + ":"
-        if name.hasPrefix(prefix), let prefixRange = name.range(of: prefix) {
-            let substringAfterSeparator = name[prefixRange.upperBound...]
-            name = substringAfterSeparator.trimmingCharacters(in: CharacterSet.whitespaces)
-        }
-    }
+    let name = shortName(byTrimming: issuer, from: fullName)
 
     return Token(name: name, issuer: issuer, generator: generator)
 }
@@ -223,6 +217,17 @@ private func parseDigits(_ rawValue: String) throws -> Int {
         throw DeserializationError.invalidDigits(rawValue)
     }
     return digits
+}
+
+private func shortName(byTrimming issuer: String, from fullName: String) -> String {
+    if !issuer.isEmpty {
+        let prefix = issuer + ":"
+        if fullName.hasPrefix(prefix), let prefixRange = fullName.range(of: prefix) {
+            let substringAfterSeparator = fullName[prefixRange.upperBound...]
+            return substringAfterSeparator.trimmingCharacters(in: CharacterSet.whitespaces)
+        }
+    }
+    return String(fullName)
 }
 
 extension Array where Element == URLQueryItem {
