@@ -146,6 +146,7 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
 
     var queryDictionary = Dictionary<String, String>()
     URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach { item in
+        // TODO: guard against duplicate query items for the same key.
         queryDictionary[item.name] = item.value
     }
 
