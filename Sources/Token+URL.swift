@@ -43,11 +43,7 @@ extension Token {
     /// Attempts to initialize a token represented by the give URL.
     public init?(url: URL, secret: Data? = nil) {
         do {
-        if let token = try token(from: url, secret: secret) {
-            self = token
-        } else {
-            return nil
-        }
+            self = try token(from: url, secret: secret)
         } catch {
             return nil
         }
@@ -59,6 +55,7 @@ internal enum SerializationError: Swift.Error {
 }
 
 internal enum DeserializationError: Swift.Error {
+    case invalidURLScheme
     case missingFactor
     case invalidFactor(String)
     case invalidCounterValue(String)
@@ -67,6 +64,7 @@ internal enum DeserializationError: Swift.Error {
     case invalidSecret(String)
     case invalidAlgorithm(String)
     case invalidDigits(String)
+    case invalidGenerator
 }
 
 private let defaultAlgorithm: Generator.Algorithm = .sha1
@@ -141,9 +139,9 @@ private func urlForToken(name: String, issuer: String, factor: Generator.Factor,
     return url
 }
 
-private func token(from url: URL, secret externalSecret: Data? = nil) throws -> Token? {
+private func token(from url: URL, secret externalSecret: Data? = nil) throws -> Token {
     guard url.scheme == kOTPAuthScheme else {
-        return nil
+        throw DeserializationError.invalidURLScheme
     }
 
     var queryDictionary = Dictionary<String, String>()
@@ -171,7 +169,8 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
         throw DeserializationError.missingSecret
     }
     guard let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
-        return nil
+        // TODO: Convert Generator's failable initializer to a throwable initializer, and rethrow its errors.
+        throw DeserializationError.invalidGenerator
     }
 
     // Skip the leading "/"
