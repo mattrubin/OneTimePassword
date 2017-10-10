@@ -40,7 +40,7 @@
 		C97142361C1155FC0063B37E /* OTPToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */; };
 		C97142371C1156DB0063B37E /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
-		C9A486C8196F38C800524F51 /* OTPTokenSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */; };
+		C9A486C8196F38C800524F51 /* OTPTokenSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */; settings = {COMPILER_FLAGS = "-Wno-nullable-to-nonnull-conversion"; }; };
 		C9A486C9196F38CD00524F51 /* OTPTypeStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C9FE25196D181800C7ACEE /* OTPTypeStrings.m */; };
 		C9B2A19C199A7F1B00BC4A8A /* EquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */; };
 		C9B77D771C03078B00BAF6BF /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2514196AFE1100F86892 /* KeychainTests.swift */; };
