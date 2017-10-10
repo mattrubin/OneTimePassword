@@ -151,18 +151,18 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
         queryDictionary[item.name] = item.value
     }
 
-    guard let factorString = url.host else {
-        throw DeserializationError.missingFactor
-    }
     let factor: Generator.Factor
-    if factorString == kFactorCounterKey {
+    switch url.host {
+    case .some(kFactorCounterKey):
         let counter = try queryDictionary[kQueryCounterKey].map(parseCounterValue) ?? defaultCounter
         factor = .counter(counter)
-    } else if factorString == kFactorTimerKey {
+    case .some(kFactorTimerKey):
         let period = try queryDictionary[kQueryPeriodKey].map(parseTimerPeriod) ?? defaultPeriod
         factor = .timer(period: period)
-    } else {
-        throw DeserializationError.invalidFactor(factorString)
+    case let .some(rawValue):
+        throw DeserializationError.invalidFactor(rawValue)
+    case .none:
+        throw DeserializationError.missingFactor
     }
 
     let algorithm = try queryDictionary[kQueryAlgorithmKey].map(algorithmFromString) ?? defaultAlgorithm
