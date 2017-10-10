@@ -208,22 +208,22 @@ private func parseCounterValue(_ rawValue: String) throws -> UInt64 {
 }
 
 private func parseTimerPeriod(_ rawValue: String) throws -> TimeInterval {
-    guard let int = Int(rawValue) else {
+    guard let period = TimeInterval(rawValue) else {
         throw DeserializationError.invalidTimerPeriod(rawValue)
     }
-    return TimeInterval(int)
+    return period
 }
 
 private func parseSecret(_ rawValue: String) throws -> Data {
-    guard let data = MF_Base32Codec.data(fromBase32String: rawValue) else {
+    guard let secret = MF_Base32Codec.data(fromBase32String: rawValue) else {
         throw DeserializationError.invalidSecret(rawValue)
     }
-    return data
+    return secret
 }
 
 private func parseDigits(_ rawValue: String) throws -> Int {
-    guard let intValue = Int(rawValue) else {
+    guard let digits = Int(rawValue) else {
         throw DeserializationError.invalidDigits(rawValue)
     }
-    return intValue
+    return digits
 }
