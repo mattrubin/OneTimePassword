@@ -154,8 +154,8 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
     let factor: Generator.Factor
     switch url.host {
     case .some(kFactorCounterKey):
-        let counter = try queryDictionary[kQueryCounterKey].map(parseCounterValue) ?? defaultCounter
-        factor = .counter(counter)
+        let counterValue = try queryDictionary[kQueryCounterKey].map(parseCounterValue) ?? defaultCounter
+        factor = .counter(counterValue)
     case .some(kFactorTimerKey):
         let period = try queryDictionary[kQueryPeriodKey].map(parseTimerPeriod) ?? defaultPeriod
         factor = .timer(period: period)
