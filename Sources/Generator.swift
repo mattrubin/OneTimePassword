@@ -49,8 +49,15 @@ public struct Generator: Equatable {
     /// - returns: A new password generator with the given parameters, or `nil` if the parameters
     ///            are invalid.
     public init?(factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) {
-        guard Generator.validateFactor(factor) && Generator.validateDigits(digits) else {
-            return nil
+        try? self.init(_factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+    }
+
+    internal init(_factor factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
+        guard Generator.validateFactor(factor) else {
+            throw Generator.Error.invalidPeriod
+        }
+        guard Generator.validateDigits(digits) else {
+            throw Generator.Error.invalidDigits
         }
         self.factor = factor
         self.secret = secret
