@@ -53,10 +53,10 @@ public struct Generator: Equatable {
     }
 
     internal init(_factor factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
-        guard Generator.validateFactor(factor) else {
+        guard Generator.isValidFactor(factor) else {
             throw Generator.Error.invalidPeriod
         }
-        guard Generator.validateDigits(digits) else {
+        guard Generator.isValidDigits(digits) else {
             throw Generator.Error.invalidDigits
         }
         self.factor = factor
@@ -75,7 +75,7 @@ public struct Generator: Equatable {
     /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
     public func password(at time: Date) throws -> String {
-        guard Generator.validateDigits(digits) else {
+        guard Generator.isValidDigits(digits) else {
             throw Error.invalidDigits
         }
 
@@ -163,10 +163,10 @@ public struct Generator: Equatable {
                 return counter
             case .timer(let period):
                 let timeSinceEpoch = time.timeIntervalSince1970
-                guard Generator.validateTime(timeSinceEpoch) else {
+                guard Generator.isValidTime(timeSinceEpoch) else {
                     throw Error.invalidTime
                 }
-                guard Generator.validatePeriod(period) else {
+                guard Generator.isValidPeriod(period) else {
                     throw Error.invalidPeriod
                 }
                 return UInt64(timeSinceEpoch / period)
@@ -222,28 +222,28 @@ public func == (lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
 private extension Generator {
     // MARK: Validation
 
-    static func validateDigits(_ digits: Int) -> Bool {
+    static func isValidDigits(_ digits: Int) -> Bool {
         // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
         // 6-digit code at a minimum and possibly 7 and 8-digit codes."
         let acceptableDigits = 6...8
         return acceptableDigits.contains(digits)
     }
 
-    static func validateFactor(_ factor: Factor) -> Bool {
+    static func isValidFactor(_ factor: Factor) -> Bool {
         switch factor {
         case .counter:
             return true
         case .timer(let period):
-            return validatePeriod(period)
+            return isValidPeriod(period)
         }
     }
 
-    static func validatePeriod(_ period: TimeInterval) -> Bool {
+    static func isValidPeriod(_ period: TimeInterval) -> Bool {
         // The period must be positive and non-zero to produce a valid counter value.
         return (period > 0)
     }
 
-    static func validateTime(_ timeSinceEpoch: TimeInterval) -> Bool {
+    static func isValidTime(_ timeSinceEpoch: TimeInterval) -> Bool {
         // The time must be positive to produce a valid counter value.
         return (timeSinceEpoch >= 0)
     }
