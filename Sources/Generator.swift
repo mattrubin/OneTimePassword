@@ -233,14 +233,14 @@ private extension Generator {
 
     static func validatePeriod(_ period: TimeInterval) throws {
         // The period must be positive and non-zero to produce a valid counter value.
-        guard (period > 0) else {
+        guard period > 0 else {
             throw Error.invalidPeriod
         }
     }
 
     static func validateTime(_ timeSinceEpoch: TimeInterval) throws {
         // The time must be positive to produce a valid counter value.
-        guard (timeSinceEpoch >= 0) else {
+        guard timeSinceEpoch >= 0 else {
             throw Error.invalidTime
         }
     }
