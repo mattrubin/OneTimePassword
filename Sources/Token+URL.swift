@@ -42,9 +42,9 @@ extension Token {
 
     /// Attempts to initialize a token represented by the give URL.
     public init?(url: URL, secret: Data? = nil) {
-        if let token = token(from: url, secret: secret) {
-            self = token
-        } else {
+        do {
+            self = try token(from: url, secret: secret)
+        } catch {
             return nil
         }
     }
@@ -52,6 +52,20 @@ extension Token {
 
 internal enum SerializationError: Swift.Error {
     case urlGenerationFailure
+}
+
+internal enum DeserializationError: Swift.Error {
+    case invalidURLScheme
+    case duplicateQueryItem(String)
+    case missingFactor
+    case invalidFactor(String)
+    case invalidCounterValue(String)
+    case invalidTimerPeriod(String)
+    case missingSecret
+    case invalidSecret(String)
+    case invalidAlgorithm(String)
+    case invalidDigits(String)
+    case invalidGenerator
 }
 
 private let defaultAlgorithm: Generator.Algorithm = .sha1
@@ -85,7 +99,7 @@ private func stringForAlgorithm(_ algorithm: Generator.Algorithm) -> String {
     }
 }
 
-private func algorithmFromString(_ string: String) -> Generator.Algorithm? {
+private func algorithmFromString(_ string: String) throws -> Generator.Algorithm {
     switch string {
     case kAlgorithmSHA1:
         return .sha1
@@ -94,7 +108,7 @@ private func algorithmFromString(_ string: String) -> Generator.Algorithm? {
     case kAlgorithmSHA512:
         return .sha512
     default:
-        return nil
+        throw DeserializationError.invalidAlgorithm(string)
     }
 }
 
@@ -126,89 +140,104 @@ private func urlForToken(name: String, issuer: String, factor: Generator.Factor,
     return url
 }
 
-private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? {
+private func token(from url: URL, secret externalSecret: Data? = nil) throws -> Token {
     guard url.scheme == kOTPAuthScheme else {
-        return nil
+        throw DeserializationError.invalidURLScheme
     }
 
-    var queryDictionary = Dictionary<String, String>()
-    URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach { item in
-        queryDictionary[item.name] = item.value
+    let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems ?? []
+
+    let factor: Generator.Factor
+    switch url.host {
+    case .some(kFactorCounterKey):
+        let counterValue = try queryItems.value(for: kQueryCounterKey).map(parseCounterValue) ?? defaultCounter
+        factor = .counter(counterValue)
+    case .some(kFactorTimerKey):
+        let period = try queryItems.value(for: kQueryPeriodKey).map(parseTimerPeriod) ?? defaultPeriod
+        factor = .timer(period: period)
+    case let .some(rawValue):
+        throw DeserializationError.invalidFactor(rawValue)
+    case .none:
+        throw DeserializationError.missingFactor
     }
 
-    let factorParser: (String) -> Generator.Factor? = { string in
-        if string == kFactorCounterKey {
-            if let counter: UInt64 = parse(queryDictionary[kQueryCounterKey],
-                with: {
-                    guard let counterValue = UInt64($0, radix: 10) else {
-                        return nil
-                    }
-                    return counterValue
-                },
-                defaultTo: defaultCounter) {
-                    return .counter(counter)
-            }
-        } else if string == kFactorTimerKey {
-            if let period: TimeInterval = parse(queryDictionary[kQueryPeriodKey],
-                with: {
-                    guard let int = Int($0) else {
-                        return nil
-                    }
-                    return TimeInterval(int)
-                },
-                defaultTo: defaultPeriod) {
-                    return .timer(period: period)
-            }
-        }
-        return nil
+    let algorithm = try queryItems.value(for: kQueryAlgorithmKey).map(algorithmFromString) ?? defaultAlgorithm
+    let digits = try queryItems.value(for: kQueryDigitsKey).map(parseDigits) ?? defaultDigits
+    guard let secret = try externalSecret ?? queryItems.value(for: kQuerySecretKey).map(parseSecret) else {
+        throw DeserializationError.missingSecret
     }
-
-    guard let factor = parse(url.host, with: factorParser, defaultTo: nil),
-        let secret = parse(queryDictionary[kQuerySecretKey], with: { MF_Base32Codec.data(fromBase32String: $0) },
-                           overrideWith: externalSecret),
-        let algorithm = parse(queryDictionary[kQueryAlgorithmKey], with: algorithmFromString,
-                              defaultTo: defaultAlgorithm),
-        let digits = parse(queryDictionary[kQueryDigitsKey], with: { Int($0) }, defaultTo: defaultDigits),
-        let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
-            return nil
+    guard let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
+        // TODO: Convert Generator's failable initializer to a throwable initializer, and rethrow its errors.
+        throw DeserializationError.invalidGenerator
     }
 
     // Skip the leading "/"
-    var name = String(url.path.dropFirst())
+    let fullName = String(url.path.dropFirst())
 
     let issuer: String
-    if let issuerString = queryDictionary[kQueryIssuerKey] {
+    if let issuerString = try queryItems.value(for: kQueryIssuerKey) {
         issuer = issuerString
-    } else if let separatorRange = name.range(of: ":") {
+    } else if let separatorRange = fullName.range(of: ":") {
         // If there is no issuer string, try to extract one from the name
-        issuer = String(name[..<separatorRange.lowerBound])
+        issuer = String(fullName[..<separatorRange.lowerBound])
     } else {
         // The default value is an empty string
         issuer = ""
     }
 
     // If the name is prefixed by the issuer string, trim the name
-    if !issuer.isEmpty {
-        let prefix = issuer + ":"
-        if name.hasPrefix(prefix), let prefixRange = name.range(of: prefix) {
-            let substringAfterSeparator = name[prefixRange.upperBound...]
-            name = substringAfterSeparator.trimmingCharacters(in: CharacterSet.whitespaces)
-        }
-    }
+    let name = shortName(byTrimming: issuer, from: fullName)
 
     return Token(name: name, issuer: issuer, generator: generator)
 }
 
-private func parse<P, T>(_ item: P?, with parser: ((P) -> T?), defaultTo defaultValue: T? = nil, overrideWith overrideValue: T? = nil) -> T? {
-    if let value = overrideValue {
-        return value
+private func parseCounterValue(_ rawValue: String) throws -> UInt64 {
+    guard let counterValue = UInt64(rawValue) else {
+        throw DeserializationError.invalidCounterValue(rawValue)
     }
+    return counterValue
+}
 
-    if let concrete = item {
-        guard let value = parser(concrete) else {
-            return nil
-        }
-        return value
+private func parseTimerPeriod(_ rawValue: String) throws -> TimeInterval {
+    guard let period = TimeInterval(rawValue) else {
+        throw DeserializationError.invalidTimerPeriod(rawValue)
     }
-    return defaultValue
+    return period
+}
+
+private func parseSecret(_ rawValue: String) throws -> Data {
+    guard let secret = MF_Base32Codec.data(fromBase32String: rawValue) else {
+        throw DeserializationError.invalidSecret(rawValue)
+    }
+    return secret
+}
+
+private func parseDigits(_ rawValue: String) throws -> Int {
+    guard let digits = Int(rawValue) else {
+        throw DeserializationError.invalidDigits(rawValue)
+    }
+    return digits
+}
+
+private func shortName(byTrimming issuer: String, from fullName: String) -> String {
+    if !issuer.isEmpty {
+        let prefix = issuer + ":"
+        if fullName.hasPrefix(prefix), let prefixRange = fullName.range(of: prefix) {
+            let substringAfterSeparator = fullName[prefixRange.upperBound...]
+            return substringAfterSeparator.trimmingCharacters(in: CharacterSet.whitespaces)
+        }
+    }
+    return String(fullName)
+}
+
+extension Array where Element == URLQueryItem {
+    func value(for name: String) throws -> String? {
+        let matchingQueryItems = self.filter({
+            $0.name == name
+        })
+        guard matchingQueryItems.count <= 1 else {
+            throw DeserializationError.duplicateQueryItem(name)
+        }
+        return matchingQueryItems.first?.value
+    }
 }

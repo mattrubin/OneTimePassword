@@ -162,4 +162,17 @@ class TokenSerializationTests: XCTestCase {
             }
         }
     }
+
+    func testTokenWithDefaultCounter() {
+        let tokenURLString = "otpauth://hotp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4"
+        guard let tokenURL = URL(string: tokenURLString) else {
+            XCTFail("Failed to initialize a URL from String \"\(tokenURLString)\"")
+            return
+        }
+        guard let token = Token(url: tokenURL) else {
+            XCTFail("Failed to initialize a Token from URL \"\(tokenURL)\"")
+            return
+        }
+        XCTAssertEqual(token.generator.factor, .counter(0))
+    }
 }
