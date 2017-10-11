@@ -56,9 +56,8 @@ public struct Generator: Equatable {
         guard Generator.isValidFactor(factor) else {
             throw Generator.Error.invalidPeriod
         }
-        guard Generator.isValidDigits(digits) else {
-            throw Generator.Error.invalidDigits
-        }
+        try Generator.validateDigits(digits)
+
         self.factor = factor
         self.secret = secret
         self.algorithm = algorithm
@@ -75,9 +74,7 @@ public struct Generator: Equatable {
     /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
     public func password(at time: Date) throws -> String {
-        guard Generator.isValidDigits(digits) else {
-            throw Error.invalidDigits
-        }
+        try Generator.validateDigits(digits)
 
         let counter = try factor.counterValue(at: time)
         // Ensure the counter value is big-endian
@@ -163,12 +160,8 @@ public struct Generator: Equatable {
                 return counter
             case .timer(let period):
                 let timeSinceEpoch = time.timeIntervalSince1970
-                guard Generator.isValidTime(timeSinceEpoch) else {
-                    throw Error.invalidTime
-                }
-                guard Generator.isValidPeriod(period) else {
-                    throw Error.invalidPeriod
-                }
+                try Generator.validateTime(timeSinceEpoch)
+                try Generator.validatePeriod(period)
                 return UInt64(timeSinceEpoch / period)
             }
         }
@@ -222,6 +215,12 @@ public func == (lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
 private extension Generator {
     // MARK: Validation
 
+    static func validateDigits(_ digits: Int) throws {
+        guard isValidDigits(digits) else {
+            throw Error.invalidDigits
+        }
+    }
+
     static func isValidDigits(_ digits: Int) -> Bool {
         // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
         // 6-digit code at a minimum and possibly 7 and 8-digit codes."
@@ -238,9 +237,21 @@ private extension Generator {
         }
     }
 
+    static func validatePeriod(_ period: TimeInterval) throws {
+        guard isValidPeriod(period) else {
+            throw Error.invalidPeriod
+        }
+    }
+
     static func isValidPeriod(_ period: TimeInterval) -> Bool {
         // The period must be positive and non-zero to produce a valid counter value.
         return (period > 0)
+    }
+
+    static func validateTime(_ timeSinceEpoch: TimeInterval) throws {
+        guard isValidTime(timeSinceEpoch) else {
+            throw Error.invalidTime
+        }
     }
 
     static func isValidTime(_ timeSinceEpoch: TimeInterval) -> Bool {
