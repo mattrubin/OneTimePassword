@@ -53,9 +53,7 @@ public struct Generator: Equatable {
     }
 
     internal init(_factor factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
-        guard Generator.isValidFactor(factor) else {
-            throw Generator.Error.invalidPeriod
-        }
+        try Generator.validateFactor(factor)
         try Generator.validateDigits(digits)
 
         self.factor = factor
@@ -228,12 +226,12 @@ private extension Generator {
         return acceptableDigits.contains(digits)
     }
 
-    static func isValidFactor(_ factor: Factor) -> Bool {
+    static func validateFactor(_ factor: Factor) throws {
         switch factor {
         case .counter:
-            return true
+            return
         case .timer(let period):
-            return isValidPeriod(period)
+            try validatePeriod(period)
         }
     }
 
