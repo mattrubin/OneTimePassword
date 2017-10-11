@@ -65,7 +65,6 @@ internal enum DeserializationError: Swift.Error {
     case invalidSecret(String)
     case invalidAlgorithm(String)
     case invalidDigits(String)
-    case invalidGenerator
 }
 
 private let defaultAlgorithm: Generator.Algorithm = .sha1
@@ -166,10 +165,7 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
     guard let secret = try externalSecret ?? queryItems.value(for: kQuerySecretKey).map(parseSecret) else {
         throw DeserializationError.missingSecret
     }
-    guard let generator = Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits) else {
-        // TODO: Convert Generator's failable initializer to a throwable initializer, and rethrow its errors.
-        throw DeserializationError.invalidGenerator
-    }
+    let generator = try Generator(_factor: factor, secret: secret, algorithm: algorithm, digits: digits)
 
     // Skip the leading "/"
     let fullName = String(url.path.dropFirst())
