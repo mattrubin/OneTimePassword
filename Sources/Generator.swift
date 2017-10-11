@@ -214,16 +214,12 @@ private extension Generator {
     // MARK: Validation
 
     static func validateDigits(_ digits: Int) throws {
-        guard isValidDigits(digits) else {
-            throw Error.invalidDigits
-        }
-    }
-
-    static func isValidDigits(_ digits: Int) -> Bool {
         // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
         // 6-digit code at a minimum and possibly 7 and 8-digit codes."
         let acceptableDigits = 6...8
-        return acceptableDigits.contains(digits)
+        guard acceptableDigits.contains(digits) else {
+            throw Error.invalidDigits
+        }
     }
 
     static func validateFactor(_ factor: Factor) throws {
@@ -236,25 +232,17 @@ private extension Generator {
     }
 
     static func validatePeriod(_ period: TimeInterval) throws {
-        guard isValidPeriod(period) else {
+        // The period must be positive and non-zero to produce a valid counter value.
+        guard (period > 0) else {
             throw Error.invalidPeriod
         }
     }
 
-    static func isValidPeriod(_ period: TimeInterval) -> Bool {
-        // The period must be positive and non-zero to produce a valid counter value.
-        return (period > 0)
-    }
-
     static func validateTime(_ timeSinceEpoch: TimeInterval) throws {
-        guard isValidTime(timeSinceEpoch) else {
+        // The time must be positive to produce a valid counter value.
+        guard (timeSinceEpoch >= 0) else {
             throw Error.invalidTime
         }
-    }
-
-    static func isValidTime(_ timeSinceEpoch: TimeInterval) -> Bool {
-        // The time must be positive to produce a valid counter value.
-        return (timeSinceEpoch >= 0)
     }
 }
 
