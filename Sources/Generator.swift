@@ -116,16 +116,16 @@ public struct Generator: Equatable {
     /// - requires: The next generator is valid.
     public func successor() -> Generator {
         switch factor {
-        case .counter(let counter):
-            // Update a counter-based generator by incrementing the counter. Force-unwrapping should
-            // be safe here, since any valid generator should have a valid successor.
-            let nextGenerator = Generator(
-                factor: .counter(counter + 1),
+        case .counter(let counterValue):
+            // Update a counter-based generator by incrementing the counter.
+            // Force-trying should be safe here, since any valid generator should have a valid successor.
+            // swiftlint:disable:next force_try
+            return try! Generator(
+                _factor: .counter(counterValue + 1),
                 secret: secret,
                 algorithm: algorithm,
                 digits: digits
             )
-            return nextGenerator!
         case .timer:
             // A timer-based generator does not need to be updated.
             return self
