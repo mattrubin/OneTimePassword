@@ -39,7 +39,6 @@ disabled_rules:
   - comma
   - cyclomatic_complexity
   - function_body_length
-  - syntactic_sugar
 
 trailing_comma:
   mandatory_comma: true

@@ -100,7 +100,7 @@ class TokenSerializationTests: XCTestCase {
                                 XCTAssertEqual(items?.count, expectedItemCount,
                                                "There shouldn't be any unexpected query arguments: \(url)")
 
-                                var queryArguments = Dictionary<String, String>()
+                                var queryArguments: [String: String] = [:]
                                 for item in items ?? [] {
                                     queryArguments[item.name] = item.value
                                 }
