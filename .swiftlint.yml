@@ -44,7 +44,6 @@ trailing_comma:
   mandatory_comma: true
 
 line_length:
-  warning: 120
   ignores_function_declarations: true
 
 file_header:
