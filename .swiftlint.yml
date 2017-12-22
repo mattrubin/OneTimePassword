@@ -10,6 +10,7 @@ opt_in_rules:
   - conditional_returns_on_newline
   - contains_over_first_not_nil
   - empty_count
+  - explicit_enum_raw_value
   - explicit_init
   - fatal_error_message
   - file_header
