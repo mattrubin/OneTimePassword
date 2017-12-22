@@ -20,6 +20,7 @@ opt_in_rules:
   - implicitly_unwrapped_optional
   - joined_default_parameter
   - let_var_whitespace
+  - literal_expression_end_indentation
   - multiline_parameters
   - nimble_operator
   - operator_usage_whitespace
