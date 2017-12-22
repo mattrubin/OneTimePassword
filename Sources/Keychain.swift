@@ -40,14 +40,14 @@ public final class Keychain {
     /// - throws: A `Keychain.Error` if an error occurred.
     /// - returns: The persistent token, or `nil` if no token matched the given identifier.
     public func persistentToken(withIdentifier identifier: Data) throws -> PersistentToken? {
-        return try keychainItem(forPersistentRef: identifier).flatMap(PersistentToken.init(keychainDictionary:))
+        return try keychainItem(forPersistentRef: identifier).map(PersistentToken.init(keychainDictionary:))
     }
 
     /// Returns the set of all persistent tokens found in the keychain.
     ///
     /// - throws: A `Keychain.Error` if an error occurred.
     public func allPersistentTokens() throws -> Set<PersistentToken> {
-        return Set(try allKeychainItems().flatMap(PersistentToken.init(keychainDictionary:)))
+        return Set(try allKeychainItems().map(PersistentToken.init(keychainDictionary:)))
     }
 
     // MARK: Write
@@ -123,15 +123,18 @@ private extension Token {
 }
 
 private extension PersistentToken {
-    init?(keychainDictionary: NSDictionary) {
+    struct DeserializationError: Error {}
+
+    init(keychainDictionary: NSDictionary) throws {
         guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? Data,
             let urlString = String(data: urlData, encoding: urlStringEncoding),
             let secret = keychainDictionary[kSecValueData as String] as? Data,
             let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? Data,
-            let url = URL(string: urlString as String),
-            let token = try? Token(_url: url, secret: secret) else {
-                return nil
+            let url = URL(string: urlString as String)
+            else {
+                throw DeserializationError()
         }
+        let token = try Token(_url: url, secret: secret)
         self.init(token: token, identifier: keychainItemRef)
     }
 }
