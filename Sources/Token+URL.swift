@@ -26,11 +26,11 @@
 import Foundation
 import Base32
 
-extension Token {
+public extension Token {
     // MARK: Serialization
 
     /// Serializes the token to a URL.
-    public func toURL() throws -> URL {
+    func toURL() throws -> URL {
         return try urlForToken(
             name: name,
             issuer: issuer,
@@ -41,7 +41,7 @@ extension Token {
     }
 
     /// Attempts to initialize a token represented by the give URL.
-    public init?(url: URL, secret: Data? = nil) {
+    init?(url: URL, secret: Data? = nil) {
         do {
             self = try token(from: url, secret: secret)
         } catch {
