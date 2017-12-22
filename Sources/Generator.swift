@@ -52,6 +52,10 @@ public struct Generator: Equatable {
         try? self.init(_factor: factor, secret: secret, algorithm: algorithm, digits: digits)
     }
 
+    // Eventually, this throwing initializer will replace the failable initializer above. For now, the failable
+    // initializer remains to maintain a consistent public API. Since two different initializers cannot overload the
+    // same initializer signature with both throwing an failable versions, this new initializer is currently prefixed
+    // with an underscore and marked as internal.
     internal init(_factor factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
         try Generator.validateFactor(factor)
         try Generator.validateDigits(digits)
