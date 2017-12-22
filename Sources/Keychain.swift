@@ -129,7 +129,7 @@ private extension PersistentToken {
             let secret = keychainDictionary[kSecValueData as String] as? Data,
             let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? Data,
             let url = URL(string: urlString as String),
-            let token = Token(url: url, secret: secret) else {
+            let token = try? Token(_url: url, secret: secret) else {
                 return nil
         }
         self.init(token: token, identifier: keychainItemRef)

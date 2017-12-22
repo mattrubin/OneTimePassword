@@ -48,6 +48,10 @@ extension Token {
             return nil
         }
     }
+
+    internal init(_url url: URL, secret: Data? = nil) throws {
+        self = try token(from: url, secret: secret)
+    }
 }
 
 internal enum SerializationError: Swift.Error {
