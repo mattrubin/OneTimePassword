@@ -3,10 +3,12 @@
 excluded:
   - Carthage
 opt_in_rules:
+  - array_init
   - attributes
   - closure_end_indentation
   - closure_spacing
   - conditional_returns_on_newline
+  - contains_over_first_not_nil
   - empty_count
   - explicit_init
   - fatal_error_message
@@ -20,11 +22,13 @@ opt_in_rules:
   - nimble_operator
   - operator_usage_whitespace
   - overridden_super_call
+  - override_in_extension
   - pattern_matching_keywords
   - private_outlet
   - prohibited_super_call
   - redundant_nil_coalescing
   - single_test_class
+  - sorted_first_last
   - switch_case_on_newline
   - unneeded_parentheses_in_closure_argument
   - vertical_whitespace
