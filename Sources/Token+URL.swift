@@ -174,14 +174,14 @@ private func token(from url: URL, secret externalSecret: Data? = nil) -> Token? 
             return nil
     }
 
-    var name = Token.defaultName
+    var name = ""
     let path = url.path
     if path.characters.count > 1 {
         // Skip the leading "/"
         name = path.substring(from: path.characters.index(after: path.startIndex))
     }
 
-    var issuer = Token.defaultIssuer
+    var issuer = ""
     if let issuerString = queryDictionary[kQueryIssuerKey] {
         issuer = issuerString
     } else {
