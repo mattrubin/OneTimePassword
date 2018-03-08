@@ -9,6 +9,8 @@ opt_in_rules:
   - closure_spacing
   - conditional_returns_on_newline
   - contains_over_first_not_nil
+  - discouraged_object_literal
+  - discouraged_optional_boolean
   - empty_count
   - explicit_enum_raw_value
   - explicit_init
@@ -34,6 +36,7 @@ opt_in_rules:
   - sorted_first_last
   - switch_case_on_newline
   - unneeded_parentheses_in_closure_argument
+  - yoda_condition
 disabled_rules:
   - colon
   - comma
