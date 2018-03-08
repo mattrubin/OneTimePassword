@@ -1,10 +1,11 @@
 Pod::Spec.new do |s|
   s.name         = "OneTimePassword"
-  s.version      = "3.0"
+  s.version      = "3.0.1"
   s.summary      = "A small library for generating TOTP and HOTP one-time passwords."
   s.homepage     = "https://github.com/mattrubin/OneTimePassword"
   s.license      = "MIT"
   s.author       = "Matt Rubin"
+  s.swift_version             = "3.2"
   s.ios.deployment_target     = "8.0"
   s.watchos.deployment_target = "2.0"
   s.source       = { :git => "https://github.com/mattrubin/OneTimePassword.git", :tag => s.version }
