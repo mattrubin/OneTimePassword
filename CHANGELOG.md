@@ -9,7 +9,7 @@
 - Clean up some old Keychain code which was used to provide Xcode 7 backwards compatibility. ([#133](https://github.com/mattrubin/OneTimePassword/pull/133))
 
 ## [3.0][] (2017-02-07)
-- Convert to Swift 3 and update the library API to follow the Swift [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
+- Convert to Swift 3 and update the library API to follow the Swift [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/).
 ([#74](https://github.com/mattrubin/OneTimePassword/pull/74),
 [#78](https://github.com/mattrubin/OneTimePassword/pull/78),
 [#80](https://github.com/mattrubin/OneTimePassword/pull/80),
@@ -20,8 +20,8 @@
 [#122](https://github.com/mattrubin/OneTimePassword/pull/122),
 [#123](https://github.com/mattrubin/OneTimePassword/pull/123),
 [#125](https://github.com/mattrubin/OneTimePassword/pull/125))
-- Convert `password(at:)` to take a `Date` instead of a `TimeInterval` ([#124](https://github.com/mattrubin/OneTimePassword/pull/124))
-- Update the SwiftLint configuration ([#120](https://github.com/mattrubin/OneTimePassword/pull/120))
+- Convert `password(at:)` to take a `Date` instead of a `TimeInterval`. ([#124](https://github.com/mattrubin/OneTimePassword/pull/124))
+- Update the SwiftLint configuration. ([#120](https://github.com/mattrubin/OneTimePassword/pull/120))
  
 
 ## [2.1.1][] (2016-12-28)
