@@ -123,16 +123,26 @@ private extension Token {
 }
 
 private extension PersistentToken {
-    struct DeserializationError: Error {}
+    enum DeserializationError: Error {
+        case missingData
+        case missingSecret
+        case missingPersistentRef
+        case unreadableData
+    }
 
     init(keychainDictionary: NSDictionary) throws {
-        guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? Data,
-            let urlString = String(data: urlData, encoding: urlStringEncoding),
-            let secret = keychainDictionary[kSecValueData as String] as? Data,
-            let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? Data,
-            let url = URL(string: urlString as String)
-            else {
-                throw DeserializationError()
+        guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? Data else {
+            throw DeserializationError.missingData
+        }
+        guard let secret = keychainDictionary[kSecValueData as String] as? Data else {
+            throw DeserializationError.missingSecret
+        }
+        guard let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? Data else {
+            throw DeserializationError.missingPersistentRef
+        }
+        guard let urlString = String(data: urlData, encoding: urlStringEncoding),
+            let url = URL(string: urlString as String) else {
+                throw DeserializationError.unreadableData
         }
         let token = try Token(_url: url, secret: secret)
         self.init(token: token, identifier: keychainItemRef)
