@@ -90,7 +90,7 @@ class GeneratorTests: XCTestCase {
             let totp = Generator(factor: timer, secret: secret, algorithm: .sha1, digits: 6)
                 .flatMap { try? $0.password(at: time) }
             XCTAssertEqual(hotp, totp,
-                "TOTP with \(timer) should match HOTP with counter \(counter) at time \(time).")
+                           "TOTP with \(timer) should match HOTP with counter \(counter) at time \(time).")
         }
     }
 
@@ -226,7 +226,7 @@ class GeneratorTests: XCTestCase {
             let time = Date(timeIntervalSince1970: 0)
             let password = generator.flatMap { try? $0.password(at: time) }
             XCTAssertEqual(password, expectedPassword,
-                "The generator did not produce the expected OTP.")
+                           "The generator did not produce the expected OTP.")
         }
     }
 
@@ -255,7 +255,7 @@ class GeneratorTests: XCTestCase {
                 let time = Date(timeIntervalSince1970: timeSinceEpoch)
                 let password = generator.flatMap { try? $0.password(at: time) }
                 XCTAssertEqual(password, expectedPassword,
-                    "Incorrect result for \(algorithm) at \(timeSinceEpoch)")
+                               "Incorrect result for \(algorithm) at \(timeSinceEpoch)")
             }
         }
     }
@@ -278,7 +278,7 @@ class GeneratorTests: XCTestCase {
                 let time = Date(timeIntervalSince1970: timeSinceEpoch)
                 let password = generator.flatMap { try? $0.password(at: time) }
                 XCTAssertEqual(password, expectedPassword,
-                    "Incorrect result for \(algorithm) at \(timeSinceEpoch)")
+                               "Incorrect result for \(algorithm) at \(timeSinceEpoch)")
             }
         }
     }

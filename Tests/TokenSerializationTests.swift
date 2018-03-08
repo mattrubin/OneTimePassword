@@ -97,8 +97,12 @@ class TokenSerializationTests: XCTestCase {
                                 let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
                                 let items = urlComponents?.queryItems
                                 let expectedItemCount = 4
+                                // SwiftLint gives a false positive here because of a Swift/SourceKit bug.
+                                // See https://github.com/realm/SwiftLint/issues/1785
+                                // swiftlint:disable vertical_parameter_alignment_on_call
                                 XCTAssertEqual(items?.count, expectedItemCount,
                                                "There shouldn't be any unexpected query arguments: \(url)")
+                                // swiftlint:enable vertical_parameter_alignment_on_call
 
                                 var queryArguments: [String: String] = [:]
                                 for item in items ?? [] {

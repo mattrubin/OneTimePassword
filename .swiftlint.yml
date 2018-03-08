@@ -36,6 +36,7 @@ opt_in_rules:
   - sorted_first_last
   - switch_case_on_newline
   - unneeded_parentheses_in_closure_argument
+  - vertical_parameter_alignment_on_call
   - yoda_condition
 disabled_rules:
   - colon
