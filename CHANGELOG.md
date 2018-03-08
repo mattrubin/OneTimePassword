@@ -2,6 +2,12 @@
 
 <!--## [In development][develop]-->
 
+## [3.0.1][] (2018-03-08)
+- Fix an issue where CocoaPods was trying to build OneTimePassword with Swift 4. ([#157](https://github.com/mattrubin/OneTimePassword/pull/157))
+- Fix the Base32-decoding function in the token creation example code. ([#134](https://github.com/mattrubin/OneTimePassword/pull/134))
+- Tweak the Travis CI configuration to work around test timeout flakiness. ([#131](https://github.com/mattrubin/OneTimePassword/pull/131))
+- Clean up some old Keychain code which was used to provide Xcode 7 backwards compatibility. ([#133](https://github.com/mattrubin/OneTimePassword/pull/133))
+
 ## [3.0][] (2017-02-07)
 - Convert to Swift 3 and update the library API to follow the Swift [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
 ([#74](https://github.com/mattrubin/OneTimePassword/pull/74),
@@ -115,8 +121,9 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.0...develop
+[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.0.1...develop
 
+[3.0.1]: https://github.com/mattrubin/OneTimePassword/compare/3.0...3.0.1
 [3.0]: https://github.com/mattrubin/OneTimePassword/compare/2.1.1...3.0
 [2.1.1]: https://github.com/mattrubin/OneTimePassword/compare/2.1...2.1.1
 [2.1]: https://github.com/mattrubin/OneTimePassword/compare/2.0.1...2.1
