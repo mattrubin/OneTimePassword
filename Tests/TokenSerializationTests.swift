@@ -50,6 +50,7 @@ class TokenSerializationTests: XCTestCase {
     let algorithms: [OneTimePassword.Generator.Algorithm] = [.sha1, .sha256, .sha512]
     let digits = [6, 7, 8]
 
+    // swiftlint:disable:next function_body_length
     func testSerialization() {
         for factor in factors {
             for name in names {

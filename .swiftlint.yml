@@ -42,7 +42,6 @@ disabled_rules:
   - colon
   - comma
   - cyclomatic_complexity
-  - function_body_length
 
 trailing_comma:
   mandatory_comma: true
