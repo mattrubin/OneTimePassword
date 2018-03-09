@@ -50,6 +50,7 @@ class TokenSerializationTests: XCTestCase {
     let algorithms: [OneTimePassword.Generator.Algorithm] = [.sha1, .sha256, .sha512]
     let digits = [6, 7, 8]
 
+    // swiftlint:disable:next function_body_length
     func testSerialization() {
         for factor in factors {
             for name in names {
@@ -97,10 +98,14 @@ class TokenSerializationTests: XCTestCase {
                                 let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
                                 let items = urlComponents?.queryItems
                                 let expectedItemCount = 4
+                                // SwiftLint gives a false positive here because of a Swift/SourceKit bug.
+                                // See https://github.com/realm/SwiftLint/issues/1785
+                                // swiftlint:disable vertical_parameter_alignment_on_call
                                 XCTAssertEqual(items?.count, expectedItemCount,
                                                "There shouldn't be any unexpected query arguments: \(url)")
+                                // swiftlint:enable vertical_parameter_alignment_on_call
 
-                                var queryArguments = Dictionary<String, String>()
+                                var queryArguments: [String: String] = [:]
                                 for item in items ?? [] {
                                     queryArguments[item.name] = item.value
                                 }

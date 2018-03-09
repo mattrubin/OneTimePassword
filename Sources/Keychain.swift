@@ -74,7 +74,7 @@ public final class Keychain {
     public func update(_ persistentToken: PersistentToken, with token: Token) throws -> PersistentToken {
         let attributes = try token.keychainAttributes()
         try updateKeychainItem(forPersistentRef: persistentToken.identifier,
-            withAttributes: attributes)
+                               withAttributes: attributes)
         return PersistentToken(token: token, identifier: persistentToken.identifier)
     }
 
