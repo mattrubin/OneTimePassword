@@ -102,6 +102,7 @@ public extension OTPToken {
 
 // MARK: Enums
 
+// swiftlint:disable explicit_enum_raw_value
 @objc
 public enum OTPTokenType: UInt8 {
     case counter
@@ -114,6 +115,7 @@ public enum OTPAlgorithm: UInt32 {
     @objc(OTPAlgorithmSHA256) case sha256
     @objc(OTPAlgorithmSHA512) case sha512
 }
+// swiftlint:enable explicit_enum_raw_value
 
 // MARK: Conversion
 

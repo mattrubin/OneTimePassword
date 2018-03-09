@@ -3,12 +3,18 @@
 excluded:
   - Carthage
 opt_in_rules:
+  - array_init
   - attributes
   - closure_end_indentation
   - closure_spacing
   - conditional_returns_on_newline
+  - contains_over_first_not_nil
+  - discouraged_object_literal
+  - discouraged_optional_boolean
   - empty_count
+  - explicit_enum_raw_value
   - explicit_init
+  - extension_access_modifier
   - fatal_error_message
   - file_header
   - first_where
@@ -16,30 +22,31 @@ opt_in_rules:
   - implicitly_unwrapped_optional
   - joined_default_parameter
   - let_var_whitespace
+  - literal_expression_end_indentation
   - multiline_parameters
   - nimble_operator
   - operator_usage_whitespace
   - overridden_super_call
+  - override_in_extension
   - pattern_matching_keywords
   - private_outlet
   - prohibited_super_call
   - redundant_nil_coalescing
   - single_test_class
+  - sorted_first_last
   - switch_case_on_newline
   - unneeded_parentheses_in_closure_argument
-  - vertical_whitespace
+  - vertical_parameter_alignment_on_call
+  - yoda_condition
 disabled_rules:
   - colon
   - comma
   - cyclomatic_complexity
-  - function_body_length
-  - syntactic_sugar
 
 trailing_comma:
   mandatory_comma: true
 
 line_length:
-  warning: 120
   ignores_function_declarations: true
 
 file_header:

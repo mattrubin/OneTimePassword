@@ -101,6 +101,7 @@ class KeychainTests: XCTestCase {
         }
     }
 
+    // swiftlint:disable:next function_body_length
     func testDuplicateTokens() {
         let token1 = testToken, token2 = testToken
 
