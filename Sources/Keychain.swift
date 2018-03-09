@@ -141,7 +141,7 @@ private extension PersistentToken {
             throw DeserializationError.missingPersistentRef
         }
         guard let urlString = String(data: urlData, encoding: urlStringEncoding),
-            let url = URL(string: urlString as String) else {
+            let url = URL(string: urlString) else {
                 throw DeserializationError.unreadableData
         }
         let token = try Token(_url: url, secret: secret)
