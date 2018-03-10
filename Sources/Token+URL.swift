@@ -41,15 +41,7 @@ public extension Token {
     }
 
     /// Attempts to initialize a token represented by the give URL.
-    init?(url: URL, secret: Data? = nil) {
-        try? self.init(_url: url, secret: secret)
-    }
-
-    // Eventually, this throwing initializer will replace the failable initializer above. For now, the failable
-    // initializer remains to maintain a consistent public API. Since two different initializers cannot overload the
-    // same initializer signature with both throwing an failable versions, this new initializer is currently prefixed
-    // with an underscore and marked as internal.
-    internal init(_url url: URL, secret: Data? = nil) throws {
+    init(url: URL, secret: Data? = nil) throws {
         self = try token(from: url, secret: secret)
     }
 }

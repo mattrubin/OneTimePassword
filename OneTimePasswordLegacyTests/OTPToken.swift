@@ -85,7 +85,7 @@ public extension OTPToken {
 
     @objc(tokenWithURL:secret:)
     static func token(from url: URL, secret: Data?) -> Self? {
-        guard let token = Token(url: url, secret: secret) else {
+        guard let token = try? Token(url: url, secret: secret) else {
             return nil
         }
         return self.init(token: token)
