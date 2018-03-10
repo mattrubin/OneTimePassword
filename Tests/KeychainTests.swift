@@ -30,12 +30,13 @@ import Base32
 let testToken = Token(
     name: "Name",
     issuer: "Issuer",
-    generator: Generator(
+    // swiftlint:disable:next force_try
+    generator: try! Generator(
         factor: .timer(period: 45),
         secret: MF_Base32Codec.data(fromBase32String: "AAAQEAYEAUDAOCAJBIFQYDIOB4"),
         algorithm: .sha256,
         digits: 8
-    )!
+    )
 )
 
 class KeychainTests: XCTestCase {

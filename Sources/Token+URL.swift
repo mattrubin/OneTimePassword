@@ -169,7 +169,7 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
     guard let secret = try externalSecret ?? queryItems.value(for: kQuerySecretKey).map(parseSecret) else {
         throw DeserializationError.missingSecret
     }
-    let generator = try Generator(_factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+    let generator = try Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
 
     // Skip the leading "/"
     let fullName = String(url.path.dropFirst())

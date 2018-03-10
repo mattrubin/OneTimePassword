@@ -59,12 +59,15 @@ class TokenSerializationTests: XCTestCase {
                         for algorithm in algorithms {
                             for digitNumber in digits {
                                 // Create the token
-                                guard let generator = Generator(
-                                    factor: factor,
-                                    secret: secretString.data(using: String.Encoding.ascii)!,
-                                    algorithm: algorithm,
-                                    digits: digitNumber
-                                ) else {
+                                let generator: Generator
+                                do {
+                                    generator = try Generator(
+                                        factor: factor,
+                                        secret: secretString.data(using: String.Encoding.ascii)!,
+                                        algorithm: algorithm,
+                                        digits: digitNumber
+                                    )
+                                } catch {
                                     XCTFail("Failed to construct Generator.")
                                     continue
                                 }

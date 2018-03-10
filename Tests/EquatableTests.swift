@@ -54,22 +54,26 @@ class EquatableTests: XCTestCase {
         XCTAssertNotEqual(t1, c1)
     }
 
-    func testGeneratorEquality() {
-        let g = Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6)
+    func testGeneratorEquality() throws {
+        let g = try Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6)
         let badData = "0".data(using: String.Encoding.utf8)!
 
-        XCTAssert(g == Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6))
-        XCTAssert(g != Generator(factor: .counter(1), secret: Data(), algorithm: .sha1, digits: 6))
-        XCTAssert(g != Generator(factor: .counter(0), secret: badData, algorithm: .sha1, digits: 6))
-        XCTAssert(g != Generator(factor: .counter(0), secret: Data(), algorithm: .sha256, digits: 6))
-        XCTAssert(g != Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 8))
+        XCTAssert(try g == Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6))
+        XCTAssert(try g != Generator(factor: .counter(1), secret: Data(), algorithm: .sha1, digits: 6))
+        XCTAssert(try g != Generator(factor: .counter(0), secret: badData, algorithm: .sha1, digits: 6))
+        XCTAssert(try g != Generator(factor: .counter(0), secret: Data(), algorithm: .sha256, digits: 6))
+        XCTAssert(try g != Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 8))
     }
 
     func testTokenEquality() {
-        guard let generator = Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6),
-            let other_generator = Generator(factor: .counter(1), secret: Data(), algorithm: .sha512, digits: 8) else {
-                XCTFail("Failed to construct Generator.")
-                return
+        let generator: Generator
+        let other_generator: Generator
+        do {
+            generator = try Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6)
+            other_generator = try Generator(factor: .counter(1), secret: Data(), algorithm: .sha512, digits: 8)
+        } catch {
+            XCTFail("Failed to construct Generator: \(error)")
+            return
         }
 
         let t = Token(name: "Name", issuer: "Issuer", generator: generator)

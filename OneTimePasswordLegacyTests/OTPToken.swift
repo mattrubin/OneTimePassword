@@ -133,7 +133,7 @@ private extension OTPAlgorithm {
 }
 
 private func tokenForOTPToken(_ otpToken: OTPToken) -> Token? {
-    guard let generator = Generator(
+    guard let generator = try? Generator(
         factor: factorForOTPToken(otpToken),
         secret: otpToken.secret,
         algorithm: algorithmForOTPAlgorithm(otpToken.algorithm),

@@ -34,13 +34,16 @@ class TokenTests: XCTestCase {
         // Create a token
         let name = "Test Name"
         let issuer = "Test Issuer"
-        guard let generator = Generator(
-            factor: .counter(111),
-            secret: secretData,
-            algorithm: .sha1,
-            digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
+        let generator: Generator
+        do {
+            generator = try Generator(
+                factor: .counter(111),
+                secret: secretData,
+                algorithm: .sha1,
+                digits: 6
+            )
+        } catch {
+            XCTFail("Failed to construct Generator: \(error)")
             return
         }
 
@@ -57,13 +60,16 @@ class TokenTests: XCTestCase {
         // Create another token
         let other_name = "Other Test Name"
         let other_issuer = "Other Test Issuer"
-        guard let other_generator = Generator(
-            factor: .timer(period: 123),
-            secret: otherSecretData,
-            algorithm: .sha512,
-            digits: 8
-        ) else {
-            XCTFail("Failed to construct Generator.")
+        let other_generator: Generator
+        do {
+            other_generator = try Generator(
+                factor: .timer(period: 123),
+                secret: otherSecretData,
+                algorithm: .sha512,
+                digits: 8
+            )
+        } catch {
+            XCTFail("Failed to construct Generator: \(error)")
             return
         }
 
@@ -84,13 +90,16 @@ class TokenTests: XCTestCase {
     }
 
     func testDefaults() {
-        guard let generator = Generator(
-            factor: .counter(0),
-            secret: Data(),
-            algorithm: .sha1,
-            digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
+        let generator: Generator
+        do {
+            generator = try Generator(
+                factor: .counter(0),
+                secret: Data(),
+                algorithm: .sha1,
+                digits: 6
+            )
+        } catch {
+            XCTFail("Failed to construct Generator: \(error)")
             return
         }
         let n = "Test Name"
@@ -110,13 +119,16 @@ class TokenTests: XCTestCase {
     }
 
     func testCurrentPassword() {
-        guard let timerGenerator = Generator(
-            factor: .timer(period: 30),
-            secret: secretData,
-            algorithm: .sha1,
-            digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
+        let timerGenerator: Generator
+        do {
+            timerGenerator = try Generator(
+                factor: .timer(period: 30),
+                secret: secretData,
+                algorithm: .sha1,
+                digits: 6
+            )
+        } catch {
+            XCTFail("Failed to construct Generator: \(error)")
             return
         }
         let timerToken = Token(generator: timerGenerator)
@@ -132,13 +144,16 @@ class TokenTests: XCTestCase {
             return
         }
 
-        guard let counterGenerator = Generator(
-            factor: .counter(12345),
-            secret: otherSecretData,
-            algorithm: .sha1,
-            digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
+        let counterGenerator: Generator
+        do {
+            counterGenerator = try Generator(
+                factor: .counter(12345),
+                secret: otherSecretData,
+                algorithm: .sha1,
+                digits: 6
+            )
+        } catch {
+            XCTFail("Failed to construct Generator: \(error)")
             return
         }
         let counterToken = Token(generator: counterGenerator)
@@ -156,13 +171,16 @@ class TokenTests: XCTestCase {
     }
 
     func testUpdatedToken() {
-        guard let timerGenerator = Generator(
-            factor: .timer(period: 30),
-            secret: secretData,
-            algorithm: .sha1,
-            digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
+        let timerGenerator: Generator
+        do {
+            timerGenerator = try Generator(
+                factor: .timer(period: 30),
+                secret: secretData,
+                algorithm: .sha1,
+                digits: 6
+            )
+        } catch {
+            XCTFail("Failed to construct Generator: \(error)")
             return
         }
         let timerToken = Token(generator: timerGenerator)
@@ -171,13 +189,16 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(updatedTimerToken, timerToken)
 
         let count: UInt64 = 12345
-        guard let counterGenerator = Generator(
-            factor: .counter(count),
-            secret: otherSecretData,
-            algorithm: .sha1,
-            digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
+        let counterGenerator: Generator
+        do {
+            counterGenerator = try Generator(
+                factor: .counter(count),
+                secret: otherSecretData,
+                algorithm: .sha1,
+                digits: 6
+            )
+        } catch {
+            XCTFail("Failed to construct Generator: \(error)")
             return
         }
         let counterToken = Token(generator: counterGenerator)

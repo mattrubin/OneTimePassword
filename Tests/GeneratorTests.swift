@@ -27,24 +27,24 @@ import XCTest
 import OneTimePassword
 
 class GeneratorTests: XCTestCase {
-    func testInit() {
+    func testInit() throws {
         // Create a generator
         let factor = OneTimePassword.Generator.Factor.counter(111)
         let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
         let algorithm = Generator.Algorithm.sha256
         let digits = 8
 
-        let generator = Generator(
+        let generator = try Generator(
             factor: factor,
             secret: secret,
             algorithm: algorithm,
             digits: digits
         )
 
-        XCTAssertEqual(generator?.factor, factor)
-        XCTAssertEqual(generator?.secret, secret)
-        XCTAssertEqual(generator?.algorithm, algorithm)
-        XCTAssertEqual(generator?.digits, digits)
+        XCTAssertEqual(generator.factor, factor)
+        XCTAssertEqual(generator.secret, secret)
+        XCTAssertEqual(generator.algorithm, algorithm)
+        XCTAssertEqual(generator.digits, digits)
 
         // Create another generator
         let other_factor = OneTimePassword.Generator.Factor.timer(period: 123)
@@ -52,26 +52,26 @@ class GeneratorTests: XCTestCase {
         let other_algorithm = Generator.Algorithm.sha512
         let other_digits = 7
 
-        let other_generator = Generator(
+        let other_generator = try Generator(
             factor: other_factor,
             secret: other_secret,
             algorithm: other_algorithm,
             digits: other_digits
         )
 
-        XCTAssertEqual(other_generator?.factor, other_factor)
-        XCTAssertEqual(other_generator?.secret, other_secret)
-        XCTAssertEqual(other_generator?.algorithm, other_algorithm)
-        XCTAssertEqual(other_generator?.digits, other_digits)
+        XCTAssertEqual(other_generator.factor, other_factor)
+        XCTAssertEqual(other_generator.secret, other_secret)
+        XCTAssertEqual(other_generator.algorithm, other_algorithm)
+        XCTAssertEqual(other_generator.digits, other_digits)
 
         // Ensure the generators are different
-        XCTAssertNotEqual(generator?.factor, other_generator?.factor)
-        XCTAssertNotEqual(generator?.secret, other_generator?.secret)
-        XCTAssertNotEqual(generator?.algorithm, other_generator?.algorithm)
-        XCTAssertNotEqual(generator?.digits, other_generator?.digits)
+        XCTAssertNotEqual(generator.factor, other_generator.factor)
+        XCTAssertNotEqual(generator.secret, other_generator.secret)
+        XCTAssertNotEqual(generator.algorithm, other_generator.algorithm)
+        XCTAssertNotEqual(generator.digits, other_generator.digits)
     }
 
-    func testCounter() {
+    func testCounter() throws {
         let factors: [(TimeInterval, TimeInterval, UInt64)] = [
             (100,         30, 3),
             (10000,       30, 333),
@@ -85,16 +85,14 @@ class GeneratorTests: XCTestCase {
             let timer = Generator.Factor.timer(period: period)
             let counter = Generator.Factor.counter(count)
             let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
-            let hotp = Generator(factor: counter, secret: secret, algorithm: .sha1, digits: 6)
-                .flatMap { try? $0.password(at: time) }
-            let totp = Generator(factor: timer, secret: secret, algorithm: .sha1, digits: 6)
-                .flatMap { try? $0.password(at: time) }
+            let hotp = try Generator(factor: counter, secret: secret, algorithm: .sha1, digits: 6).password(at: time)
+            let totp = try Generator(factor: timer, secret: secret, algorithm: .sha1, digits: 6).password(at: time)
             XCTAssertEqual(hotp, totp,
                            "TOTP with \(timer) should match HOTP with counter \(counter) at time \(time).")
         }
     }
 
-    func testValidation() {
+    func testValidation() throws {
         let digitTests: [(Int, Bool)] = [
             (-6, false),
             (0, false),
@@ -117,7 +115,7 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (digits, digitsAreValid) in digitTests {
-            let generator = Generator(
+            let generator = try? Generator(
                 factor: .counter(0),
                 secret: Data(),
                 algorithm: .sha1,
@@ -132,7 +130,7 @@ class GeneratorTests: XCTestCase {
             }
 
             for (period, periodIsValid) in periodTests {
-                let generator = Generator(
+                let generator = try? Generator(
                     factor: .timer(period: period),
                     secret: Data(),
                     algorithm: .sha1,
@@ -150,14 +148,17 @@ class GeneratorTests: XCTestCase {
     }
 
     func testPasswordAtInvalidTime() {
-        guard let generator = Generator(
-            factor: .timer(period: 30),
-            secret: Data(),
-            algorithm: .sha1,
-            digits: 6
-            ) else {
-                XCTFail("Failed to initialize a Generator.")
-                return
+        let generator: Generator
+        do {
+            generator = try Generator(
+                factor: .timer(period: 30),
+                secret: Data(),
+                algorithm: .sha1,
+                digits: 6
+            )
+        } catch {
+            XCTFail("Failed to initialize a Generator: \(error)")
+            return
         }
 
         let badTime = Date(timeIntervalSince1970: -100)
@@ -207,7 +208,7 @@ class GeneratorTests: XCTestCase {
 
     // The values in this test are found in Appendix D of the HOTP RFC
     // https://tools.ietf.org/html/rfc4226#appendix-D
-    func testHOTPRFCValues() {
+    func testHOTPRFCValues() throws {
         let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
         let expectedValues: [UInt64: String] = [
             0: "755224",
@@ -222,9 +223,9 @@ class GeneratorTests: XCTestCase {
             9: "520489",
         ]
         for (counter, expectedPassword) in expectedValues {
-            let generator = Generator(factor: .counter(counter), secret: secret, algorithm: .sha1, digits: 6)
+            let generator = try Generator(factor: .counter(counter), secret: secret, algorithm: .sha1, digits: 6)
             let time = Date(timeIntervalSince1970: 0)
-            let password = generator.flatMap { try? $0.password(at: time) }
+            let password = try generator.password(at: time)
             XCTAssertEqual(password, expectedPassword,
                            "The generator did not produce the expected OTP.")
         }
@@ -232,7 +233,7 @@ class GeneratorTests: XCTestCase {
 
     // The values in this test are found in Appendix B of the TOTP RFC
     // https://tools.ietf.org/html/rfc6238#appendix-B
-    func testTOTPRFCValues() {
+    func testTOTPRFCValues() throws {
         let secretKeys: [Generator.Algorithm: String] = [
             .sha1:   "12345678901234567890",
             .sha256: "12345678901234567890123456789012",
@@ -249,11 +250,11 @@ class GeneratorTests: XCTestCase {
 
         for (algorithm, secretKey) in secretKeys {
             let secret = secretKey.data(using: String.Encoding.ascii)!
-            let generator = Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 8)
+            let generator = try Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 8)
 
             for (timeSinceEpoch, expectedPassword) in zip(timesSinceEpoch, expectedValues[algorithm]!) {
                 let time = Date(timeIntervalSince1970: timeSinceEpoch)
-                let password = generator.flatMap { try? $0.password(at: time) }
+                let password = try generator.password(at: time)
                 XCTAssertEqual(password, expectedPassword,
                                "Incorrect result for \(algorithm) at \(timeSinceEpoch)")
             }
@@ -262,7 +263,7 @@ class GeneratorTests: XCTestCase {
 
     // From Google Authenticator for iOS
     // https://code.google.com/p/google-authenticator/source/browse/mobile/ios/Classes/TOTPGeneratorTest.m
-    func testTOTPGoogleValues() {
+    func testTOTPGoogleValues() throws {
         let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
         let timesSinceEpoch: [TimeInterval] = [1111111111, 1234567890, 2000000000]
 
@@ -273,10 +274,10 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (algorithm, expectedPasswords) in expectedValues {
-            let generator = Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
+            let generator = try Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
             for (timeSinceEpoch, expectedPassword) in zip(timesSinceEpoch, expectedPasswords) {
                 let time = Date(timeIntervalSince1970: timeSinceEpoch)
-                let password = generator.flatMap { try? $0.password(at: time) }
+                let password = try generator.password(at: time)
                 XCTAssertEqual(password, expectedPassword,
                                "Incorrect result for \(algorithm) at \(timeSinceEpoch)")
             }
