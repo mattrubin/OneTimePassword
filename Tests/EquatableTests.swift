@@ -65,16 +65,9 @@ class EquatableTests: XCTestCase {
         XCTAssert(try g != Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 8))
     }
 
-    func testTokenEquality() {
-        let generator: Generator
-        let other_generator: Generator
-        do {
-            generator = try Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6)
-            other_generator = try Generator(factor: .counter(1), secret: Data(), algorithm: .sha512, digits: 8)
-        } catch {
-            XCTFail("Failed to construct Generator: \(error)")
-            return
-        }
+    func testTokenEquality() throws {
+        let generator = try Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6)
+        let other_generator = try Generator(factor: .counter(1), secret: Data(), algorithm: .sha512, digits: 8)
 
         let t = Token(name: "Name", issuer: "Issuer", generator: generator)
 

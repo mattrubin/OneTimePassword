@@ -147,19 +147,13 @@ class GeneratorTests: XCTestCase {
         }
     }
 
-    func testPasswordAtInvalidTime() {
-        let generator: Generator
-        do {
-            generator = try Generator(
-                factor: .timer(period: 30),
-                secret: Data(),
-                algorithm: .sha1,
-                digits: 6
-            )
-        } catch {
-            XCTFail("Failed to initialize a Generator: \(error)")
-            return
-        }
+    func testPasswordAtInvalidTime() throws {
+        let generator = try Generator(
+            factor: .timer(period: 30),
+            secret: Data(),
+            algorithm: .sha1,
+            digits: 6
+        )
 
         let badTime = Date(timeIntervalSince1970: -100)
         do {

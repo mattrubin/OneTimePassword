@@ -30,22 +30,16 @@ class TokenTests: XCTestCase {
     let secretData = "12345678901234567890".data(using: String.Encoding.ascii)!
     let otherSecretData = "09876543210987654321".data(using: String.Encoding.ascii)!
 
-    func testInit() {
+    func testInit() throws {
         // Create a token
         let name = "Test Name"
         let issuer = "Test Issuer"
-        let generator: Generator
-        do {
-            generator = try Generator(
-                factor: .counter(111),
-                secret: secretData,
-                algorithm: .sha1,
-                digits: 6
-            )
-        } catch {
-            XCTFail("Failed to construct Generator: \(error)")
-            return
-        }
+        let generator = try Generator(
+            factor: .counter(111),
+            secret: secretData,
+            algorithm: .sha1,
+            digits: 6
+        )
 
         let token = Token(
             name: name,
@@ -60,18 +54,12 @@ class TokenTests: XCTestCase {
         // Create another token
         let other_name = "Other Test Name"
         let other_issuer = "Other Test Issuer"
-        let other_generator: Generator
-        do {
-            other_generator = try Generator(
-                factor: .timer(period: 123),
-                secret: otherSecretData,
-                algorithm: .sha512,
-                digits: 8
-            )
-        } catch {
-            XCTFail("Failed to construct Generator: \(error)")
-            return
-        }
+        let other_generator = try Generator(
+            factor: .timer(period: 123),
+            secret: otherSecretData,
+            algorithm: .sha512,
+            digits: 8
+        )
 
         let other_token = Token(
             name: other_name,
@@ -89,19 +77,13 @@ class TokenTests: XCTestCase {
         XCTAssertNotEqual(token.generator, other_token.generator)
     }
 
-    func testDefaults() {
-        let generator: Generator
-        do {
-            generator = try Generator(
-                factor: .counter(0),
-                secret: Data(),
-                algorithm: .sha1,
-                digits: 6
-            )
-        } catch {
-            XCTFail("Failed to construct Generator: \(error)")
-            return
-        }
+    func testDefaults() throws {
+        let generator = try Generator(
+            factor: .counter(0),
+            secret: Data(),
+            algorithm: .sha1,
+            digits: 6
+        )
         let n = "Test Name"
         let i = "Test Issuer"
 
@@ -118,19 +100,13 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(tokenWithAllDefaults.issuer, "")
     }
 
-    func testCurrentPassword() {
-        let timerGenerator: Generator
-        do {
-            timerGenerator = try Generator(
-                factor: .timer(period: 30),
-                secret: secretData,
-                algorithm: .sha1,
-                digits: 6
-            )
-        } catch {
-            XCTFail("Failed to construct Generator: \(error)")
-            return
-        }
+    func testCurrentPassword() throws {
+        let timerGenerator = try Generator(
+            factor: .timer(period: 30),
+            secret: secretData,
+            algorithm: .sha1,
+            digits: 6
+        )
         let timerToken = Token(generator: timerGenerator)
 
         do {
@@ -144,18 +120,12 @@ class TokenTests: XCTestCase {
             return
         }
 
-        let counterGenerator: Generator
-        do {
-            counterGenerator = try Generator(
-                factor: .counter(12345),
-                secret: otherSecretData,
-                algorithm: .sha1,
-                digits: 6
-            )
-        } catch {
-            XCTFail("Failed to construct Generator: \(error)")
-            return
-        }
+        let counterGenerator = try Generator(
+            factor: .counter(12345),
+            secret: otherSecretData,
+            algorithm: .sha1,
+            digits: 6
+        )
         let counterToken = Token(generator: counterGenerator)
 
         do {
@@ -170,37 +140,25 @@ class TokenTests: XCTestCase {
         }
     }
 
-    func testUpdatedToken() {
-        let timerGenerator: Generator
-        do {
-            timerGenerator = try Generator(
-                factor: .timer(period: 30),
-                secret: secretData,
-                algorithm: .sha1,
-                digits: 6
-            )
-        } catch {
-            XCTFail("Failed to construct Generator: \(error)")
-            return
-        }
+    func testUpdatedToken() throws {
+        let timerGenerator = try Generator(
+            factor: .timer(period: 30),
+            secret: secretData,
+            algorithm: .sha1,
+            digits: 6
+        )
         let timerToken = Token(generator: timerGenerator)
 
         let updatedTimerToken = timerToken.updatedToken()
         XCTAssertEqual(updatedTimerToken, timerToken)
 
         let count: UInt64 = 12345
-        let counterGenerator: Generator
-        do {
-            counterGenerator = try Generator(
-                factor: .counter(count),
-                secret: otherSecretData,
-                algorithm: .sha1,
-                digits: 6
-            )
-        } catch {
-            XCTFail("Failed to construct Generator: \(error)")
-            return
-        }
+        let counterGenerator = try Generator(
+            factor: .counter(count),
+            secret: otherSecretData,
+            algorithm: .sha1,
+            digits: 6
+        )
         let counterToken = Token(generator: counterGenerator)
 
         let updatedCounterToken = counterToken.updatedToken()
