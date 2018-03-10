@@ -92,7 +92,7 @@ class GeneratorTests: XCTestCase {
         }
     }
 
-    func testValidation() throws {
+    func testValidation() {
         let digitTests: [(Int, Bool)] = [
             (-6, false),
             (0, false),
