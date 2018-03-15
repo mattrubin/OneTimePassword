@@ -156,48 +156,36 @@ class GeneratorTests: XCTestCase {
         )
 
         let badTime = Date(timeIntervalSince1970: -100)
-        do {
-            _ = try generator.password(at: badTime)
-        } catch Generator.Error.invalidTime {
-            // This is the expected type of error
-            return
-        } catch {
-            XCTFail("passwordAtTime(\(badTime)) threw an unexpected type of error: \(error))")
-            return
+        XCTAssertThrowsError(try generator.password(at: badTime)) { error in
+            guard case Generator.Error.invalidTime = error else {
+                XCTFail("password(at: \(badTime)) threw an unexpected type of error: \(error)")
+                return
+            }
         }
-        XCTFail("passwordAtTime(\(badTime)) should throw an error)")
     }
 
     func testPasswordWithInvalidPeriod() {
         let generator = Generator(unvalidatedFactor: .timer(period: 0))
         let time = Date(timeIntervalSince1970: 100)
 
-        do {
-            _ = try generator.password(at: time)
-        } catch Generator.Error.invalidPeriod {
-            // This is the expected type of error
-            return
-        } catch {
-            XCTFail("passwordAtTime(\(time)) threw an unexpected type of error: \(error))")
-            return
+        XCTAssertThrowsError(try generator.password(at: time)) { error in
+            guard case Generator.Error.invalidPeriod = error else {
+                XCTFail("password(at: \(time)) threw an unexpected type of error: \(error)")
+                return
+            }
         }
-        XCTFail("passwordAtTime(\(time)) should throw an error)")
     }
 
     func testPasswordWithInvalidDigits() {
         let generator = Generator(unvalidatedDigits: 3)
         let time = Date(timeIntervalSince1970: 100)
 
-        do {
-            _ = try generator.password(at: time)
-        } catch Generator.Error.invalidDigits {
-            // This is the expected type of error
-            return
-        } catch {
-            XCTFail("passwordAtTime(\(time)) threw an unexpected type of error: \(error))")
-            return
+        XCTAssertThrowsError(try generator.password(at: time)) { error in
+            guard case Generator.Error.invalidDigits = error else {
+                XCTFail("password(at: \(time)) threw an unexpected type of error: \(error)")
+                return
+            }
         }
-        XCTFail("passwordAtTime(\(time)) should throw an error)")
     }
 
     // The values in this test are found in Appendix D of the HOTP RFC
