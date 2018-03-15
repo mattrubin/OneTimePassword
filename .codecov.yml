@@ -1,6 +1,5 @@
 # Configuration for Codecov (https://codecov.io)
 
-coverage:
-  ignore:
-    - "Tests"
-    - "OneTimePasswordLegacyTests"
+ignore:
+  - Tests
+  - OneTimePasswordLegacyTests
