@@ -40,7 +40,7 @@ public extension Token {
         )
     }
 
-    /// Attempts to initialize a token represented by the give URL.
+    /// Attempts to initialize a token represented by the given URL.
     init(url: URL, secret: Data? = nil) throws {
         self = try token(from: url, secret: secret)
     }
