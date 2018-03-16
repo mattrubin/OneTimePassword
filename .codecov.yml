@@ -1,6 +1,9 @@
 # Configuration for Codecov (https://codecov.io)
 
-coverage:
-  ignore:
-    - "Tests"
-    - "OneTimePasswordLegacyTests"
+codecov:
+  # Use `develop` as the default branch
+  branch: develop
+
+ignore:
+  - Tests
+  - OneTimePasswordLegacyTests
