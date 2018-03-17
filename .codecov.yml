@@ -7,3 +7,10 @@ codecov:
 ignore:
   - Tests
   - OneTimePasswordLegacyTests
+
+coverage:
+  status:
+    patch:
+      default:
+        # Allow patch to be 0% covered without marking a PR with a failing status.
+        target: 0

@@ -40,14 +40,14 @@ public final class Keychain {
     /// - throws: A `Keychain.Error` if an error occurred.
     /// - returns: The persistent token, or `nil` if no token matched the given identifier.
     public func persistentToken(withIdentifier identifier: Data) throws -> PersistentToken? {
-        return try keychainItem(forPersistentRef: identifier).flatMap(PersistentToken.init(keychainDictionary:))
+        return try keychainItem(forPersistentRef: identifier).map(PersistentToken.init(keychainDictionary:))
     }
 
     /// Returns the set of all persistent tokens found in the keychain.
     ///
     /// - throws: A `Keychain.Error` if an error occurred.
     public func allPersistentTokens() throws -> Set<PersistentToken> {
-        return Set(try allKeychainItems().flatMap(PersistentToken.init(keychainDictionary:)))
+        return Set(try allKeychainItems().map(PersistentToken.init(keychainDictionary:)))
     }
 
     // MARK: Write
@@ -123,15 +123,28 @@ private extension Token {
 }
 
 private extension PersistentToken {
-    init?(keychainDictionary: NSDictionary) {
-        guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? Data,
-            let urlString = String(data: urlData, encoding: urlStringEncoding),
-            let secret = keychainDictionary[kSecValueData as String] as? Data,
-            let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? Data,
-            let url = URL(string: urlString as String),
-            let token = Token(url: url, secret: secret) else {
-                return nil
+    enum DeserializationError: Error {
+        case missingData
+        case missingSecret
+        case missingPersistentRef
+        case unreadableData
+    }
+
+    init(keychainDictionary: NSDictionary) throws {
+        guard let urlData = keychainDictionary[kSecAttrGeneric as String] as? Data else {
+            throw DeserializationError.missingData
         }
+        guard let secret = keychainDictionary[kSecValueData as String] as? Data else {
+            throw DeserializationError.missingSecret
+        }
+        guard let keychainItemRef = keychainDictionary[kSecValuePersistentRef as String] as? Data else {
+            throw DeserializationError.missingPersistentRef
+        }
+        guard let urlString = String(data: urlData, encoding: urlStringEncoding),
+            let url = URL(string: urlString) else {
+                throw DeserializationError.unreadableData
+        }
+        let token = try Token(_url: url, secret: secret)
         self.init(token: token, identifier: keychainItemRef)
     }
 }
