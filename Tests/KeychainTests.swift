@@ -257,7 +257,7 @@ class KeychainTests: XCTestCase {
 
         let persistentRef = try addKeychainItem(withAttributes: keychainAttributes)
 
-        XCTAssertThrowsError(try keychain.persistentToken(withIdentifier: persistentRef), "") { error in print(error) }
+        XCTAssertThrowsError(try keychain.persistentToken(withIdentifier: persistentRef))
         XCTAssertThrowsError(try keychain.allPersistentTokens())
     }
 
@@ -271,7 +271,7 @@ class KeychainTests: XCTestCase {
 
         let persistentRef = try addKeychainItem(withAttributes: keychainAttributes)
 
-        XCTAssertThrowsError(try keychain.persistentToken(withIdentifier: persistentRef), "") { error in print(error) }
+        XCTAssertThrowsError(try keychain.persistentToken(withIdentifier: persistentRef))
         XCTAssertThrowsError(try keychain.allPersistentTokens())
     }
 
