@@ -232,6 +232,9 @@ class KeychainTests: XCTestCase {
 
         XCTAssertThrowsError(try keychain.persistentToken(withIdentifier: persistentRef))
         XCTAssertThrowsError(try keychain.allPersistentTokens())
+
+        XCTAssertNoThrow(try deleteKeychainItem(forPersistentRef: persistentRef),
+                         "Failed to delete the test token from the keychain. This may cause future test runs to fail.")
     }
 
     func testMissingSecret() throws {
@@ -245,6 +248,9 @@ class KeychainTests: XCTestCase {
 
         XCTAssertThrowsError(try keychain.persistentToken(withIdentifier: persistentRef))
         XCTAssertThrowsError(try keychain.allPersistentTokens())
+
+        XCTAssertNoThrow(try deleteKeychainItem(forPersistentRef: persistentRef),
+                         "Failed to delete the test token from the keychain. This may cause future test runs to fail.")
     }
 
     func testBadData() throws {
@@ -259,6 +265,9 @@ class KeychainTests: XCTestCase {
 
         XCTAssertThrowsError(try keychain.persistentToken(withIdentifier: persistentRef))
         XCTAssertThrowsError(try keychain.allPersistentTokens())
+
+        XCTAssertNoThrow(try deleteKeychainItem(forPersistentRef: persistentRef),
+                         "Failed to delete the test token from the keychain. This may cause future test runs to fail.")
     }
 
     func testBadURL() throws {
@@ -273,31 +282,47 @@ class KeychainTests: XCTestCase {
 
         XCTAssertThrowsError(try keychain.persistentToken(withIdentifier: persistentRef))
         XCTAssertThrowsError(try keychain.allPersistentTokens())
+
+        XCTAssertNoThrow(try deleteKeychainItem(forPersistentRef: persistentRef),
+                         "Failed to delete the test token from the keychain. This may cause future test runs to fail.")
+    }
+}
+
+// MARK: Keychain helpers
+
+private func addKeychainItem(withAttributes attributes: [String: AnyObject]) throws -> Data {
+    var mutableAttributes = attributes
+    mutableAttributes[kSecClass as String] = kSecClassGenericPassword
+    mutableAttributes[kSecReturnPersistentRef as String] = kCFBooleanTrue
+    // Set a random string for the account name.
+    // We never query by or display this value, but the keychain requires it to be unique.
+    if mutableAttributes[kSecAttrAccount as String] == nil {
+        mutableAttributes[kSecAttrAccount as String] = UUID().uuidString as NSString
     }
 
-    // MARK: Keychain helpers
+    var result: AnyObject?
+    let resultCode: OSStatus = withUnsafeMutablePointer(to: &result) {
+        SecItemAdd(mutableAttributes as CFDictionary, $0)
+    }
 
-    private func addKeychainItem(withAttributes attributes: [String: AnyObject]) throws -> Data {
-        var mutableAttributes = attributes
-        mutableAttributes[kSecClass as String] = kSecClassGenericPassword
-        mutableAttributes[kSecReturnPersistentRef as String] = kCFBooleanTrue
-        // Set a random string for the account name.
-        // We never query by or display this value, but the keychain requires it to be unique.
-        if mutableAttributes[kSecAttrAccount as String] == nil {
-            mutableAttributes[kSecAttrAccount as String] = UUID().uuidString as NSString
-        }
+    guard resultCode == errSecSuccess else {
+        throw Keychain.Error.systemError(resultCode)
+    }
+    guard let persistentRef = result as? Data else {
+        throw Keychain.Error.incorrectReturnType
+    }
+    return persistentRef
+}
 
-        var result: AnyObject?
-        let resultCode: OSStatus = withUnsafeMutablePointer(to: &result) {
-            SecItemAdd(mutableAttributes as CFDictionary, $0)
-        }
+public func deleteKeychainItem(forPersistentRef persistentRef: Data) throws {
+    let queryDict: [String : AnyObject] = [
+        kSecClass as String:               kSecClassGenericPassword,
+        kSecValuePersistentRef as String:  persistentRef as NSData,
+    ]
 
-        guard resultCode == errSecSuccess else {
-            throw Keychain.Error.systemError(resultCode)
-        }
-        guard let persistentRef = result as? Data else {
-            throw Keychain.Error.incorrectReturnType
-        }
-        return persistentRef
+    let resultCode = SecItemDelete(queryDict as CFDictionary)
+
+    guard resultCode == errSecSuccess else {
+        throw Keychain.Error.systemError(resultCode)
     }
 }
