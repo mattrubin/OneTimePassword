@@ -23,7 +23,7 @@ The OneTimePassword library is the core of [Authenticator][]. It can generate bo
 Add the following line to your [Cartfile][]:
 
 ````config
-github "mattrubin/OneTimePassword" ~> 3.0
+github "mattrubin/OneTimePassword" ~> 3.1
 ````
 
 Then run `carthage update OneTimePassword` to install the latest version of the framework.
@@ -39,7 +39,7 @@ Be sure to check the Carthage README file for the latest instructions on [adding
 Add the following line to your [Podfile][]:
 
 ````ruby
-pod 'OneTimePassword', '~> 3.0'
+pod 'OneTimePassword', '~> 3.1'
 ````
 
 OneTimePassword, like all pods written in Swift, can only be integrated as a framework. Make sure to add the line `use_frameworks!` to your Podfile or target to opt into frameworks instead of static libraries.
