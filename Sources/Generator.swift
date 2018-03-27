@@ -49,9 +49,17 @@ public struct Generator: Equatable {
     /// - returns: A new password generator with the given parameters, or `nil` if the parameters
     ///            are invalid.
     public init?(factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) {
-        guard Generator.validateFactor(factor) && Generator.validateDigits(digits) else {
-            return nil
-        }
+        try? self.init(_factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+    }
+
+    // Eventually, this throwing initializer will replace the failable initializer above. For now, the failable
+    // initializer remains to maintain a consistent public API. Since two different initializers cannot overload the
+    // same initializer signature with both throwing an failable versions, this new initializer is currently prefixed
+    // with an underscore and marked as internal.
+    internal init(_factor factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
+        try Generator.validateFactor(factor)
+        try Generator.validateDigits(digits)
+
         self.factor = factor
         self.secret = secret
         self.algorithm = algorithm
@@ -68,9 +76,7 @@ public struct Generator: Equatable {
     /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
     public func password(at time: Date) throws -> String {
-        guard Generator.validateDigits(digits) else {
-            throw Error.invalidDigits
-        }
+        try Generator.validateDigits(digits)
 
         let counter = try factor.counterValue(at: time)
         // Ensure the counter value is big-endian
@@ -110,16 +116,16 @@ public struct Generator: Equatable {
     /// - requires: The next generator is valid.
     public func successor() -> Generator {
         switch factor {
-        case .counter(let counter):
-            // Update a counter-based generator by incrementing the counter. Force-unwrapping should
-            // be safe here, since any valid generator should have a valid successor.
-            let nextGenerator = Generator(
-                factor: .counter(counter + 1),
+        case .counter(let counterValue):
+            // Update a counter-based generator by incrementing the counter.
+            // Force-trying should be safe here, since any valid generator should have a valid successor.
+            // swiftlint:disable:next force_try
+            return try! Generator(
+                _factor: .counter(counterValue + 1),
                 secret: secret,
                 algorithm: algorithm,
                 digits: digits
             )
-            return nextGenerator!
         case .timer:
             // A timer-based generator does not need to be updated.
             return self
@@ -156,12 +162,8 @@ public struct Generator: Equatable {
                 return counter
             case .timer(let period):
                 let timeSinceEpoch = time.timeIntervalSince1970
-                guard Generator.validateTime(timeSinceEpoch) else {
-                    throw Error.invalidTime
-                }
-                guard Generator.validatePeriod(period) else {
-                    throw Error.invalidPeriod
-                }
+                try Generator.validateTime(timeSinceEpoch)
+                try Generator.validatePeriod(period)
                 return UInt64(timeSinceEpoch / period)
             }
         }
@@ -215,30 +217,36 @@ public func == (lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
 private extension Generator {
     // MARK: Validation
 
-    static func validateDigits(_ digits: Int) -> Bool {
+    static func validateDigits(_ digits: Int) throws {
         // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
         // 6-digit code at a minimum and possibly 7 and 8-digit codes."
         let acceptableDigits = 6...8
-        return acceptableDigits.contains(digits)
-    }
-
-    static func validateFactor(_ factor: Factor) -> Bool {
-        switch factor {
-        case .counter:
-            return true
-        case .timer(let period):
-            return validatePeriod(period)
+        guard acceptableDigits.contains(digits) else {
+            throw Error.invalidDigits
         }
     }
 
-    static func validatePeriod(_ period: TimeInterval) -> Bool {
-        // The period must be positive and non-zero to produce a valid counter value.
-        return (period > 0)
+    static func validateFactor(_ factor: Factor) throws {
+        switch factor {
+        case .counter:
+            return
+        case .timer(let period):
+            try validatePeriod(period)
+        }
     }
 
-    static func validateTime(_ timeSinceEpoch: TimeInterval) -> Bool {
+    static func validatePeriod(_ period: TimeInterval) throws {
+        // The period must be positive and non-zero to produce a valid counter value.
+        guard period > 0 else {
+            throw Error.invalidPeriod
+        }
+    }
+
+    static func validateTime(_ timeSinceEpoch: TimeInterval) throws {
         // The time must be positive to produce a valid counter value.
-        return (timeSinceEpoch >= 0)
+        guard timeSinceEpoch >= 0 else {
+            throw Error.invalidTime
+        }
     }
 }
 
@@ -250,7 +258,7 @@ private extension String {
     ///
     /// - returns: A new string padded to the given length.
     func padded(with character: Character, toLength length: Int) -> String {
-        let paddingCount = length - characters.count
+        let paddingCount = length - count
         guard paddingCount > 0 else {
             return self
         }

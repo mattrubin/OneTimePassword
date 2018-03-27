@@ -50,6 +50,7 @@ class TokenSerializationTests: XCTestCase {
     let algorithms: [OneTimePassword.Generator.Algorithm] = [.sha1, .sha256, .sha512]
     let digits = [6, 7, 8]
 
+    // swiftlint:disable:next function_body_length
     func testSerialization() {
         for factor in factors {
             for name in names {
@@ -64,7 +65,7 @@ class TokenSerializationTests: XCTestCase {
                                     algorithm: algorithm,
                                     digits: digitNumber
                                 ) else {
-                                    XCTFail()
+                                    XCTFail("Failed to construct Generator.")
                                     continue
                                 }
 
@@ -92,17 +93,19 @@ class TokenSerializationTests: XCTestCase {
                                 }
                                 XCTAssertEqual(url.host!, expectedHost, "The url host should be \"\(expectedHost)\"")
                                 // Test name
-                                let path = url.path
-                                XCTAssertEqual(path.substring(from: path.index(after: path.startIndex)), name,
-                                               "The url path should be \"\(name)\"")
+                                XCTAssertEqual(url.path, "/" + name, "The url path should be \"/\(name)\"")
 
                                 let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
                                 let items = urlComponents?.queryItems
                                 let expectedItemCount = 4
+                                // SwiftLint gives a false positive here because of a Swift/SourceKit bug.
+                                // See https://github.com/realm/SwiftLint/issues/1785
+                                // swiftlint:disable vertical_parameter_alignment_on_call
                                 XCTAssertEqual(items?.count, expectedItemCount,
                                                "There shouldn't be any unexpected query arguments: \(url)")
+                                // swiftlint:enable vertical_parameter_alignment_on_call
 
-                                var queryArguments = Dictionary<String, String>()
+                                var queryArguments: [String: String] = [:]
                                 for item in items ?? [] {
                                     queryArguments[item.name] = item.value
                                 }
@@ -163,5 +166,18 @@ class TokenSerializationTests: XCTestCase {
                 }
             }
         }
+    }
+
+    func testTokenWithDefaultCounter() {
+        let tokenURLString = "otpauth://hotp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4"
+        guard let tokenURL = URL(string: tokenURLString) else {
+            XCTFail("Failed to initialize a URL from String \"\(tokenURLString)\"")
+            return
+        }
+        guard let token = Token(url: tokenURL) else {
+            XCTFail("Failed to initialize a Token from URL \"\(tokenURL)\"")
+            return
+        }
+        XCTAssertEqual(token.generator.factor, .counter(0))
     }
 }
