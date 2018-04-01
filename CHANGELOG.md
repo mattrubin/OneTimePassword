@@ -2,6 +2,11 @@
 
 <!--## [In development][develop]-->
 
+## [3.1.1][] (2018-03-31)
+- Add support for Swift 4.1. ([#168](https://github.com/mattrubin/OneTimePassword/pull/168))
+- Update build and linter settings for Xcode 9.3. ([#167](https://github.com/mattrubin/OneTimePassword/pull/167))
+
+
 ## [3.1][] (2018-03-27)
 - Upgrade to Swift 4 and Xcode 9.
 ([#147](https://github.com/mattrubin/OneTimePassword/pull/147),
@@ -143,8 +148,9 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1...develop
+[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1.1...develop
 
+[3.1.1]: https://github.com/mattrubin/OneTimePassword/compare/3.1...3.1.1
 [3.1]: https://github.com/mattrubin/OneTimePassword/compare/3.0.1...3.1
 [3.0.1]: https://github.com/mattrubin/OneTimePassword/compare/3.0...3.0.1
 [3.0]: https://github.com/mattrubin/OneTimePassword/compare/2.1.1...3.0
