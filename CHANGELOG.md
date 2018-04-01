@@ -3,8 +3,8 @@
 <!--## [In development][develop]-->
 
 ## [3.1.1][] (2018-03-31)
+- Add support for Swift 4.1. ([#168](https://github.com/mattrubin/OneTimePassword/pull/168))
 - Update build and linter settings for Xcode 9.3. ([#167](https://github.com/mattrubin/OneTimePassword/pull/167))
-- Use conditional compilation to handle Swift 4.1 changes to the UnsafeMutablePointer `deallocate` API. ([#168](https://github.com/mattrubin/OneTimePassword/pull/168))
 
 
 ## [3.1][] (2018-03-27)
