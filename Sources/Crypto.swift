@@ -30,7 +30,13 @@ func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
     let (hashFunction, hashLength) = algorithm.hashInfo
 
     let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
-    defer { macOut.deallocate(capacity: hashLength) }
+    defer {
+        #if swift(>=4.1)
+        macOut.deallocate()
+        #else
+        macOut.deallocate(capacity: hashLength)
+        #endif
+    }
 
     key.withUnsafeBytes { keyBytes in
         data.withUnsafeBytes { dataBytes in
