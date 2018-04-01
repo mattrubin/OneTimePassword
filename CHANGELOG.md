@@ -3,6 +3,7 @@
 ## [In development][develop]
 
 - Update build and linter settings for Xcode 9.3. ([#167](https://github.com/mattrubin/OneTimePassword/pull/167))
+- Use conditional compilation to handle SE-0184 changes to the UnsafeMutablePointer `deallocate` API. ([#168](https://github.com/mattrubin/OneTimePassword/pull/168))
 
 
 ## [3.1][] (2018-03-27)
