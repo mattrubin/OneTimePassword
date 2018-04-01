@@ -1,6 +1,9 @@
 # OneTimePassword Changelog
 
-<!--## [In development][develop]-->
+## [In development][develop]
+
+- Update build and linter settings for Xcode 9.3. ([#167](https://github.com/mattrubin/OneTimePassword/pull/167))
+
 
 ## [3.1][] (2018-03-27)
 - Upgrade to Swift 4 and Xcode 9.
