@@ -8,11 +8,8 @@ xcode_scheme: OneTimePassword (iOS)
 osx_image: xcode9.3
 
 env:
-  - RUNTIME="iOS 9.0"  DEVICE="iPhone 5s"
   - RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
-  - RUNTIME="iOS 10.0" DEVICE="iPhone SE"
   - RUNTIME="iOS 10.3" DEVICE="iPhone 7 Plus"
-  - RUNTIME="iOS 11.0" DEVICE="iPhone 8"
   - RUNTIME="iOS 11.3" DEVICE="iPhone X"
 
 # Include builds for watchOS
@@ -20,7 +17,7 @@ matrix:
   include:
     # Include an Xcode 9.0 build to test Swift 4.0 support
     - osx_image: xcode9
-      env: RUNTIME="iOS 11.0" DEVICE="iPhone X"
+      env: RUNTIME="iOS 11.0" DEVICE="iPhone 8"
     # Include an Xcode 9.2 build to test on iOS 8.x, because Xcode 9.3's iOS 8 simulator fails to launch
     - osx_image: xcode9.2
       env: RUNTIME="iOS 8.4"  DEVICE="iPhone 4s"
