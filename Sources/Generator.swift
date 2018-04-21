@@ -192,6 +192,8 @@ public struct Generator: Equatable {
     }
 }
 
+#if swift(>=4.1)
+#else
 /// Compares two `Generator`s for equality.
 public func == (lhs: Generator, rhs: Generator) -> Bool {
     return (lhs.factor == rhs.factor)
@@ -211,6 +213,7 @@ public func == (lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
         return false
     }
 }
+#endif
 
 // MARK: - Private
 

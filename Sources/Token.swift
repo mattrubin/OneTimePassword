@@ -70,9 +70,12 @@ public struct Token: Equatable {
     }
 }
 
+#if swift(>=4.1)
+#else
 /// Compares two `Token`s for equality.
 public func == (lhs: Token, rhs: Token) -> Bool {
     return (lhs.name == rhs.name)
         && (lhs.issuer == rhs.issuer)
         && (lhs.generator == rhs.generator)
 }
+#endif
