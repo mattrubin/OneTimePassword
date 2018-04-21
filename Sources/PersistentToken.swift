@@ -48,8 +48,11 @@ public struct PersistentToken: Equatable, Hashable {
     }
 }
 
+#if swift(>=4.1)
+#else
 /// Compares two `PersistentToken`s for equality.
 public func == (lhs: PersistentToken, rhs: PersistentToken) -> Bool {
     return (lhs.identifier == rhs.identifier)
         && (lhs.token == rhs.token)
 }
+#endif
