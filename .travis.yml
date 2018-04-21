@@ -5,9 +5,7 @@ language: objective-c
 xcode_workspace: OneTimePassword.xcworkspace
 xcode_scheme: OneTimePassword (iOS)
 
-osx_image:
-  - xcode9
-  - xcode9.3
+osx_image: xcode9.3
 
 env:
   - RUNTIME="iOS 8.1"  DEVICE="iPad 2"
@@ -21,6 +19,8 @@ env:
 # Include builds for watchOS
 matrix:
   include:
+    - osx_image: xcode9
+      env: RUNTIME="iOS 11.0" DEVICE="iPhone X"
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 4.0" DEVICE="Apple Watch Series 3 - 38mm"
     - xcode_scheme: OneTimePassword (watchOS)
