@@ -174,35 +174,17 @@ class GeneratorTests: XCTestCase {
     }
 
     func testPasswordWithInvalidPeriod() {
-        let generator = Generator(unvalidatedFactor: .timer(period: 0))
-        let time = Date(timeIntervalSince1970: 100)
-
-        do {
-            _ = try generator.password(at: time)
-        } catch Generator.Error.invalidPeriod {
-            // This is the expected type of error
-            return
-        } catch {
-            XCTFail("passwordAtTime(\(time)) threw an unexpected type of error: \(error))")
-            return
-        }
-        XCTFail("passwordAtTime(\(time)) should throw an error)")
+        // It should not be possible to try to get a password from a generator with an invalid period, because the
+        // generator initializer should fail when given an invalid period.
+        let generator = Generator(factor: .timer(period: 0), secret: Data(), algorithm: .sha1, digits: 8)
+        XCTAssertNil(generator)
     }
 
     func testPasswordWithInvalidDigits() {
-        let generator = Generator(unvalidatedDigits: 3)
-        let time = Date(timeIntervalSince1970: 100)
-
-        do {
-            _ = try generator.password(at: time)
-        } catch Generator.Error.invalidDigits {
-            // This is the expected type of error
-            return
-        } catch {
-            XCTFail("passwordAtTime(\(time)) threw an unexpected type of error: \(error))")
-            return
-        }
-        XCTFail("passwordAtTime(\(time)) should throw an error)")
+        // It should not be possible to try to get a password from a generator with an invalid digit count, because the
+        // generator initializer should fail when given an invalid digit count.
+        let generator = Generator(factor: .timer(period: 30), secret: Data(), algorithm: .sha1, digits: 3)
+        XCTAssertNil(generator)
     }
 
     // The values in this test are found in Appendix D of the HOTP RFC
@@ -281,17 +263,5 @@ class GeneratorTests: XCTestCase {
                                "Incorrect result for \(algorithm) at \(timeSinceEpoch)")
             }
         }
-    }
-}
-
-private extension Generator {
-    init(unvalidatedFactor factor: Factor = .timer(period: 30),
-         unvalidatedSecret secret: Data = Data(),
-         unvalidatedAlgorithm algorithm: Algorithm = .sha1,
-         unvalidatedDigits digits: Int = 8) {
-        self.factor = factor
-        self.secret = secret
-        self.algorithm = algorithm
-        self.digits = digits
     }
 }
