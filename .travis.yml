@@ -26,7 +26,7 @@ matrix:
       env: RUNTIME="iOS 8.4"  DEVICE="iPhone 4s"
     # Include several build-only jobs for watchOS
     - xcode_scheme: OneTimePassword (watchOS)
-      env: BUILD_ONLY="YES" RUNTIME="watchOS 4.0" DEVICE="Apple Watch Series 3 - 38mm"
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 4.3" DEVICE="Apple Watch Series 3 - 38mm"
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch Series 2 - 42mm"
     - xcode_scheme: OneTimePassword (watchOS)
