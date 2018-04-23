@@ -2,6 +2,13 @@
 
 <!--## [In development][develop]-->
 
+## [3.1.2][] (2018-04-23)
+- Synthesize Equatable conformance when compiling with Swift 4.1. ([#173](https://github.com/mattrubin/OneTimePassword/pull/173))
+- Fix a warning about deprecation of cross-module struct initializers by simplifying test cases for impossible-to-create invalid Generators. ([#174](https://github.com/mattrubin/OneTimePassword/pull/174))
+- Upgrade xcconfigs for Xcode 9.3. ([#172](https://github.com/mattrubin/OneTimePassword/pull/172))
+- Enable several new SwiftLint opt-in rules. ([#175](https://github.com/mattrubin/OneTimePassword/pull/175))
+
+
 ## [3.1.1][] (2018-03-31)
 - Add support for Swift 4.1. ([#168](https://github.com/mattrubin/OneTimePassword/pull/168))
 - Update build and linter settings for Xcode 9.3. ([#167](https://github.com/mattrubin/OneTimePassword/pull/167))
@@ -148,8 +155,9 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1.1...develop
+[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1.2...develop
 
+[3.1.2]: https://github.com/mattrubin/OneTimePassword/compare/3.1.1...3.1.2
 [3.1.1]: https://github.com/mattrubin/OneTimePassword/compare/3.1...3.1.1
 [3.1]: https://github.com/mattrubin/OneTimePassword/compare/3.0.1...3.1
 [3.0.1]: https://github.com/mattrubin/OneTimePassword/compare/3.0...3.0.1
