@@ -52,7 +52,7 @@ Then run `pod install` to install the latest version of the framework.
 
 ## Usage
 
-> The [latest version][swift-4] of OneTimePassword uses Swift 4, and can be linked with Swift 3.2 projects using the Swift compiler's [compatibility mode](https://swift.org/blog/swift-4-0-released/#new-compatibility-modes). To use OneTimePassword with earlier versions of Swift, check out the [`swift-3`][swift-3] and [`swift-2.3`][swift-2.3] branches. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
+> The [latest version][swift-4] of OneTimePassword compiles with Swift 4.x, and can be linked with Swift 3.2+ projects using the Swift compiler's [compatibility mode](https://swift.org/blog/swift-4-0-released/#new-compatibility-modes). To use OneTimePassword with earlier versions of Swift, check out the [`swift-3`][swift-3] and [`swift-2.3`][swift-2.3] branches. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
 
 [swift-4]: https://github.com/mattrubin/OneTimePassword/tree/swift-4
 [swift-3]: https://github.com/mattrubin/OneTimePassword/tree/swift-3
