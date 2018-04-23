@@ -157,7 +157,7 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 [develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1.2...develop
 
-[3.1.1]: https://github.com/mattrubin/OneTimePassword/compare/3.1.1...3.1.2
+[3.1.2]: https://github.com/mattrubin/OneTimePassword/compare/3.1.1...3.1.2
 [3.1.1]: https://github.com/mattrubin/OneTimePassword/compare/3.1...3.1.1
 [3.1]: https://github.com/mattrubin/OneTimePassword/compare/3.0.1...3.1
 [3.0.1]: https://github.com/mattrubin/OneTimePassword/compare/3.0...3.0.1
