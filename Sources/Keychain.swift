@@ -47,7 +47,8 @@ public final class Keychain {
     ///
     /// - throws: A `Keychain.Error` if an error occurred.
     public func allPersistentTokens() throws -> Set<PersistentToken> {
-        return Set(try allKeychainItems().map(PersistentToken.init(keychainDictionary:)))
+        let allItems = try allKeychainItems()
+        return Set(allItems.flatMap({ try? PersistentToken.init(keychainDictionary:$0) }))
     }
 
     // MARK: Write
