@@ -48,6 +48,10 @@ public final class Keychain {
     /// - throws: A `Keychain.Error` if an error occurred.
     public func allPersistentTokens() throws -> Set<PersistentToken> {
         let allItems = try allKeychainItems()
+        // This code intentionally ignores items which fail deserialization, instead opting to return as many readable
+        // tokens as possible.
+        // TODO: Restore deserialization error handling, in a way that provides info on the failure reason and allows
+        //       the caller to choose whether to fail completely or recover some data.
         return Set(allItems.flatMap({ try? PersistentToken.init(keychainDictionary:$0) }))
     }
 
