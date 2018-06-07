@@ -24,7 +24,11 @@
 //
 
 import Foundation
+#if canImport(CommonCrypto)
 import CommonCrypto
+#else
+import CommonCryptoShim
+#endif
 
 func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
     let (hashFunction, hashLength) = algorithm.hashInfo
