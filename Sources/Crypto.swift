@@ -24,10 +24,14 @@
 //
 
 import Foundation
-#if canImport(CommonCrypto)
-import CommonCrypto
+#if swift(>=4.1)
+    #if canImport(CommonCrypto)
+        import CommonCrypto
+    #else
+        import CommonCryptoShim
+    #endif
 #else
-import CommonCryptoShim
+    import CommonCryptoShim
 #endif
 
 func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
