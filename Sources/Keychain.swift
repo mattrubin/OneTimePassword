@@ -123,7 +123,7 @@ private extension Token {
             kSecAttrGeneric as String:  data as NSData,
             kSecValueData as String:    generator.secret as NSData,
             kSecAttrService as String:  kOTPService as NSString,
-            kSecAttrAccessGroup as String: keychainGroupName as AnyObject
+            kSecAttrAccessGroup as String: keychainGroupName as AnyObject,
         ]
     }
 }
