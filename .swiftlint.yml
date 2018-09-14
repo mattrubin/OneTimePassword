@@ -50,10 +50,12 @@ opt_in_rules:
   - vertical_parameter_alignment_on_call
   - yoda_condition
 disabled_rules:
-  - colon
   - comma
   - cyclomatic_complexity
   - identifier_name
+
+colon:
+  flexible_right_spacing: true
 
 trailing_comma:
   mandatory_comma: true
