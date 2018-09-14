@@ -30,7 +30,7 @@ import OneTimePassword
 /// information about its properties and methods, consult the underlying `OneTimePassword`
 /// documentation.
 public final class OTPToken: NSObject {
-    required public override init() {}
+    override public required init() {}
 
     @objc public var name: String = OTPToken.defaultName
     @objc public var issuer: String = OTPToken.defaultIssuer

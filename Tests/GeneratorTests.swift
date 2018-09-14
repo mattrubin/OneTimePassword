@@ -73,11 +73,13 @@ class GeneratorTests: XCTestCase {
 
     func testCounter() {
         let factors: [(TimeInterval, TimeInterval, UInt64)] = [
+            // swiftlint:disable comma
             (100,         30, 3),
             (10000,       30, 333),
             (1000000,     30, 33333),
             (100000000,   60, 1666666),
             (10000000000, 90, 111111111),
+            // swiftlint:enable comma
         ]
 
         for (timeSinceEpoch, period, count) in factors {
