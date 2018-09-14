@@ -50,7 +50,6 @@ opt_in_rules:
   - vertical_parameter_alignment_on_call
   - yoda_condition
 disabled_rules:
-  - comma
   - cyclomatic_complexity
   - identifier_name
 
