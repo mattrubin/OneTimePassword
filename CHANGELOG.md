@@ -2,6 +2,13 @@
 
 <!--## [In development][develop]-->
 
+## [3.1.4][] (2018-09-15)
+- Fix compilation errors and add CI testing for Xcode 10.
+([#182](https://github.com/mattrubin/OneTimePassword/pull/182),
+[#186](https://github.com/mattrubin/OneTimePassword/pull/186))
+- Enable several new SwiftLint opt-in rules. ([#187](https://github.com/mattrubin/OneTimePassword/pull/187))
+
+
 ## [3.1.3][] (2018-04-29)
 - Ignore un-deserializable tokens in `allPersistentTokens()`. ([#179](https://github.com/mattrubin/OneTimePassword/pull/179))
 
@@ -159,8 +166,9 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1.3...develop
+[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1.4...develop
 
+[3.1.4]: https://github.com/mattrubin/OneTimePassword/compare/3.1.3...3.1.4
 [3.1.3]: https://github.com/mattrubin/OneTimePassword/compare/3.1.2...3.1.3
 [3.1.2]: https://github.com/mattrubin/OneTimePassword/compare/3.1.1...3.1.2
 [3.1.1]: https://github.com/mattrubin/OneTimePassword/compare/3.1...3.1.1
