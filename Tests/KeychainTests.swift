@@ -319,7 +319,7 @@ private func addKeychainItem(withAttributes attributes: [String: AnyObject]) thr
 }
 
 public func deleteKeychainItem(forPersistentRef persistentRef: Data) throws {
-    let queryDict: [String : AnyObject] = [
+    let queryDict: [String: AnyObject] = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef as NSData,
     ]
