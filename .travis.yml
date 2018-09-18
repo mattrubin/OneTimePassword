@@ -36,13 +36,13 @@ matrix:
       env: BUILD_ONLY="YES" RUNTIME="watchOS 2.0" DEVICE="Apple Watch - 38mm"
     # Include CocoaPods builds
     - osx_image: xcode9
-      env: []
+      env: null
       before_install: gem update cocoapods
-      before_script: []
+      before_script: null
       script: pod lib lint --allow-warnings
     - osx_image: xcode10
-      env: []
-      before_script: []
+      env: null
+      before_script: null
       script: pod lib lint --allow-warnings
 
 # Check out nested dependencies
