@@ -34,8 +34,12 @@ matrix:
       env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch Series 2 - 42mm"
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 2.0" DEVICE="Apple Watch - 38mm"
-    # Include a Carthage build
+    # Include Carthage builds
     - env: null
+      before_script: null
+      script: carthage build --no-skip-current
+    - osx_image: xcode9
+      env: null
       before_script: null
       script: carthage build --no-skip-current
     # Include CocoaPods builds
