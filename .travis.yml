@@ -35,8 +35,13 @@ matrix:
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 2.0" DEVICE="Apple Watch - 38mm"
     # Include CocoaPods builds
-    - script: pod lib lint
     - osx_image: xcode9
+      env: []
+      before_script: []
+      script: pod lib lint
+    - osx_image: xcode10
+      env: []
+      before_script: []
       script: pod lib lint
 
 # Check out nested dependencies
