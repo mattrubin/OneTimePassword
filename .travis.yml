@@ -51,10 +51,6 @@ matrix:
       before_script:
       script: pod lib lint --allow-warnings
 
-
-# Check out nested dependencies
-install: git submodule update --init --recursive
-
 before_script:
   - DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
   - RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
