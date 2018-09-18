@@ -39,11 +39,11 @@ matrix:
       env: []
       before_install: gem update cocoapods
       before_script: []
-      script: pod lib lint
+      script: pod lib lint --allow-warnings
     - osx_image: xcode10
       env: []
       before_script: []
-      script: pod lib lint
+      script: pod lib lint --allow-warnings
 
 # Check out nested dependencies
 install: git submodule update --init --recursive
