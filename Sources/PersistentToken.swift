@@ -40,10 +40,10 @@ public struct PersistentToken: Equatable, Hashable {
         self.identifier = identifier
     }
 
-    /// A hash value for the persistent token, providing `Hashable` conformance.
-    public var hashValue: Int {
+    /// Hashes the persistent token's identifier into the given hasher, providing `Hashable` conformance.
+    public func hash(into hasher: inout Hasher) {
         // Since we expect every `PersistentToken`s identifier to be unique, the identifier's hash
         // value makes a simple and adequate hash value for the struct as a whole.
-        return identifier.hashValue
+        hasher.combine(identifier)
     }
 }
