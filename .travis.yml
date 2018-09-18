@@ -39,7 +39,7 @@ matrix:
       env:
       before_install: gem update cocoapods
       before_script:
-      script: pod lib lint --allow-warnings
+      script: pod lib lint --allow-warnings --verbose
     - osx_image: xcode10
       env: null
       before_script: null
@@ -49,7 +49,7 @@ matrix:
       env:
       before_install: gem update cocoapods
       before_script:
-      script: pod lib lint --allow-warnings
+      script: pod lib lint --allow-warnings --verbose
 
 before_script:
   - DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
