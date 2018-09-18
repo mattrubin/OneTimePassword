@@ -34,6 +34,10 @@ matrix:
       env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch Series 2 - 42mm"
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 2.0" DEVICE="Apple Watch - 38mm"
+    # Include CocoaPods builds
+    - script: pod lib lint
+    - osx_image: xcode9
+      script: pod lib lint
 
 # Check out nested dependencies
 before_install: git submodule update --init --recursive
