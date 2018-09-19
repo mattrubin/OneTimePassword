@@ -21,7 +21,7 @@ matrix:
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 5.0" DEVICE="Apple Watch Series 4 - 44mm"
     - xcode_scheme: OneTimePassword (watchOS)
-      env: BUILD_ONLY="YES" RUNTIME="watchOS 4.3" DEVICE="Apple Watch Series 3 - 38mm"
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 4.2" DEVICE="Apple Watch Series 3 - 38mm"
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch Series 2 - 42mm"
     - xcode_scheme: OneTimePassword (watchOS)
