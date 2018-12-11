@@ -5,8 +5,10 @@ excluded:
 opt_in_rules:
   - array_init
   - attributes
+  - closure_body_length
   - closure_end_indentation
   - closure_spacing
+  - collection_alignment
   - conditional_returns_on_newline
   - contains_over_first_not_nil
   - convenience_type
@@ -23,14 +25,17 @@ opt_in_rules:
   - fatal_error_message
   - file_header
   - first_where
+  - identical_operands
   - implicit_return
   - implicitly_unwrapped_optional
   - joined_default_parameter
+  - legacy_random
   - let_var_whitespace
   - literal_expression_end_indentation
   - lower_acl_than_parent
   - modifier_order
   - multiline_function_chains
+  - multiline_literal_brackets
   - multiline_parameters
   - nimble_operator
   - operator_usage_whitespace
@@ -43,10 +48,14 @@ opt_in_rules:
   - redundant_nil_coalescing
   - single_test_class
   - sorted_first_last
+  - static_operator
   - switch_case_on_newline
+  - toggle_bool
   - unavailable_function
   - unneeded_parentheses_in_closure_argument
   - untyped_error_in_catch
+  - unused_import
+  - unused_private_declaration
   - vertical_parameter_alignment_on_call
   - yoda_condition
 disabled_rules:
