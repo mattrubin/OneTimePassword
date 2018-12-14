@@ -48,6 +48,10 @@
 @property (nonatomic) NSTimeInterval period;
 + (NSTimeInterval)defaultPeriod;
 
+// Create your own OTPToken subclass if you want to customize persistance of the tokens in the keychain
++ (NSString *)keychainServiceName;
++ (BOOL)supportCloudKeychain;
+
 // Validation
 - (BOOL)validate;
 

@@ -27,9 +27,6 @@
 @import ObjectiveC.runtime;
 
 
-static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
-
-
 @interface OTPToken ()
 
 @property (nonatomic, strong) NSData *keychainItemRef;
@@ -102,8 +99,13 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
                                              withAttributes:attributes];
     } else {
         attributes[(__bridge id)kSecValueData] = self.secret;
-        attributes[(__bridge id)kSecAttrService] = kOTPService;
+        attributes[(__bridge id)kSecAttrService] = [self.class keychainServiceName];
 
+        if ([self.class supportCloudKeychain])
+        {
+            attributes[(__bridge id)kSecAttrSynchronizable] = (__bridge id)kCFBooleanTrue;
+        }
+        
         NSData *persistentRef = [OTPToken addKeychainItemWithAttributes:attributes];
 
         self.keychainItemRef = persistentRef;

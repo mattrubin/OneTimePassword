@@ -26,6 +26,7 @@
 
 
 static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTimerNotification";
+static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 
 @implementation OTPToken
@@ -91,6 +92,16 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 + (NSTimeInterval)defaultPeriod
 {
     return 30;
+}
+
++ (NSString *)keychainServiceName;
+{
+    return kOTPService;
+}
+
++ (BOOL)supportCloudKeychain
+{
+    return NO;
 }
 
 
