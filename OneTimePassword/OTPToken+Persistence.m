@@ -101,9 +101,10 @@
         attributes[(__bridge id)kSecValueData] = self.secret;
         attributes[(__bridge id)kSecAttrService] = [self.class keychainServiceName];
 
-        if ([self.class supportCloudKeychain])
-        {
+        // iCloud keychain access requires an access group
+        if ([self.class supportCloudKeychain] && [self.class keychainAccessGroup]) {
             attributes[(__bridge id)kSecAttrSynchronizable] = (__bridge id)kCFBooleanTrue;
+            attributes[(__bridge id)kSecAttrAccessGroup] = [self.class keychainAccessGroup];
         }
         
         NSData *persistentRef = [OTPToken addKeychainItemWithAttributes:attributes];

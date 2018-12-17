@@ -50,6 +50,7 @@
 
 // Create your own OTPToken subclass if you want to customize persistance of the tokens in the keychain
 + (NSString *)keychainServiceName;
++ (NSString *)keychainAccessGroup;
 + (BOOL)supportCloudKeychain;
 
 // Validation

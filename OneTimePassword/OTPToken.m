@@ -99,6 +99,11 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     return kOTPService;
 }
 
++ (NSString *)keychainAccessGroup
+{
+    return nil;
+}
+
 + (BOOL)supportCloudKeychain
 {
     return NO;
