@@ -136,6 +136,7 @@
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecValuePersistentRef: persistentRef,
                                 (__bridge id)kSecReturnPersistentRef: (id)kCFBooleanTrue,
+                                (__bridge id)kSecAttrSynchronizable: (__bridge id)kSecAttrSynchronizableAny,
                                 (__bridge id)kSecReturnAttributes: (id)kCFBooleanTrue,
                                 (__bridge id)kSecReturnData: (id)kCFBooleanTrue
                                 };
@@ -152,6 +153,7 @@
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecMatchLimit: (__bridge id)kSecMatchLimitAll,
                                 (__bridge id)kSecReturnPersistentRef: (id)kCFBooleanTrue,
+                                (__bridge id)kSecAttrSynchronizable: (__bridge id)kSecAttrSynchronizableAny,
                                 (__bridge id)kSecReturnAttributes: (id)kCFBooleanTrue,
                                 (__bridge id)kSecReturnData: (id)kCFBooleanTrue
                                 };
