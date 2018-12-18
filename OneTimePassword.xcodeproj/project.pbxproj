@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B4A983B21C3D54D00F44004 /* OTPToken+Persistence.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A24F7196AF8E900F86892 /* OTPToken+Persistence.m */; };
+		1B4A984421C3DE0B00F44004 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4A984321C3DE0B00F44004 /* AppDelegate.m */; };
+		1B4A984721C3DE0B00F44004 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4A984621C3DE0B00F44004 /* ViewController.m */; };
+		1B4A984A21C3DE0B00F44004 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B4A984821C3DE0B00F44004 /* Main.storyboard */; };
+		1B4A984C21C3DE0D00F44004 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B4A984B21C3DE0D00F44004 /* Assets.xcassets */; };
+		1B4A984F21C3DE0D00F44004 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B4A984D21C3DE0D00F44004 /* LaunchScreen.storyboard */; };
+		1B4A985221C3DE0D00F44004 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4A985121C3DE0D00F44004 /* main.m */; };
 		B6C6D5560BC6437A8E4F8580 /* libPods-OneTimePassword.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 560131D4F5D140EA8458D149 /* libPods-OneTimePassword.a */; };
 		C93A24FE196AF8E900F86892 /* OTPAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A24F2196AF8E900F86892 /* OTPAlgorithm.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C93A24FF196AF8E900F86892 /* OTPAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A24F3196AF8E900F86892 /* OTPAlgorithm.m */; };
@@ -31,6 +38,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1B4A985621C3DE3200F44004 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1B4A983F21C3DE0B00F44004;
+			remoteInfo = OneTimePasswordTestHost;
+		};
 		C97C82451946E51D00FD9F4C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C97C822F1946E51D00FD9F4C /* Project object */;
@@ -41,6 +55,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B4A984021C3DE0B00F44004 /* OneTimePasswordTestHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneTimePasswordTestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B4A984221C3DE0B00F44004 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1B4A984321C3DE0B00F44004 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1B4A984521C3DE0B00F44004 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		1B4A984621C3DE0B00F44004 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		1B4A984921C3DE0B00F44004 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1B4A984B21C3DE0D00F44004 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1B4A984E21C3DE0D00F44004 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1B4A985021C3DE0D00F44004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B4A985121C3DE0D00F44004 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4A7643FD57ED1F34ED96D4DB /* Pods-OneTimePassword.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneTimePassword.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneTimePassword/Pods-OneTimePassword.release.xcconfig"; sourceTree = "<group>"; };
 		560131D4F5D140EA8458D149 /* libPods-OneTimePassword.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneTimePassword.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B0E42750F64443678FAFD9B /* Pods-OneTimePassword.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneTimePassword.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneTimePassword/Pods-OneTimePassword.debug.xcconfig"; sourceTree = "<group>"; };
@@ -72,6 +96,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1B4A983D21C3DE0B00F44004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C97C82341946E51D00FD9F4C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -91,6 +122,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B4A984121C3DE0B00F44004 /* OneTimePasswordTestHost */ = {
+			isa = PBXGroup;
+			children = (
+				1B4A984221C3DE0B00F44004 /* AppDelegate.h */,
+				1B4A984321C3DE0B00F44004 /* AppDelegate.m */,
+				1B4A984521C3DE0B00F44004 /* ViewController.h */,
+				1B4A984621C3DE0B00F44004 /* ViewController.m */,
+				1B4A984821C3DE0B00F44004 /* Main.storyboard */,
+				1B4A984B21C3DE0D00F44004 /* Assets.xcassets */,
+				1B4A984D21C3DE0D00F44004 /* LaunchScreen.storyboard */,
+				1B4A985021C3DE0D00F44004 /* Info.plist */,
+				1B4A985121C3DE0D00F44004 /* main.m */,
+			);
+			path = OneTimePasswordTestHost;
+			sourceTree = "<group>";
+		};
 		746E7166AD60449882DD84C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +151,7 @@
 			children = (
 				C97C823A1946E51D00FD9F4C /* OneTimePassword */,
 				C97C82471946E51D00FD9F4C /* OneTimePasswordTests */,
+				1B4A984121C3DE0B00F44004 /* OneTimePasswordTestHost */,
 				746E7166AD60449882DD84C7 /* Frameworks */,
 				C97C82391946E51D00FD9F4C /* Products */,
 				D51C4BB102CF877149530BC7 /* Pods */,
@@ -117,6 +165,7 @@
 			children = (
 				C97C82381946E51D00FD9F4C /* OneTimePassword.framework */,
 				C97C82431946E51D00FD9F4C /* OneTimePasswordTests.xctest */,
+				1B4A984021C3DE0B00F44004 /* OneTimePasswordTestHost.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -203,6 +252,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1B4A983F21C3DE0B00F44004 /* OneTimePasswordTestHost */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B4A985321C3DE0D00F44004 /* Build configuration list for PBXNativeTarget "OneTimePasswordTestHost" */;
+			buildPhases = (
+				1B4A983C21C3DE0B00F44004 /* Sources */,
+				1B4A983D21C3DE0B00F44004 /* Frameworks */,
+				1B4A983E21C3DE0B00F44004 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OneTimePasswordTestHost;
+			productName = OneTimePasswordTestHost;
+			productReference = 1B4A984021C3DE0B00F44004 /* OneTimePasswordTestHost.app */;
+			productType = "com.apple.product-type.application";
+		};
 		C97C82371946E51D00FD9F4C /* OneTimePassword */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword" */;
@@ -235,6 +301,7 @@
 			);
 			dependencies = (
 				C97C82461946E51D00FD9F4C /* PBXTargetDependency */,
+				1B4A985721C3DE3200F44004 /* PBXTargetDependency */,
 			);
 			name = OneTimePasswordTests;
 			productName = OneTimePasswordTests;
@@ -251,12 +318,16 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
+					1B4A983F21C3DE0B00F44004 = {
+						CreatedOnToolsVersion = 10.1;
+						ProvisioningStyle = Automatic;
+					};
 					C97C82371946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
 					};
 					C97C82421946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
-						TestTargetID = C97C82371946E51D00FD9F4C;
+						TestTargetID = 1B4A983F21C3DE0B00F44004;
 					};
 				};
 			};
@@ -266,6 +337,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = C97C822E1946E51D00FD9F4C;
 			productRefGroup = C97C82391946E51D00FD9F4C /* Products */;
@@ -274,11 +346,22 @@
 			targets = (
 				C97C82371946E51D00FD9F4C /* OneTimePassword */,
 				C97C82421946E51D00FD9F4C /* OneTimePasswordTests */,
+				1B4A983F21C3DE0B00F44004 /* OneTimePasswordTestHost */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1B4A983E21C3DE0B00F44004 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B4A984F21C3DE0D00F44004 /* LaunchScreen.storyboard in Resources */,
+				1B4A984C21C3DE0D00F44004 /* Assets.xcassets in Resources */,
+				1B4A984A21C3DE0B00F44004 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C97C82361946E51D00FD9F4C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -329,6 +412,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1B4A983C21C3DE0B00F44004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B4A984721C3DE0B00F44004 /* ViewController.m in Sources */,
+				1B4A985221C3DE0D00F44004 /* main.m in Sources */,
+				1B4A984421C3DE0B00F44004 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C97C82331946E51D00FD9F4C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -350,6 +443,7 @@
 				C93A2516196AFE1100F86892 /* OTPTokenGenerationTests.m in Sources */,
 				C93BD5ED1C12A05400FFFB8F /* NSDictionary+QueryItems.m in Sources */,
 				C983AB6F197F913400975003 /* OTPBase32Tests.m in Sources */,
+				1B4A983B21C3D54D00F44004 /* OTPToken+Persistence.m in Sources */,
 				C93A2517196AFE1100F86892 /* OTPTokenPersistenceTests.m in Sources */,
 				C93A2518196AFE1100F86892 /* OTPTokenSerializationTests.m in Sources */,
 			);
@@ -358,6 +452,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1B4A985721C3DE3200F44004 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1B4A983F21C3DE0B00F44004 /* OneTimePasswordTestHost */;
+			targetProxy = 1B4A985621C3DE3200F44004 /* PBXContainerItemProxy */;
+		};
 		C97C82461946E51D00FD9F4C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C97C82371946E51D00FD9F4C /* OneTimePassword */;
@@ -365,7 +464,95 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		1B4A984821C3DE0B00F44004 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B4A984921C3DE0B00F44004 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1B4A984D21C3DE0D00F44004 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B4A984E21C3DE0D00F44004 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		1B4A985421C3DE0D00F44004 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = OneTimePasswordTestHost/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.OneTimePasswordTestHost.OneTimePasswordTestHost;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1B4A985521C3DE0D00F44004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = OneTimePasswordTestHost/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.OneTimePasswordTestHost.OneTimePasswordTestHost;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		C97C824C1946E51D00FD9F4C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -510,6 +697,7 @@
 				METAL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.mattrubin.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneTimePasswordTestHost.app/OneTimePasswordTestHost";
 			};
 			name = Debug;
 		};
@@ -525,12 +713,22 @@
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.mattrubin.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneTimePasswordTestHost.app/OneTimePasswordTestHost";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1B4A985321C3DE0D00F44004 /* Build configuration list for PBXNativeTarget "OneTimePasswordTestHost" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B4A985421C3DE0D00F44004 /* Debug */,
+				1B4A985521C3DE0D00F44004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C97C82321946E51D00FD9F4C /* Build configuration list for PBXProject "OneTimePassword" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

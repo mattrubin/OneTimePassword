@@ -27,9 +27,6 @@
 @import ObjectiveC.runtime;
 
 
-static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
-
-
 @interface OTPToken ()
 
 @property (nonatomic, strong) NSData *keychainItemRef;
@@ -102,8 +99,14 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
                                              withAttributes:attributes];
     } else {
         attributes[(__bridge id)kSecValueData] = self.secret;
-        attributes[(__bridge id)kSecAttrService] = kOTPService;
+        attributes[(__bridge id)kSecAttrService] = [self.class keychainServiceName];
 
+        // iCloud keychain access requires an access group
+        if ([self.class supportCloudKeychain] && [self.class keychainAccessGroup]) {
+            attributes[(__bridge id)kSecAttrSynchronizable] = (__bridge id)kCFBooleanTrue;
+            attributes[(__bridge id)kSecAttrAccessGroup] = [self.class keychainAccessGroup];
+        }
+        
         NSData *persistentRef = [OTPToken addKeychainItemWithAttributes:attributes];
 
         self.keychainItemRef = persistentRef;
@@ -133,6 +136,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecValuePersistentRef: persistentRef,
                                 (__bridge id)kSecReturnPersistentRef: (id)kCFBooleanTrue,
+                                (__bridge id)kSecAttrSynchronizable: (__bridge id)kSecAttrSynchronizableAny,
                                 (__bridge id)kSecReturnAttributes: (id)kCFBooleanTrue,
                                 (__bridge id)kSecReturnData: (id)kCFBooleanTrue
                                 };
@@ -149,6 +153,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecMatchLimit: (__bridge id)kSecMatchLimitAll,
                                 (__bridge id)kSecReturnPersistentRef: (id)kCFBooleanTrue,
+                                (__bridge id)kSecAttrSynchronizable: (__bridge id)kSecAttrSynchronizableAny,
                                 (__bridge id)kSecReturnAttributes: (id)kCFBooleanTrue,
                                 (__bridge id)kSecReturnData: (id)kCFBooleanTrue
                                 };
