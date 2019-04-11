@@ -557,10 +557,11 @@
 			};
 			buildConfigurationList = C97C82321946E51D00FD9F4C /* Build configuration list for PBXProject "OneTimePassword" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = C97C822E1946E51D00FD9F4C;
 			productRefGroup = C97C82391946E51D00FD9F4C /* Products */;
