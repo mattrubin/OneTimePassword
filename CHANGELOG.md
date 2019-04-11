@@ -2,6 +2,13 @@
 
 <!--## [In development][develop]-->
 
+## [3.1.5][] (2019-04-11)
+- Enable additional linting and CI testing.
+([#196](https://github.com/mattrubin/OneTimePassword/pull/196),
+[#192](https://github.com/mattrubin/OneTimePassword/pull/192))
+- Satisfy various project-level warnings introduced in Xcode 10.2.
+([#198](https://github.com/mattrubin/OneTimePassword/pull/198))
+
 ## [3.1.4][] (2018-09-15)
 - Fix compilation errors and add CI testing for Xcode 10.
 ([#182](https://github.com/mattrubin/OneTimePassword/pull/182),
@@ -166,8 +173,9 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1.4...develop
+[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1.5...develop
 
+[3.1.5]: https://github.com/mattrubin/OneTimePassword/compare/3.1.4...3.1.5
 [3.1.4]: https://github.com/mattrubin/OneTimePassword/compare/3.1.3...3.1.4
 [3.1.3]: https://github.com/mattrubin/OneTimePassword/compare/3.1.2...3.1.3
 [3.1.2]: https://github.com/mattrubin/OneTimePassword/compare/3.1.1...3.1.2
