@@ -1,2 +1,2 @@
 github "jspahrsummers/xcconfigs" "0.12"
-github "mattrubin/Base32" "xcode9"
+github "mattrubin/Base32" "1.1.2+xcode10.2"
