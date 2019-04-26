@@ -11,15 +11,15 @@ env:
   - RUNTIME="iOS 8.4"  DEVICE="iPhone 4s"
   - RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
   - RUNTIME="iOS 10.3" DEVICE="iPhone 7 Plus"
-  - RUNTIME="iOS 11.3" DEVICE="iPhone X"
-  - RUNTIME="iOS 12.0" DEVICE="iPhone XS Max"
+  - RUNTIME="iOS 11.4" DEVICE="iPhone X"
+  - RUNTIME="iOS 12.1" DEVICE="iPhone XS Max"
 
 # Include builds for watchOS
 matrix:
   include:
     # Include several build-only jobs for watchOS
     - xcode_scheme: OneTimePassword (watchOS)
-      env: BUILD_ONLY="YES" RUNTIME="watchOS 5.0" DEVICE="Apple Watch Series 4 - 44mm"
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 5.1" DEVICE="Apple Watch Series 4 - 44mm"
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 4.2" DEVICE="Apple Watch Series 3 - 38mm"
     - xcode_scheme: OneTimePassword (watchOS)
