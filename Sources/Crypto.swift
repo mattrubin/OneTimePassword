@@ -2,7 +2,7 @@
 //  Crypto.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2016-2017 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2016-2018 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
