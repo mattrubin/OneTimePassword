@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		C9425DE4227501F500EF93BD /* Lint OneTimePassword */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = C9425DE7227501F500EF93BD /* Build configuration list for PBXAggregateTarget "Lint OneTimePassword" */;
+			buildPhases = (
+				C97CDF2E1BEFB20000D64406 /* Run SwiftLint */,
+			);
+			dependencies = (
+			);
+			name = "Lint OneTimePassword";
+			productName = "Lint OneTimePassword";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		5B39F49C1DBD06EB00CD2DAB /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2519196B1BA400F86892 /* Token.swift */; };
 		5B39F49D1DBD06EE00CD2DAB /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Generator.swift */; };
@@ -393,7 +407,6 @@
 			buildConfigurationList = C97C824E1946E51D00FD9F4C /* Build configuration list for PBXNativeTarget "OneTimePassword (iOS)" */;
 			buildPhases = (
 				C97C82331946E51D00FD9F4C /* Sources */,
-				C97CDF2E1BEFB20000D64406 /* Lint */,
 				C97C82341946E51D00FD9F4C /* Frameworks */,
 			);
 			buildRules = (
@@ -474,6 +487,9 @@
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 					};
+					C9425DE4227501F500EF93BD = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
 					C97C82371946E51D00FD9F4C = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 1020;
@@ -515,6 +531,7 @@
 				C9A486B2196F352E00524F51 /* OneTimePasswordLegacyTests */,
 				FD6C3C0B1E0200F800EC4528 /* OneTimePasswordTestApp */,
 				5B39F4931DBD06BA00CD2DAB /* OneTimePassword (watchOS) */,
+				C9425DE4227501F500EF93BD /* Lint OneTimePassword */,
 			);
 		};
 /* End PBXProject section */
@@ -531,19 +548,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C97CDF2E1BEFB20000D64406 /* Lint */ = {
+		C97CDF2E1BEFB20000D64406 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
 			);
-			name = Lint;
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint is not installed. (https://github.com/realm/SwiftLint)\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -645,6 +666,18 @@
 			};
 			name = Release;
 		};
+		C9425DE5227501F500EF93BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		C9425DE6227501F500EF93BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		C97C824C1946E51D00FD9F4C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2C1A74D5830076B105 /* Debug.xcconfig */;
@@ -737,6 +770,15 @@
 			buildConfigurations = (
 				5B39F4991DBD06BA00CD2DAB /* Debug */,
 				5B39F49A1DBD06BA00CD2DAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9425DE7227501F500EF93BD /* Build configuration list for PBXAggregateTarget "Lint OneTimePassword" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9425DE5227501F500EF93BD /* Debug */,
+				C9425DE6227501F500EF93BD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
