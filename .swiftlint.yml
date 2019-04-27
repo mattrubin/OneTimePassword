@@ -60,7 +60,6 @@ opt_in_rules:
   - yoda_condition
 disabled_rules:
   - cyclomatic_complexity
-  - identifier_name
 
 colon:
   flexible_right_spacing: true
