@@ -3,8 +3,7 @@
 
 [![Build Status](https://travis-ci.org/mattrubin/OneTimePassword.svg?branch=develop)](https://travis-ci.org/mattrubin/OneTimePassword)
 [![Code Coverage](https://img.shields.io/codecov/c/github/mattrubin/OneTimePassword/develop.svg)](https://codecov.io/gh/mattrubin/OneTimePassword)
-[![CocoaPods](https://img.shields.io/cocoapods/v/OneTimePassword.svg)](https://cocoapods.org/pods/OneTimePassword)
-[![Carthage Compatible](https://img.shields.io/badge/carthage-%E2%9C%93-5BA7E9.svg)](https://github.com/Carthage/Carthage/)
+![Available via Carthage and CocoaPods](https://img.shields.io/badge/via-Carthage%20%7C%20CocoaPods-MediumSlateBlue.svg)
 ![Platforms: iOS, watchOS](https://img.shields.io/badge/platforms-iOS%20%7C%20watchOS-blue.svg)
 [![MIT License](https://img.shields.io/badge/license-MIT-lightgray.svg)](LICENSE.md)
 
