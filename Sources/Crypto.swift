@@ -24,26 +24,14 @@
 //
 
 import Foundation
-#if swift(>=4.1)
-    #if canImport(CommonCrypto)
-        import CommonCrypto
-    #else
-        import CommonCryptoShim
-    #endif
-#else
-    import CommonCryptoShim
-#endif
+import CommonCrypto
 
 func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
     let (hashFunction, hashLength) = algorithm.hashInfo
 
     let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
     defer {
-        #if swift(>=4.1)
         macOut.deallocate()
-        #else
-        macOut.deallocate(capacity: hashLength)
-        #endif
     }
 
     key.withUnsafeBytes { keyBytes in

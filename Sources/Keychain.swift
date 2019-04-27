@@ -52,7 +52,7 @@ public final class Keychain {
         // tokens as possible.
         // TODO: Restore deserialization error handling, in a way that provides info on the failure reason and allows
         //       the caller to choose whether to fail completely or recover some data.
-        return Set(allItems.flatMap({ try? PersistentToken(keychainDictionary: $0) }))
+        return Set(allItems.compactMap({ try? PersistentToken(keychainDictionary: $0) }))
     }
 
     // MARK: Write
