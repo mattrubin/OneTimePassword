@@ -2,7 +2,7 @@
 ### TOTP and HOTP one-time passwords for iOS
 
 [![Build Status](https://travis-ci.org/mattrubin/OneTimePassword.svg?branch=develop)](https://travis-ci.org/mattrubin/OneTimePassword)
-[![Codecov](https://codecov.io/gh/mattrubin/OneTimePassword/branch/develop/graph/badge.svg)](https://codecov.io/gh/mattrubin/OneTimePassword)
+[![Code Coverage](https://img.shields.io/codecov/c/github/mattrubin/OneTimePassword/develop.svg)](https://codecov.io/gh/mattrubin/OneTimePassword)
 [![CocoaPods](https://img.shields.io/cocoapods/v/OneTimePassword.svg)](https://cocoapods.org/pods/OneTimePassword)
 [![Carthage Compatible](https://img.shields.io/badge/carthage-%E2%9C%93-5BA7E9.svg)](https://github.com/Carthage/Carthage/)
 ![Platform](https://img.shields.io/cocoapods/p/OneTimePassword.svg)
