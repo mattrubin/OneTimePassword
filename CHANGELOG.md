@@ -2,11 +2,63 @@
 
 <!--## [In development][develop]-->
 
+## [3.1.5][] (2019-04-11)
+- Enable additional linting and CI testing.
+([#196](https://github.com/mattrubin/OneTimePassword/pull/196),
+[#192](https://github.com/mattrubin/OneTimePassword/pull/192))
+- Satisfy various project-level warnings introduced in Xcode 10.2.
+([#198](https://github.com/mattrubin/OneTimePassword/pull/198))
+
+## [3.1.4][] (2018-09-15)
+- Fix compilation errors and add CI testing for Xcode 10.
+([#182](https://github.com/mattrubin/OneTimePassword/pull/182),
+[#186](https://github.com/mattrubin/OneTimePassword/pull/186))
+- Enable several new SwiftLint opt-in rules. ([#187](https://github.com/mattrubin/OneTimePassword/pull/187))
+
+
+## [3.1.3][] (2018-04-29)
+- Ignore un-deserializable tokens in `allPersistentTokens()`. ([#179](https://github.com/mattrubin/OneTimePassword/pull/179))
+
+
+## [3.1.2][] (2018-04-23)
+- Synthesize Equatable conformance when compiling with Swift 4.1. ([#173](https://github.com/mattrubin/OneTimePassword/pull/173))
+- Fix a warning about deprecation of cross-module struct initializers by simplifying test cases for impossible-to-create invalid Generators. ([#174](https://github.com/mattrubin/OneTimePassword/pull/174))
+- Upgrade xcconfigs for Xcode 9.3. ([#172](https://github.com/mattrubin/OneTimePassword/pull/172))
+- Enable several new SwiftLint opt-in rules. ([#175](https://github.com/mattrubin/OneTimePassword/pull/175))
+
+
+## [3.1.1][] (2018-03-31)
+- Add support for Swift 4.1. ([#168](https://github.com/mattrubin/OneTimePassword/pull/168))
+- Update build and linter settings for Xcode 9.3. ([#167](https://github.com/mattrubin/OneTimePassword/pull/167))
+
+
+## [3.1][] (2018-03-27)
+- Upgrade to Swift 4 and Xcode 9.
+([#147](https://github.com/mattrubin/OneTimePassword/pull/147),
+[#149](https://github.com/mattrubin/OneTimePassword/pull/149),
+[#151](https://github.com/mattrubin/OneTimePassword/pull/151),
+[#153](https://github.com/mattrubin/OneTimePassword/pull/153),
+[#160](https://github.com/mattrubin/OneTimePassword/pull/160))
+- Handle keychain deserialization errors.
+([#161](https://github.com/mattrubin/OneTimePassword/pull/161))
+- Refactor token URL parsing.
+([#150](https://github.com/mattrubin/OneTimePassword/pull/150))
+- Refactor Generator validation.
+([#155](https://github.com/mattrubin/OneTimePassword/pull/155))
+- Update SwiftLint configuration and improve code formatting.
+([#148](https://github.com/mattrubin/OneTimePassword/pull/148),
+[#154](https://github.com/mattrubin/OneTimePassword/pull/154),
+[#159](https://github.com/mattrubin/OneTimePassword/pull/159))
+- Update CodeCov configuration.
+([#162](https://github.com/mattrubin/OneTimePassword/pull/162))
+
+
 ## [3.0.1][] (2018-03-08)
 - Fix an issue where CocoaPods was trying to build OneTimePassword with Swift 4. ([#157](https://github.com/mattrubin/OneTimePassword/pull/157))
 - Fix the Base32-decoding function in the token creation example code. ([#134](https://github.com/mattrubin/OneTimePassword/pull/134))
 - Tweak the Travis CI configuration to work around test timeout flakiness. ([#131](https://github.com/mattrubin/OneTimePassword/pull/131))
 - Clean up some old Keychain code which was used to provide Xcode 7 backwards compatibility. ([#133](https://github.com/mattrubin/OneTimePassword/pull/133))
+
 
 ## [3.0][] (2017-02-07)
 - Convert to Swift 3 and update the library API to follow the Swift [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/).
@@ -121,8 +173,14 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.0.1...develop
+[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1.5...develop
 
+[3.1.5]: https://github.com/mattrubin/OneTimePassword/compare/3.1.4...3.1.5
+[3.1.4]: https://github.com/mattrubin/OneTimePassword/compare/3.1.3...3.1.4
+[3.1.3]: https://github.com/mattrubin/OneTimePassword/compare/3.1.2...3.1.3
+[3.1.2]: https://github.com/mattrubin/OneTimePassword/compare/3.1.1...3.1.2
+[3.1.1]: https://github.com/mattrubin/OneTimePassword/compare/3.1...3.1.1
+[3.1]: https://github.com/mattrubin/OneTimePassword/compare/3.0.1...3.1
 [3.0.1]: https://github.com/mattrubin/OneTimePassword/compare/3.0...3.0.1
 [3.0]: https://github.com/mattrubin/OneTimePassword/compare/2.1.1...3.0
 [2.1.1]: https://github.com/mattrubin/OneTimePassword/compare/2.1...2.1.1

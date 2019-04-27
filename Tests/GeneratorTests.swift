@@ -73,11 +73,13 @@ class GeneratorTests: XCTestCase {
 
     func testCounter() throws {
         let factors: [(TimeInterval, TimeInterval, UInt64)] = [
+            // swiftlint:disable comma
             (100,         30, 3),
             (10000,       30, 333),
             (1000000,     30, 33333),
             (100000000,   60, 1666666),
             (10000000000, 90, 111111111),
+            // swiftlint:enable comma
         ]
 
         for (timeSinceEpoch, period, count) in factors {
@@ -165,24 +167,26 @@ class GeneratorTests: XCTestCase {
     }
 
     func testPasswordWithInvalidPeriod() {
-        let generator = Generator(unvalidatedFactor: .timer(period: 0))
-        let time = Date(timeIntervalSince1970: 100)
+        // It should not be possible to try to get a password from a generator with an invalid period, because the
+        // generator initializer should fail when given an invalid period.
+        let factor = Generator.Factor.timer(period: 0)
 
-        XCTAssertThrowsError(try generator.password(at: time)) { error in
+        XCTAssertThrowsError(try Generator(factor: factor, secret: Data(), algorithm: .sha1, digits: 8)) { error in
             guard case Generator.Error.invalidPeriod = error else {
-                XCTFail("password(at: \(time)) threw an unexpected type of error: \(error)")
+                XCTFail("Generator.init threw an unexpected type of error: \(error)")
                 return
             }
         }
     }
 
     func testPasswordWithInvalidDigits() {
-        let generator = Generator(unvalidatedDigits: 3)
-        let time = Date(timeIntervalSince1970: 100)
+        // It should not be possible to try to get a password from a generator with an invalid digit count, because the
+        // generator initializer should fail when given an invalid digit count.
+        let factor = Generator.Factor.timer(period: 30)
 
-        XCTAssertThrowsError(try generator.password(at: time)) { error in
+        XCTAssertThrowsError(try Generator(factor: factor, secret: Data(), algorithm: .sha1, digits: 3)) { error in
             guard case Generator.Error.invalidDigits = error else {
-                XCTFail("password(at: \(time)) threw an unexpected type of error: \(error)")
+                XCTFail("Generator.init threw an unexpected type of error: \(error)")
                 return
             }
         }
@@ -264,17 +268,5 @@ class GeneratorTests: XCTestCase {
                                "Incorrect result for \(algorithm) at \(timeSinceEpoch)")
             }
         }
-    }
-}
-
-private extension Generator {
-    init(unvalidatedFactor factor: Factor = .timer(period: 30),
-         unvalidatedSecret secret: Data = Data(),
-         unvalidatedAlgorithm algorithm: Algorithm = .sha1,
-         unvalidatedDigits digits: Int = 8) {
-        self.factor = factor
-        self.secret = secret
-        self.algorithm = algorithm
-        self.digits = digits
     }
 }

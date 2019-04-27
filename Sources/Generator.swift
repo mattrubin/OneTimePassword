@@ -184,26 +184,6 @@ public struct Generator: Equatable {
     }
 }
 
-/// Compares two `Generator`s for equality.
-public func == (lhs: Generator, rhs: Generator) -> Bool {
-    return (lhs.factor == rhs.factor)
-        && (lhs.algorithm == rhs.algorithm)
-        && (lhs.secret == rhs.secret)
-        && (lhs.digits == rhs.digits)
-}
-
-/// Compares two `Factor`s for equality.
-public func == (lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
-    switch (lhs, rhs) {
-    case let (.counter(l), .counter(r)):
-        return l == r
-    case let (.timer(l), .timer(r)):
-        return l == r
-    default:
-        return false
-    }
-}
-
 // MARK: - Private
 
 private extension Generator {

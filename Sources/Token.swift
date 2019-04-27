@@ -69,10 +69,3 @@ public struct Token: Equatable {
         return Token(name: name, issuer: issuer, generator: generator.successor())
     }
 }
-
-/// Compares two `Token`s for equality.
-public func == (lhs: Token, rhs: Token) -> Bool {
-    return (lhs.name == rhs.name)
-        && (lhs.issuer == rhs.issuer)
-        && (lhs.generator == rhs.generator)
-}

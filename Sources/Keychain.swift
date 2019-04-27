@@ -47,7 +47,12 @@ public final class Keychain {
     ///
     /// - throws: A `Keychain.Error` if an error occurred.
     public func allPersistentTokens() throws -> Set<PersistentToken> {
-        return Set(try allKeychainItems().map(PersistentToken.init(keychainDictionary:)))
+        let allItems = try allKeychainItems()
+        // This code intentionally ignores items which fail deserialization, instead opting to return as many readable
+        // tokens as possible.
+        // TODO: Restore deserialization error handling, in a way that provides info on the failure reason and allows
+        //       the caller to choose whether to fail completely or recover some data.
+        return Set(allItems.compactMap({ try? PersistentToken(keychainDictionary: $0) }))
     }
 
     // MARK: Write
@@ -175,7 +180,7 @@ private func addKeychainItem(withAttributes attributes: [String: AnyObject]) thr
 
 private func updateKeychainItem(forPersistentRef persistentRef: Data,
                                 withAttributes attributesToUpdate: [String: AnyObject]) throws {
-    let queryDict: [String : AnyObject] = [
+    let queryDict: [String: AnyObject] = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef as NSData,
     ]
@@ -188,7 +193,7 @@ private func updateKeychainItem(forPersistentRef persistentRef: Data,
 }
 
 private func deleteKeychainItem(forPersistentRef persistentRef: Data) throws {
-    let queryDict: [String : AnyObject] = [
+    let queryDict: [String: AnyObject] = [
         kSecClass as String:               kSecClassGenericPassword,
         kSecValuePersistentRef as String:  persistentRef as NSData,
     ]
@@ -201,7 +206,7 @@ private func deleteKeychainItem(forPersistentRef persistentRef: Data) throws {
 }
 
 private func keychainItem(forPersistentRef persistentRef: Data) throws -> NSDictionary? {
-    let queryDict: [String : AnyObject] = [
+    let queryDict: [String: AnyObject] = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecValuePersistentRef as String:   persistentRef as NSData,
         kSecReturnPersistentRef as String:  kCFBooleanTrue,
@@ -228,7 +233,7 @@ private func keychainItem(forPersistentRef persistentRef: Data) throws -> NSDict
 }
 
 private func allKeychainItems() throws -> [NSDictionary] {
-    let queryDict: [String : AnyObject] = [
+    let queryDict: [String: AnyObject] = [
         kSecClass as String:                kSecClassGenericPassword,
         kSecMatchLimit as String:           kSecMatchLimitAll,
         kSecReturnPersistentRef as String:  kCFBooleanTrue,
