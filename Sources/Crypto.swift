@@ -34,11 +34,19 @@ func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
         macOut.deallocate()
     }
 
+    #if swift(>=5.0)
+    key.withUnsafeBytes { keyBytes in
+        data.withUnsafeBytes { dataBytes in
+            CCHmac(hashFunction, keyBytes.baseAddress, key.count, dataBytes.baseAddress, data.count, macOut)
+        }
+    }
+    #else
     key.withUnsafeBytes { keyBytes in
         data.withUnsafeBytes { dataBytes in
             CCHmac(hashFunction, keyBytes, key.count, dataBytes, data.count, macOut)
         }
     }
+    #endif
 
     return Data(bytes: macOut, count: hashLength)
 }
