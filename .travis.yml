@@ -7,6 +7,9 @@ xcode_scheme: OneTimePassword (iOS)
 
 osx_image: xcode10.2
 
+before_install:
+- gem install cocoapods -v 1.7
+
 env:
   - RUNTIME="iOS 8.4"  DEVICE="iPhone 4s"
   - RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
