@@ -29,6 +29,8 @@ opt_in_rules:
   - implicit_return
   - implicitly_unwrapped_optional
   - joined_default_parameter
+  - last_where
+  - legacy_multiple
   - legacy_random
   - let_var_whitespace
   - literal_expression_end_indentation
@@ -38,13 +40,16 @@ opt_in_rules:
   - multiline_literal_brackets
   - multiline_parameters
   - nimble_operator
+  - nslocalizedstring_key
   - operator_usage_whitespace
   - overridden_super_call
   - override_in_extension
   - pattern_matching_keywords
   - private_action
   - private_outlet
+  - prohibited_interface_builder
   - prohibited_super_call
+  - reduce_into
   - redundant_nil_coalescing
   - single_test_class
   - sorted_first_last
@@ -53,14 +58,18 @@ opt_in_rules:
   - toggle_bool
   - unavailable_function
   - unneeded_parentheses_in_closure_argument
+  - unowned_variable_capture
   - untyped_error_in_catch
+  - unused_declaration
   - unused_import
-  - unused_private_declaration
   - vertical_parameter_alignment_on_call
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+  - xct_specific_matcher
   - yoda_condition
+
 disabled_rules:
   - cyclomatic_complexity
-  - identifier_name
 
 colon:
   flexible_right_spacing: true
