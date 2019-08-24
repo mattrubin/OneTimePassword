@@ -5,7 +5,7 @@ language: objective-c
 xcode_workspace: OneTimePassword.xcworkspace
 xcode_scheme: OneTimePassword (iOS)
 
-osx_image: xcode10.2
+osx_image: xcode10.3
 
 before_install:
 - gem install cocoapods -v 1.7
@@ -15,7 +15,7 @@ env:
   - RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
   - RUNTIME="iOS 10.3" DEVICE="iPhone 7 Plus"
   - RUNTIME="iOS 11.4" DEVICE="iPhone X"
-  - RUNTIME="iOS 12.1" DEVICE="iPhone XS Max"
+  - RUNTIME="iOS 12.4" DEVICE="iPhone XS Max"
 
 # Include builds for watchOS
 matrix:
@@ -35,6 +35,14 @@ matrix:
       script: carthage build --no-skip-current
     # Build with CocoaPods
     - env:
+      before_script:
+      script: pod lib lint --allow-warnings
+    # Build with Xcode 10.1 and Swift 4.2
+    - osx_image: xccode10.1
+      env: RUNTIME="iOS 12.1" DEVICE="iPhone XR"
+    # Build with CocoaPods and Swift 4.2
+    - osx_image: xccode10.1
+      env:
       before_script:
       script: pod lib lint --allow-warnings
 
