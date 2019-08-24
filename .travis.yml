@@ -11,8 +11,6 @@ before_install:
 - gem install cocoapods -v 1.7
 
 env:
-  - RUNTIME="iOS 8.4"  DEVICE="iPhone 4s"
-  - RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
   - RUNTIME="iOS 10.3" DEVICE="iPhone 7 Plus"
   - RUNTIME="iOS 11.4" DEVICE="iPhone X"
   - RUNTIME="iOS 12.4" DEVICE="iPhone XS Max"
@@ -34,17 +32,19 @@ matrix:
       before_script:
       script: carthage build --no-skip-current
     # Build with CocoaPods
-    - env:
-      before_script:
-      script: pod lib lint --allow-warnings
-    # Build with Xcode 10.1 and Swift 4.2
-    - osx_image: xccode10.1
-      env: RUNTIME="iOS 12.1" DEVICE="iPhone XR"
-    # Build with CocoaPods and Swift 4.2
-    - osx_image: xccode10.1
+    - &cocoapods
       env:
       before_script:
-      script: pod lib lint --allow-warnings
+      script: pod lib lint --allow-warnings --verbose
+    # Build with Xcode 10.1 and Swift 4.2
+    - &swift42
+      osx_image: xccode10.1
+      env: RUNTIME="iOS 8.4"  DEVICE="iPhone 4s"
+    - <<: *swift42
+      env: RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
+    # Build with CocoaPods and Swift 4.2
+    - <<: *cocoapods
+      osx_image: xccode10.1
 
 before_script:
   - DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
