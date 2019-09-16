@@ -25,22 +25,55 @@
 
 import Foundation
 import CommonCrypto
+import CryptoKit
 
 func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
-    let (hashFunction, hashLength) = algorithm.hashInfo
+    if #available(iOS 13.0, macOS 10.15, watchOS 6.0, *) {
+        let key = SymmetricKey(data: key)
 
-    let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
-    defer {
-        macOut.deallocate()
+        func createData(_ ptr: UnsafeRawBufferPointer) -> Data {
+            Data(bytes: ptr.baseAddress!, count: algorithm.hashLength)
+        }
+
+        switch algorithm {
+        case .sha1:
+            return CryptoKit.HMAC<Insecure.SHA1>.authenticationCode(for: data, using: key).withUnsafeBytes(createData)
+        case .sha256:
+            return CryptoKit.HMAC<SHA256>.authenticationCode(for: data, using: key).withUnsafeBytes(createData)
+        case .sha512:
+            return CryptoKit.HMAC<SHA512>.authenticationCode(for: data, using: key).withUnsafeBytes(createData)
+        }
+    } else {
+        let (hashFunction, hashLength) = algorithm.hashInfo
+
+        let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
+
+        defer {
+            macOut.deallocate()
+        }
+
+        key.withUnsafeBytes { keyBytes in
+            data.withUnsafeBytes { dataBytes in
+                CCHmac(hashFunction, keyBytes, key.count, dataBytes, data.count, macOut)
+            }
+        }
+
+        return Data(bytes: macOut, count: hashLength)
     }
+}
 
-    key.withUnsafeBytes { keyBytes in
-        data.withUnsafeBytes { dataBytes in
-            CCHmac(hashFunction, keyBytes, key.count, dataBytes, data.count, macOut)
+@available(iOS 13.0, macOS 10.15, watchOS 6.0, *)
+private extension Generator.Algorithm {
+    var hashLength: Int {
+        switch self {
+        case .sha1:
+            return Insecure.SHA1.byteCount
+        case .sha256:
+            return SHA256.byteCount
+        case .sha512:
+            return SHA512.byteCount
         }
     }
-
-    return Data(bytes: macOut, count: hashLength)
 }
 
 private extension Generator.Algorithm {
