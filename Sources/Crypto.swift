@@ -25,7 +25,9 @@
 
 import Foundation
 import CommonCrypto
+#if canImport(CryptoKit)
 import CryptoKit
+#endif
 
 func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
     if #available(iOS 13.0, macOS 10.15, watchOS 6.0, *) {
