@@ -29,6 +29,7 @@ import CommonCrypto
 import CryptoKit
 #endif
 
+#if canImport(CryptoKit)
 func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
     if #available(iOS 13.0, macOS 10.15, watchOS 6.0, *) {
         let key = SymmetricKey(data: key)
@@ -46,21 +47,7 @@ func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
             return CryptoKit.HMAC<SHA512>.authenticationCode(for: data, using: key).withUnsafeBytes(createData)
         }
     } else {
-        let (hashFunction, hashLength) = algorithm.hashInfo
-
-        let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
-
-        defer {
-            macOut.deallocate()
-        }
-
-        key.withUnsafeBytes { keyBytes in
-            data.withUnsafeBytes { dataBytes in
-                CCHmac(hashFunction, keyBytes, key.count, dataBytes, data.count, macOut)
-            }
-        }
-
-        return Data(bytes: macOut, count: hashLength)
+        return legacyHMAC(algorithm: algorithm, key: key, data: data)
     }
 }
 
@@ -76,6 +63,29 @@ private extension Generator.Algorithm {
             return SHA512.byteCount
         }
     }
+}
+#else
+func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
+    return legacyHMAC(algorithm: algorithm, key: key, data: data)
+}
+#endif
+
+func legacyHMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
+    let (hashFunction, hashLength) = algorithm.hashInfo
+
+    let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
+
+    defer {
+        macOut.deallocate()
+    }
+
+    key.withUnsafeBytes { keyBytes in
+        data.withUnsafeBytes { dataBytes in
+            CCHmac(hashFunction, keyBytes, key.count, dataBytes, data.count, macOut)
+        }
+    }
+
+    return Data(bytes: macOut, count: hashLength)
 }
 
 private extension Generator.Algorithm {
