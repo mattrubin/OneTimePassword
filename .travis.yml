@@ -46,6 +46,7 @@ matrix:
     # Build with CocoaPods and Swift 4.2
     - <<: *cocoapods
       osx_image: xcode10.1
+      script: pod lib lint --allow-warnings --verbose --swift-version=4.2
 
 before_script:
   - DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
