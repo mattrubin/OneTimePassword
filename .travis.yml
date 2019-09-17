@@ -38,13 +38,13 @@ matrix:
       script: pod lib lint --allow-warnings --verbose
     # Build with Xcode 10.1 and Swift 4.2
     - &swift42
-      osx_image: xccode10.1
+      osx_image: xcode10.1
       env: RUNTIME="iOS 8.4"  DEVICE="iPhone 4s"
     - <<: *swift42
       env: RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
     # Build with CocoaPods and Swift 4.2
     - <<: *cocoapods
-      osx_image: xccode10.1
+      osx_image: xcode10.1
 
 before_script:
   - DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
