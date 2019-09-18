@@ -86,6 +86,16 @@ public struct Generator: Equatable {
         let counterData = Data(bytes: &bigCounter, count: MemoryLayout<UInt64>.size)
         let hash = HMAC(algorithm: algorithm, key: secret, data: counterData)
 
+        #if swift(>=5.0)
+        var truncatedHash = hash.withUnsafeBytes { ptr -> UInt32 in
+            // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
+            let offset = ptr[hash.count - 1] & 0x0f
+
+            // Take 4 bytes from the hash, starting at the given byte offset
+            let truncatedHashPtr = ptr.baseAddress! + Int(offset)
+            return truncatedHashPtr.bindMemory(to: UInt32.self, capacity: 1).pointee
+        }
+        #else
         var truncatedHash = hash.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
             // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
             let offset = ptr[hash.count - 1] & 0x0f
@@ -96,6 +106,7 @@ public struct Generator: Equatable {
                 $0.pointee
             }
         }
+        #endif
 
         // Ensure the four bytes taken from the hash match the current endian format
         truncatedHash = UInt32(bigEndian: truncatedHash)
