@@ -29,25 +29,34 @@ import CommonCrypto
 import CryptoKit
 #endif
 
-#if canImport(CryptoKit)
 func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
+    #if canImport(CryptoKit)
     if #available(iOS 13.0, macOS 10.15, watchOS 6.0, *) {
-        let key = SymmetricKey(data: key)
-
-        func createData(_ ptr: UnsafeRawBufferPointer) -> Data {
-            Data(bytes: ptr.baseAddress!, count: algorithm.hashLength)
-        }
-
-        switch algorithm {
-        case .sha1:
-            return CryptoKit.HMAC<Insecure.SHA1>.authenticationCode(for: data, using: key).withUnsafeBytes(createData)
-        case .sha256:
-            return CryptoKit.HMAC<SHA256>.authenticationCode(for: data, using: key).withUnsafeBytes(createData)
-        case .sha512:
-            return CryptoKit.HMAC<SHA512>.authenticationCode(for: data, using: key).withUnsafeBytes(createData)
-        }
+        return cryptoKitHMAC(algorithm: algorithm, key: key, data: data)
     } else {
-        return legacyHMAC(algorithm: algorithm, key: key, data: data)
+        return commonCryptoHMAC(algorithm: algorithm, key: key, data: data)
+    }
+    #else
+    return commonCryptoHMAC(algorithm: algorithm, key: key, data: data)
+    #endif
+}
+
+#if canImport(CryptoKit)
+@available(iOS 13.0, macOS 10.15, watchOS 6.0, *)
+private func cryptoKitHMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
+    let key = SymmetricKey(data: key)
+
+    func createData(_ ptr: UnsafeRawBufferPointer) -> Data {
+        Data(bytes: ptr.baseAddress!, count: algorithm.hashLength)
+    }
+
+    switch algorithm {
+    case .sha1:
+        return CryptoKit.HMAC<Insecure.SHA1>.authenticationCode(for: data, using: key).withUnsafeBytes(createData)
+    case .sha256:
+        return CryptoKit.HMAC<SHA256>.authenticationCode(for: data, using: key).withUnsafeBytes(createData)
+    case .sha512:
+        return CryptoKit.HMAC<SHA512>.authenticationCode(for: data, using: key).withUnsafeBytes(createData)
     }
 }
 
@@ -64,13 +73,9 @@ private extension Generator.Algorithm {
         }
     }
 }
-#else
-func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
-    return legacyHMAC(algorithm: algorithm, key: key, data: data)
-}
 #endif
 
-func legacyHMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
+private func commonCryptoHMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
     let (hashFunction, hashLength) = algorithm.hashInfo
 
     let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
