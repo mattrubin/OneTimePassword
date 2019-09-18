@@ -123,6 +123,9 @@ private extension Token {
             kSecAttrGeneric as String:  data as NSData,
             kSecValueData as String:    generator.secret as NSData,
             kSecAttrService as String:  kOTPService as NSString,
+            
+            // Allow keychain access in the background after first unlock.
+            kSecAttrAccessible as String:  kSecAttrAccessibleAfterFirstUnlock as NSString
         ]
     }
 }

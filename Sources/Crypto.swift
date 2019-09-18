@@ -26,7 +26,7 @@
 import Foundation
 import CommonCrypto
 
-func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
+public func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
     let (hashFunction, hashLength) = algorithm.hashInfo
 
     let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
