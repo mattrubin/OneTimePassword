@@ -53,6 +53,12 @@ matrix:
       env: RUNTIME="iOS 13.0" DEVICE="iPhone XR"
     - <<: *xcode11
       env: RUNTIME="iOS 10.3" DEVICE="iPhone 5s"
+    - <<: *xcode11
+      xcode_scheme: OneTimePassword (watchOS)
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 6.0" DEVICE="Apple Watch Series 5 - 40mm"
+    - <<: *xcode11
+      xcode_scheme: OneTimePassword (watchOS)
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch Series 2 - 38mm"
 
 
 before_script:
