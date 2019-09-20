@@ -2,6 +2,21 @@
 
 <!--## [In development][develop]-->
 
+## [3.2.0][]
+
+- Upgrade the source to compile with both Swift 4.2 and Swift 5.
+  ([#201](https://github.com/mattrubin/OneTimePassword/pull/201),
+   [#202](https://github.com/mattrubin/OneTimePassword/pull/202),
+   [#204](https://github.com/mattrubin/OneTimePassword/pull/204),
+   [#209](https://github.com/mattrubin/OneTimePassword/pull/209),
+   [#215](https://github.com/mattrubin/OneTimePassword/pull/215),
+   [#216](https://github.com/mattrubin/OneTimePassword/pull/216))
+- Update the SwiftLint configuration, and move the SwiftLint build phase to a separate dedicated target so that new lint errors do not interfere with consumers of the framework.
+  ([#212](https://github.com/mattrubin/OneTimePassword/pull/212),
+   [#206](https://github.com/mattrubin/OneTimePassword/pull/206))
+- Upgrade xcconfigs to enable new warnings introduced in Xcode 10.2
+  ([#203](https://github.com/mattrubin/OneTimePassword/pull/203))
+
 ## [3.1.5][] (2019-04-11)
 - Enable additional linting and CI testing.
 ([#196](https://github.com/mattrubin/OneTimePassword/pull/196),
@@ -175,6 +190,7 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 [develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1.5...develop
 
+[3.2.0]: https://github.com/mattrubin/OneTimePassword/compare/3.1.5...3.2.0
 [3.1.5]: https://github.com/mattrubin/OneTimePassword/compare/3.1.4...3.1.5
 [3.1.4]: https://github.com/mattrubin/OneTimePassword/compare/3.1.3...3.1.4
 [3.1.3]: https://github.com/mattrubin/OneTimePassword/compare/3.1.2...3.1.3
