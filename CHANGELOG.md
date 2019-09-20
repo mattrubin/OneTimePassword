@@ -2,7 +2,7 @@
 
 <!--## [In development][develop]-->
 
-## [3.2.0][]
+## [3.2.0][] (2019-09-20)
 
 - Upgrade the source to compile with both Swift 4.2 and Swift 5.
   ([#201](https://github.com/mattrubin/OneTimePassword/pull/201),
