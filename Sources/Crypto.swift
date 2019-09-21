@@ -2,7 +2,7 @@
 //  Crypto.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2016-2017 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2016-2018 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,33 +24,29 @@
 //
 
 import Foundation
-#if swift(>=4.1)
-    #if canImport(CommonCrypto)
-        import CommonCrypto
-    #else
-        import CommonCryptoShim
-    #endif
-#else
-    import CommonCryptoShim
-#endif
+import CommonCrypto
 
 func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
     let (hashFunction, hashLength) = algorithm.hashInfo
 
     let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
     defer {
-        #if swift(>=4.1)
         macOut.deallocate()
-        #else
-        macOut.deallocate(capacity: hashLength)
-        #endif
     }
 
+    #if swift(>=5.0)
+    key.withUnsafeBytes { keyBytes in
+        data.withUnsafeBytes { dataBytes in
+            CCHmac(hashFunction, keyBytes.baseAddress, key.count, dataBytes.baseAddress, data.count, macOut)
+        }
+    }
+    #else
     key.withUnsafeBytes { keyBytes in
         data.withUnsafeBytes { dataBytes in
             CCHmac(hashFunction, keyBytes, key.count, dataBytes, data.count, macOut)
         }
     }
+    #endif
 
     return Data(bytes: macOut, count: hashLength)
 }

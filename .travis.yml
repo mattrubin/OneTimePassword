@@ -5,59 +5,49 @@ language: objective-c
 xcode_workspace: OneTimePassword.xcworkspace
 xcode_scheme: OneTimePassword (iOS)
 
-osx_image: xcode10
+osx_image: xcode10.3
+
+before_install:
+- gem install cocoapods -v 1.7
 
 env:
   - RUNTIME="iOS 10.3" DEVICE="iPhone 7 Plus"
-  - RUNTIME="iOS 11.3" DEVICE="iPhone X"
-  - RUNTIME="iOS 12.0" DEVICE="iPhone XS Max"
+  - RUNTIME="iOS 11.4" DEVICE="iPhone X"
+  - RUNTIME="iOS 12.4" DEVICE="iPhone XS Max"
 
 # Include builds for watchOS
 matrix:
   include:
-    # Include an Xcode 9.0 build to test Swift 4.0 support
-    - osx_image: xcode9
-      env: RUNTIME="iOS 11.0" DEVICE="iPhone 8"
-    # Include an Xcode 9.2 build to test on iOS 8.x, because Xcode 9.3's iOS 8 simulator fails to launch
-    - osx_image: xcode9.2
-      env: RUNTIME="iOS 8.4"  DEVICE="iPhone 4s"
-    # Include an Xcode 9.4 build to ensure compatibility until Xcode 10 is in widespread use
-    - osx_image: xcode9.4
-      env: RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
     # Include several build-only jobs for watchOS
     - xcode_scheme: OneTimePassword (watchOS)
-      env: BUILD_ONLY="YES" RUNTIME="watchOS 5.0" DEVICE="Apple Watch Series 4 - 44mm"
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 5.1" DEVICE="Apple Watch Series 4 - 44mm"
     - xcode_scheme: OneTimePassword (watchOS)
-      osx_image: xcode9.4
-      env: BUILD_ONLY="YES" RUNTIME="watchOS 4.3" DEVICE="Apple Watch Series 3 - 38mm"
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 4.2" DEVICE="Apple Watch Series 3 - 38mm"
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch Series 2 - 42mm"
     - xcode_scheme: OneTimePassword (watchOS)
+      osx_image: xcode10.2
       env: BUILD_ONLY="YES" RUNTIME="watchOS 2.0" DEVICE="Apple Watch - 38mm"
-    # Include Carthage builds
+    # Build with Carthage
     - env:
       before_script:
       script: carthage build --no-skip-current
-    - osx_image: xcode9
+    # Build with CocoaPods
+    - &cocoapods
       env:
-      before_script:
-      script: carthage build --no-skip-current
-    # Include CocoaPods builds
-    - env:
-      before_script:
-      script: pod lib lint --allow-warnings
-    - osx_image: xcode9
-      env:
-      before_install: gem update cocoapods
       before_script:
       script: pod lib lint --allow-warnings --verbose
-  allow_failures:
-    # Allow the Xcode 9 `pod lib lint` to fail, as this test method currently has an issue using the custom CommonCrypto module maps.
-    - osx_image: xcode9
-      env:
-      before_install: gem update cocoapods
-      before_script:
-      script: pod lib lint --allow-warnings --verbose
+    # Build with Xcode 10.1 and Swift 4.2
+    - &swift42
+      osx_image: xcode10.1
+      env: RUNTIME="iOS 8.4"  DEVICE="iPhone 4s"
+      script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" SWIFT_VERSION=4.2 $ACTIONS | xcpretty -c
+    - <<: *swift42
+      env: RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
+    # Build with CocoaPods and Swift 4.2
+    - <<: *cocoapods
+      osx_image: xcode10.1
+      script: pod lib lint --allow-warnings --verbose --swift-version=4.2
 
 before_script:
   - DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")

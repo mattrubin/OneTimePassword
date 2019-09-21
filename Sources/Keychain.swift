@@ -2,7 +2,7 @@
 //  Keychain.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2017 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2018 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ public final class Keychain {
         // tokens as possible.
         // TODO: Restore deserialization error handling, in a way that provides info on the failure reason and allows
         //       the caller to choose whether to fail completely or recover some data.
-        return Set(allItems.flatMap({ try? PersistentToken(keychainDictionary: $0) }))
+        return Set(allItems.compactMap({ try? PersistentToken(keychainDictionary: $0) }))
     }
 
     // MARK: Write

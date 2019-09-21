@@ -2,7 +2,7 @@
 //  Token.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2017 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2018 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -69,13 +69,3 @@ public struct Token: Equatable {
         return Token(name: name, issuer: issuer, generator: generator.successor())
     }
 }
-
-#if swift(>=4.1)
-#else
-/// Compares two `Token`s for equality.
-public func == (lhs: Token, rhs: Token) -> Bool {
-    return (lhs.name == rhs.name)
-        && (lhs.issuer == rhs.issuer)
-        && (lhs.generator == rhs.generator)
-}
-#endif

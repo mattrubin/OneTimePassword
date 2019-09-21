@@ -2,7 +2,7 @@
 //  Generator.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2017 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2018 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -86,6 +86,16 @@ public struct Generator: Equatable {
         let counterData = Data(bytes: &bigCounter, count: MemoryLayout<UInt64>.size)
         let hash = HMAC(algorithm: algorithm, key: secret, data: counterData)
 
+        #if swift(>=5.0)
+        var truncatedHash = hash.withUnsafeBytes { ptr -> UInt32 in
+            // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
+            let offset = ptr[hash.count - 1] & 0x0f
+
+            // Take 4 bytes from the hash, starting at the given byte offset
+            let truncatedHashPtr = ptr.baseAddress! + Int(offset)
+            return truncatedHashPtr.bindMemory(to: UInt32.self, capacity: 1).pointee
+        }
+        #else
         var truncatedHash = hash.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
             // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
             let offset = ptr[hash.count - 1] & 0x0f
@@ -96,6 +106,7 @@ public struct Generator: Equatable {
                 $0.pointee
             }
         }
+        #endif
 
         // Ensure the four bytes taken from the hash match the current endian format
         truncatedHash = UInt32(bigEndian: truncatedHash)
@@ -191,29 +202,6 @@ public struct Generator: Equatable {
         case invalidDigits
     }
 }
-
-#if swift(>=4.1)
-#else
-/// Compares two `Generator`s for equality.
-public func == (lhs: Generator, rhs: Generator) -> Bool {
-    return (lhs.factor == rhs.factor)
-        && (lhs.algorithm == rhs.algorithm)
-        && (lhs.secret == rhs.secret)
-        && (lhs.digits == rhs.digits)
-}
-
-/// Compares two `Factor`s for equality.
-public func == (lhs: Generator.Factor, rhs: Generator.Factor) -> Bool {
-    switch (lhs, rhs) {
-    case let (.counter(l), .counter(r)):
-        return l == r
-    case let (.timer(l), .timer(r)):
-        return l == r
-    default:
-        return false
-    }
-}
-#endif
 
 // MARK: - Private
 
