@@ -656,6 +656,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */;
 			buildSettings = {
+				"OTHER_LDFLAGS[sdk=watchos6.0]" = (
+					"-weak_framework",
+					CryptoKit,
+				);
+				"OTHER_LDFLAGS[sdk=watchsimulator6.0]" = (
+					"-weak_framework",
+					CryptoKit,
+				);
 			};
 			name = Debug;
 		};
@@ -663,6 +671,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */;
 			buildSettings = {
+				"OTHER_LDFLAGS[sdk=watchos6.0]" = (
+					"-weak_framework",
+					CryptoKit,
+				);
+				"OTHER_LDFLAGS[sdk=watchsimulator6.0]" = (
+					"-weak_framework",
+					CryptoKit,
+				);
 			};
 			name = Release;
 		};
@@ -704,6 +720,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */;
 			buildSettings = {
+				"OTHER_LDFLAGS[sdk=iphoneos13.0]" = (
+					"-weak_framework",
+					CryptoKit,
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator13.0]" = (
+					"-weak_framework",
+					CryptoKit,
+				);
 			};
 			name = Debug;
 		};
@@ -711,6 +735,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */;
 			buildSettings = {
+				"OTHER_LDFLAGS[sdk=iphoneos13.0]" = (
+					"-weak_framework",
+					CryptoKit,
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator13.0]" = (
+					"-weak_framework",
+					CryptoKit,
+				);
 			};
 			name = Release;
 		};
