@@ -1,10 +1,10 @@
-name: CI
+name: Xcode
 
 on: [push]
 
 jobs:
-  xcodebuild-swift-5-ios:
-    name: "xcodebuild, Xcode 10.3, iOS"
+  xcode-10-3-ios:
+    name: "Xcode 10.3, iOS"
     runs-on: macOS-10.14
     strategy:
       matrix:
@@ -28,8 +28,8 @@ jobs:
         set -o pipefail
         xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "id=$DESTINATION_ID" | xcpretty -c
 
-  xcodebuild-xcode-10-3-swift-5-ios:
-    name: "xcodebuild, Xcode 10.3, Swift 5, iOS"
+  xcode-10-3-swift-5-ios:
+    name: "Xcode 10.3, Swift 5, iOS"
     runs-on: macOS-10.14
     strategy:
       matrix:
@@ -47,8 +47,8 @@ jobs:
         set -o pipefail
         xcodebuild test SWIFT_VERSION=5 -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "platform=iOS Simulator,${{ matrix.destination }}" | xcpretty -c
 
-  xcodebuild-xcode-10-3-swift-4-2-ios:
-    name: "xcodebuild, Xcode 10.3, Swift 4.2, iOS"
+  xcode-10-3-swift-4-2-ios:
+    name: "Xcode 10.3, Swift 4.2, iOS"
     runs-on: macOS-10.14
     strategy:
       matrix:
