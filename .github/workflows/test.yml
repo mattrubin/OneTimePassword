@@ -27,3 +27,41 @@ jobs:
         xcrun simctl boot $DESTINATION_ID
         set -o pipefail
         xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "id=$DESTINATION_ID" | xcpretty -c
+
+  xcodebuild-xcode-10-3-swift-5-ios:
+    name: "xcodebuild, Xcode 10.3, Swift 5, iOS"
+    runs-on: macOS-10.14
+    strategy:
+      matrix:
+        destination:
+          - name=iPhone 5,OS=10.1
+          - name=iPhone Xʀ,OS=12.4
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: recursive
+    - name: 'Select Xcode 10.3'
+      run: sudo xcode-select -s /Applications/Xcode_10.3.app
+    - name: "Build and Test"
+      run: |
+        set -o pipefail
+        xcodebuild test SWIFT_VERSION=5 -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "platform=iOS Simulator,${{ matrix.destination }}" | xcpretty -c
+
+  xcodebuild-xcode-10-3-swift-4-2-ios:
+    name: "xcodebuild, Xcode 10.3, Swift 4.2, iOS"
+    runs-on: macOS-10.14
+    strategy:
+      matrix:
+        destination:
+          - name=iPhone 5,OS=10.1
+          - name=iPhone Xʀ,OS=12.4
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: recursive
+    - name: 'Select Xcode 10.3'
+      run: sudo xcode-select -s /Applications/Xcode_10.3.app
+    - name: "Build and Test"
+      run: |
+        set -o pipefail
+        xcodebuild test SWIFT_VERSION=4.2 -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "platform=iOS Simulator,${{ matrix.destination }}" | xcpretty -c
