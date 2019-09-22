@@ -6,6 +6,12 @@ jobs:
   xcodebuild-swift-5-ios:
     name: "xcodebuild, Xcode 10.3, iOS"
     runs-on: macOS-10.14
+    strategy:
+      matrix:
+        destination:
+          - name=iPhone 7 Plus,OS=10.3
+          - name=iPhone X,OS=11.4
+          - name=iPhone XS Max,OS=12.4
     steps:
     - uses: actions/checkout@v1
       with:
@@ -15,4 +21,4 @@ jobs:
     - name: "Build and Test"
       run: |
         set -o pipefail
-        xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "platform=iOS Simulator,name=iPhone X" | xcpretty -c
+        xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "platform=iOS Simulator,${{ matrix.destination }}" | xcpretty -c
