@@ -97,6 +97,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		49403AEA23D3778400539BD3 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		5B39F4941DBD06BA00CD2DAB /* OneTimePassword.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9003417196F7046009733E8 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializationTests.swift; sourceTree = "<group>"; };
@@ -231,6 +232,7 @@
 		C97C822E1946E51D00FD9F4C = {
 			isa = PBXGroup;
 			children = (
+				49403AEA23D3778400539BD3 /* Package.swift */,
 				C97C823A1946E51D00FD9F4C /* Sources */,
 				C97C82471946E51D00FD9F4C /* Tests */,
 				C9A486B7196F352F00524F51 /* OneTimePasswordLegacyTests */,
