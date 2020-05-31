@@ -25,6 +25,7 @@
 
 import XCTest
 import OneTimePassword
+import Base32
 
 class GeneratorTests: XCTestCase {
     func testInit() {
@@ -38,7 +39,8 @@ class GeneratorTests: XCTestCase {
             factor: factor,
             secret: secret,
             algorithm: algorithm,
-            digits: digits
+            digits: digits,
+            representation: .numeric
         )
 
         XCTAssertEqual(generator?.factor, factor)
@@ -56,7 +58,8 @@ class GeneratorTests: XCTestCase {
             factor: otherFactor,
             secret: otherSecret,
             algorithm: otherAlgorithm,
-            digits: otherDigits
+            digits: otherDigits,
+            representation: .numeric
         )
 
         XCTAssertEqual(otherGenerator?.factor, otherFactor)
@@ -87,9 +90,9 @@ class GeneratorTests: XCTestCase {
             let timer = Generator.Factor.timer(period: period)
             let counter = Generator.Factor.counter(count)
             let secret = "12345678901234567890".data(using: String.Encoding.ascii)!
-            let hotp = Generator(factor: counter, secret: secret, algorithm: .sha1, digits: 6)
+            let hotp = Generator(factor: counter, secret: secret, algorithm: .sha1, digits: 6, representation: .numeric)
                 .flatMap { try? $0.password(at: time) }
-            let totp = Generator(factor: timer, secret: secret, algorithm: .sha1, digits: 6)
+            let totp = Generator(factor: timer, secret: secret, algorithm: .sha1, digits: 6, representation: .numeric)
                 .flatMap { try? $0.password(at: time) }
             XCTAssertEqual(hotp, totp,
                            "TOTP with \(timer) should match HOTP with counter \(counter) at time \(time).")
@@ -123,7 +126,8 @@ class GeneratorTests: XCTestCase {
                 factor: .counter(0),
                 secret: Data(),
                 algorithm: .sha1,
-                digits: digits
+                digits: digits,
+                representation: .numeric
             )
             // If the digits are invalid, password generation should throw an error
             let generatorIsValid = digitsAreValid
@@ -138,7 +142,8 @@ class GeneratorTests: XCTestCase {
                     factor: .timer(period: period),
                     secret: Data(),
                     algorithm: .sha1,
-                    digits: digits
+                    digits: digits,
+                    representation: .numeric
                 )
                 // If the digits or period are invalid, password generation should throw an error
                 let generatorIsValid = digitsAreValid && periodIsValid
@@ -156,7 +161,8 @@ class GeneratorTests: XCTestCase {
             factor: .timer(period: 30),
             secret: Data(),
             algorithm: .sha1,
-            digits: 6
+            digits: 6,
+            representation: .numeric
             ) else {
                 XCTFail("Failed to initialize a Generator.")
                 return
@@ -178,14 +184,14 @@ class GeneratorTests: XCTestCase {
     func testPasswordWithInvalidPeriod() {
         // It should not be possible to try to get a password from a generator with an invalid period, because the
         // generator initializer should fail when given an invalid period.
-        let generator = Generator(factor: .timer(period: 0), secret: Data(), algorithm: .sha1, digits: 8)
+        let generator = Generator(factor: .timer(period: 0), secret: Data(), algorithm: .sha1, digits: 8, representation: .numeric)
         XCTAssertNil(generator)
     }
 
     func testPasswordWithInvalidDigits() {
         // It should not be possible to try to get a password from a generator with an invalid digit count, because the
         // generator initializer should fail when given an invalid digit count.
-        let generator = Generator(factor: .timer(period: 30), secret: Data(), algorithm: .sha1, digits: 3)
+        let generator = Generator(factor: .timer(period: 30), secret: Data(), algorithm: .sha1, digits: 3, representation: .numeric)
         XCTAssertNil(generator)
     }
 
@@ -206,7 +212,7 @@ class GeneratorTests: XCTestCase {
             9: "520489",
         ]
         for (counter, expectedPassword) in expectedValues {
-            let generator = Generator(factor: .counter(counter), secret: secret, algorithm: .sha1, digits: 6)
+            let generator = Generator(factor: .counter(counter), secret: secret, algorithm: .sha1, digits: 6, representation: .numeric)
             let time = Date(timeIntervalSince1970: 0)
             let password = generator.flatMap { try? $0.password(at: time) }
             XCTAssertEqual(password, expectedPassword,
@@ -233,7 +239,7 @@ class GeneratorTests: XCTestCase {
 
         for (algorithm, secretKey) in secretKeys {
             let secret = secretKey.data(using: String.Encoding.ascii)!
-            let generator = Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 8)
+            let generator = Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 8, representation: .numeric)
 
             for (timeSinceEpoch, expectedPassword) in zip(timesSinceEpoch, expectedValues[algorithm]!) {
                 let time = Date(timeIntervalSince1970: timeSinceEpoch)
@@ -257,13 +263,30 @@ class GeneratorTests: XCTestCase {
         ]
 
         for (algorithm, expectedPasswords) in expectedValues {
-            let generator = Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 6)
+            let generator = Generator(factor: .timer(period: 30), secret: secret, algorithm: algorithm, digits: 6, representation: .numeric)
             for (timeSinceEpoch, expectedPassword) in zip(timesSinceEpoch, expectedPasswords) {
                 let time = Date(timeIntervalSince1970: timeSinceEpoch)
                 let password = generator.flatMap { try? $0.password(at: time) }
                 XCTAssertEqual(password, expectedPassword,
                                "Incorrect result for \(algorithm) at \(timeSinceEpoch)")
             }
+        }
+    }
+
+    // The values in this test were extracted manually using a test Steam account.
+    func testSteamGuardTOTPValues() {
+        let secret = MF_Base32Codec.data(fromBase32String: "I6FMHELVR57Z2PCNB7D22MS6I2SRSQIB")!
+        let expectedValues: [TimeInterval: String] = [
+            1590895077: "Y4323",
+            1590895162: "RFQNR",
+        ]
+
+        let generator = Generator(factor: .timer(period: 30), secret: secret, algorithm: .sha1, digits: 5, representation: .steamguard)
+        for (timeSinceEpoch, expectedPassword) in expectedValues {
+            let time = Date(timeIntervalSince1970: timeSinceEpoch)
+            let password = generator.flatMap { try? $0.password(at: time) }
+            XCTAssertEqual(password, expectedPassword,
+                           "Incorrect result for Steam Guard at \(timeSinceEpoch)")
         }
     }
 }
