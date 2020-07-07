@@ -206,7 +206,7 @@ private func parseTimerPeriod(_ rawValue: String) throws -> TimeInterval {
 }
 
 private func parseSecret(_ rawValue: String) throws -> Data {
-    guard let secret = MF_Base32Codec.data(fromBase32String: rawValue) else {
+    guard let secret = base32DecodeToData(rawValue) else {
         throw DeserializationError.invalidSecret(rawValue)
     }
     return secret
