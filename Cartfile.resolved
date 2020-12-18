@@ -1,2 +1,2 @@
-github "jspahrsummers/xcconfigs" "1.0"
-github "mattrubin/Base32" "1.1.2+xcode10.2"
+github "jspahrsummers/xcconfigs" "1.1"
+github "norio-nomura/Base32" "0.9.0"

@@ -1,64 +1,80 @@
 # Configuration for Travis (https://travis-ci.org)
 
-language: objective-c
+language: swift
 
 xcode_workspace: OneTimePassword.xcworkspace
 xcode_scheme: OneTimePassword (iOS)
 
-osx_image: xcode10.3
+osx_image: xcode12.2
 
 before_install:
-- gem install cocoapods -v 1.7
+- gem install cocoapods -v 1.10
 
 env:
-  - RUNTIME="iOS 10.3" DEVICE="iPhone 7 Plus"
+  - RUNTIME="iOS 10.3" DEVICE="iPhone 7"
   - RUNTIME="iOS 11.4" DEVICE="iPhone X"
-  - RUNTIME="iOS 12.4" DEVICE="iPhone XS Max"
+  - RUNTIME="iOS 12.4" DEVICE="iPhone XS"
+  - RUNTIME="iOS 13.5" DEVICE="iPhone 11"
+  - RUNTIME="iOS 14.2" DEVICE="iPhone 12"
 
 # Include builds for watchOS
 matrix:
   include:
     # Include several build-only jobs for watchOS
     - xcode_scheme: OneTimePassword (watchOS)
-      env: BUILD_ONLY="YES" RUNTIME="watchOS 5.1" DEVICE="Apple Watch Series 4 - 44mm"
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 7.1" DEVICE="Apple Watch Series 6 - 44mm"
+    - xcode_scheme: OneTimePassword (watchOS)
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 6.2" DEVICE="Apple Watch Series 5 - 40mm"
+    - xcode_scheme: OneTimePassword (watchOS)
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 5.3" DEVICE="Apple Watch Series 4 - 44mm"
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 4.2" DEVICE="Apple Watch Series 3 - 38mm"
     - xcode_scheme: OneTimePassword (watchOS)
       env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch Series 2 - 42mm"
-    - xcode_scheme: OneTimePassword (watchOS)
-      osx_image: xcode10.2
-      env: BUILD_ONLY="YES" RUNTIME="watchOS 2.0" DEVICE="Apple Watch - 38mm"
-    # Build with Carthage
-    - env:
-      before_script:
-      script: carthage build --no-skip-current
     # Build with CocoaPods
     - &cocoapods
       env:
       before_script:
       script: pod lib lint --allow-warnings --verbose
-    # Build with Xcode 10.1 and Swift 4.2
-    - &swift42
-      osx_image: xcode10.1
-      env: RUNTIME="iOS 8.4" DEVICE="iPhone 4s"
-      script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" SWIFT_VERSION=4.2 $ACTIONS | xcpretty -c
-    - <<: *swift42
-      env: RUNTIME="iOS 9.3" DEVICE="iPhone 6s"
-    # Build with CocoaPods and Swift 4.2
-    - <<: *cocoapods
-      osx_image: xcode10.1
+    - <<: *cocoapods # Swift 4.2
       script: pod lib lint --allow-warnings --verbose --swift-version=4.2
+    # Build with Swift 4.2
+    - env: RUNTIME="iOS 10.3" DEVICE="iPhone 5s"
+      script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" SWIFT_VERSION=4.2 $ACTIONS | xcpretty -c
+    # Build with Xcode 11.6
     - &xcode11
-      osx_image: xcode11
-      env: RUNTIME="iOS 13.0" DEVICE="iPhone XR"
+      osx_image: xcode11.6
+      env: RUNTIME="iOS 13.6" DEVICE="iPhone 11"
     - <<: *xcode11
       env: RUNTIME="iOS 10.3" DEVICE="iPhone 5s"
     - <<: *xcode11
       xcode_scheme: OneTimePassword (watchOS)
-      env: BUILD_ONLY="YES" RUNTIME="watchOS 6.0" DEVICE="Apple Watch Series 4 - 40mm"
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 6.2" DEVICE="Apple Watch Series 4 - 40mm"
     - <<: *xcode11
       xcode_scheme: OneTimePassword (watchOS)
-      env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch Series 2 - 38mm"
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch Series 2 - 42mm"
+    - <<: *xcode11 # carthage
+      env:
+      before_script:
+      script: carthage build --no-skip-current
+    - <<: *xcode11 # swift4.2
+      env: RUNTIME="iOS 10.3" DEVICE="iPhone 5s"
+      script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" SWIFT_VERSION=4.2 $ACTIONS | xcpretty -c
+    # Build with Xcode 10.3
+    - &xcode10
+      osx_image: xcode10.3
+      env: RUNTIME="iOS 12.4" DEVICE="iPhone XS"
+    - <<: *xcode10
+      env: RUNTIME="iOS 10.3" DEVICE="iPhone 5s"
+    - <<: *xcode10
+      xcode_scheme: OneTimePassword (watchOS)
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 5.3" DEVICE="Apple Watch Series 4 - 44mm"
+    - <<: *xcode10
+      xcode_scheme: OneTimePassword (watchOS)
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch Series 2 - 42mm"
+    - <<: *xcode10 # swift4.2
+      env: RUNTIME="iOS 10.3" DEVICE="iPhone 5s"
+      script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" SWIFT_VERSION=4.2 $ACTIONS | xcpretty -c
 
 
 before_script:

@@ -28,6 +28,9 @@
 		5B39F4A01DBD06F900CD2DAB /* PersistentToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F9FB81C03D6BC00CEA286 /* PersistentToken.swift */; };
 		5B39F4A11DBD06FC00CD2DAB /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9003417196F7046009733E8 /* Keychain.swift */; };
 		5B39F4A51DBD08A900CD2DAB /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C944A55E1A7EDAE200E08B1E /* Base32.framework */; };
+		C05989A3258CA7F400B142E5 /* OTPTokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05989A2258CA7F400B142E5 /* OTPTokenSerializationTests.swift */; };
+		C05989AF258CB23000B142E5 /* OTPAlgorithm+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05989AE258CB23000B142E5 /* OTPAlgorithm+String.swift */; };
+		C05989BB258CB35000B142E5 /* OTPTokenType+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05989BA258CB35000B142E5 /* OTPTokenType+String.swift */; };
 		C9003418196F7046009733E8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9003417196F7046009733E8 /* Keychain.swift */; };
 		C9290C301947D104008AE4DE /* TokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */; };
 		C93A251A196B1BA400F86892 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2519196B1BA400F86892 /* Token.swift */; };
@@ -39,8 +42,6 @@
 		C97142361C1155FC0063B37E /* OTPToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */; };
 		C97142371C1156DB0063B37E /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
-		C9A486C8196F38C800524F51 /* OTPTokenSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */; settings = {COMPILER_FLAGS = "-Wno-nullable-to-nonnull-conversion"; }; };
-		C9A486C9196F38CD00524F51 /* OTPTypeStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C9FE25196D181800C7ACEE /* OTPTypeStrings.m */; };
 		C9B2A19C199A7F1B00BC4A8A /* EquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */; };
 		C9B77D771C03078B00BAF6BF /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2514196AFE1100F86892 /* KeychainTests.swift */; };
 		C9DC7EC4196BD5DF00B50C82 /* Token+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token+URL.swift */; };
@@ -98,10 +99,12 @@
 
 /* Begin PBXFileReference section */
 		5B39F4941DBD06BA00CD2DAB /* OneTimePassword.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C05989A2258CA7F400B142E5 /* OTPTokenSerializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPTokenSerializationTests.swift; sourceTree = "<group>"; };
+		C05989AE258CB23000B142E5 /* OTPAlgorithm+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OTPAlgorithm+String.swift"; sourceTree = "<group>"; };
+		C05989BA258CB35000B142E5 /* OTPTokenType+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OTPTokenType+String.swift"; sourceTree = "<group>"; };
 		C9003417196F7046009733E8 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenSerializationTests.swift; sourceTree = "<group>"; };
 		C93A2514196AFE1100F86892 /* KeychainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
-		C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenSerializationTests.m; sourceTree = "<group>"; };
 		C93A2519196B1BA400F86892 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "OneTimePassword-iOS.xcconfig"; sourceTree = "<group>"; };
 		C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "OneTimePassword-watchOS.xcconfig"; sourceTree = "<group>"; };
@@ -134,8 +137,6 @@
 		C9B84D1D1C015EC0002EE631 /* .swiftlint.yml */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C9B84D1E1C015EC0002EE631 /* .travis.yml */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		C9B84D1F1C015EC8002EE631 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
-		C9C9FE24196D181800C7ACEE /* OTPTypeStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTypeStrings.h; sourceTree = "<group>"; };
-		C9C9FE25196D181800C7ACEE /* OTPTypeStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTypeStrings.m; sourceTree = "<group>"; };
 		C9DC7EC3196BD5DF00B50C82 /* Token+URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+URL.swift"; sourceTree = "<group>"; };
 		C9DC7EC7196BDF3B00B50C82 /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPToken.swift; sourceTree = "<group>"; };
@@ -325,7 +326,7 @@
 			children = (
 				C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */,
 				C944A5941A809CC000E08B1E /* OTPTokenTests.swift */,
-				C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */,
+				C05989A2258CA7F400B142E5 /* OTPTokenSerializationTests.swift */,
 				C9C9FE23196D176300C7ACEE /* Helpers */,
 				C9A486B8196F352F00524F51 /* Supporting Files */,
 			);
@@ -366,8 +367,8 @@
 		C9C9FE23196D176300C7ACEE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				C9C9FE24196D181800C7ACEE /* OTPTypeStrings.h */,
-				C9C9FE25196D181800C7ACEE /* OTPTypeStrings.m */,
+				C05989AE258CB23000B142E5 /* OTPAlgorithm+String.swift */,
+				C05989BA258CB35000B142E5 /* OTPTokenType+String.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -611,9 +612,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A486C8196F38C800524F51 /* OTPTokenSerializationTests.m in Sources */,
 				C97142361C1155FC0063B37E /* OTPToken.swift in Sources */,
-				C9A486C9196F38CD00524F51 /* OTPTypeStrings.m in Sources */,
+				C05989BB258CB35000B142E5 /* OTPTokenType+String.swift in Sources */,
+				C05989A3258CA7F400B142E5 /* OTPTokenSerializationTests.swift in Sources */,
+				C05989AF258CB23000B142E5 /* OTPAlgorithm+String.swift in Sources */,
 				C944A5951A809CC000E08B1E /* OTPTokenTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -656,6 +658,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				"OTHER_LDFLAGS[sdk=watchos6.0]" = (
 					"-weak_framework",
 					CryptoKit,
@@ -671,6 +674,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01B1DCBB7FB006255FA /* OneTimePassword-watchOS.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				"OTHER_LDFLAGS[sdk=watchos6.0]" = (
 					"-weak_framework",
 					CryptoKit,
@@ -698,7 +702,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2C1A74D5830076B105 /* Debug.xcconfig */;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
 				SWIFT_VERSION = 5.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
@@ -709,7 +713,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2E1A74D5830076B105 /* Release.xcconfig */;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
 				SWIFT_VERSION = 5.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
@@ -720,6 +724,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				"OTHER_LDFLAGS[sdk=iphoneos13.0]" = (
 					"-weak_framework",
 					CryptoKit,
@@ -735,6 +740,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C93CC01A1DCBB755006255FA /* OneTimePassword-iOS.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				"OTHER_LDFLAGS[sdk=iphoneos13.0]" = (
 					"-weak_framework",
 					CryptoKit,
