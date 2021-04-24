@@ -479,7 +479,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					5B39F4931DBD06BA00CD2DAB = {
@@ -698,7 +698,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2C1A74D5830076B105 /* Debug.xcconfig */;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
 				SWIFT_VERSION = 5.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
@@ -709,7 +709,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C996EC2E1A74D5830076B105 /* Release.xcconfig */;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
 				SWIFT_VERSION = 5.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
