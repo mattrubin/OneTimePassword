@@ -40,7 +40,7 @@ matrix:
     # Build with Xcode 10.1 and Swift 4.2
     - &swift42
       osx_image: xcode10.1
-      env: RUNTIME="iOS 8.4" DEVICE="iPhone 4s"
+      env: RUNTIME="iOS 9.0" DEVICE="iPhone 4s"
       script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" SWIFT_VERSION=4.2 $ACTIONS | xcpretty -c
     - <<: *swift42
       env: RUNTIME="iOS 9.3" DEVICE="iPhone 6s"
