@@ -41,16 +41,12 @@ matrix:
       env:
       before_script:
       script: carthage build --no-skip-current
-    - <<: *carthage
-      osx_image: xcode10.2
 
     # Build with CocoaPods
     - &cocoapods
       env:
       before_script:
       script: pod lib lint --allow-warnings --verbose
-    - <<: *cocoapods
-      osx_image: xcode10.2
 
 before_script:
   - DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
