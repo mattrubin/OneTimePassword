@@ -19,7 +19,7 @@ env:
 matrix:
   include:
     # Build and test with Xcode 10.2 to ensure Swift 5.0 support.
-    - &xcode10.2
+    - &xcode10_2
       osx_image: xcode10.2
       env: RUNTIME="iOS 12.2" DEVICE="iPhone 4s"
 
