@@ -40,7 +40,7 @@ matrix:
     - &carthage
       env:
       before_script:
-      script: carthage build --no-skip-current
+      script: carthage build --no-skip-current --platform iOS,watchOS --use-xcframeworks
 
     # Build with CocoaPods
     - &cocoapods
