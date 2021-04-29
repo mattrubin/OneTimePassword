@@ -8,20 +8,23 @@ xcode_scheme: OneTimePassword (iOS)
 osx_image: xcode12.4
 
 env:
-  - RUNTIME="iOS 9.0" DEVICE="iPhone 4s"
-  - RUNTIME="iOS 10.3" DEVICE="iPhone 5s"
-  - RUNTIME="iOS 11.4" DEVICE="iPhone X"
-  - RUNTIME="iOS 12.4" DEVICE="iPhone XS Max"
+  - RUNTIME="iOS 14.3" DEVICE="iPhone 12 mini"
   - RUNTIME="iOS 13.7" DEVICE="iPhone 11"
-  - RUNTIME="iOS 14.3" DEVICE="iPhone 12 Mini"
+  - RUNTIME="iOS 12.4" DEVICE="iPhone XS Max"
+  - RUNTIME="iOS 11.4" DEVICE="iPhone X"
 
 # Include builds for watchOS
 matrix:
   include:
+    # Build and test with Xcode 12.2 because it's the last pre-macOS 11 Travis image, with support for older iOS runtimes.
+    - &xcode12_2
+      osx_image: xcode12.2
+      env: RUNTIME="iOS 10.3" DEVICE="iPhone 5s"
+
     # Build and test with Xcode 10.2 to ensure Swift 5.0 support.
     - &xcode10_2
       osx_image: xcode10.2
-      env: RUNTIME="iOS 12.2" DEVICE="iPhone 4s"
+      env: RUNTIME="iOS 9.0" DEVICE="iPhone 4s"
 
     # Include several build-only jobs for watchOS
     - &watchos
@@ -29,12 +32,9 @@ matrix:
       # The newest runtime and device:
       env: BUILD_ONLY="YES" RUNTIME="watchOS 7.2" DEVICE="Apple Watch Series 6 - 44mm"
     - <<: *watchos
+      osx_image: xcode10.2
       # The oldest supported runtime and device:
       env: BUILD_ONLY="YES" RUNTIME="watchOS 2.0" DEVICE="Apple Watch - 38mm"
-    - <<: *watchos
-      osx_image: xcode10.2
-      # The newest device an runtime supported by Xcode 10.2:
-      env: BUILD_ONLY="YES" RUNTIME="watchOS 5.2" DEVICE="Apple Watch Series 4 - 44mm"
 
     # Build with Carthage
     - &carthage
