@@ -61,5 +61,10 @@ script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -sche
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
+branches: 
+  only: 
+    - develop
+    - release
+
 notifications:
   email: false
