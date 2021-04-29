@@ -21,10 +21,10 @@ matrix:
       osx_image: xcode12.2
       env: RUNTIME="iOS 10.3" DEVICE="iPhone 5s"
 
-    # Build and test with Xcode 10.2 to ensure Swift 5.0 support.
-    - &xcode10_2
-      osx_image: xcode10.2
-      env: RUNTIME="iOS 9.0" DEVICE="iPhone 4s"
+    # Build and test with Xcode 10.2 to ensure iOS 9 and Swift 5.0 support.
+    # - &xcode10_2
+    #   osx_image: xcode10.2
+    #   env: RUNTIME="iOS 9.0" DEVICE="iPhone 4s"
 
     # Include several build-only jobs for watchOS
     - &watchos
