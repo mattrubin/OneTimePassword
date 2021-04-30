@@ -10,9 +10,11 @@ jobs:
       matrix:
         env:
           - xcode: 12.4
-            ios: 14.4
+            runtime: "iOS 14.4"
+            device: "iPhone 12 Pro Max"
           - xcode: 11.7
-            ios: 13.7
+            runtime: "iOS 13.7"
+            device: "iPhone 6s"
     steps:
     - uses: actions/checkout@v2
       with:
@@ -24,5 +26,11 @@ jobs:
         xcrun simctl list
     - name: "Build and Test"
       run: |
+        RUNTIME="${{ matrix.env.runtime }}"
+        DEVICE="${{ matrix.env.device }}"
+        DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        DESTINATION_ID=$(xcrun simctl create Travis $DEVICE_ID $RUNTIME_ID)
+        xcrun simctl boot $DESTINATION_ID
         set -o pipefail
-        xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "platform=iOS Simulator,OS=${{ matrix.env.ios }}" | xcpretty -c
+        xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "id=$DESTINATION_ID" | xcpretty -c
