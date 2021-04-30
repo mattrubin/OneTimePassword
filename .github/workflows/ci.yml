@@ -30,7 +30,7 @@ jobs:
         DEVICE="${{ matrix.env.device }}"
         DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
         RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-        DESTINATION_ID=$(xcrun simctl create Travis $DEVICE_ID $RUNTIME_ID)
+        DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
         xcrun simctl boot $DESTINATION_ID
         set -o pipefail
         xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "id=$DESTINATION_ID" | xcpretty -c
@@ -62,7 +62,7 @@ jobs:
         DEVICE="${{ matrix.env.device }}"
         DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
         RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-        DESTINATION_ID=$(xcrun simctl create Travis $DEVICE_ID $RUNTIME_ID)
+        DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
         set -o pipefail
         xcodebuild build -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (watchOS)" -destination "id=$DESTINATION_ID" | xcpretty -c
 
