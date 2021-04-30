@@ -42,7 +42,6 @@ jobs:
       matrix:
         env:
           - xcode: 12.4
-          - xcode: 11.7
     steps:
     - uses: actions/checkout@v2
       with:
