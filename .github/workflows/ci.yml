@@ -35,6 +35,37 @@ jobs:
         set -o pipefail
         xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "id=$DESTINATION_ID" | xcpretty -c
 
+  xcode-watchos:
+    name: "Xcode / watchOS"
+    runs-on: macOS-10.15
+    strategy:
+      matrix:
+        env:
+          - xcode: 12.4
+            runtime: "watchOS 7.2"
+            device: "Apple Watch Series 6 - 44mm"
+          - xcode: 11.2.1
+            runtime: "watchOS 6.1"
+            device: "Apple Watch Series 4 - 40mm"
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: "Select Xcode ${{ matrix.env.xcode }}"
+      run: |
+        sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
+        xcodebuild -version -sdk
+        xcrun simctl list
+    - name: "Build"
+      run: |
+        RUNTIME="${{ matrix.env.runtime }}"
+        DEVICE="${{ matrix.env.device }}"
+        DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        DESTINATION_ID=$(xcrun simctl create Travis $DEVICE_ID $RUNTIME_ID)
+        set -o pipefail
+        xcodebuild build -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (watchOS)" -destination "id=$DESTINATION_ID" | xcpretty -c
+
   carthage:
     name: "Carthage"
     runs-on: macOS-10.15
