@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
-    - name: 'Select Xcode ${{ matrix.env.xcode }}'
+    - name: "Select Xcode ${{ matrix.env.xcode }}"
       run: |
         sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
         xcodebuild -version -sdk
@@ -47,8 +47,9 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
-    - name: 'Select Xcode ${{ matrix.env.xcode }}'
-      run: |
-        sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
+    - name: "Upgrade Carthage"
+      run: brew upgrade carthage
+    - name: "Select Xcode ${{ matrix.env.xcode }}"
+      run: sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
     - name: "Build"
       run: carthage build --archive --use-xcframeworks
