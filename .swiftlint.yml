@@ -2,6 +2,13 @@
 
 excluded:
   - Carthage
+
+# TODO: Re-enable these rules.
+disabled_rules:
+  - cyclomatic_complexity
+  - implicit_return
+  - todo
+
 opt_in_rules:
   - array_init
   - attributes
@@ -67,9 +74,6 @@ opt_in_rules:
   - vertical_whitespace_opening_braces
   - xct_specific_matcher
   - yoda_condition
-
-disabled_rules:
-  - cyclomatic_complexity
 
 colon:
   flexible_right_spacing: true
