@@ -52,3 +52,20 @@ jobs:
       run: sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
     - name: "Build"
       run: carthage build --no-skip-current --use-xcframeworks --no-use-binaries
+
+  cocoapods:
+    name: "CocoaPods"
+    runs-on: macOS-10.15
+    strategy:
+      matrix:
+        env:
+          - xcode: 12.4
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: "Upgrade CocoaPods"
+      run: sudo gem install cocoapods
+    - name: "Select Xcode ${{ matrix.env.xcode }}"
+      run: sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
+    - run: pod lib lint --allow-warnings --verbose
