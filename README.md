@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/mattrubin/OneTimePassword.svg?branch=develop)](https://travis-ci.org/mattrubin/OneTimePassword)
 [![Code Coverage](https://img.shields.io/codecov/c/github/mattrubin/OneTimePassword/develop.svg)](https://codecov.io/gh/mattrubin/OneTimePassword)
-[![Swift 4.2 or 5.0](https://img.shields.io/badge/swift-4.2%20%7C%205.0-orange.svg)](#usage)
+[![Swift 5.x](https://img.shields.io/badge/swift-5.x-orange.svg)](#usage)
 [![Available via Carthage and CocoaPods](https://img.shields.io/badge/via-Carthage%20%7C%20CocoaPods-MediumSlateBlue.svg)](#installation)
 ![Platforms: iOS, watchOS](https://img.shields.io/badge/platforms-iOS%20%7C%20watchOS-blue.svg)
 [![MIT License](https://img.shields.io/badge/license-MIT-lightgray.svg)](LICENSE.md)
@@ -52,7 +52,7 @@ Then run `pod install` to install the latest version of the framework.
 
 ## Usage
 
-> The [latest version][swift-5] of OneTimePassword can be compiled with either Swift 4.2 or Swift 5, and can be linked with Swift 4 or Swift 5 projects using the Swift compiler's [compatibility mode](https://swift.org/blog/swift-4-0-released/#new-compatibility-modes). To use OneTimePassword with earlier versions of Swift, check out the [`swift-4`][swift-4], [`swift-3`][swift-3], and [`swift-2.3`][swift-2.3] branches. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
+> The [latest version][swift-5] of OneTimePassword compiles with Swift 5. To use OneTimePassword with earlier versions of Swift, check out the [`swift-4.2`][swift-4.2], [`swift-4`][swift-4], [`swift-3`][swift-3], and [`swift-2.3`][swift-2.3] branches. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
 
 [swift-5]: https://github.com/mattrubin/OneTimePassword/tree/swift-5
 [swift-4.2]: https://github.com/mattrubin/OneTimePassword/tree/swift-4.2
