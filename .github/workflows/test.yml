@@ -9,12 +9,12 @@ jobs:
     strategy:
       matrix:
         env:
-          - RUNTIME: "iOS 14.4"
-            DEVICE: "iPhone SE"
-          - RUNTIME: "iOS 14.4"
-            DEVICE: "iPhone 7 Plus"
-          - RUNTIME: "iOS 14.4"
-            DEVICE: "iPhone XS Max"
+          - runtime: "iOS 14.4"
+            device: "iPhone SE"
+          - runtime: "iOS 14.4"
+            device: "iPhone 7 Plus"
+          - runtime: "iOS 14.4"
+            device: "iPhone XS Max"
     steps:
     - uses: actions/checkout@v2
       with:
@@ -26,7 +26,8 @@ jobs:
         xcrun simctl list
     - name: "Build and Test"
       run: |
-        ${{ matrix.env }}
+        RUNTIME="${{ matrix.env.runtime }}"
+        DEVICE="${{ matrix.env.device }}"
         DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
         RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
         DESTINATION_ID=$(xcrun simctl create Travis $DEVICE_ID $RUNTIME_ID)
