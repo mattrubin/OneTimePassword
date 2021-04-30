@@ -12,8 +12,8 @@ jobs:
           - xcode: 12.4
             runtime: "iOS 14.4"
             device: "iPhone 12 Pro Max"
-          - xcode: 11.7
-            runtime: "iOS 13.7"
+          - xcode: 11.2.1
+            runtime: "iOS 13.2"
             device: "iPhone 6s"
     steps:
     - uses: actions/checkout@v2
