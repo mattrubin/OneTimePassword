@@ -52,4 +52,4 @@ jobs:
     - name: "Select Xcode ${{ matrix.env.xcode }}"
       run: sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
     - name: "Build"
-      run: carthage build --archive --use-xcframeworks
+      run: carthage build --archive --use-xcframeworks --no-use-binaries
