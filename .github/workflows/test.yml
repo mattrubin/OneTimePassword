@@ -9,11 +9,11 @@ jobs:
     strategy:
       matrix:
         env:
-          - RUNTIME="iOS 10.0" DEVICE="iPhone SE"
-          - RUNTIME="iOS 10.2" DEVICE="iPhone 7 Plus"
-          - RUNTIME="iOS 12.4" DEVICE="iPhone XS Max"
+          - RUNTIME="iOS 14.4" DEVICE="iPhone SE"
+          - RUNTIME="iOS 14.4" DEVICE="iPhone 7 Plus"
+          - RUNTIME="iOS 14.4" DEVICE="iPhone XS Max"
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         submodules: recursive
     - name: 'Select Xcode 12.4'
@@ -37,10 +37,10 @@ jobs:
     strategy:
       matrix:
         destination:
-          - name=iPhone 5,OS=10.1
-          - name=iPhone Xʀ,OS=12.4
+          - name=iPhone 5,OS=14.4
+          - name=iPhone Xʀ,OS=14.4
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         submodules: recursive
     - name: 'Select Xcode 12.4'
