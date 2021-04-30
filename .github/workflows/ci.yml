@@ -1,4 +1,4 @@
-name: Xcode
+name: CI
 
 on: [push]
 
