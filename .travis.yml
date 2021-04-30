@@ -32,9 +32,9 @@ matrix:
       # The newest runtime and device:
       env: BUILD_ONLY="YES" RUNTIME="watchOS 7.2" DEVICE="Apple Watch Series 6 - 44mm"
     - <<: *watchos
-      osx_image: xcode10.2
+      osx_image: xcode11
       # The oldest supported runtime and device:
-      env: BUILD_ONLY="YES" RUNTIME="watchOS 2.0" DEVICE="Apple Watch - 38mm"
+      env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch - 38mm"
 
     # Build with Carthage
     - &carthage
