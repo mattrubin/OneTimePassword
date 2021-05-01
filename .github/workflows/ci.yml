@@ -34,6 +34,7 @@ jobs:
         xcrun simctl boot $DESTINATION_ID
         set -o pipefail
         xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "id=$DESTINATION_ID" | xcpretty -c
+    - uses: codecov/codecov-action@v1
 
   xcode-watchos:
     name: "Xcode ${{ matrix.env.xcode }}, ${{ matrix.env.runtime }}, ${{ matrix.env.device }}"
