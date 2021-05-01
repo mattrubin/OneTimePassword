@@ -36,18 +36,6 @@ matrix:
       # The oldest supported runtime and device:
       env: BUILD_ONLY="YES" RUNTIME="watchOS 3.2" DEVICE="Apple Watch - 38mm"
 
-    # Build with Carthage
-    - &carthage
-      env:
-      before_script:
-      script: carthage build --no-skip-current --platform iOS,watchOS --use-xcframeworks
-
-    # Build with CocoaPods
-    - &cocoapods
-      env:
-      before_script:
-      script: pod lib lint --allow-warnings --verbose
-
 before_script:
   - DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
   - RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
