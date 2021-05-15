@@ -24,6 +24,6 @@ let package = Package(
             name: "OneTimePasswordTests",
             dependencies: ["OneTimePassword"],
             path: "Tests",
-            exclude:["App"]),
+            exclude: ["App"]),
     ]
 )
