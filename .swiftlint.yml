@@ -1,7 +1,10 @@
 # Configuration for SwiftLint (https://github.com/realm/SwiftLint)
 
 excluded:
+  - .build
   - Carthage
+  - Package.swift
+
 opt_in_rules:
   - array_init
   - attributes
