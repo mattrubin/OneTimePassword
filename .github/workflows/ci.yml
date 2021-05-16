@@ -12,7 +12,7 @@ jobs:
           - xcode: 12.4
             runtime: "iOS 14.4"
             device: "iPhone 12 Pro Max"
-          - xcode: 11.2.1
+          - xcode: 12.4
             runtime: "iOS 13.2"
             device: "iPhone 6s"
           - xcode: 12.4
@@ -22,11 +22,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
-    - name: Link iOS 12.4 runtime
-      if: ${{ matrix.env.runtime == 'iOS 12.4' }}
+    - name: Link simulator runtimes
       run: |
         sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
         sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 12.4.simruntime
+        sudo ln -s /Applications/Xcode_11.2.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.2.simruntime
     - name: "Select Xcode ${{ matrix.env.xcode }}"
       run: |
         sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
@@ -53,13 +53,17 @@ jobs:
           - xcode: 12.4
             runtime: "watchOS 7.2"
             device: "Apple Watch Series 6 - 44mm"
-          - xcode: 11.2.1
+          - xcode: 12.4
             runtime: "watchOS 6.1"
             device: "Apple Watch Series 4 - 40mm"
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
+    - name: Link simulator runtimes
+      run: |
+        sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+        sudo ln -s /Applications/Xcode_11.3.1.app/Contents/Developer/Platforms/WatchOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/watchOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/watchOS\ 6.1.simruntime
     - name: "Select Xcode ${{ matrix.env.xcode }}"
       run: |
         sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
