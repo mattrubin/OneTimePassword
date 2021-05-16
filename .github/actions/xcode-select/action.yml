@@ -7,12 +7,19 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: "Select Xcode ${{ inputs.version }}" 
-      run: sudo xcode-select -s /Applications/Xcode_${{ inputs.version }}.app
+    - run: |
+        echo "::group::Selecting Xcode ${{ inputs.version }}…"
+        sudo xcode-select -s /Applications/Xcode_${{ inputs.version }}.app
+        xcode-select -p
+        echo "::endgroup::"
       shell: bash
-    - name: "Print SDK info"
-      run: xcodebuild -version -sdk
+    - run: |
+        echo "::group::xcodebuild -version -sdk"
+        xcodebuild -version -sdk
+        echo "::endgroup::"
       shell: bash
-    - name: "Print simulator info"
-      run: xcrun simctl list
+    - run: |
+        echo "::group::xcrun simctl list"
+        xcrun simctl list
+        echo "::endgroup::"
       shell: bash
