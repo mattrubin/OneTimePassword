@@ -10,7 +10,6 @@ osx_image: xcode12.4
 env:
   - RUNTIME="iOS 14.3" DEVICE="iPhone 12 mini"
   - RUNTIME="iOS 13.7" DEVICE="iPhone 11"
-  - RUNTIME="iOS 12.4" DEVICE="iPhone XS Max"
   - RUNTIME="iOS 11.4" DEVICE="iPhone X"
 
 # Include builds for watchOS
