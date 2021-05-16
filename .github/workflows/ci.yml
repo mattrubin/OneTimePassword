@@ -12,13 +12,21 @@ jobs:
           - xcode: 12.4
             runtime: "iOS 14.4"
             device: "iPhone 12 Pro Max"
-          - xcode: 11.2.1
-            runtime: "iOS 13.2"
-            device: "iPhone 6s"
+          - xcode: 12.4
+            runtime: "iOS 13.7"
+            device: "iPhone 11"
+          - xcode: 12.4
+            runtime: "iOS 12.4"
+            device: "iPhone 5s"
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
+    - name: Link simulator runtimes
+      run: |
+        sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+        sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 12.4.simruntime
+        sudo ln -s /Applications/Xcode_11.7.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.7.simruntime
     - name: "Select Xcode ${{ matrix.env.xcode }}"
       run: |
         sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
@@ -45,13 +53,21 @@ jobs:
           - xcode: 12.4
             runtime: "watchOS 7.2"
             device: "Apple Watch Series 6 - 44mm"
-          - xcode: 11.2.1
-            runtime: "watchOS 6.1"
+          - xcode: 12.4
+            runtime: "watchOS 6.2"
             device: "Apple Watch Series 4 - 40mm"
+          - xcode: 12.4
+            runtime: "watchOS 5.3"
+            device: "Apple Watch Series 2 - 38mm"
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
+    - name: Link simulator runtimes
+      run: |
+        sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+        sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/WatchOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/watchOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/watchOS\ 5.2.simruntime
+        sudo ln -s /Applications/Xcode_11.7.app/Contents/Developer/Platforms/WatchOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/watchOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/watchOS\ 6.2.simruntime
     - name: "Select Xcode ${{ matrix.env.xcode }}"
       run: |
         sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
