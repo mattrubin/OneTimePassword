@@ -28,10 +28,9 @@ jobs:
         sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 12.4.simruntime
         sudo ln -s /Applications/Xcode_11.7.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.7.simruntime
     - name: "Select Xcode ${{ matrix.env.xcode }}"
-      run: |
-        sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
-        xcodebuild -version -sdk
-        xcrun simctl list
+      uses: ./.github/actions/xcode-select
+      with: 
+        version: ${{ matrix.env.xcode }}
     - name: "Build and Test"
       run: |
         RUNTIME="${{ matrix.env.runtime }}"
@@ -69,10 +68,9 @@ jobs:
         sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/WatchOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/watchOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/watchOS\ 5.2.simruntime
         sudo ln -s /Applications/Xcode_11.7.app/Contents/Developer/Platforms/WatchOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/watchOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/watchOS\ 6.2.simruntime
     - name: "Select Xcode ${{ matrix.env.xcode }}"
-      run: |
-        sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
-        xcodebuild -version -sdk
-        xcrun simctl list
+      uses: ./.github/actions/xcode-select
+      with: 
+        version: ${{ matrix.env.xcode }}
     - name: "Build"
       run: |
         RUNTIME="${{ matrix.env.runtime }}"
@@ -97,7 +95,9 @@ jobs:
     - name: "Upgrade Carthage"
       run: brew upgrade carthage
     - name: "Select Xcode ${{ matrix.env.xcode }}"
-      run: sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
+      uses: ./.github/actions/xcode-select
+      with: 
+        version: ${{ matrix.env.xcode }}
     - name: "Build"
       run: carthage build --no-skip-current --use-xcframeworks --no-use-binaries
 
@@ -115,7 +115,9 @@ jobs:
     - name: "Upgrade CocoaPods"
       run: sudo gem install cocoapods
     - name: "Select Xcode ${{ matrix.env.xcode }}"
-      run: sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
+      uses: ./.github/actions/xcode-select
+      with: 
+        version: ${{ matrix.env.xcode }}
     - run: pod lib lint --allow-warnings --verbose
 
   spm:
@@ -128,5 +130,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: "Select Xcode ${{ matrix.env.xcode }}"
-      run: sudo xcode-select -s /Applications/Xcode_${{ matrix.env.xcode }}.app
+      uses: ./.github/actions/xcode-select
+      with: 
+        version: ${{ matrix.env.xcode }}
     - run: swift test
