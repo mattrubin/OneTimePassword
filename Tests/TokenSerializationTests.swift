@@ -97,7 +97,7 @@ class TokenSerializationTests: XCTestCase {
 
                                 let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
                                 let items = urlComponents?.queryItems
-                                let expectedItemCount = 4
+                                let expectedItemCount = 5
                                 XCTAssertEqual(items?.count, expectedItemCount,
                                                "There shouldn't be any unexpected query arguments: \(url)")
                                 // swiftlint:enable vertical_parameter_alignment_on_call
@@ -124,6 +124,17 @@ class TokenSerializationTests: XCTestCase {
                                 // Test digits
                                 XCTAssertEqual(queryArguments["digits"]!, String(digitNumber),
                                                "The digits value should be \"\(digitNumber)\"")
+                                // Test representation
+                                let representationString: String = {
+                                    switch $0 {
+                                    case .numeric:
+                                        return "numeric"
+                                    case .steamguard:
+                                        return "steamguard"
+                                    }
+                                }(generator.representation)
+                                XCTAssertEqual(queryArguments["representation"]!, representationString,
+                                             "The url query string should not contain the secret")
                                 // Test secret
                                 XCTAssertNil(queryArguments["secret"],
                                              "The url query string should not contain the secret")
@@ -163,6 +174,87 @@ class TokenSerializationTests: XCTestCase {
                 }
             }
         }
+    }
+
+    func testSteamGuardSerialization() {
+        // There is only one valid configuration of factor, algorithm, digits, and representation for Steam Guard.
+        // Create the token
+        let secretString = "12345678901234567890"
+        guard let generator = Generator(
+            factor: .timer(period: 30),
+            secret: secretString.data(using: String.Encoding.ascii)!,
+            algorithm: .sha1,
+            digits: 5,
+            representation: .steamguard
+        ) else {
+            XCTFail("Failed to construct Generator.")
+            return
+        }
+
+        let name = "testaccount"
+        let issuer = "Steam"
+        let token = Token(
+            name: name,
+            issuer: issuer,
+            generator: generator
+        )
+
+        // Serialize
+        guard let url = try? token.toURL() else {
+            XCTFail("Failed to convert Token to URL")
+            return
+        }
+
+        // Test scheme
+        XCTAssertEqual(url.scheme, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"")
+        // Test Factor
+        let expectedHost: String = kOTPTokenTypeTimerHost
+        XCTAssertEqual(url.host!, expectedHost, "The url host should be \"\(expectedHost)\"")
+        // Test name
+        XCTAssertEqual(url.path, "/" + name, "The url path should be \"/\(name)\"")
+
+        let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let queryArguments: [String: String] = urlComponents?.queryItems?.reduce(into: [:]) { acc, cur in
+            acc[cur.name] = cur.value
+        } ?? [:]
+        let expectedItemCount = 5
+        XCTAssertEqual(queryArguments.count, expectedItemCount,
+                       "There shouldn't be any unexpected query arguments: \(url)")
+        // swiftlint:enable vertical_parameter_alignment_on_call
+
+        // Test algorithm
+        let algorithmString = "SHA1"
+        XCTAssertEqual(queryArguments["algorithm"]!, algorithmString,
+                       "The algorithm value should be \"\(algorithmString)\"")
+        // Test digits
+        let digitNumber = 5
+        XCTAssertEqual(queryArguments["digits"]!, String(digitNumber),
+                       "The digits value should be \"\(digitNumber)\"")
+        // Test representation
+        let representationString = "steamguard"
+        XCTAssertEqual(queryArguments["representation"]!, representationString,
+                       "The url query string should not contain the secret")
+        // Test secret
+        XCTAssertNil(queryArguments["secret"],
+                     "The url query string should not contain the secret")
+
+        // Test period
+        XCTAssertEqual(queryArguments["period"]!, String(Int(30)),
+                       "The period value should be \"30\"")
+        // Test counter
+        XCTAssertNil(queryArguments["counter"],
+                     "The url query string should not contain the counter")
+
+        // Test issuer
+        XCTAssertEqual(queryArguments["issuer"]!, issuer,
+                       "The issuer value should be \"\(issuer)\"")
+
+        // Check url again
+        guard let checkURL = try? token.toURL() else {
+            XCTFail("Failed to convert Token to URL")
+            return
+        }
+        XCTAssertEqual(url, checkURL, "Repeated calls to url() should return the same result!")
     }
 
     func testTokenWithDefaultCounter() {

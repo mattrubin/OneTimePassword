@@ -36,7 +36,8 @@ public extension Token {
             issuer: issuer,
             factor: generator.factor,
             algorithm: generator.algorithm,
-            digits: generator.digits
+            digits: generator.digits,
+            representation: generator.representation
         )
     }
 
@@ -69,10 +70,12 @@ internal enum DeserializationError: Swift.Error {
     case invalidSecret(String)
     case invalidAlgorithm(String)
     case invalidDigits(String)
+    case invalidRepresentation(String)
 }
 
 private let defaultAlgorithm: Generator.Algorithm = .sha1
 private let defaultDigits: Int = 6
+private let defaultRepresentation: Generator.Representation = .numeric
 private let defaultCounter: UInt64 = 0
 private let defaultPeriod: TimeInterval = 30
 
@@ -81,6 +84,7 @@ private let kQueryAlgorithmKey = "algorithm"
 private let kQuerySecretKey = "secret"
 private let kQueryCounterKey = "counter"
 private let kQueryDigitsKey = "digits"
+private let kQueryRepresentationKey = "representation"
 private let kQueryPeriodKey = "period"
 private let kQueryIssuerKey = "issuer"
 
@@ -90,6 +94,9 @@ private let kFactorTimerKey = "totp"
 private let kAlgorithmSHA1   = "SHA1"
 private let kAlgorithmSHA256 = "SHA256"
 private let kAlgorithmSHA512 = "SHA512"
+
+private let kRepresentationNumeric    = "numeric"
+private let kRepresentationSteamGuard = "steamguard"
 
 private func stringForAlgorithm(_ algorithm: Generator.Algorithm) -> String {
     switch algorithm {
@@ -115,7 +122,27 @@ private func algorithmFromString(_ string: String) throws -> Generator.Algorithm
     }
 }
 
-private func urlForToken(name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int) throws -> URL {
+private func stringForRepresentation(_ representation: Generator.Representation) -> String {
+    switch representation {
+    case .numeric:
+        return kRepresentationNumeric
+    case .steamguard:
+        return kRepresentationSteamGuard
+    }
+}
+
+private func representationFromString(_ string: String) throws -> Generator.Representation {
+    switch string {
+    case kRepresentationNumeric:
+        return .numeric
+    case kRepresentationSteamGuard:
+        return .steamguard
+    default:
+        throw DeserializationError.invalidRepresentation(string)
+    }
+}
+
+private func urlForToken(name: String, issuer: String, factor: Generator.Factor, algorithm: Generator.Algorithm, digits: Int, representation: Generator.Representation) throws -> URL {
     var urlComponents = URLComponents()
     urlComponents.scheme = kOTPAuthScheme
     urlComponents.path = "/" + name
@@ -123,6 +150,7 @@ private func urlForToken(name: String, issuer: String, factor: Generator.Factor,
     var queryItems = [
         URLQueryItem(name: kQueryAlgorithmKey, value: stringForAlgorithm(algorithm)),
         URLQueryItem(name: kQueryDigitsKey, value: String(digits)),
+        URLQueryItem(name: kQueryRepresentationKey, value: stringForRepresentation(representation)),
         URLQueryItem(name: kQueryIssuerKey, value: issuer),
     ]
 
@@ -166,10 +194,11 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
 
     let algorithm = try queryItems.value(for: kQueryAlgorithmKey).map(algorithmFromString) ?? defaultAlgorithm
     let digits = try queryItems.value(for: kQueryDigitsKey).map(parseDigits) ?? defaultDigits
+    let representation = try queryItems.value(for: kQueryRepresentationKey).map(representationFromString) ?? defaultRepresentation
     guard let secret = try externalSecret ?? queryItems.value(for: kQuerySecretKey).map(parseSecret) else {
         throw DeserializationError.missingSecret
     }
-    let generator = try Generator(_factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+    let generator = try Generator(_factor: factor, secret: secret, algorithm: algorithm, digits: digits, representation: representation)
 
     // Skip the leading "/"
     let fullName = String(url.path.dropFirst())

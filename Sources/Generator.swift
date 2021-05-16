@@ -39,31 +39,36 @@ public struct Generator: Equatable {
     /// The number of digits in the password.
     public let digits: Int
 
+    /// The digits or alphabet used to generate the human-readable password output.
+    public let representation: Representation
+
     /// Initializes a new password generator with the given parameters.
     ///
-    /// - parameter factor:    The moving factor.
-    /// - parameter secret:    The shared secret.
-    /// - parameter algorithm: The cryptographic hash function.
-    /// - parameter digits:    The number of digits in the password.
+    /// - parameter factor:         The moving factor.
+    /// - parameter secret:         The shared secret.
+    /// - parameter algorithm:      The cryptographic hash function.
+    /// - parameter digits:         The number of digits in the password.
+    /// - parameter representation: The output character set.
     ///
     /// - returns: A new password generator with the given parameters, or `nil` if the parameters
     ///            are invalid.
-    public init?(factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) {
-        try? self.init(_factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+    public init?(factor: Factor, secret: Data, algorithm: Algorithm, digits: Int, representation: Representation = .numeric) {
+        try? self.init(_factor: factor, secret: secret, algorithm: algorithm, digits: digits, representation: representation)
     }
 
     // Eventually, this throwing initializer will replace the failable initializer above. For now, the failable
     // initializer remains to maintain a consistent public API. Since two different initializers cannot overload the
     // same initializer signature with both throwing an failable versions, this new initializer is currently prefixed
     // with an underscore and marked as internal.
-    internal init(_factor factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
+    internal init(_factor factor: Factor, secret: Data, algorithm: Algorithm, digits: Int, representation: Representation) throws {
         try Generator.validateFactor(factor)
-        try Generator.validateDigits(digits)
+        try Generator.validateDigits(digits, representation: representation)
 
         self.factor = factor
         self.secret = secret
         self.algorithm = algorithm
         self.digits = digits
+        self.representation = representation
     }
 
     // MARK: Password Generation
@@ -76,8 +81,6 @@ public struct Generator: Equatable {
     /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
     public func password(at time: Date) throws -> String {
-        try Generator.validateDigits(digits)
-
         let counter = try factor.counterValue(at: time)
         // Ensure the counter value is big-endian
         var bigCounter = counter.bigEndian
@@ -99,11 +102,9 @@ public struct Generator: Equatable {
         truncatedHash = UInt32(bigEndian: truncatedHash)
         // Discard the most significant bit
         truncatedHash &= 0x7fffffff
-        // Constrain to the right number of digits
-        truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
 
-        // Pad the string representation with zeros, if necessary
-        return String(truncatedHash).padded(with: "0", toLength: digits)
+        // Obtain the string representation of the hash
+        return representation.stringify(truncatedHash, toLength: digits)
     }
 
     // MARK: Update
@@ -122,7 +123,8 @@ public struct Generator: Equatable {
                 _factor: .counter(counterValue + 1),
                 secret: secret,
                 algorithm: algorithm,
-                digits: digits
+                digits: digits,
+                representation: representation
             )
         case .timer:
             // A timer-based generator does not need to be updated.
@@ -178,6 +180,41 @@ public struct Generator: Equatable {
         case sha512
     }
 
+    /// A configuration of digits or alphabet used to generate the human-readable password output.
+    public enum Representation: Equatable {
+        /// The digits 0-9. This is the standard representation.
+        case numeric
+        /// The steamguard character set, consisting of digits and letters.
+        case steamguard
+
+        /// Generates human-readable output from a truncated HMAC value.
+        fileprivate func stringify(_ truncatedHash: UInt32, toLength digits: Int) -> String {
+            var truncatedHash = truncatedHash
+            switch self {
+            case .numeric:
+                // Constrain to the right number of digits
+                truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
+                // Pad the string representation with zeros, if necessary
+                return String(truncatedHash).padded(with: "0", toLength: digits)
+            case .steamguard:
+                // Define the character set used by Steam Guard codes.
+                let alphabet: [Character] =
+                    ["2", "3", "4", "5", "6", "7", "8", "9", "B", "C",
+                     "D", "F", "G", "H", "J", "K", "M", "N", "P", "Q",
+                     "R", "T", "V", "W", "X", "Y"]
+                let radix = UInt32(alphabet.count)
+
+                // Obtain n digits of the base-<radix> representation of the hash.
+                return String((0..<digits).map { _ in
+                    let digit = truncatedHash % radix
+                    let character = alphabet[Int(digit)]
+                    truncatedHash /= radix
+                    return character
+                })
+            }
+        }
+    }
+
     /// An error type enum representing the various errors a `Generator` can throw when computing a
     /// password.
     public enum Error: Swift.Error {
@@ -195,11 +232,16 @@ public struct Generator: Equatable {
 private extension Generator {
     // MARK: Validation
 
-    static func validateDigits(_ digits: Int) throws {
-        // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST extract a
-        // 6-digit code at a minimum and possibly 7 and 8-digit codes."
-        let acceptableDigits = 6...8
-        guard acceptableDigits.contains(digits) else {
+    static func validateDigits(_ digits: Int, representation: Representation) throws {
+        switch (representation, digits) {
+        case (.numeric, 6...8):
+            // https://tools.ietf.org/html/rfc4226#section-5.3 states "Implementations MUST
+            // extract a 6-digit code at a minimum and possibly 7 and 8-digit codes."
+            break
+        case (.steamguard, 5):
+            // Steam Guard codes use 5 digits with a larger base.
+            break
+        default:
             throw Error.invalidDigits
         }
     }

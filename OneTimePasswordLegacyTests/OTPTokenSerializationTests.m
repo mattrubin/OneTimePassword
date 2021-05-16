@@ -320,7 +320,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     XCTAssertEqualObjects(queryArguments[@"issuer"], issuer,
                                                           @"The issuer value should be \"%@\"", issuer);
 
-                                    XCTAssertEqual(queryArguments.count, (NSUInteger)(issuer ? 4 : 3), @"There shouldn't be any unexpected query arguments");
+                                    XCTAssertEqual(queryArguments.count, (NSUInteger)(issuer ? 5 : 4), @"There shouldn't be any unexpected query arguments");
 
                                     // Check url again
                                     NSURL *checkURL = token.url;
@@ -447,6 +447,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
     NSArray *expectedQueryItems = @[[NSURLQueryItem queryItemWithName:@"algorithm" value:@"SHA256"],
                                     [NSURLQueryItem queryItemWithName:@"digits" value:@"8"],
+                                    [NSURLQueryItem queryItemWithName:@"representation" value:@"numeric"],
                                     [NSURLQueryItem queryItemWithName:@"issuer" value:@""],
                                     [NSURLQueryItem queryItemWithName:@"period" value:@"45"]];
     NSArray *queryItems = [NSURLComponents componentsWithURL:url
@@ -465,6 +466,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
     NSArray *expectedQueryItems = @[[NSURLQueryItem queryItemWithName:@"algorithm" value:@"SHA256"],
                                     [NSURLQueryItem queryItemWithName:@"digits" value:@"8"],
+                                    [NSURLQueryItem queryItemWithName:@"representation" value:@"numeric"],
                                     [NSURLQueryItem queryItemWithName:@"issuer" value:@""],
                                     [NSURLQueryItem queryItemWithName:@"counter" value:@"18446744073709551615"]];
     NSArray *queryItems = [NSURLComponents componentsWithURL:url
