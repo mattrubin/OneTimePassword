@@ -2,14 +2,14 @@ name: "Prepare simulator"
 description: "Creates and boots a custom simulator"
 inputs:
   runtime:
-    description: "Simulator runtime name"
+    description: "Runtime name"
     required: true
   device:
     description: "Device name"
     required: true
 outputs:
   destination-id:
-    description: "xcodebuild destination id"
+    description: "Destination simulator ID"
     value: ${{ steps.simulator.outputs.destination-id }}
 runs:
   using: composite
