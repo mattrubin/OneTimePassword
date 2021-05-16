@@ -1,7 +1,9 @@
 # Configuration for SwiftLint (https://github.com/realm/SwiftLint)
 
 excluded:
+  - .build
   - Carthage
+  - Package.swift
 
 # TODO: Re-enable these rules.
 disabled_rules:
