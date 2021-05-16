@@ -1,0 +1,26 @@
+name: "Prepare simulator"
+description: "Creates and boots a custom simulator"
+inputs:
+  runtime:
+    description: "Simulator runtime name"
+    required: true
+  device:
+    description: "Device name"
+    required: true
+outputs:
+  destination-id:
+    description: "xcodebuild destination id"
+    value: ${{ steps.simulator.outputs.destination-id }}
+runs:
+  using: composite
+  steps:
+    - id: simulator
+      run: |
+        RUNTIME="${{ inputs.runtime }}"
+        DEVICE="${{ inputs.device }}"
+        DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
+        xcrun simctl boot $DESTINATION_ID
+        echo "::set-output name=destination-id::$(echo $DESTINATION_ID)"
+      shell: bash

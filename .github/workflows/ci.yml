@@ -31,16 +31,16 @@ jobs:
       uses: ./.github/actions/xcode-select
       with: 
         version: ${{ matrix.env.xcode }}
+    - name: "Prepare Simulator"
+      id: prepare-simulator
+      uses: ./.github/actions/prepare-simulator
+      with: 
+        runtime: ${{ matrix.env.runtime }}
+        device: ${{ matrix.env.device }}
     - name: "Build and Test"
       run: |
-        RUNTIME="${{ matrix.env.runtime }}"
-        DEVICE="${{ matrix.env.device }}"
-        DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-        RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-        DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
-        xcrun simctl boot $DESTINATION_ID
         set -o pipefail
-        xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "id=$DESTINATION_ID" | xcpretty -c
+        xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "id=${{ steps.prepare-simulator.outputs.destination-id }}" | xcpretty -c
     - uses: codecov/codecov-action@v1
 
   xcode-watchos:
@@ -71,15 +71,16 @@ jobs:
       uses: ./.github/actions/xcode-select
       with: 
         version: ${{ matrix.env.xcode }}
+    - name: "Prepare Simulator"
+      id: prepare-simulator
+      uses: ./.github/actions/prepare-simulator
+      with: 
+        runtime: ${{ matrix.env.runtime }}
+        device: ${{ matrix.env.device }}
     - name: "Build"
       run: |
-        RUNTIME="${{ matrix.env.runtime }}"
-        DEVICE="${{ matrix.env.device }}"
-        DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-        RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-        DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
         set -o pipefail
-        xcodebuild build -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (watchOS)" -destination "id=$DESTINATION_ID" | xcpretty -c
+        xcodebuild build -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (watchOS)" -destination "id=${{ steps.prepare-simulator.outputs.destination-id }}" | xcpretty -c
 
   carthage:
     name: "Carthage, Xcode ${{ matrix.env.xcode }}"
