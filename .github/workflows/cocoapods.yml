@@ -1,0 +1,23 @@
+name: CocoaPods
+
+on: [push]
+
+jobs:
+  cocoapods:
+    name: "Xcode ${{ matrix.env.xcode }}"
+    runs-on: macOS-10.15
+    strategy:
+      matrix:
+        env:
+          - xcode: 12.4
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: "Upgrade CocoaPods"
+      run: sudo gem install cocoapods
+    - name: "Select Xcode ${{ matrix.env.xcode }}"
+      uses: ./.github/actions/xcode-select
+      with: 
+        version: ${{ matrix.env.xcode }}
+    - run: pod lib lint --allow-warnings --verbose
