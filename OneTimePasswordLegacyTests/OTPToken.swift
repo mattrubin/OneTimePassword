@@ -80,7 +80,7 @@ public final class OTPToken: NSObject {
 public extension OTPToken {
     @objc(tokenWithURL:)
     static func token(from url: URL) -> Self? {
-        return token(from: url, secret: nil)
+        return self.token(from: url, secret: nil)
     }
 
     @objc(tokenWithURL:secret:)

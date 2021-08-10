@@ -32,7 +32,7 @@ let testToken = Token(
     issuer: "Issuer",
     generator: Generator(
         factor: .timer(period: 45),
-        secret: MF_Base32Codec.data(fromBase32String: "AAAQEAYEAUDAOCAJBIFQYDIOB4"),
+        secret: base32DecodeToData("AAAQEAYEAUDAOCAJBIFQYDIOB4")!,
         algorithm: .sha256,
         digits: 8
     )!
