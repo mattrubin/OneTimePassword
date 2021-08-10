@@ -11,5 +11,5 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/mattrubin/OneTimePassword.git", :tag => s.version }
   s.source_files = "Sources/*.{swift}"
   s.requires_arc = true
-  s.dependency "Base32", "~> 1.1.2"
+  s.dependency "SwiftBase32", "~> 0.9.0"
 end
