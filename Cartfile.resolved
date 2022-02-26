@@ -1,2 +1,2 @@
-github "jspahrsummers/xcconfigs" "1.1"
-github "mattrubin/Base32" "1.1.2+spm"
+github "mattrubin/Base32" "1.2.0"
+github "xcconfigs/xcconfigs" "1.1"
