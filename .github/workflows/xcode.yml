@@ -10,7 +10,10 @@ jobs:
       matrix:
         env:
           - xcode: 13.4
-            runtime: "iOS 14.4"
+            runtime: "iOS 15.5"
+            device: "iPhone 13 Pro"
+          - xcode: 13.4
+            runtime: "iOS 14.5"
             device: "iPhone 12 Pro Max"
           - xcode: 13.4
             runtime: "iOS 13.7"
@@ -50,14 +53,14 @@ jobs:
       matrix:
         env:
           - xcode: 13.4
-            runtime: "watchOS 7.2"
+            runtime: "watchOS 8.5"
+            device: "Apple Watch Series 7 - 45mm"
+          - xcode: 13.4
+            runtime: "watchOS 7.4"
             device: "Apple Watch Series 6 - 44mm"
           - xcode: 13.4
             runtime: "watchOS 6.2"
             device: "Apple Watch Series 4 - 40mm"
-          - xcode: 13.4
-            runtime: "watchOS 5.3"
-            device: "Apple Watch Series 2 - 38mm"
     steps:
     - uses: actions/checkout@v2
       with:
