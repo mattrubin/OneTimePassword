@@ -5,11 +5,11 @@ on: [push]
 jobs:
   cocoapods:
     name: "Xcode ${{ matrix.env.xcode }}"
-    runs-on: macOS-10.15
+    runs-on: macOS-12
     strategy:
       matrix:
         env:
-          - xcode: 12.4
+          - xcode: 13.4
     steps:
     - uses: actions/checkout@v2
       with:
