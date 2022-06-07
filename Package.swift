@@ -4,8 +4,8 @@ import PackageDescription
 let package = Package(
     name: "OneTimePassword",
     platforms: [
-        .iOS(.v9),
-        .watchOS(.v2),
+        .iOS(.v13),
+        .watchOS(.v6),
     ],
     products: [
         .library(
