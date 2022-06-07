@@ -18,9 +18,6 @@ jobs:
           - xcode: 13.4
             runtime: "iOS 13.7"
             device: "iPhone 11"
-          - xcode: 13.4
-            runtime: "iOS 12.4"
-            device: "iPhone 5s"
     steps:
     - uses: actions/checkout@v3
       with:
