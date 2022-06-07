@@ -6,8 +6,9 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author       = "Matt Rubin"
   s.swift_versions            = "5.0"
-  s.ios.deployment_target     = "9.0"
-  s.watchos.deployment_target = "2.0"
+  s.ios.deployment_target     = "13.0"
+  s.macos.deployment_target   = "10.15"
+  s.watchos.deployment_target = "6.0"
   s.source       = { :git => "https://github.com/mattrubin/OneTimePassword.git", :tag => s.version }
   s.source_files = "Sources/*.{swift}"
   s.requires_arc = true
