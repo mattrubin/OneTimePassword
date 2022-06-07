@@ -5,6 +5,7 @@ let package = Package(
     name: "OneTimePassword",
     platforms: [
         .iOS(.v13),
+        .macOS(.v10_15),
         .watchOS(.v6),
     ],
     products: [
