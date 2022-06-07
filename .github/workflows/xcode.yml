@@ -25,11 +25,6 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
-    - name: "Link simulator runtimes"
-      run: |
-        sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-        sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 12.4.simruntime
-        sudo ln -s /Applications/Xcode_11.7.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.7.simruntime
     - name: "Select Xcode ${{ matrix.env.xcode }}"
       uses: ./.github/actions/xcode-select
       with: 
@@ -65,11 +60,6 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
-    - name: "Link simulator runtimes"
-      run: |
-        sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-        sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/WatchOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/watchOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/watchOS\ 5.2.simruntime
-        sudo ln -s /Applications/Xcode_11.7.app/Contents/Developer/Platforms/WatchOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/watchOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/watchOS\ 6.2.simruntime
     - name: "Select Xcode ${{ matrix.env.xcode }}"
       uses: ./.github/actions/xcode-select
       with: 
