@@ -45,6 +45,8 @@ jobs:
         set -o pipefail
         xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "id=${{ steps.prepare-simulator.outputs.destination-id }}" | xcpretty -c
     - uses: sersoft-gmbh/swift-coverage-action@v2
+      with:
+        target-name-filter: ^OneTimePassword$
     - uses: codecov/codecov-action@v3
       with:
         fail_ci_if_error: true
