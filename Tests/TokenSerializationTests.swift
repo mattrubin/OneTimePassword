@@ -100,7 +100,6 @@ class TokenSerializationTests: XCTestCase {
                                 let expectedItemCount = 4
                                 XCTAssertEqual(items?.count, expectedItemCount,
                                                "There shouldn't be any unexpected query arguments: \(url)")
-                                // swiftlint:enable vertical_parameter_alignment_on_call
 
                                 var queryArguments: [String: String] = [:]
                                 for item in items ?? [] {
