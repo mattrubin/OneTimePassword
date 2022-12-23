@@ -72,6 +72,7 @@ class GeneratorTests: XCTestCase {
     }
 
     func testCounter() {
+        // swiftlint:disable:next large_tuple
         let factors: [(TimeInterval, TimeInterval, UInt64)] = [
             // swiftlint:disable comma
             (100,         30, 3),
