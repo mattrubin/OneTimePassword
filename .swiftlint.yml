@@ -5,6 +5,10 @@ excluded:
   - Carthage
   - Package.swift
 
+analyzer_rules:
+  - unused_declaration
+  - unused_import
+
 # TODO: Re-enable these rules.
 disabled_rules:
   - cyclomatic_complexity
@@ -69,8 +73,6 @@ opt_in_rules:
   - unneeded_parentheses_in_closure_argument
   - unowned_variable_capture
   - untyped_error_in_catch
-  - unused_declaration
-  - unused_import
   - vertical_parameter_alignment_on_call
   - vertical_whitespace_closing_braces
   - vertical_whitespace_opening_braces
