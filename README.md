@@ -4,7 +4,6 @@
 [![Xcode CI status](https://github.com/mattrubin/OneTimePassword/actions/workflows/xcode.yml/badge.svg)](https://github.com/mattrubin/OneTimePassword/actions/workflows/xcode.yml)
 [![SPM CI status](https://github.com/mattrubin/OneTimePassword/actions/workflows/spm.yml/badge.svg)](https://github.com/mattrubin/OneTimePassword/actions/workflows/spm.yml)
 [![Carthage CI status](https://github.com/mattrubin/OneTimePassword/actions/workflows/carthage.yml/badge.svg)](https://github.com/mattrubin/OneTimePassword/actions/workflows/carthage.yml)
-[![CocoaPods CI status](https://github.com/mattrubin/OneTimePassword/actions/workflows/cocoapods.yml/badge.svg)](https://github.com/mattrubin/OneTimePassword/actions/workflows/cocoapods.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/mattrubin/OneTimePassword/develop.svg)](https://codecov.io/gh/mattrubin/OneTimePassword)
 [![Swift 5.x](https://img.shields.io/badge/swift-5.x-orange.svg)](#usage)
 ![Platforms: iOS, watchOS](https://img.shields.io/badge/platforms-iOS%20%7C%20watchOS-blue.svg)
@@ -35,22 +34,6 @@ Be sure to check the Carthage README file for the latest instructions on [adding
 [Carthage]: https://github.com/Carthage/Carthage
 [Cartfile]: https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile
 [carthage-instructions]: https://github.com/Carthage/Carthage/blob/master/README.md#adding-frameworks-to-an-application
-
-### [CocoaPods][]
-
-Add the following line to your [Podfile][]:
-
-````ruby
-pod 'OneTimePassword', '~> 3.2'
-````
-
-OneTimePassword, like all pods written in Swift, can only be integrated as a framework. Make sure to add the line `use_frameworks!` to your Podfile or target to opt into frameworks instead of static libraries.
-
-Then run `pod install` to install the latest version of the framework.
-
-[CocoaPods]: https://cocoapods.org
-[Podfile]: https://guides.cocoapods.org/using/the-podfile.html
-
 
 ## Usage
 
