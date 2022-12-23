@@ -40,7 +40,7 @@ jobs:
       - name: "Build and test"
         run: |
           set -o pipefail
-          xcodebuild test -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (iOS)" -destination "id=${{ steps.prepare-simulator.outputs.destination-id }}" | xcpretty -c
+          xcodebuild test -project "OneTimePassword.xcodeproj" -scheme "OneTimePassword (iOS)" -destination "id=${{ steps.prepare-simulator.outputs.destination-id }}" | xcpretty -c
       - uses: sersoft-gmbh/swift-coverage-action@v3
         with:
           target-name-filter: ^OneTimePassword$
@@ -85,4 +85,4 @@ jobs:
       - name: "Build"
         run: |
           set -o pipefail
-          xcodebuild build -workspace "OneTimePassword.xcworkspace" -scheme "OneTimePassword (watchOS)" -destination "id=${{ steps.prepare-simulator.outputs.destination-id }}" | xcpretty -c
+          xcodebuild build -project "OneTimePassword.xcodeproj" -scheme "OneTimePassword (watchOS)" -destination "id=${{ steps.prepare-simulator.outputs.destination-id }}" | xcpretty -c

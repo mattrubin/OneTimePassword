@@ -29,15 +29,16 @@ Please note that this project is released with a [Contributor Code of Conduct][c
   git submodule update --init --recursive
   ```
 
-3. Open the `OneTimePassword.xcworkspace` file.
-> If you open the `.xcodeproj` instead, the project will not be able to find its dependencies.
+3. Open the `OneTimePassword.xcodeproj` file.
 
 4. Build and run the "OneTimePassword" scheme.
 
 
 ## Managing Dependencies
 
-OneTimePassword uses [Carthage][] to manage its dependencies, but it does not currently use Carthage to build those dependencies. The dependent projects are checked out as submodules, are included in `OneTimePassword.xcworkspace`, and are built by Xcode as target dependencies of the OneTimePassword framework.
+OneTimePassword's source dependencies are [Xcode-managed package dependencies][package dependencies].
+
+Additionally, [Carthage][] is used to manage the project's dependency on shared build configuration files. The dependent project is checked out as a submodule.
 
 To check out the dependencies, simply follow the "Getting Started" instructions above.
 
@@ -46,5 +47,6 @@ To update the dependencies, modify the [Cartfile][] and run:
 carthage update --no-build --use-submodules
 ```
 
+[package dependencies]: https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app
 [Carthage]: https://github.com/Carthage/Carthage
 [Cartfile]: https://github.com/mattrubin/OneTimePassword/blob/develop/Cartfile
