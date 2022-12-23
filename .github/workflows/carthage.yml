@@ -11,14 +11,14 @@ jobs:
         env:
           - xcode: 13.4
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: recursive
-    - name: "Upgrade Carthage"
-      run: brew upgrade carthage
-    - name: "Select Xcode ${{ matrix.env.xcode }}"
-      uses: ./.github/actions/xcode-select
-      with: 
-        version: ${{ matrix.env.xcode }}
-    - name: "Build"
-      run: carthage build --no-skip-current --use-xcframeworks --no-use-binaries
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: "Upgrade Carthage"
+        run: brew upgrade carthage
+      - name: "Select Xcode ${{ matrix.env.xcode }}"
+        uses: ./.github/actions/xcode-select
+        with:
+          version: ${{ matrix.env.xcode }}
+      - name: "Build"
+        run: carthage build --no-skip-current --use-xcframeworks --no-use-binaries
