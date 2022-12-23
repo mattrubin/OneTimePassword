@@ -29,12 +29,16 @@ import CryptoKit
 func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
     let key = SymmetricKey(data: key)
 
+    func authenticationCode<H: HashFunction>(with _: H.Type) -> Data {
+        return Data(CryptoKit.HMAC<H>.authenticationCode(for: data, using: key))
+    }
+
     switch algorithm {
     case .sha1:
-        return Data(CryptoKit.HMAC<Insecure.SHA1>.authenticationCode(for: data, using: key))
+        return authenticationCode(with: Insecure.SHA1.self)
     case .sha256:
-        return Data(CryptoKit.HMAC<SHA256>.authenticationCode(for: data, using: key))
+        return authenticationCode(with: SHA256.self)
     case .sha512:
-        return Data(CryptoKit.HMAC<SHA512>.authenticationCode(for: data, using: key))
+        return authenticationCode(with: SHA512.self)
     }
 }
