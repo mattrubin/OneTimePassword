@@ -27,11 +27,9 @@
 		5B39F49F1DBD06F500CD2DAB /* Token+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token+URL.swift */; };
 		5B39F4A01DBD06F900CD2DAB /* PersistentToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F9FB81C03D6BC00CEA286 /* PersistentToken.swift */; };
 		5B39F4A11DBD06FC00CD2DAB /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9003417196F7046009733E8 /* Keychain.swift */; };
-		5B39F4A51DBD08A900CD2DAB /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C944A55E1A7EDAE200E08B1E /* Base32.framework */; };
 		C9003418196F7046009733E8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9003417196F7046009733E8 /* Keychain.swift */; };
 		C9290C301947D104008AE4DE /* TokenSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9290C2F1947D104008AE4DE /* TokenSerializationTests.swift */; };
 		C93A251A196B1BA400F86892 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2519196B1BA400F86892 /* Token.swift */; };
-		C944A55F1A7EDAE200E08B1E /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C944A55E1A7EDAE200E08B1E /* Base32.framework */; };
 		C944A5951A809CC000E08B1E /* OTPTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944A5941A809CC000E08B1E /* OTPTokenTests.swift */; };
 		C94B2007197774A20014A202 /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94B2006197774A20014A202 /* TokenTests.swift */; };
 		C95B10CC196D22B9000840AA /* GeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B10CB196D22B9000840AA /* GeneratorTests.swift */; };
@@ -39,6 +37,8 @@
 		C97142361C1155FC0063B37E /* OTPToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7ECC196C4D3D00B50C82 /* OTPToken.swift */; };
 		C97142371C1156DB0063B37E /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
 		C97C82441946E51D00FD9F4C /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; };
+		C99262CC29558ABA00C96BDF /* Base32 in Frameworks */ = {isa = PBXBuildFile; productRef = C99262CB29558ABA00C96BDF /* Base32 */; };
+		C99262CE29558AE600C96BDF /* Base32 in Frameworks */ = {isa = PBXBuildFile; productRef = C99262CD29558AE600C96BDF /* Base32 */; };
 		C9A486C8196F38C800524F51 /* OTPTokenSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A2515196AFE1100F86892 /* OTPTokenSerializationTests.m */; settings = {COMPILER_FLAGS = "-Wno-nullable-to-nonnull-conversion"; }; };
 		C9A486C9196F38CD00524F51 /* OTPTypeStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C9FE25196D181800C7ACEE /* OTPTypeStrings.m */; };
 		C9B2A19C199A7F1B00BC4A8A /* EquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B2A19B199A7F1B00BC4A8A /* EquatableTests.swift */; };
@@ -154,7 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B39F4A51DBD08A900CD2DAB /* Base32.framework in Frameworks */,
+				C99262CE29558AE600C96BDF /* Base32 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,7 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C944A55F1A7EDAE200E08B1E /* Base32.framework in Frameworks */,
+				C99262CC29558ABA00C96BDF /* Base32 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +396,9 @@
 			dependencies = (
 			);
 			name = "OneTimePassword (watchOS)";
+			packageProductDependencies = (
+				C99262CD29558AE600C96BDF /* Base32 */,
+			);
 			productName = "OneTimePassword (watchOS)";
 			productReference = 5B39F4941DBD06BA00CD2DAB /* OneTimePassword.framework */;
 			productType = "com.apple.product-type.framework";
@@ -412,6 +415,9 @@
 			dependencies = (
 			);
 			name = "OneTimePassword (iOS)";
+			packageProductDependencies = (
+				C99262CB29558ABA00C96BDF /* Base32 */,
+			);
 			productName = "OneTimePassword (iOS)";
 			productReference = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */;
 			productType = "com.apple.product-type.framework";
@@ -520,6 +526,9 @@
 				Base,
 			);
 			mainGroup = C97C822E1946E51D00FD9F4C;
+			packageReferences = (
+				C99262CA29558ABA00C96BDF /* XCRemoteSwiftPackageReference "Base32" */,
+			);
 			productRefGroup = C97C82391946E51D00FD9F4C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -864,6 +873,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C99262CA29558ABA00C96BDF /* XCRemoteSwiftPackageReference "Base32" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mattrubin/Base32";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C99262CB29558ABA00C96BDF /* Base32 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C99262CA29558ABA00C96BDF /* XCRemoteSwiftPackageReference "Base32" */;
+			productName = Base32;
+		};
+		C99262CD29558AE600C96BDF /* Base32 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C99262CA29558ABA00C96BDF /* XCRemoteSwiftPackageReference "Base32" */;
+			productName = Base32;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C97C822F1946E51D00FD9F4C /* Project object */;
 }
