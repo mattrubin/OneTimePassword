@@ -57,8 +57,8 @@ public struct Generator: Equatable {
     // same initializer signature with both throwing an failable versions, this new initializer is currently prefixed
     // with an underscore and marked as internal.
     internal init(_factor factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
-        try Generator.validateFactor(factor)
-        try Generator.validateDigits(digits)
+        try Self.validateFactor(factor)
+        try Self.validateDigits(digits)
 
         self.factor = factor
         self.secret = secret
@@ -76,7 +76,7 @@ public struct Generator: Equatable {
     /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
     public func password(at time: Date) throws -> String {
-        try Generator.validateDigits(digits)
+        try Self.validateDigits(digits)
 
         let counter = try factor.counterValue(at: time)
         // Ensure the counter value is big-endian

@@ -5,6 +5,12 @@ excluded:
   - Carthage
   - Package.swift
 
+analyzer_rules:
+  - capture_variable
+  - unused_declaration
+  - unused_import
+  - typesafe_array_init
+
 # TODO: Re-enable these rules.
 disabled_rules:
   - cyclomatic_complexity
@@ -18,31 +24,42 @@ opt_in_rules:
   - closure_end_indentation
   - closure_spacing
   - collection_alignment
+  - comma_inheritance
   - conditional_returns_on_newline
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
   - contains_over_first_not_nil
+  - contains_over_range_nil_comparison
   - convenience_type
+  - discouraged_assert
+  - discouraged_none_name
   - discouraged_object_literal
   - discouraged_optional_boolean
   - discouraged_optional_collection
+  - empty_collection_literal
   - empty_count
   - empty_string
   - empty_xctest_method
+  - enum_case_associated_values_count
   - explicit_enum_raw_value
   - explicit_init
   - extension_access_modifier
   - fallthrough
   - fatal_error_message
   - file_header
+  - file_name
+  - file_name_no_space
   - first_where
+  - flatmap_over_map_reduce
   - identical_operands
   - implicit_return
   - implicitly_unwrapped_optional
   - joined_default_parameter
   - last_where
   - legacy_multiple
-  - legacy_random
   - let_var_whitespace
   - literal_expression_end_indentation
+  - local_doc_comment
   - lower_acl_than_parent
   - modifier_order
   - multiline_function_chains
@@ -50,16 +67,24 @@ opt_in_rules:
   - multiline_parameters
   - nimble_operator
   - nslocalizedstring_key
+  - nslocalizedstring_require_bundle
   - operator_usage_whitespace
+  - optional_enum_case_matching
   - overridden_super_call
   - override_in_extension
   - pattern_matching_keywords
+  - prefer_self_type_over_type_of_self
+  - prefer_zero_over_explicit_init
   - private_action
   - private_outlet
   - prohibited_interface_builder
   - prohibited_super_call
+  - raw_value_for_camel_cased_codable_enum
   - reduce_into
   - redundant_nil_coalescing
+  - return_value_from_void_function
+  - self_binding
+  - shorthand_optional_binding
   - single_test_class
   - sorted_first_last
   - static_operator
@@ -69,11 +94,10 @@ opt_in_rules:
   - unneeded_parentheses_in_closure_argument
   - unowned_variable_capture
   - untyped_error_in_catch
-  - unused_declaration
-  - unused_import
   - vertical_parameter_alignment_on_call
   - vertical_whitespace_closing_braces
   - vertical_whitespace_opening_braces
+  - weak_delegate
   - xct_specific_matcher
   - yoda_condition
 
