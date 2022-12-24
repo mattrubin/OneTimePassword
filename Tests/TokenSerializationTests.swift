@@ -27,6 +27,10 @@ import Base32
 import OneTimePassword
 import XCTest
 
+private let validSecret: [UInt8] = [
+    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
+]
+
 class TokenSerializationTests: XCTestCase {
     let kOTPScheme = "otpauth"
     let kOTPTokenTypeCounterHost = "hotp"
@@ -164,6 +168,102 @@ class TokenSerializationTests: XCTestCase {
         }
         let token = try Token(url: tokenURL)
         XCTAssertEqual(token.generator.factor, .counter(0))
+    }
+
+    // MARK: - Test with specific URLs
+    // From Google Authenticator for iOS
+    // https://code.google.com/p/google-authenticator/source/browse/mobile/ios/Classes/OTPAuthURLTest.m
+
+    // MARK: Deserialization
+
+    func testTokenWithTOTPURL() throws {
+        let urlString = "otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4"
+        let token = try Token(url: URL(string: urlString)!)
+
+        XCTAssertEqual(token.name, "Léon")
+        XCTAssertEqual(token.generator.secret, Data(bytes: validSecret, count: validSecret.count))
+        XCTAssertEqual(token.generator.factor, Generator.Factor.timer(period: 45))
+        XCTAssertEqual(token.generator.algorithm, Generator.Algorithm.sha256)
+        XCTAssertEqual(token.generator.digits, 8)
+    }
+
+    func testTokenWithHOTPURL() throws {
+        let urlString = "otpauth://hotp/L%C3%A9on?algorithm=SHA256&digits=8&counter=18446744073709551615" +
+            "&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4"
+        let secret = Data(bytes: validSecret, count: validSecret.count)
+        let token = try Token(url: URL(string: urlString)!)
+
+        XCTAssertEqual(token.name, "Léon")
+        XCTAssertEqual(token.generator.secret, secret)
+        XCTAssertEqual(token.generator.factor, Generator.Factor.counter(18446744073709551615))
+        XCTAssertEqual(token.generator.algorithm, Generator.Algorithm.sha256)
+        XCTAssertEqual(token.generator.digits, 8)
+    }
+
+    func testTokenWithInvalidURLs() throws {
+        let badURLs = [
+            "http://foo",  // invalid scheme
+            "otpauth://foo",  // invalid type
+            "otpauth:///bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4",  // missing type
+            "otpauth://totp/bar",  // missing secret
+            "otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&period=0",  // invalid period
+            "otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&period=x",  // non-numeric period
+            "otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&period=30&period=60",  // multiple period
+            "otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&algorithm=MD5",  // invalid algorithm
+            "otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&digits=2",  // invalid digits
+            "otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&digits=x",  // non-numeric digits
+            "otpauth://hotp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&counter=1.5",  // invalid counter
+            "otpauth://hotp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&counter=x",  // non-numeric counter
+        ]
+
+        for badURL in badURLs {
+            let token = try? Token(url: URL(string: badURL)!)
+            XCTAssertNil(token, "Invalid url (\(badURL)) generated \(String(describing: token))")
+        }
+    }
+
+    func testTokenWithIssuer() throws {
+        let simpleToken = try Token(url: URL(string: "otpauth://totp/name?secret=A&issuer=issuer")!)
+        XCTAssertNotNil(simpleToken)
+        XCTAssertEqual(simpleToken.name, "name")
+        XCTAssertEqual(simpleToken.issuer, "issuer")
+
+        // TODO: test this more thoroughly, including the override case with
+        // "otpauth://totp/_issuer:name?secret=A&isser=issuer"
+
+        let urlStrings = [
+            "otpauth://totp/issu%C3%A9r%20!:name?secret=A",
+            "otpauth://totp/issu%C3%A9r%20!:%20name?secret=A",
+            "otpauth://totp/issu%C3%A9r%20!:%20%20%20name?secret=A",
+            "otpauth://totp/issu%C3%A9r%20!%3Aname?secret=A",
+            "otpauth://totp/issu%C3%A9r%20!%3A%20name?secret=A",
+            "otpauth://totp/issu%C3%A9r%20!%3A%20%20%20name?secret=A",
+        ]
+        for urlString in urlStrings {
+            // If there is no issuer argument, extract the issuer from the name
+            let token = try Token(url: URL(string: urlString)!)
+
+            XCTAssertNotNil(token, "<\(urlString)> did not create a valid token.")
+            XCTAssertEqual(token.name, "name")
+            XCTAssertEqual(token.issuer, "issuér !")
+
+            // If there is an issuer argument which matches the one in the name, trim the name
+            let token2 = try Token(url: URL(string: urlString.appending("&issuer=issu%C3%A9r%20!"))!)
+
+            XCTAssertNotNil(token2, "<\(urlString)> did not create a valid token.")
+            XCTAssertEqual(token2.name, "name")
+            XCTAssertEqual(token2.issuer, "issuér !")
+
+            // If there is an issuer argument different from the name prefix,
+            // trust the argument and leave the name as it is
+            let token3 = try Token(url: URL(string: urlString.appending("&issuer=test"))!)
+
+            XCTAssertNotNil(token3, "<\(urlString)> did not create a valid token.")
+            XCTAssertNotEqual(token3.name, "name")
+            XCTAssertTrue(token3.name.hasPrefix("issuér !"), "The name should begin with \"issuér !\"")
+            XCTAssertTrue(token3.name.hasSuffix("name"), "The name should end with \"name\"")
+            XCTAssertEqual(token3.issuer, "test")
+        }
     }
 
     // MARK: Serialization
