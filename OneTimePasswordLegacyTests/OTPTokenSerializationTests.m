@@ -433,43 +433,4 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     }
 }
 
-
-#pragma mark Serialization
-
-- (void)testTOTPURL
-{
-    OTPToken *token = [OTPToken tokenWithURL:[NSURL URLWithString:@"otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4"]];
-    NSURL *url = token.url;
-
-    XCTAssertEqualObjects(url.scheme, @"otpauth");
-    XCTAssertEqualObjects(url.host, @"totp");
-    XCTAssertEqualObjects([url.path substringFromIndex:1], @"Léon");
-
-    NSArray *expectedQueryItems = @[[NSURLQueryItem queryItemWithName:@"algorithm" value:@"SHA256"],
-                                    [NSURLQueryItem queryItemWithName:@"digits" value:@"8"],
-                                    [NSURLQueryItem queryItemWithName:@"issuer" value:@""],
-                                    [NSURLQueryItem queryItemWithName:@"period" value:@"45"]];
-    NSArray *queryItems = [NSURLComponents componentsWithURL:url
-                                     resolvingAgainstBaseURL:NO].queryItems;
-    XCTAssertEqualObjects(queryItems, expectedQueryItems);
-}
-
-- (void)testHOTPURL
-{
-    OTPToken *token = [OTPToken tokenWithURL:[NSURL URLWithString:@"otpauth://hotp/L%C3%A9on?algorithm=SHA256&digits=8&counter=18446744073709551615&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4"]];
-    NSURL *url = token.url;
-
-    XCTAssertEqualObjects(url.scheme, @"otpauth");
-    XCTAssertEqualObjects(url.host, @"hotp");
-    XCTAssertEqualObjects([url.path substringFromIndex:1], @"Léon");
-
-    NSArray *expectedQueryItems = @[[NSURLQueryItem queryItemWithName:@"algorithm" value:@"SHA256"],
-                                    [NSURLQueryItem queryItemWithName:@"digits" value:@"8"],
-                                    [NSURLQueryItem queryItemWithName:@"issuer" value:@""],
-                                    [NSURLQueryItem queryItemWithName:@"counter" value:@"18446744073709551615"]];
-    NSArray *queryItems = [NSURLComponents componentsWithURL:url
-                                     resolvingAgainstBaseURL:NO].queryItems;
-    XCTAssertEqualObjects(queryItems, expectedQueryItems);
-}
-
 @end

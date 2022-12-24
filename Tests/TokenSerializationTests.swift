@@ -23,8 +23,9 @@
 //  SOFTWARE.
 //
 
-import XCTest
+import Base32
 import OneTimePassword
+import XCTest
 
 class TokenSerializationTests: XCTestCase {
     let kOTPScheme = "otpauth"
@@ -163,5 +164,55 @@ class TokenSerializationTests: XCTestCase {
         }
         let token = try Token(url: tokenURL)
         XCTAssertEqual(token.generator.factor, .counter(0))
+    }
+
+    // MARK: Serialization
+
+    func testTOTPURL() throws {
+        let secret = MF_Base32Codec.data(fromBase32String: "AAAQEAYEAUDAOCAJBIFQYDIOB4")!
+        let generator = try Generator(factor: .timer(period: 45), secret: secret, algorithm: .sha256, digits: 8)
+        let token = Token(name: "Léon", generator: generator)
+
+        // swiftlint:disable:next force_try
+        let url = try! token.toURL()
+
+        XCTAssertEqual(url.scheme, "otpauth")
+        XCTAssertEqual(url.host, "totp")
+        XCTAssertEqual(url.path, "/Léon")
+
+        let expectedQueryItems = [
+            URLQueryItem(name: "algorithm", value: "SHA256"),
+            URLQueryItem(name: "digits", value: "8"),
+            URLQueryItem(name: "issuer", value: ""),
+            URLQueryItem(name: "period", value: "45"),
+        ]
+        let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+        XCTAssertEqual(queryItems, expectedQueryItems)
+    }
+
+    func testHOTPURL() throws {
+        let secret = MF_Base32Codec.data(fromBase32String: "AAAQEAYEAUDAOCAJBIFQYDIOB4")!
+        let generator = try Generator(
+            factor: .counter(18446744073709551615),
+            secret: secret,
+            algorithm: .sha256,
+            digits: 8)
+        let token = Token(name: "Léon", generator: generator)
+
+        // swiftlint:disable:next force_try
+        let url = try! token.toURL()
+
+        XCTAssertEqual(url.scheme, "otpauth")
+        XCTAssertEqual(url.host, "hotp")
+        XCTAssertEqual(url.path, "/Léon")
+
+        let expectedQueryItems = [
+            URLQueryItem(name: "algorithm", value: "SHA256"),
+            URLQueryItem(name: "digits", value: "8"),
+            URLQueryItem(name: "issuer", value: ""),
+            URLQueryItem(name: "counter", value: "18446744073709551615"),
+        ]
+        let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+        XCTAssertEqual(queryItems, expectedQueryItems)
     }
 }
