@@ -23,7 +23,6 @@
 /* Begin PBXBuildFile section */
 		5B39F49C1DBD06EB00CD2DAB /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2519196B1BA400F86892 /* Token.swift */; };
 		5B39F49D1DBD06EE00CD2DAB /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Generator.swift */; };
-		5B39F49E1DBD06F100CD2DAB /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F544AC1C8391630023CCF0 /* Crypto.swift */; };
 		5B39F49F1DBD06F500CD2DAB /* Token+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token+URL.swift */; };
 		5B39F4A01DBD06F900CD2DAB /* PersistentToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F9FB81C03D6BC00CEA286 /* PersistentToken.swift */; };
 		5B39F4A11DBD06FC00CD2DAB /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9003417196F7046009733E8 /* Keychain.swift */; };
@@ -45,7 +44,6 @@
 		C9B77D771C03078B00BAF6BF /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93A2514196AFE1100F86892 /* KeychainTests.swift */; };
 		C9DC7EC4196BD5DF00B50C82 /* Token+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC3196BD5DF00B50C82 /* Token+URL.swift */; };
 		C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC7EC7196BDF3B00B50C82 /* Generator.swift */; };
-		C9F544AD1C8391630023CCF0 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F544AC1C8391630023CCF0 /* Crypto.swift */; };
 		FD6C3C0F1E0200F800EC4528 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6C3C0E1E0200F800EC4528 /* AppDelegate.swift */; };
 		FD6C3C341E02033600EC4528 /* OneTimePassword.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C97C82381946E51D00FD9F4C /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FDA64C751E020ABF004AD993 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDA64C741E020ABF004AD993 /* Launch Screen.storyboard */; };
@@ -141,7 +139,6 @@
 		C9E829531C62DFDA003F5FC9 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		C9E829541C62FFBD003F5FC9 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		C9E829551C630514003F5FC9 /* CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONDUCT.md; sourceTree = "<group>"; };
-		C9F544AC1C8391630023CCF0 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		FD6C3C0C1E0200F800EC4528 /* OneTimePasswordTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneTimePasswordTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD6C3C0E1E0200F800EC4528 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD6C3C1A1E0200F800EC4528 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -260,7 +257,6 @@
 			children = (
 				C93A2519196B1BA400F86892 /* Token.swift */,
 				C9DC7EC7196BDF3B00B50C82 /* Generator.swift */,
-				C9F544AC1C8391630023CCF0 /* Crypto.swift */,
 				C9307A8619A8522F00609B02 /* Serialization */,
 				C9A9B09A1A81EF4B00F3C4DC /* Persistence */,
 				C97C823B1946E51D00FD9F4C /* Supporting Files */,
@@ -572,7 +568,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B39F49E1DBD06F100CD2DAB /* Crypto.swift in Sources */,
 				5B39F49F1DBD06F500CD2DAB /* Token+URL.swift in Sources */,
 				5B39F49C1DBD06EB00CD2DAB /* Token.swift in Sources */,
 				5B39F49D1DBD06EE00CD2DAB /* Generator.swift in Sources */,
@@ -585,7 +580,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9F544AD1C8391630023CCF0 /* Crypto.swift in Sources */,
 				C93A251A196B1BA400F86892 /* Token.swift in Sources */,
 				C95F9FB91C03D6BC00CEA286 /* PersistentToken.swift in Sources */,
 				C9DC7EC8196BDF3B00B50C82 /* Generator.swift in Sources */,

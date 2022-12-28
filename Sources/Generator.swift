@@ -2,7 +2,7 @@
 //  Generator.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2018 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2022 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 //  SOFTWARE.
 //
 
+import CryptoKit
 import Foundation
 
 /// A `Generator` contains all of the parameters needed to generate a one-time password.
@@ -76,7 +77,7 @@ public struct Generator: Equatable {
 
         // Generate an HMAC value from the key and counter
         let counterData = Data(bytes: &bigCounter, count: MemoryLayout<UInt64>.size)
-        let hash = HMAC(algorithm: algorithm, key: secret, data: counterData)
+        let hash = Self.generateHMAC(for: counterData, using: secret, with: algorithm)
 
         var truncatedHash = hash.withUnsafeBytes { ptr -> UInt32 in
             // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
@@ -96,6 +97,23 @@ public struct Generator: Equatable {
 
         // Pad the string representation with zeros, if necessary
         return String(truncatedHash).padded(with: "0", toLength: digits)
+    }
+
+    private static func generateHMAC(for data: Data, using keyData: Data, with algorithm: Generator.Algorithm) -> Data {
+        func authenticationCode<H: HashFunction>(with _: H.Type) -> Data {
+            let key = SymmetricKey(data: keyData)
+            let authenticationCode = HMAC<H>.authenticationCode(for: data, using: key)
+            return Data(authenticationCode)
+        }
+
+        switch algorithm {
+        case .sha1:
+            return authenticationCode(with: Insecure.SHA1.self)
+        case .sha256:
+            return authenticationCode(with: SHA256.self)
+        case .sha512:
+            return authenticationCode(with: SHA512.self)
+        }
     }
 
     // MARK: Update
