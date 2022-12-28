@@ -1,6 +1,36 @@
 # OneTimePassword Changelog
 
-<!--## [In development][develop]-->
+## [In development][develop]
+
+- Drop support for Swift 4.2
+  ([#229](https://github.com/mattrubin/OneTimePassword/pull/229))
+- Drop CocoaPods support
+  ([#249](https://github.com/mattrubin/OneTimePassword/pull/249))
+- Add SPM support
+  ([#221](https://github.com/mattrubin/OneTimePassword/pull/221))
+- Bump deployment targets to iOS 13.0, macOS 10.15, and watchOS 6.0
+  ([#245](https://github.com/mattrubin/OneTimePassword/pull/245))
+- Replace optional initializers with throwing initializers
+  ([#254](https://github.com/mattrubin/OneTimePassword/pull/254))
+- Use CryptoKit instead of CommonCrypto for HMAC generation
+  ([#214](https://github.com/mattrubin/OneTimePassword/pull/214),
+  [#230](https://github.com/mattrubin/OneTimePassword/pull/230),
+  [#244](https://github.com/mattrubin/OneTimePassword/pull/244),
+  [#245](https://github.com/mattrubin/OneTimePassword/pull/245))
+- Modernize project and tooling configurations
+  ([#228](https://github.com/mattrubin/OneTimePassword/pull/228),
+  [#252](https://github.com/mattrubin/OneTimePassword/pull/252),
+  [#253](https://github.com/mattrubin/OneTimePassword/pull/253))
+- Migrate CI from Travis to GitHub Actions
+  ([#231](https://github.com/mattrubin/OneTimePassword/pull/231),
+  [#232](https://github.com/mattrubin/OneTimePassword/pull/232),
+  [#243](https://github.com/mattrubin/OneTimePassword/pull/243),
+  [#246](https://github.com/mattrubin/OneTimePassword/pull/246),
+  [#251](https://github.com/mattrubin/OneTimePassword/pull/251))
+- Upgrade dependencies
+  ([#241](https://github.com/mattrubin/OneTimePassword/pull/241),
+  [#233](https://github.com/mattrubin/OneTimePassword/pull/233),
+  [#248](https://github.com/mattrubin/OneTimePassword/pull/248))
 
 ## [3.2.0][] (2019-09-20)
 
@@ -89,7 +119,7 @@
 [#125](https://github.com/mattrubin/OneTimePassword/pull/125))
 - Convert `password(at:)` to take a `Date` instead of a `TimeInterval`. ([#124](https://github.com/mattrubin/OneTimePassword/pull/124))
 - Update the SwiftLint configuration. ([#120](https://github.com/mattrubin/OneTimePassword/pull/120))
- 
+
 
 ## [2.1.1][] (2016-12-28)
 - Configure Travis to build and test with Xcode 8.2. ([#115](https://github.com/mattrubin/OneTimePassword/pull/115))
@@ -149,7 +179,7 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 ### [2.0.0-beta.5][] (2016-02-05)
 - Use custom `modulemap`s to link CommonCrypto, removing external dependency on `soffes/Crypto` (#57)
 - Make `jspahrsummers/xcconfigs` a private dependency. (#58)
-- Update `OneTimePassword.podspec` to build the new framework. (#59) 
+- Update `OneTimePassword.podspec` to build the new framework. (#59)
 
 ### [2.0.0-beta.4][] (2016-02-04)
 - Refactor and document new Swift framework
@@ -188,7 +218,7 @@ Changes between prerelease versions of OneTimePassword version 2 can be found be
 
 ## [1.0.0][] (2014-07-17)
 
-[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.1.5...develop
+[develop]: https://github.com/mattrubin/OneTimePassword/compare/3.2.0...develop
 
 [3.2.0]: https://github.com/mattrubin/OneTimePassword/compare/3.1.5...3.2.0
 [3.1.5]: https://github.com/mattrubin/OneTimePassword/compare/3.1.4...3.1.5
