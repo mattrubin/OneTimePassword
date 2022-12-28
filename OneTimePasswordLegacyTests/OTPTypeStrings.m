@@ -2,7 +2,7 @@
 //  OTPTypeStrings.m
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2015 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2019 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -47,8 +47,6 @@ NSString *const kOTPTokenTypeTimer = @"totp";
 
 
 #pragma mark - OTPAlgorithm
-
-OTPAlgorithm OTPAlgorithmUnknown = UINT8_MAX;
 
 NSString *const kOTPAlgorithmSHA1 = @"SHA1";
 NSString *const kOTPAlgorithmSHA256 = @"SHA256";

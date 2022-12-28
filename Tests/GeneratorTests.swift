@@ -2,7 +2,7 @@
 //  GeneratorTests.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2017 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2019 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -47,31 +47,32 @@ class GeneratorTests: XCTestCase {
         XCTAssertEqual(generator.digits, digits)
 
         // Create another generator
-        let other_factor = OneTimePassword.Generator.Factor.timer(period: 123)
-        let other_secret = "09876543210987654321".data(using: String.Encoding.ascii)!
-        let other_algorithm = Generator.Algorithm.sha512
-        let other_digits = 7
+        let otherFactor = OneTimePassword.Generator.Factor.timer(period: 123)
+        let otherSecret = "09876543210987654321".data(using: String.Encoding.ascii)!
+        let otherAlgorithm = Generator.Algorithm.sha512
+        let otherDigits = 7
 
-        let other_generator = try Generator(
-            factor: other_factor,
-            secret: other_secret,
-            algorithm: other_algorithm,
-            digits: other_digits
+        let otherGenerator = try Generator(
+            factor: otherFactor,
+            secret: otherSecret,
+            algorithm: otherAlgorithm,
+            digits: otherDigits
         )
 
-        XCTAssertEqual(other_generator.factor, other_factor)
-        XCTAssertEqual(other_generator.secret, other_secret)
-        XCTAssertEqual(other_generator.algorithm, other_algorithm)
-        XCTAssertEqual(other_generator.digits, other_digits)
+        XCTAssertEqual(otherGenerator.factor, otherFactor)
+        XCTAssertEqual(otherGenerator.secret, otherSecret)
+        XCTAssertEqual(otherGenerator.algorithm, otherAlgorithm)
+        XCTAssertEqual(otherGenerator.digits, otherDigits)
 
         // Ensure the generators are different
-        XCTAssertNotEqual(generator.factor, other_generator.factor)
-        XCTAssertNotEqual(generator.secret, other_generator.secret)
-        XCTAssertNotEqual(generator.algorithm, other_generator.algorithm)
-        XCTAssertNotEqual(generator.digits, other_generator.digits)
+        XCTAssertNotEqual(generator.factor, otherGenerator.factor)
+        XCTAssertNotEqual(generator.secret, otherGenerator.secret)
+        XCTAssertNotEqual(generator.algorithm, otherGenerator.algorithm)
+        XCTAssertNotEqual(generator.digits, otherGenerator.digits)
     }
 
     func testCounter() throws {
+        // swiftlint:disable:next large_tuple
         let factors: [(TimeInterval, TimeInterval, UInt64)] = [
             // swiftlint:disable comma
             (100,         30, 3),

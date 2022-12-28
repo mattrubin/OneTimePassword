@@ -2,7 +2,7 @@
 //  EquatableTests.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2017 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2019 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -28,52 +28,52 @@ import OneTimePassword
 
 class EquatableTests: XCTestCase {
     func testFactorEquality() {
-        let c0 = Generator.Factor.counter(30)
-        let c1 = Generator.Factor.counter(60)
-        let t0 = Generator.Factor.timer(period: 30)
-        let t1 = Generator.Factor.timer(period: 60)
+        let smallCounter = Generator.Factor.counter(30)
+        let bigCounter = Generator.Factor.counter(60)
+        let shortTimer = Generator.Factor.timer(period: 30)
+        let longTimer = Generator.Factor.timer(period: 60)
 
-        XCTAssertEqual(c0, c0)
-        XCTAssertEqual(c1, c1)
-        XCTAssertNotEqual(c0, c1)
-        XCTAssertNotEqual(c1, c0)
+        XCTAssertEqual(smallCounter, smallCounter)
+        XCTAssertEqual(bigCounter, bigCounter)
+        XCTAssertNotEqual(smallCounter, bigCounter)
+        XCTAssertNotEqual(bigCounter, smallCounter)
 
-        XCTAssertEqual(t0, t0)
-        XCTAssertEqual(t1, t1)
-        XCTAssertNotEqual(t0, t1)
-        XCTAssertNotEqual(t1, t0)
+        XCTAssertEqual(shortTimer, shortTimer)
+        XCTAssertEqual(longTimer, longTimer)
+        XCTAssertNotEqual(shortTimer, longTimer)
+        XCTAssertNotEqual(longTimer, shortTimer)
 
-        XCTAssertNotEqual(c0, t0)
-        XCTAssertNotEqual(c0, t1)
-        XCTAssertNotEqual(c1, t0)
-        XCTAssertNotEqual(c1, t1)
+        XCTAssertNotEqual(smallCounter, shortTimer)
+        XCTAssertNotEqual(smallCounter, longTimer)
+        XCTAssertNotEqual(bigCounter, shortTimer)
+        XCTAssertNotEqual(bigCounter, longTimer)
 
-        XCTAssertNotEqual(t0, c0)
-        XCTAssertNotEqual(t0, c1)
-        XCTAssertNotEqual(t1, c0)
-        XCTAssertNotEqual(t1, c1)
+        XCTAssertNotEqual(shortTimer, smallCounter)
+        XCTAssertNotEqual(shortTimer, bigCounter)
+        XCTAssertNotEqual(longTimer, smallCounter)
+        XCTAssertNotEqual(longTimer, bigCounter)
     }
 
     func testGeneratorEquality() throws {
-        let g = try Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6)
+        let generator = try Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6)
         let badData = "0".data(using: String.Encoding.utf8)!
 
-        XCTAssert(try g == Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6))
-        XCTAssert(try g != Generator(factor: .counter(1), secret: Data(), algorithm: .sha1, digits: 6))
-        XCTAssert(try g != Generator(factor: .counter(0), secret: badData, algorithm: .sha1, digits: 6))
-        XCTAssert(try g != Generator(factor: .counter(0), secret: Data(), algorithm: .sha256, digits: 6))
-        XCTAssert(try g != Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 8))
+        XCTAssert(try generator == Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6))
+        XCTAssert(try generator != Generator(factor: .counter(1), secret: Data(), algorithm: .sha1, digits: 6))
+        XCTAssert(try generator != Generator(factor: .counter(0), secret: badData, algorithm: .sha1, digits: 6))
+        XCTAssert(try generator != Generator(factor: .counter(0), secret: Data(), algorithm: .sha256, digits: 6))
+        XCTAssert(try generator != Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 8))
     }
 
     func testTokenEquality() throws {
         let generator = try Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6)
-        let other_generator = try Generator(factor: .counter(1), secret: Data(), algorithm: .sha512, digits: 8)
+        let otherGenerator = try Generator(factor: .counter(1), secret: Data(), algorithm: .sha512, digits: 8)
 
-        let t = Token(name: "Name", issuer: "Issuer", generator: generator)
+        let token = Token(name: "Name", issuer: "Issuer", generator: generator)
 
-        XCTAssertEqual(t, Token(name: "Name", issuer: "Issuer", generator: generator))
-        XCTAssertNotEqual(t, Token(name: "", issuer: "Issuer", generator: generator))
-        XCTAssertNotEqual(t, Token(name: "Name", issuer: "", generator: generator))
-        XCTAssertNotEqual(t, Token(name: "Name", issuer: "Issuer", generator: other_generator))
+        XCTAssertEqual(token, Token(name: "Name", issuer: "Issuer", generator: generator))
+        XCTAssertNotEqual(token, Token(name: "", issuer: "Issuer", generator: generator))
+        XCTAssertNotEqual(token, Token(name: "Name", issuer: "", generator: generator))
+        XCTAssertNotEqual(token, Token(name: "Name", issuer: "Issuer", generator: otherGenerator))
     }
 }

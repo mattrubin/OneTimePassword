@@ -2,7 +2,7 @@
 //  Generator.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2017 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2018 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -49,8 +49,8 @@ public struct Generator: Equatable {
     /// - returns: A new password generator with the given parameters, or `nil` if the parameters
     ///            are invalid.
     public init(factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
-        try Generator.validateFactor(factor)
-        try Generator.validateDigits(digits)
+        try Self.validateFactor(factor)
+        try Self.validateDigits(digits)
 
         self.factor = factor
         self.secret = secret
@@ -68,7 +68,7 @@ public struct Generator: Equatable {
     /// - throws: A `Generator.Error` if a valid password cannot be generated for the given time.
     /// - returns: The generated password, or throws an error if a password could not be generated.
     public func password(at time: Date) throws -> String {
-        try Generator.validateDigits(digits)
+        try Self.validateDigits(digits)
 
         let counter = try factor.counterValue(at: time)
         // Ensure the counter value is big-endian
@@ -78,15 +78,13 @@ public struct Generator: Equatable {
         let counterData = Data(bytes: &bigCounter, count: MemoryLayout<UInt64>.size)
         let hash = HMAC(algorithm: algorithm, key: secret, data: counterData)
 
-        var truncatedHash = hash.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
+        var truncatedHash = hash.withUnsafeBytes { ptr -> UInt32 in
             // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
             let offset = ptr[hash.count - 1] & 0x0f
 
             // Take 4 bytes from the hash, starting at the given byte offset
-            let truncatedHashPtr = ptr + Int(offset)
-            return truncatedHashPtr.withMemoryRebound(to: UInt32.self, capacity: 1) {
-                $0.pointee
-            }
+            let truncatedHashPtr = ptr.baseAddress! + Int(offset)
+            return truncatedHashPtr.bindMemory(to: UInt32.self, capacity: 1).pointee
         }
 
         // Ensure the four bytes taken from the hash match the current endian format

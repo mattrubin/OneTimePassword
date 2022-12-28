@@ -2,7 +2,7 @@
 //  TokenSerializationTests.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2017 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2018 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -103,7 +103,6 @@ class TokenSerializationTests: XCTestCase {
                                 let expectedItemCount = 4
                                 XCTAssertEqual(items?.count, expectedItemCount,
                                                "There shouldn't be any unexpected query arguments: \(url)")
-                                // swiftlint:enable vertical_parameter_alignment_on_call
 
                                 var queryArguments: [String: String] = [:]
                                 for item in items ?? [] {

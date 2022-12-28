@@ -2,7 +2,7 @@
 //  TokenTests.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2017 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2019 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -52,29 +52,29 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(token.generator, generator)
 
         // Create another token
-        let other_name = "Other Test Name"
-        let other_issuer = "Other Test Issuer"
-        let other_generator = try Generator(
+        let otherName = "Other Test Name"
+        let otherIssuer = "Other Test Issuer"
+        let otherGenerator = try Generator(
             factor: .timer(period: 123),
             secret: otherSecretData,
             algorithm: .sha512,
             digits: 8
         )
 
-        let other_token = Token(
-            name: other_name,
-            issuer: other_issuer,
-            generator: other_generator
+        let otherToken = Token(
+            name: otherName,
+            issuer: otherIssuer,
+            generator: otherGenerator
         )
 
-        XCTAssertEqual(other_token.name, other_name)
-        XCTAssertEqual(other_token.issuer, other_issuer)
-        XCTAssertEqual(other_token.generator, other_generator)
+        XCTAssertEqual(otherToken.name, otherName)
+        XCTAssertEqual(otherToken.issuer, otherIssuer)
+        XCTAssertEqual(otherToken.generator, otherGenerator)
 
         // Ensure the tokens are different
-        XCTAssertNotEqual(token.name, other_token.name)
-        XCTAssertNotEqual(token.issuer, other_token.issuer)
-        XCTAssertNotEqual(token.generator, other_token.generator)
+        XCTAssertNotEqual(token.name, otherToken.name)
+        XCTAssertNotEqual(token.issuer, otherToken.issuer)
+        XCTAssertNotEqual(token.generator, otherToken.generator)
     }
 
     func testDefaults() throws {
@@ -84,15 +84,15 @@ class TokenTests: XCTestCase {
             algorithm: .sha1,
             digits: 6
         )
-        let n = "Test Name"
-        let i = "Test Issuer"
+        let name = "Test Name"
+        let issuer = "Test Issuer"
 
-        let tokenWithDefaultName = Token(issuer: i, generator: generator)
+        let tokenWithDefaultName = Token(issuer: issuer, generator: generator)
         XCTAssertEqual(tokenWithDefaultName.name, "")
-        XCTAssertEqual(tokenWithDefaultName.issuer, i)
+        XCTAssertEqual(tokenWithDefaultName.issuer, issuer)
 
-        let tokenWithDefaultIssuer = Token(name: n, generator: generator)
-        XCTAssertEqual(tokenWithDefaultIssuer.name, n)
+        let tokenWithDefaultIssuer = Token(name: name, generator: generator)
+        XCTAssertEqual(tokenWithDefaultIssuer.name, name)
         XCTAssertEqual(tokenWithDefaultIssuer.issuer, "")
 
         let tokenWithAllDefaults = Token(generator: generator)

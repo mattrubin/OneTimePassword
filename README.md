@@ -1,10 +1,11 @@
 # OneTimePassword
 ### TOTP and HOTP one-time passwords for iOS
 
-[![Build Status](https://travis-ci.org/mattrubin/OneTimePassword.svg?branch=develop)](https://travis-ci.org/mattrubin/OneTimePassword)
+[![Xcode CI status](https://github.com/mattrubin/OneTimePassword/actions/workflows/xcode.yml/badge.svg)](https://github.com/mattrubin/OneTimePassword/actions/workflows/xcode.yml)
+[![SPM CI status](https://github.com/mattrubin/OneTimePassword/actions/workflows/spm.yml/badge.svg)](https://github.com/mattrubin/OneTimePassword/actions/workflows/spm.yml)
+[![Carthage CI status](https://github.com/mattrubin/OneTimePassword/actions/workflows/carthage.yml/badge.svg)](https://github.com/mattrubin/OneTimePassword/actions/workflows/carthage.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/mattrubin/OneTimePassword/develop.svg)](https://codecov.io/gh/mattrubin/OneTimePassword)
-[![Swift 4.2](https://img.shields.io/badge/swift-4.2-orange.svg)](#usage)
-[![Available via Carthage and CocoaPods](https://img.shields.io/badge/via-Carthage%20%7C%20CocoaPods-MediumSlateBlue.svg)](#installation)
+[![Swift 5.x](https://img.shields.io/badge/swift-5.x-orange.svg)](#usage)
 ![Platforms: iOS, watchOS](https://img.shields.io/badge/platforms-iOS%20%7C%20watchOS-blue.svg)
 [![MIT License](https://img.shields.io/badge/license-MIT-lightgray.svg)](LICENSE.md)
 
@@ -23,7 +24,7 @@ The OneTimePassword library is the core of [Authenticator][]. It can generate bo
 Add the following line to your [Cartfile][]:
 
 ````config
-github "mattrubin/OneTimePassword" ~> 3.1
+github "mattrubin/OneTimePassword" ~> 3.2
 ````
 
 Then run `carthage update OneTimePassword` to install the latest version of the framework.
@@ -34,26 +35,11 @@ Be sure to check the Carthage README file for the latest instructions on [adding
 [Cartfile]: https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile
 [carthage-instructions]: https://github.com/Carthage/Carthage/blob/master/README.md#adding-frameworks-to-an-application
 
-### [CocoaPods][]
-
-Add the following line to your [Podfile][]:
-
-````ruby
-pod 'OneTimePassword', '~> 3.1'
-````
-
-OneTimePassword, like all pods written in Swift, can only be integrated as a framework. Make sure to add the line `use_frameworks!` to your Podfile or target to opt into frameworks instead of static libraries.
-
-Then run `pod install` to install the latest version of the framework.
-
-[CocoaPods]: https://cocoapods.org
-[Podfile]: https://guides.cocoapods.org/using/the-podfile.html
-
-
 ## Usage
 
-> The [latest version][swift-4.2] of OneTimePassword compiles with Swift 4.2, and can be linked with Swift 4 or Swift 5 projects using the Swift compiler's [compatibility mode](https://swift.org/blog/swift-4-0-released/#new-compatibility-modes). To use OneTimePassword with earlier versions of Swift, check out the [`swift-4`][swift-4], [`swift-3`][swift-3], and [`swift-2.3`][swift-2.3] branches. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
+> The [latest version][swift-5] of OneTimePassword compiles with Swift 5. To use OneTimePassword with earlier versions of Swift, check out the [`swift-4.2`][swift-4.2], [`swift-4`][swift-4], [`swift-3`][swift-3], and [`swift-2.3`][swift-2.3] branches. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
 
+[swift-5]: https://github.com/mattrubin/OneTimePassword/tree/swift-5
 [swift-4.2]: https://github.com/mattrubin/OneTimePassword/tree/swift-4.2
 [swift-4]: https://github.com/mattrubin/OneTimePassword/tree/swift-4
 [swift-3]: https://github.com/mattrubin/OneTimePassword/tree/swift-3

@@ -2,7 +2,7 @@
 //  Crypto.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2016-2017 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2016-2018 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,35 +24,17 @@
 //
 
 import Foundation
-import CommonCrypto
+import CryptoKit
 
 func HMAC(algorithm: Generator.Algorithm, key: Data, data: Data) -> Data {
-    let (hashFunction, hashLength) = algorithm.hashInfo
+    let key = SymmetricKey(data: key)
 
-    let macOut = UnsafeMutablePointer<UInt8>.allocate(capacity: hashLength)
-    defer {
-        macOut.deallocate()
-    }
-
-    key.withUnsafeBytes { keyBytes in
-        data.withUnsafeBytes { dataBytes in
-            CCHmac(hashFunction, keyBytes, key.count, dataBytes, data.count, macOut)
-        }
-    }
-
-    return Data(bytes: macOut, count: hashLength)
-}
-
-private extension Generator.Algorithm {
-    /// The corresponding CommonCrypto hash function and hash length.
-    var hashInfo: (hashFunction: CCHmacAlgorithm, hashLength: Int) {
-        switch self {
-        case .sha1:
-            return (CCHmacAlgorithm(kCCHmacAlgSHA1), Int(CC_SHA1_DIGEST_LENGTH))
-        case .sha256:
-            return (CCHmacAlgorithm(kCCHmacAlgSHA256), Int(CC_SHA256_DIGEST_LENGTH))
-        case .sha512:
-            return (CCHmacAlgorithm(kCCHmacAlgSHA512), Int(CC_SHA512_DIGEST_LENGTH))
-        }
+    switch algorithm {
+    case .sha1:
+        return Data(CryptoKit.HMAC<Insecure.SHA1>.authenticationCode(for: data, using: key))
+    case .sha256:
+        return Data(CryptoKit.HMAC<SHA256>.authenticationCode(for: data, using: key))
+    case .sha512:
+        return Data(CryptoKit.HMAC<SHA512>.authenticationCode(for: data, using: key))
     }
 }
