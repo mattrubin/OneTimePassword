@@ -41,6 +41,9 @@ public extension Token {
     }
 
     /// Attempts to initialize a token represented by the given URL.
+    ///
+    /// - throws: A `DeserializationError` if a token could not be built from the given parameters.
+    /// - returns: A `Token` built from the given URL and secret.
     init(url: URL, secret: Data? = nil) throws {
         self = try token(from: url, secret: secret)
     }
