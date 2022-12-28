@@ -31,15 +31,19 @@ private let validSecret: [UInt8] = [
     0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
 ]
 
+// swiftlint:disable:next type_body_length
 class TokenSerializationTests: XCTestCase {
     let kOTPScheme = "otpauth"
     let kOTPTokenTypeCounterHost = "hotp"
-    let kOTPTokenTypeTimerHost   = "totp"
+    let kOTPTokenTypeTimerHost = "totp"
+    let kOTPAlgorithmSHA1 = "SHA1"
+    let kOTPAlgorithmSHA256 = "SHA256"
+    let kOTPAlgorithmSHA512 = "SHA512"
 
-    let factors: [OneTimePassword.Generator.Factor] = [
+    let factors: [Generator.Factor] = [
         .counter(0),
         .counter(1),
-        .counter(UInt64.max),
+        .counter(.max),
         .timer(period: 1),
         .timer(period: 30),
         .timer(period: 300),
@@ -52,8 +56,169 @@ class TokenSerializationTests: XCTestCase {
         "1234567890123456789012345678901234567890123456789012345678901234",
         "",
     ]
-    let algorithms: [OneTimePassword.Generator.Algorithm] = [.sha1, .sha256, .sha512]
+    let algorithms: [Generator.Algorithm] = [.sha1, .sha256, .sha512]
     let digits = [6, 7, 8]
+
+    // MARK: mark - Brute Force Tests
+
+    // swiftlint:disable:next function_body_length
+    func testDeserialization() {
+        for factor in factors {
+            for name in names {
+                for issuer in issuers {
+                    for secretString in secretStrings {
+                        for algorithm in algorithms {
+                            for digitNumber in digits {
+                                let secret = secretString.data(using: .ascii)!
+
+                                // Construct the URL
+                                var urlComponents = URLComponents()
+                                urlComponents.scheme = kOTPScheme
+                                urlComponents.host = urlHost(for: factor)
+                                urlComponents.path = "/" + name
+
+                                var queryItems: [URLQueryItem] = []
+                                let algorithmValue = string(for: algorithm)
+                                queryItems.append(URLQueryItem(name: "algorithm", value: algorithmValue))
+                                queryItems.append(URLQueryItem(name: "digits", value: String(digitNumber)))
+                                let secretValue = MF_Base32Codec.base32String(from: secret)
+                                    .replacingOccurrences(of: "=", with: "")
+                                queryItems.append(URLQueryItem(name: "secret", value: secretValue))
+                                switch factor {
+                                case .timer(let period):
+                                    let periodValue = String(Int(period))
+                                    queryItems.append(URLQueryItem(name: "period", value: periodValue))
+
+                                case .counter(let count):
+                                    let counterValue = String(count)
+                                    queryItems.append(URLQueryItem(name: "counter", value: counterValue))
+                                }
+                                queryItems.append(URLQueryItem(name: "issuer", value: issuer))
+                                urlComponents.queryItems = queryItems
+                                let url = urlComponents.url!
+
+                                // Create the token
+                                let token = try? Token(url: url)
+
+                                // Note: `try? Token(url:)` will return nil if the token described by the URL is
+                                // invalid.
+                                if let token {
+                                    XCTAssertEqual(token.generator.factor, factor, "Incorrect token type")
+                                    XCTAssertEqual(token.name, name, "Incorrect token name")
+                                    XCTAssertEqual(token.issuer, issuer, "Incorrect token issuer")
+                                    XCTAssertEqual(token.generator.secret, secret, "Incorrect token secret")
+                                    XCTAssertEqual(token.generator.algorithm, algorithm, "Incorrect token algorithm")
+                                    XCTAssertEqual(token.generator.digits, digitNumber, "Incorrect token digits")
+                                } else {
+                                    // If nil was returned from `try? Token(url:)`, create the same token manually and
+                                    // ensure it's invalid.
+                                    XCTAssertThrowsError(
+                                        Token(
+                                            name: name,
+                                            issuer: issuer,
+                                            generator: try Generator(
+                                                factor: factor,
+                                                secret: secret,
+                                                algorithm: algorithm,
+                                                digits: digitNumber)),
+                                        "The token should be invalid")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private func urlHost(for factor: Generator.Factor) -> String {
+        switch factor {
+        case .counter:
+            return kOTPTokenTypeCounterHost
+        case .timer:
+            return kOTPTokenTypeTimerHost
+        }
+    }
+
+    private func string(for algorithm: Generator.Algorithm) -> String {
+        switch algorithm {
+        case .sha1:
+            return kOTPAlgorithmSHA1
+        case .sha256:
+            return kOTPAlgorithmSHA256
+        case .sha512:
+            return kOTPAlgorithmSHA512
+        }
+    }
+
+    // swiftlint:disable:next function_body_length
+    func testTokenWithURLAndSecret() {
+        for factor in factors {
+            for name in names {
+                for issuer in issuers {
+                    for secretString in secretStrings {
+                        for algorithm in algorithms {
+                            for digitNumber in digits {
+                                let secret = secretString.data(using: .ascii)!
+
+                                // Construct the URL
+                                var urlComponents = URLComponents()
+                                urlComponents.scheme = kOTPScheme
+                                urlComponents.host = urlHost(for: factor)
+                                urlComponents.path = "/" + name
+
+                                var queryItems: [URLQueryItem] = []
+                                let algorithmValue = string(for: algorithm)
+                                queryItems.append(URLQueryItem(name: "algorithm", value: algorithmValue))
+                                queryItems.append(URLQueryItem(name: "digits", value: String(digitNumber)))
+                                // TODO: Test secret overriding in a separate test case
+                                queryItems.append(URLQueryItem(name: "secret", value: "A"))
+                                switch factor {
+                                case .timer(let period):
+                                    let periodValue = String(Int(period))
+                                    queryItems.append(URLQueryItem(name: "period", value: periodValue))
+
+                                case .counter(let count):
+                                    let counterValue = String(count)
+                                    queryItems.append(URLQueryItem(name: "counter", value: counterValue))
+                                }
+                                queryItems.append(URLQueryItem(name: "issuer", value: issuer))
+                                urlComponents.queryItems = queryItems
+                                let url = urlComponents.url!
+
+                                // Create the token
+                                let token = try? Token(url: url, secret: secret)
+
+                                // Note: `try? Token(url:secret:)` will return nil if the token described by the URL is
+                                // invalid.
+                                if let token {
+                                    XCTAssertEqual(token.generator.factor, factor, "Incorrect token type")
+                                    XCTAssertEqual(token.name, name, "Incorrect token name")
+                                    XCTAssertEqual(token.issuer, issuer, "Incorrect token issuer")
+                                    XCTAssertEqual(token.generator.secret, secret, "Incorrect token secret")
+                                    XCTAssertEqual(token.generator.algorithm, algorithm, "Incorrect token algorithm")
+                                    XCTAssertEqual(token.generator.digits, digitNumber, "Incorrect token digits")
+                                } else {
+                                    // If nil was returned from `try? Token(url:secret:)` create the same token manually
+                                    // and ensure it's invalid.
+                                    XCTAssertThrowsError(
+                                        Token(
+                                            name: name,
+                                            issuer: issuer,
+                                            generator: try Generator(
+                                                factor: factor,
+                                                secret: secret,
+                                                algorithm: algorithm,
+                                                digits: digitNumber)),
+                                        "The token should be invalid")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // swiftlint:disable:next function_body_length
     func testSerialization() throws {
@@ -66,11 +231,10 @@ class TokenSerializationTests: XCTestCase {
                                 // Create the token
                                 let generator = try Generator(
                                     factor: factor,
-                                    secret: secretString.data(using: String.Encoding.ascii)!,
+                                    secret: secretString.data(using: .ascii)!,
                                     algorithm: algorithm,
                                     digits: digitNumber
                                 )
-
                                 let token = Token(
                                     name: name,
                                     issuer: issuer,
@@ -83,45 +247,34 @@ class TokenSerializationTests: XCTestCase {
                                 // Test scheme
                                 XCTAssertEqual(url.scheme, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"")
                                 // Test Factor
-                                var expectedHost: String
-                                switch factor {
-                                case .counter:
-                                    expectedHost = kOTPTokenTypeCounterHost
-                                case .timer:
-                                    expectedHost = kOTPTokenTypeTimerHost
-                                }
-                                XCTAssertEqual(url.host!, expectedHost, "The url host should be \"\(expectedHost)\"")
+                                let expectedHost = urlHost(for: factor)
+                                XCTAssertEqual(url.host, expectedHost, "The url host should be \"\(expectedHost)\"")
                                 // Test name
                                 XCTAssertEqual(url.path, "/" + name, "The url path should be \"/\(name)\"")
 
                                 let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
-                                let items = urlComponents?.queryItems
+                                let queryItems = urlComponents?.queryItems ?? []
                                 let expectedItemCount = 4
-                                XCTAssertEqual(items?.count, expectedItemCount,
+                                XCTAssertEqual(queryItems.count, expectedItemCount,
                                                "There shouldn't be any unexpected query arguments: \(url)")
 
                                 var queryArguments: [String: String] = [:]
-                                for item in items ?? [] {
-                                    queryArguments[item.name] = item.value
+                                for queryItem in queryItems {
+                                    XCTAssertNil(queryArguments[queryItem.name])
+                                    queryArguments[queryItem.name] = queryItem.value
                                 }
                                 XCTAssertEqual(queryArguments.count, expectedItemCount,
                                                "There shouldn't be any unexpected query arguments: \(url)")
 
                                 // Test algorithm
-                                let algorithmString: String = {
-                                    switch $0 {
-                                    case .sha1:
-                                        return "SHA1"
-                                    case .sha256:
-                                        return "SHA256"
-                                    case .sha512:
-                                        return "SHA512"
-                                    }}(algorithm)
-                                XCTAssertEqual(queryArguments["algorithm"]!, algorithmString,
-                                               "The algorithm value should be \"\(algorithmString)\"")
+                                let expectedAlgorithmString = string(for: algorithm)
+                                XCTAssertEqual(queryArguments["algorithm"], expectedAlgorithmString,
+                                               "The algorithm value should be \"\(expectedAlgorithmString)\"")
+
                                 // Test digits
-                                XCTAssertEqual(queryArguments["digits"]!, String(digitNumber),
-                                               "The digits value should be \"\(digitNumber)\"")
+                                let expectedDigitsString = String(digitNumber)
+                                XCTAssertEqual(queryArguments["digits"], expectedDigitsString,
+                                               "The digits value should be \"\(expectedDigitsString)\"")
                                 // Test secret
                                 XCTAssertNil(queryArguments["secret"],
                                              "The url query string should not contain the secret")
@@ -129,24 +282,28 @@ class TokenSerializationTests: XCTestCase {
                                 // Test period
                                 switch factor {
                                 case .timer(let period):
-                                    XCTAssertEqual(queryArguments["period"]!, String(Int(period)),
-                                                   "The period value should be \"\(period)\"")
+                                    let expectedPeriodString = String(Int(period))
+                                    XCTAssertEqual(queryArguments["period"], expectedPeriodString,
+                                                   "The period value should be \"\(expectedPeriodString)\"")
+
                                 default:
                                     XCTAssertNil(queryArguments["period"],
                                                  "The url query string should not contain the period")
                                 }
                                 // Test counter
                                 switch factor {
-                                case .counter(let counter):
-                                    XCTAssertEqual(queryArguments["counter"]!, String(counter),
-                                                   "The counter value should be \"\(counter)\"")
+                                case .counter(let count):
+                                    let expectedCounterString = String(count)
+                                    XCTAssertEqual(queryArguments["counter"], expectedCounterString,
+                                                   "The counter value should be \"\(expectedCounterString)\"")
+
                                 default:
                                     XCTAssertNil(queryArguments["counter"],
                                                  "The url query string should not contain the counter")
                                 }
 
                                 // Test issuer
-                                XCTAssertEqual(queryArguments["issuer"]!, issuer,
+                                XCTAssertEqual(queryArguments["issuer"], issuer,
                                                "The issuer value should be \"\(issuer)\"")
 
                                 // Check url again
@@ -316,3 +473,5 @@ class TokenSerializationTests: XCTestCase {
         XCTAssertEqual(queryItems, expectedQueryItems)
     }
 }
+
+// swiftlint:disable:this file_length
