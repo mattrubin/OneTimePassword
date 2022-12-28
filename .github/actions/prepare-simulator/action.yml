@@ -51,4 +51,4 @@ runs:
         RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
         DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
         xcrun simctl boot $DESTINATION_ID
-        echo "::set-output name=destination-id::$(echo $DESTINATION_ID)"
+        echo "destination-id=$(echo $DESTINATION_ID)" >> $GITHUB_OUTPUT
