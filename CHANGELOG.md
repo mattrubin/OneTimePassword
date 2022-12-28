@@ -16,7 +16,8 @@
   ([#214](https://github.com/mattrubin/OneTimePassword/pull/214),
   [#230](https://github.com/mattrubin/OneTimePassword/pull/230),
   [#244](https://github.com/mattrubin/OneTimePassword/pull/244),
-  [#245](https://github.com/mattrubin/OneTimePassword/pull/245))
+  [#245](https://github.com/mattrubin/OneTimePassword/pull/245),
+  [#256](https://github.com/mattrubin/OneTimePassword/pull/256))
 - Modernize project and tooling configurations
   ([#228](https://github.com/mattrubin/OneTimePassword/pull/228),
   [#252](https://github.com/mattrubin/OneTimePassword/pull/252),
