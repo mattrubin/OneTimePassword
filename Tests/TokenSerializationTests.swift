@@ -51,7 +51,7 @@ class TokenSerializationTests: XCTestCase {
     let digits = [6, 7, 8]
 
     // swiftlint:disable:next function_body_length
-    func testSerialization() {
+    func testSerialization() throws {
         for factor in factors {
             for name in names {
                 for issuer in issuers {
@@ -59,18 +59,12 @@ class TokenSerializationTests: XCTestCase {
                         for algorithm in algorithms {
                             for digitNumber in digits {
                                 // Create the token
-                                let generator: Generator
-                                do {
-                                    generator = try Generator(
-                                        factor: factor,
-                                        secret: secretString.data(using: String.Encoding.ascii)!,
-                                        algorithm: algorithm,
-                                        digits: digitNumber
-                                    )
-                                } catch {
-                                    XCTFail("Failed to construct Generator.")
-                                    continue
-                                }
+                                let generator = try Generator(
+                                    factor: factor,
+                                    secret: secretString.data(using: String.Encoding.ascii)!,
+                                    algorithm: algorithm,
+                                    digits: digitNumber
+                                )
 
                                 let token = Token(
                                     name: name,
@@ -79,10 +73,7 @@ class TokenSerializationTests: XCTestCase {
                                 )
 
                                 // Serialize
-                                guard let url = try? token.toURL() else {
-                                    XCTFail("Failed to convert Token to URL")
-                                    continue
-                                }
+                                let url = try token.toURL()
 
                                 // Test scheme
                                 XCTAssertEqual(url.scheme, kOTPScheme, "The url scheme should be \"\(kOTPScheme)\"")
@@ -154,10 +145,7 @@ class TokenSerializationTests: XCTestCase {
                                                "The issuer value should be \"\(issuer)\"")
 
                                 // Check url again
-                                guard let checkURL = try? token.toURL() else {
-                                    XCTFail("Failed to convert Token to URL")
-                                    continue
-                                }
+                                let checkURL = try token.toURL()
                                 XCTAssertEqual(url, checkURL, "Repeated calls to url() should return the same result!")
                             }
                         }
