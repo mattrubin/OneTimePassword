@@ -170,9 +170,9 @@ class GeneratorTests: XCTestCase {
     func testPasswordWithInvalidPeriod() {
         // It should not be possible to try to get a password from a generator with an invalid period, because the
         // generator initializer should fail when given an invalid period.
-        let factor = Generator.Factor.timer(period: 0)
-
-        XCTAssertThrowsError(try Generator(factor: factor, secret: Data(), algorithm: .sha1, digits: 8)) { error in
+        XCTAssertThrowsError(
+            try Generator(factor: .timer(period: 0), secret: Data(), algorithm: .sha1, digits: 8)
+        ) { error in
             guard case Generator.Error.invalidPeriod = error else {
                 XCTFail("Generator.init threw an unexpected type of error: \(error)")
                 return
@@ -183,9 +183,9 @@ class GeneratorTests: XCTestCase {
     func testPasswordWithInvalidDigits() {
         // It should not be possible to try to get a password from a generator with an invalid digit count, because the
         // generator initializer should fail when given an invalid digit count.
-        let factor = Generator.Factor.timer(period: 30)
-
-        XCTAssertThrowsError(try Generator(factor: factor, secret: Data(), algorithm: .sha1, digits: 3)) { error in
+        XCTAssertThrowsError(
+            try Generator(factor: .timer(period: 30), secret: Data(), algorithm: .sha1, digits: 3)
+        ) { error in
             guard case Generator.Error.invalidDigits = error else {
                 XCTFail("Generator.init threw an unexpected type of error: \(error)")
                 return
