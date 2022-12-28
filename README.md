@@ -24,7 +24,7 @@ The OneTimePassword library is the core of [Authenticator][]. It can generate bo
 Add the following line to your [Cartfile][]:
 
 ````config
-github "mattrubin/OneTimePassword" ~> 3.2
+github "mattrubin/OneTimePassword" ~> 4.0
 ````
 
 Then run `carthage update OneTimePassword` to install the latest version of the framework.
