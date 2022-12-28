@@ -30,19 +30,16 @@ class TokenTests: XCTestCase {
     let secretData = "12345678901234567890".data(using: String.Encoding.ascii)!
     let otherSecretData = "09876543210987654321".data(using: String.Encoding.ascii)!
 
-    func testInit() {
+    func testInit() throws {
         // Create a token
         let name = "Test Name"
         let issuer = "Test Issuer"
-        guard let generator = Generator(
+        let generator = try Generator(
             factor: .counter(111),
             secret: secretData,
             algorithm: .sha1,
             digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
-            return
-        }
+        )
 
         let token = Token(
             name: name,
@@ -57,15 +54,12 @@ class TokenTests: XCTestCase {
         // Create another token
         let otherName = "Other Test Name"
         let otherIssuer = "Other Test Issuer"
-        guard let otherGenerator = Generator(
+        let otherGenerator = try Generator(
             factor: .timer(period: 123),
             secret: otherSecretData,
             algorithm: .sha512,
             digits: 8
-        ) else {
-            XCTFail("Failed to construct Generator.")
-            return
-        }
+        )
 
         let otherToken = Token(
             name: otherName,
@@ -83,16 +77,13 @@ class TokenTests: XCTestCase {
         XCTAssertNotEqual(token.generator, otherToken.generator)
     }
 
-    func testDefaults() {
-        guard let generator = Generator(
+    func testDefaults() throws {
+        let generator = try Generator(
             factor: .counter(0),
             secret: Data(),
             algorithm: .sha1,
             digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
-            return
-        }
+        )
         let name = "Test Name"
         let issuer = "Test Issuer"
 
@@ -109,16 +100,13 @@ class TokenTests: XCTestCase {
         XCTAssertEqual(tokenWithAllDefaults.issuer, "")
     }
 
-    func testCurrentPassword() {
-        guard let timerGenerator = Generator(
+    func testCurrentPassword() throws {
+        let timerGenerator = try Generator(
             factor: .timer(period: 30),
             secret: secretData,
             algorithm: .sha1,
             digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
-            return
-        }
+        )
         let timerToken = Token(generator: timerGenerator)
 
         do {
@@ -132,15 +120,12 @@ class TokenTests: XCTestCase {
             return
         }
 
-        guard let counterGenerator = Generator(
+        let counterGenerator = try Generator(
             factor: .counter(12345),
             secret: otherSecretData,
             algorithm: .sha1,
             digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
-            return
-        }
+        )
         let counterToken = Token(generator: counterGenerator)
 
         do {
@@ -155,31 +140,25 @@ class TokenTests: XCTestCase {
         }
     }
 
-    func testUpdatedToken() {
-        guard let timerGenerator = Generator(
+    func testUpdatedToken() throws {
+        let timerGenerator = try Generator(
             factor: .timer(period: 30),
             secret: secretData,
             algorithm: .sha1,
             digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
-            return
-        }
+        )
         let timerToken = Token(generator: timerGenerator)
 
         let updatedTimerToken = timerToken.updatedToken()
         XCTAssertEqual(updatedTimerToken, timerToken)
 
         let count: UInt64 = 12345
-        guard let counterGenerator = Generator(
+        let counterGenerator = try Generator(
             factor: .counter(count),
             secret: otherSecretData,
             algorithm: .sha1,
             digits: 6
-        ) else {
-            XCTFail("Failed to construct Generator.")
-            return
-        }
+        )
         let counterToken = Token(generator: counterGenerator)
 
         let updatedCounterToken = counterToken.updatedToken()

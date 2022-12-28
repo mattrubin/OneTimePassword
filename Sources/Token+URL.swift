@@ -40,16 +40,11 @@ public extension Token {
         )
     }
 
-    /// Attempts to initialize a token represented by the give URL.
-    init?(url: URL, secret: Data? = nil) {
-        try? self.init(_url: url, secret: secret)
-    }
-
-    // Eventually, this throwing initializer will replace the failable initializer above. For now, the failable
-    // initializer remains to maintain a consistent public API. Since two different initializers cannot overload the
-    // same initializer signature with both throwing an failable versions, this new initializer is currently prefixed
-    // with an underscore and marked as internal.
-    internal init(_url url: URL, secret: Data? = nil) throws {
+    /// Attempts to initialize a token represented by the given URL.
+    ///
+    /// - throws: A `DeserializationError` if a token could not be built from the given parameters.
+    /// - returns: A `Token` built from the given URL and secret.
+    init(url: URL, secret: Data? = nil) throws {
         self = try token(from: url, secret: secret)
     }
 }
@@ -169,7 +164,7 @@ private func token(from url: URL, secret externalSecret: Data? = nil) throws -> 
     guard let secret = try externalSecret ?? queryItems.value(for: kQuerySecretKey).map(parseSecret) else {
         throw DeserializationError.missingSecret
     }
-    let generator = try Generator(_factor: factor, secret: secret, algorithm: algorithm, digits: digits)
+    let generator = try Generator(factor: factor, secret: secret, algorithm: algorithm, digits: digits)
 
     // Skip the leading "/"
     let fullName = String(url.path.dropFirst())

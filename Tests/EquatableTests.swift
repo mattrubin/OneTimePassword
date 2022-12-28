@@ -54,23 +54,20 @@ class EquatableTests: XCTestCase {
         XCTAssertNotEqual(longTimer, bigCounter)
     }
 
-    func testGeneratorEquality() {
-        let generator = Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6)
+    func testGeneratorEquality() throws {
+        let generator = try Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6)
         let badData = "0".data(using: String.Encoding.utf8)!
 
-        XCTAssert(generator == Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6))
-        XCTAssert(generator != Generator(factor: .counter(1), secret: Data(), algorithm: .sha1, digits: 6))
-        XCTAssert(generator != Generator(factor: .counter(0), secret: badData, algorithm: .sha1, digits: 6))
-        XCTAssert(generator != Generator(factor: .counter(0), secret: Data(), algorithm: .sha256, digits: 6))
-        XCTAssert(generator != Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 8))
+        XCTAssert(try generator == Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6))
+        XCTAssert(try generator != Generator(factor: .counter(1), secret: Data(), algorithm: .sha1, digits: 6))
+        XCTAssert(try generator != Generator(factor: .counter(0), secret: badData, algorithm: .sha1, digits: 6))
+        XCTAssert(try generator != Generator(factor: .counter(0), secret: Data(), algorithm: .sha256, digits: 6))
+        XCTAssert(try generator != Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 8))
     }
 
-    func testTokenEquality() {
-        guard let generator = Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6),
-            let otherGenerator = Generator(factor: .counter(1), secret: Data(), algorithm: .sha512, digits: 8) else {
-                XCTFail("Failed to construct Generator.")
-                return
-        }
+    func testTokenEquality() throws {
+        let generator = try Generator(factor: .counter(0), secret: Data(), algorithm: .sha1, digits: 6)
+        let otherGenerator = try Generator(factor: .counter(1), secret: Data(), algorithm: .sha512, digits: 8)
 
         let token = Token(name: "Name", issuer: "Issuer", generator: generator)
 

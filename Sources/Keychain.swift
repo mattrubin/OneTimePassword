@@ -149,7 +149,7 @@ private extension PersistentToken {
             let url = URL(string: urlString) else {
                 throw DeserializationError.unreadableData
         }
-        let token = try Token(_url: url, secret: secret)
+        let token = try Token(url: url, secret: secret)
         self.init(token: token, identifier: keychainItemRef)
     }
 }

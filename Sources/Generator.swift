@@ -46,17 +46,9 @@ public struct Generator: Equatable {
     /// - parameter algorithm: The cryptographic hash function.
     /// - parameter digits:    The number of digits in the password.
     ///
-    /// - returns: A new password generator with the given parameters, or `nil` if the parameters
-    ///            are invalid.
-    public init?(factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) {
-        try? self.init(_factor: factor, secret: secret, algorithm: algorithm, digits: digits)
-    }
-
-    // Eventually, this throwing initializer will replace the failable initializer above. For now, the failable
-    // initializer remains to maintain a consistent public API. Since two different initializers cannot overload the
-    // same initializer signature with both throwing an failable versions, this new initializer is currently prefixed
-    // with an underscore and marked as internal.
-    internal init(_factor factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
+    /// - throws: A `Generator.Error` if the given parameters are invalid.
+    /// - returns: A new password generator with the given parameters.
+    public init(factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
         try Self.validateFactor(factor)
         try Self.validateDigits(digits)
 
@@ -119,7 +111,7 @@ public struct Generator: Equatable {
             // Force-trying should be safe here, since any valid generator should have a valid successor.
             // swiftlint:disable:next force_try
             return try! Generator(
-                _factor: .counter(counterValue + 1),
+                factor: .counter(counterValue + 1),
                 secret: secret,
                 algorithm: algorithm,
                 digits: digits
