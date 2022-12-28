@@ -46,8 +46,8 @@ public struct Generator: Equatable {
     /// - parameter algorithm: The cryptographic hash function.
     /// - parameter digits:    The number of digits in the password.
     ///
-    /// - returns: A new password generator with the given parameters, or `nil` if the parameters
-    ///            are invalid.
+    /// - throws: A `Generator.Error` if the given parameters are invalid.
+    /// - returns: A new password generator with the given parameters.
     public init(factor: Factor, secret: Data, algorithm: Algorithm, digits: Int) throws {
         try Self.validateFactor(factor)
         try Self.validateDigits(digits)
