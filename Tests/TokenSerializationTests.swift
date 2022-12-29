@@ -2,7 +2,7 @@
 //  TokenSerializationTests.swift
 //  OneTimePassword
 //
-//  Copyright (c) 2014-2018 Matt Rubin and the OneTimePassword authors
+//  Copyright (c) 2014-2022 Matt Rubin and the OneTimePassword authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -61,8 +61,7 @@ class TokenSerializationTests: XCTestCase {
 
     // MARK: mark - Brute Force Tests
 
-    // swiftlint:disable:next function_body_length
-    func testDeserialization() {
+    func testDeserialization() throws {
         for factor in factors {
             for name in names {
                 for issuer in issuers {
@@ -98,31 +97,14 @@ class TokenSerializationTests: XCTestCase {
                                 let url = urlComponents.url!
 
                                 // Create the token
-                                let token = try? Token(url: url)
+                                let token = try Token(url: url)
 
-                                // Note: `try? Token(url:)` will return nil if the token described by the URL is
-                                // invalid.
-                                if let token {
-                                    XCTAssertEqual(token.generator.factor, factor, "Incorrect token type")
-                                    XCTAssertEqual(token.name, name, "Incorrect token name")
-                                    XCTAssertEqual(token.issuer, issuer, "Incorrect token issuer")
-                                    XCTAssertEqual(token.generator.secret, secret, "Incorrect token secret")
-                                    XCTAssertEqual(token.generator.algorithm, algorithm, "Incorrect token algorithm")
-                                    XCTAssertEqual(token.generator.digits, digitNumber, "Incorrect token digits")
-                                } else {
-                                    // If nil was returned from `try? Token(url:)`, create the same token manually and
-                                    // ensure it's invalid.
-                                    XCTAssertThrowsError(
-                                        Token(
-                                            name: name,
-                                            issuer: issuer,
-                                            generator: try Generator(
-                                                factor: factor,
-                                                secret: secret,
-                                                algorithm: algorithm,
-                                                digits: digitNumber)),
-                                        "The token should be invalid")
-                                }
+                                XCTAssertEqual(token.generator.factor, factor, "Incorrect token type")
+                                XCTAssertEqual(token.name, name, "Incorrect token name")
+                                XCTAssertEqual(token.issuer, issuer, "Incorrect token issuer")
+                                XCTAssertEqual(token.generator.secret, secret, "Incorrect token secret")
+                                XCTAssertEqual(token.generator.algorithm, algorithm, "Incorrect token algorithm")
+                                XCTAssertEqual(token.generator.digits, digitNumber, "Incorrect token digits")
                             }
                         }
                     }
@@ -151,8 +133,7 @@ class TokenSerializationTests: XCTestCase {
         }
     }
 
-    // swiftlint:disable:next function_body_length
-    func testTokenWithURLAndSecret() {
+    func testTokenWithURLAndSecret() throws {
         for factor in factors {
             for name in names {
                 for issuer in issuers {
@@ -187,31 +168,14 @@ class TokenSerializationTests: XCTestCase {
                                 let url = urlComponents.url!
 
                                 // Create the token
-                                let token = try? Token(url: url, secret: secret)
+                                let token = try Token(url: url, secret: secret)
 
-                                // Note: `try? Token(url:secret:)` will return nil if the token described by the URL is
-                                // invalid.
-                                if let token {
-                                    XCTAssertEqual(token.generator.factor, factor, "Incorrect token type")
-                                    XCTAssertEqual(token.name, name, "Incorrect token name")
-                                    XCTAssertEqual(token.issuer, issuer, "Incorrect token issuer")
-                                    XCTAssertEqual(token.generator.secret, secret, "Incorrect token secret")
-                                    XCTAssertEqual(token.generator.algorithm, algorithm, "Incorrect token algorithm")
-                                    XCTAssertEqual(token.generator.digits, digitNumber, "Incorrect token digits")
-                                } else {
-                                    // If nil was returned from `try? Token(url:secret:)` create the same token manually
-                                    // and ensure it's invalid.
-                                    XCTAssertThrowsError(
-                                        Token(
-                                            name: name,
-                                            issuer: issuer,
-                                            generator: try Generator(
-                                                factor: factor,
-                                                secret: secret,
-                                                algorithm: algorithm,
-                                                digits: digitNumber)),
-                                        "The token should be invalid")
-                                }
+                                XCTAssertEqual(token.generator.factor, factor, "Incorrect token type")
+                                XCTAssertEqual(token.name, name, "Incorrect token name")
+                                XCTAssertEqual(token.issuer, issuer, "Incorrect token issuer")
+                                XCTAssertEqual(token.generator.secret, secret, "Incorrect token secret")
+                                XCTAssertEqual(token.generator.algorithm, algorithm, "Incorrect token algorithm")
+                                XCTAssertEqual(token.generator.digits, digitNumber, "Incorrect token digits")
                             }
                         }
                     }
