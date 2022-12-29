@@ -6,7 +6,6 @@ codecov:
 
 ignore:
   - Tests
-  - OneTimePasswordLegacyTests
 
 coverage:
   status:
