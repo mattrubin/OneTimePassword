@@ -35,6 +35,19 @@ Be sure to check the Carthage README file for the latest instructions on [adding
 [Cartfile]: https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile
 [carthage-instructions]: https://github.com/Carthage/Carthage/blob/master/README.md#adding-frameworks-to-an-application
 
+### [SPM][]
+
+Add the following line to the `dependencies` section of your [package manifest][Package.swift]:
+
+```swift
+.package(url: "https://github.com/mattrubin/OneTimePassword.git", from: "4.0.0"),
+```
+
+Then add `"OneTimePassword"` to the dependencies array of any target which should be linked with this library.
+
+[SPM]: https://swift.org/package-manager/
+[Package.swift]: https://github.com/apple/swift-package-manager/tree/master/Documentation
+
 ## Usage
 
 > The [latest version][swift-5] of OneTimePassword compiles with Swift 5. To use OneTimePassword with earlier versions of Swift, check out the [`swift-4.2`][swift-4.2], [`swift-4`][swift-4], [`swift-3`][swift-3], and [`swift-2.3`][swift-2.3] branches. To use OneTimePassword in an Objective-C based project, check out the [`objc` branch][objc] and the [1.x releases][releases].
