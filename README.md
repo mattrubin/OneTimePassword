@@ -6,7 +6,7 @@
 [![Carthage CI status](https://github.com/mattrubin/OneTimePassword/actions/workflows/carthage.yml/badge.svg)](https://github.com/mattrubin/OneTimePassword/actions/workflows/carthage.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/mattrubin/OneTimePassword/develop.svg)](https://codecov.io/gh/mattrubin/OneTimePassword)
 [![Swift 5.x](https://img.shields.io/badge/swift-5.x-orange.svg)](#usage)
-![Platforms: iOS, watchOS](https://img.shields.io/badge/platforms-iOS%20%7C%20watchOS-blue.svg)
+![Platforms: iOS, macOS, watchOS](https://img.shields.io/badge/platforms-iOS%20%7C%20macOS%20%7C%20watchOS-blue.svg)
 [![MIT License](https://img.shields.io/badge/license-MIT-lightgray.svg)](LICENSE.md)
 
 The OneTimePassword library is the core of [Authenticator][]. It can generate both [time-based][RFC 6238] and [counter-based][RFC 4226] one-time passwords as standardized in [RFC 4226][] and [RFC 6238][]. It can also read and generate the ["otpauth://" URLs][otpauth] commonly used to set up OTP tokens, and can save and load tokens to and from the iOS secure keychain.
