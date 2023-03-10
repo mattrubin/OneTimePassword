@@ -60,11 +60,12 @@ public final class Keychain {
     /// Adds the given token to the keychain and returns the persistent token which contains it.
     ///
     /// - parameter token: The token to save to the keychain.
+    /// - parameter serviceIdentifieer: An identifier that will be associated with the token in the keychain
     ///
     /// - throws: A `Keychain.Error` if the token was not added successfully.
     /// - returns: The new persistent token.
-    public func add(_ token: Token) throws -> PersistentToken {
-        let attributes = try token.keychainAttributes()
+    public func add(_ token: Token, serviceIdentifier: String? = nil) throws -> PersistentToken {
+        let attributes = try token.keychainAttributes(serviceIdentifier: serviceIdentifier)
         let persistentRef = try addKeychainItem(withAttributes: attributes)
         return PersistentToken(token: token, identifier: persistentRef)
     }
@@ -73,11 +74,12 @@ public final class Keychain {
     ///
     /// - parameter persistentToken: The persistent token to update.
     /// - parameter token: The new token value.
+    /// - parameter serviceIdentifieer: An identifier that will be associated with the token in the keychain
     ///
     /// - throws: A `Keychain.Error` if the update did not succeed.
     /// - returns: The updated persistent token.
-    public func update(_ persistentToken: PersistentToken, with token: Token) throws -> PersistentToken {
-        let attributes = try token.keychainAttributes()
+    public func update(_ persistentToken: PersistentToken, with token: Token, serviceIdentifier: String? = nil) throws -> PersistentToken {
+        let attributes = try token.keychainAttributes(serviceIdentifier: serviceIdentifier)
         try updateKeychainItem(forPersistentRef: persistentToken.identifier,
                                withAttributes: attributes)
         return PersistentToken(token: token, identifier: persistentToken.identifier)
@@ -110,11 +112,11 @@ public final class Keychain {
 
 // MARK: - Private
 
-private let kOTPService = "me.mattrubin.onetimepassword.token"
+private let kOTPDefaultService = "me.mattrubin.onetimepassword.token"
 private let urlStringEncoding = String.Encoding.utf8
 
 private extension Token {
-    func keychainAttributes() throws -> [String: AnyObject] {
+    func keychainAttributes(serviceIdentifier: String?) throws -> [String: AnyObject] {
         let url = try self.toURL()
         guard let data = url.absoluteString.data(using: urlStringEncoding) else {
             throw Keychain.Error.tokenSerializationFailure
@@ -122,7 +124,7 @@ private extension Token {
         return [
             kSecAttrGeneric as String:  data as NSData,
             kSecValueData as String:    generator.secret as NSData,
-            kSecAttrService as String:  kOTPService as NSString,
+            kSecAttrService as String:  (serviceIdentifier ?? kOTPDefaultService) as NSString,
         ]
     }
 }
