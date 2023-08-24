@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.8
 import PackageDescription
 
 let package = Package(
@@ -14,7 +14,7 @@ let package = Package(
             targets: ["OneTimePassword"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/mattrubin/Base32.git", .upToNextMajor(from: "1.2.0")),
+        .package(url: "https://github.com/mattrubin/Base32.git", from: "1.2.0"),
     ],
     targets: [
         .target(
